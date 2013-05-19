@@ -57,6 +57,14 @@ class MultiValue <T> {
         }
     }
 
+    int size() {
+        if (value!=null) {
+            return 1;
+        }else {
+            return values == null ? 0 : values.size();
+        }
+    }
+
     void addTo(List<T> results) {
         if (value != null) {
             results.add(value);

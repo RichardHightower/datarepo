@@ -74,6 +74,14 @@ public class RepoBuilderDefault implements RepoBuilder {
     public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz) {
         init();
         RepoComposer <ITEM> repo = (RepoComposer <ITEM>) this.repoComposerFactory.create();
+        LookupIndex <KEY, ITEM> primaryKeyIndex = this.lookupIndexFactory.create();
+
+        primaryKeyIndex.setKeyGetter(this.keyGetterMap.get(this.primaryKey));
+        repo.setPrimaryKeyName(this.primaryKey);
+        repo.setPrimaryKeyGetter(this.keyGetterMap.get(this.primaryKey));
+        repo.addLookupIndex(this.primaryKey,  primaryKeyIndex);
+
+
         return (Repo<KEY, ITEM>) repo;
     }
 }

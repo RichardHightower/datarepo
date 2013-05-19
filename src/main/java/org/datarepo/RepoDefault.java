@@ -28,26 +28,27 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     private String primaryKeyName;
 
     @Override
-    public void addSearchIndex(String name, SearchIndex si, Class aClass) {
+    public void addSearchIndex(String name, SearchIndex si) {
         searchIndexMap.put(name, si);
         indexes.add(si);
     }
 
     @Override
-    public void addLookupIndex(String name, LookupIndex si, Class aClass) {
+    public void addLookupIndex(String name, LookupIndex si) {
         lookupIndexMap.put(name, si);
         indexes.add(si);
     }
 
     @Override
-    public void setPrimaryKeyGetter(KeyGetter getter, Class clazz) {
+    public void setPrimaryKeyGetter(KeyGetter getter) {
         this.primaryKeyGetter = getter;
     }
 
 
     @Override
     public ITEM get(KEY key) {
-        return (ITEM) lookupIndexMap.get(key);
+        LookupIndex lookupIndex = lookupIndexMap.get(this.primaryKeyName);
+        return (ITEM) lookupIndex.get(key);
     }
 
     @Override
@@ -129,7 +130,7 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public List find(Expression... expressions) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
 

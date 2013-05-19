@@ -10,17 +10,18 @@ import java.util.Map;
  */
 public class LookupIndexDefault <KEY, ITEM> implements  LookupIndex <KEY, ITEM> {
 
+
     protected KeyGetter <KEY, ITEM> keyGetter;
     protected Map<KEY, MultiValue<ITEM>> map =  new HashMap<>();
 
     public LookupIndexDefault () {
     }
 
-    public LookupIndexDefault (KeyGetter <KEY, ITEM> keyGetter) {
-        map =  new HashMap<>();
-        this.keyGetter = keyGetter;
 
+    public void setKeyGetter(KeyGetter<KEY, ITEM> keyGetter) {
+        this.keyGetter = keyGetter;
     }
+
 
     @Override
     public ITEM get(KEY key) {
@@ -56,14 +57,12 @@ public class LookupIndexDefault <KEY, ITEM> implements  LookupIndex <KEY, ITEM> 
         KEY key = keyGetter.getKey(item);
         MultiValue<ITEM> mv =  map.get(key);
 
-        if (mv == null) {
-            mv = new MultiValue<ITEM>(item);
-        } else {
-            mv.add(item);
+
+        mv.remove(item);
+
+        if (mv.size() == 0) {
+            map.remove(key);
         }
 
-
-
-        map.put(key, mv);
     }
 }

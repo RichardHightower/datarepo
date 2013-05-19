@@ -5,8 +5,8 @@ package org.datarepo;
  * @param <ITEM>
  */
 public interface RepoComposer <ITEM> {
-    <KEY> void addSearchIndex(String name, SearchIndex <ITEM, KEY> si, Class <KEY> keyClass);
-    <KEY> void addLookupIndex(String name, LookupIndex <ITEM, KEY> si, Class <KEY> keyClass);
-    <KEY> void setPrimaryKeyGetter(KeyGetter <KEY, ITEM> getter, Class<KEY> clazz);
+    <KEY> void addSearchIndex(String name, SearchIndex <KEY, ITEM> si);
+    <KEY> void addLookupIndex(String name, LookupIndex <KEY, ITEM> si);
+    <KEY> void setPrimaryKeyGetter(KeyGetter <KEY, ITEM> getter);
     void setPrimaryKeyName (String primaryKey);
 }
