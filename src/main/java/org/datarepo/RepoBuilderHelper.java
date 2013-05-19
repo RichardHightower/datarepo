@@ -1,5 +1,8 @@
 package org.datarepo;
 
+/**
+ * Helper class for RepoBuilderHelper interface.
+ */
 class RepoBuilderHelper {
 
     static Factory<RepoBuilder> repoBuilderFactory = null;

@@ -11,6 +11,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Default Repo implementation.
+ * @param <KEY> primary key or handle of object.
+ * @param <ITEM> item that this repo holds.
+ */
 public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     private Logger log = Logger.getLogger("org.datarepo.RepoDefault");

@@ -3,6 +3,11 @@ package org.datarepo;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A really simple lookup index that uses a standard java.util.HashMap.
+ * @param <KEY>
+ * @param <ITEM>
+ */
 public class LookupIndexDefault <KEY, ITEM> implements  LookupIndex <KEY, ITEM> {
 
     protected KeyGetter <KEY, ITEM> keyGetter;

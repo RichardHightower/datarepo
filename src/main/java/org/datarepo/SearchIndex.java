@@ -2,6 +2,11 @@ package org.datarepo;
 
 import java.util.List;
 
+/**
+ * SearchIndex
+ * @param <KEY> Key we are indexing on.
+ * @param <ITEM> The item that we are indexing.
+ */
 public interface SearchIndex <KEY, ITEM> extends LookupIndex<KEY, ITEM> {
       List <ITEM> findEquals (KEY key);
       List <ITEM> findStartsWith(KEY keyFrag);

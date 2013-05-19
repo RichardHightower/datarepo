@@ -1,5 +1,8 @@
 package org.datarepo;
 
+/**
+ * Provides a builder for Repos.
+ */
 public interface RepoBuilder  {
 
 

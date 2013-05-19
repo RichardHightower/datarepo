@@ -1,5 +1,8 @@
 package org.datarepo;
 
+/**
+ * Generic DataRepoException
+ */
 public class DataRepoException extends RuntimeException {
     public DataRepoException() {
         super();    //To change body of overridden methods use File | Settings | File Templates.

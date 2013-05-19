@@ -2,6 +2,10 @@ package org.datarepo;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Internal class
+ * @param <T>
+ */
 class MultiValue <T> {
     T value;
     List<T> values;

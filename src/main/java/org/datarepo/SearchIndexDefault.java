@@ -2,6 +2,11 @@ package org.datarepo;
 
 import java.util.*;
 
+/**
+ * Default Search Index which uses a TreeMap
+ * @param <KEY> Key we are indexing on.
+ * @param <ITEM>  The items we are indexing.
+ */
 public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM> implements SearchIndex<KEY, ITEM> {
     private NavigableMap<KEY, MultiValue<ITEM>> navigableMap;
 
