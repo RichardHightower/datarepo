@@ -1,0 +1,150 @@
+package org.datarepo;
+
+import org.datarepo.criteria.Expression;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
+
+    private Logger log = Logger.getLogger("org.datarepo.RepoDefault");
+    private Map<String, LookupIndex> lookupIndexMap = new HashMap<>();
+    private Map<String, SearchIndex> searchIndexMap = new HashMap<>();
+    private Map<String, Modifier> modifiers = new HashMap<>();
+
+    private List<LookupIndex> indexes = new ArrayList<LookupIndex>();
+    private KeyGetter <KEY, ITEM> primaryKeyGetter;
+    private String primaryKeyName;
+
+    @Override
+    public void addSearchIndex(String name, SearchIndex si, Class aClass) {
+        searchIndexMap.put(name, si);
+        indexes.add(si);
+    }
+
+    @Override
+    public void addLookupIndex(String name, LookupIndex si, Class aClass) {
+        lookupIndexMap.put(name, si);
+        indexes.add(si);
+    }
+
+    @Override
+    public void setPrimaryKeyGetter(KeyGetter getter, Class clazz) {
+        this.primaryKeyGetter = getter;
+    }
+
+
+    @Override
+    public ITEM get(KEY key) {
+        return (ITEM) lookupIndexMap.get(key);
+    }
+
+    @Override
+    public void modify(ITEM item) {
+        KEY key = (KEY) this.primaryKeyGetter.getKey(item);
+        LookupIndex lookupIndex = lookupIndexMap.get(this.primaryKeyName);
+        ITEM oldItem = (ITEM) lookupIndex.get(key);
+        if (oldItem != null) {
+            lookupIndex.remove(oldItem);
+        }
+
+        this.add(item);
+
+        invalidate();
+    }
+
+    private void invalidate() {
+        for (LookupIndex index : indexes) {
+            index.invalidate();
+        }
+    }
+    private void invalidate(String property) {
+        LookupIndex index = this.searchIndexMap.get(property);
+        if (index!=null) {
+            index.invalidate();
+        }
+
+        index = this.lookupIndexMap.get(property);
+        if (index!=null) {
+            index.invalidate();
+        }
+
+    }
+
+
+
+    //Move this to a strategy class at some point TODO
+    private ITEM copy (ITEM item)  {
+        if (item instanceof Cloneable) {
+            try {
+                Method method = item.getClass().getMethod("clone", null);
+                return (ITEM) method.invoke(item, null);
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {
+                log.log(Level.WARNING, "Unable to get clone method", ex);
+                return item;
+            }
+        }
+        return item;
+    }
+
+
+    @Override
+    public void modify(String property, Object value) {
+        modifiers.get(property).setValue(value);
+        invalidate(property);
+    }
+
+    @Override
+    public void modify(String property, String value) {
+        modifiers.get(property).setString(value);
+        invalidate(property);
+
+    }
+
+    @Override
+    public void modify(String property, int value) {
+        modifiers.get(property).setInt(value);
+        invalidate(property);
+
+    }
+
+    @Override
+    public void modify(String property, long value) {
+        modifiers.get(property).setLong(value);
+        invalidate(property);
+
+    }
+
+
+    @Override
+    public List find(Expression... expressions) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+
+    @Override
+    public void add(ITEM item) {
+        for (LookupIndex index : indexes) {
+            index.add(item);
+        }
+    }
+
+    @Override
+    public void remove(ITEM item) {
+        for (LookupIndex index : indexes) {
+            index.remove(item);
+        }
+
+    }
+
+    @Override
+    public void setPrimaryKeyName(String primaryKey) {
+        this.primaryKeyName = primaryKey;
+    }
+}
