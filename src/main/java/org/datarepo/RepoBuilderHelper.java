@@ -33,7 +33,7 @@ class RepoBuilderHelper {
             repoBuilderFactory = new Factory<RepoBuilder>() {
                 @Override
                 public RepoBuilder create() {
-                    return null;
+                    return new RepoBuilderDefault();
                 }
             };
         }
@@ -41,7 +41,7 @@ class RepoBuilderHelper {
             searchIndexFactory = new Factory<SearchIndex>() {
                 @Override
                 public SearchIndex create() {
-                    return null;
+                    return new SearchIndexDefault();
                 }
             };
         }
@@ -50,7 +50,7 @@ class RepoBuilderHelper {
                 @Override
                 public LookupIndex create() {
 
-                    return null;
+                    return new LookupIndexDefault();
                 }
             };
         }
@@ -58,7 +58,7 @@ class RepoBuilderHelper {
             repoFactory = new Factory<RepoComposer>() {
                 @Override
                 public RepoComposer create() {
-                    return null;
+                    return new RepoDefault<>();
                 }
             };
         }

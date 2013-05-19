@@ -19,19 +19,20 @@ public interface RepoBuilder  {
          RepoBuilderHelper.repoFactory = factory;
      }
 
-     public RepoBuilder setKeyGetter(KeyGetter<?, ?> key);
      public RepoBuilder searchIndexFactory(Factory<SearchIndex> factory);
      public RepoBuilder lookupIndexFactory(Factory<LookupIndex> factory);
      public RepoBuilder repoFactory(Factory<RepoComposer> factory);
 
-     public RepoBuilder setPrimaryKey(String propertyName);
+     public RepoBuilder primaryKey(String propertyName);
      public RepoBuilder lookupIndex(String propertyName);
      public RepoBuilder searchIndex(String propertyName);
+     public RepoBuilder keyGetter(String propertyName, KeyGetter<?, ?> key);
+
      public <KEY, ITEM> Repo<KEY, ITEM>   build(Class <KEY> key,  Class<ITEM> clazz);
 
      public static RepoBuilder  getInstance() {
           RepoBuilderHelper.init();
-          return null;
+          return RepoBuilderHelper.getRepoBuilderFactory().create();
      }
 
 }
