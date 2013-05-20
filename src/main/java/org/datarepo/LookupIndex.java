@@ -1,6 +1,7 @@
 package org.datarepo;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Creates a simple lookup index (like a hash map).
@@ -9,7 +10,7 @@ import java.util.HashMap;
  */
 public interface LookupIndex <KEY, ITEM> extends Bag<ITEM> {
     ITEM get (KEY key);
-    void invalidate();
     void setKeyGetter(KeyGetter <KEY, ITEM> keyGetter);
+
 
 }

@@ -4,74 +4,74 @@ import java.lang.reflect.Field;
 
 
 public interface FieldAccess {
-    public abstract String getName();
+    String getName();
 
-    public abstract Object getValue(Object obj);
-    public abstract void setValue(Object obj, Object value);
-
-
-    public abstract boolean getBoolean(Object obj);
-    public abstract void setBoolean(Object obj, boolean value);
+    Object getValue(Object obj);
+    void setValue(Object obj, Object value);
 
 
-    public abstract int getInt(Object obj);
-    public abstract void setInt(Object obj, int value);
+    boolean getBoolean(Object obj);
+    void setBoolean(Object obj, boolean value);
 
 
-    public abstract short getShort(Object obj);
-    public abstract void setShort(Object obj, short value);
-
-    public abstract char getChar(Object obj);
-    public abstract void setChar(Object obj, char value);
+    int getInt(Object obj);
+    void setInt(Object obj, int value);
 
 
-    public abstract long getLong(Object obj);
-    public abstract void setLong(Object obj, long value);
+    short getShort(Object obj);
+    void setShort(Object obj, short value);
+
+    char getChar(Object obj);
+    void setChar(Object obj, char value);
 
 
-    public abstract double getDouble(Object obj);
-    public abstract void setDouble(Object obj, double value);
+    long getLong(Object obj);
+    void setLong(Object obj, long value);
 
 
-    public abstract float getFloat(Object obj);
-    public abstract void setFloat(Object obj, float value);
+    double getDouble(Object obj);
+    void setDouble(Object obj, double value);
 
 
-    public abstract byte getByte(Object obj);
-    public abstract void setByte(Object obj, byte vaue);
-
-    public abstract Object getObject(Object obj);
-    public abstract void setObject(Object obj, Object value);
+    float getFloat(Object obj);
+    void setFloat(Object obj, float value);
 
 
-    public abstract boolean getBoolean();
+    byte getByte(Object obj);
+    void setByte(Object obj, byte vaue);
 
-    public abstract int getInt();
+    Object getObject(Object obj);
+    void setObject(Object obj, Object value);
 
-    public abstract short getShort();
 
-    public abstract long getLong();
+    boolean getBoolean();
 
-    public abstract double getDouble();
+    int getInt();
 
-    public abstract float getFloat();
+    short getShort();
 
-    public abstract byte getByte();
+    long getLong();
 
-    public abstract Object getObject();
+    double getDouble();
 
-    public abstract Field getField();
+    float getFloat();
 
-    public abstract boolean isFinal();
+    byte getByte();
 
-    public abstract boolean isStatic();
+    Object getObject();
 
-    public abstract boolean isVolatile();
+    Field getField();
 
-    public abstract boolean isQualified();
+    boolean isFinal();
 
-    public abstract boolean isReadOnly();
+    boolean isStatic();
 
-    public abstract Class<?> getType();
+    boolean isVolatile();
+
+    boolean isQualified();
+
+    boolean isReadOnly();
+
+    Class<?> getType();
 
 }

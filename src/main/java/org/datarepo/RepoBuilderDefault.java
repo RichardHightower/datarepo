@@ -1,5 +1,8 @@
 package org.datarepo;
 
+import org.datarepo.reflection.FieldAccess;
+import org.datarepo.reflection.Reflection;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -84,29 +87,34 @@ public class RepoBuilderDefault implements RepoBuilder {
     @Override
     public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz) {
         init();
-        RepoComposer <ITEM> repo = (RepoComposer <ITEM>) this.repoComposerFactory.create();
+        RepoComposer  repo = (RepoComposer ) this.repoComposerFactory.create();
 
         configPrimaryKey(repo);
 
         repo.setFilter(this.filterFactory.create());
 
+
+        Map<String,FieldAccess> fields = Utils.mp("name", Reflection.getAllAccessorFields(clazz));
+
+        repo.setFields(fields);
         configSearchIndexes(repo);
+
 
 
         return (Repo<KEY, ITEM>) repo;
     }
 
-    private <KEY, ITEM> void configSearchIndexes(RepoComposer<ITEM> repo) {
+    private  void configSearchIndexes(RepoComposer repo) {
         for (String prop : searchIndexes) {
-            SearchIndex<KEY, ITEM> searchIndex = this.searchIndexFactory.create();
+            SearchIndex searchIndex = this.searchIndexFactory.create();
             KeyGetter kg = this.keyGetterMap.get(prop);
             searchIndex.setKeyGetter(kg);
             repo.addSearchIndex(prop, searchIndex);
         }
     }
 
-    private <KEY, ITEM> void configPrimaryKey(RepoComposer<ITEM> repo) {
-        LookupIndex<KEY, ITEM> primaryKeyIndex = this.lookupIndexFactory.create();
+    private  void configPrimaryKey(RepoComposer repo) {
+        LookupIndex primaryKeyIndex = this.lookupIndexFactory.create();
         primaryKeyIndex.setKeyGetter(this.keyGetterMap.get(this.primaryKey));
         repo.setPrimaryKeyName(this.primaryKey);
         repo.setPrimaryKeyGetter(this.keyGetterMap.get(this.primaryKey));

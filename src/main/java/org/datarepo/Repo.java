@@ -14,11 +14,17 @@ public interface Repo <KEY, ITEM> extends Bag <ITEM>{
     ITEM get(KEY key);
 
     void modify(ITEM item);
-    void modify(String property, Object value);
-    void modify(String property, String value);
-    void modify(String property, int value);
-    void modify(String property, long value);
-    List<ITEM> filter(Expression... expressions);
+    void modify(ITEM item, String property, Object value);
+    void modify(ITEM item, String property, String value);
+    void modify(ITEM item, String property, int value);
+    void modify(ITEM item, String property, long value);
+    void modify(ITEM item, String property, char value);
+    void modify(ITEM item, String property, short value);
+    void modify(ITEM item, String property, byte value);
+    void modify(ITEM item, String property, float value);
+    void modify(ITEM item, String property, double value);
+
+    List<ITEM> query(Expression... expressions);
 
 
 }

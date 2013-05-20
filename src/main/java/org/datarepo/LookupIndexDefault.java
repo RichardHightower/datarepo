@@ -1,6 +1,8 @@
 package org.datarepo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +24,21 @@ public class LookupIndexDefault <KEY, ITEM> implements  LookupIndex <KEY, ITEM> 
         this.keyGetter = keyGetter;
     }
 
+    @Override
+    public List<ITEM> all() {
+        List<ITEM> list = new ArrayList<>(map.size());
+        for (MultiValue<ITEM> values : map.values()) {
+            if (values.value != null) {
+                list.add(values.value);
+            } else {
+                for (Object value : values.values) {
+                    list.add((ITEM)value);
+                }
+            }
+        }
+        return list;
+    }
+
 
     @Override
     public ITEM get(KEY key) {
@@ -33,9 +50,7 @@ public class LookupIndexDefault <KEY, ITEM> implements  LookupIndex <KEY, ITEM> 
         }
     }
 
-    @Override
-    public void invalidate() {
-    }
+
 
     @Override
     public void add(ITEM item) {
@@ -57,7 +72,9 @@ public class LookupIndexDefault <KEY, ITEM> implements  LookupIndex <KEY, ITEM> 
         KEY key = keyGetter.getKey(item);
         MultiValue<ITEM> mv =  map.get(key);
 
-
+        if (mv == null) {
+            return;
+        }
         mv.remove(item);
 
         if (mv.size() == 0) {

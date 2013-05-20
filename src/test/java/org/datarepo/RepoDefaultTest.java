@@ -5,10 +5,7 @@ import org.junit.Before;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-
+import static junit.framework.Assert.*;
 import static org.datarepo.Employee.employee;
 import static org.datarepo.Employee.employees;
 import static org.datarepo.criteria.Criteria.*;
@@ -34,6 +31,17 @@ public class RepoDefaultTest {
     }
 
     @Test
+    public void testAdd() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
+        repo.add(emp);
+        assertNotNull(repo.get("21785999"));
+        assertNotSame(emp, repo.get("21785999"));
+        repo.remove(emp);
+        assertNull("We were able to remove emp", repo.get("21785999"));
+
+    }
+
+    @Test
     public void testRemove() throws Exception {
         Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
         repo.add(emp);
@@ -44,10 +52,25 @@ public class RepoDefaultTest {
     }
 
     @Test
+    public void testModify() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
+        repo.add(emp);
+        assertNotNull(repo.get("21785999"));
+        repo.modify(emp, "firstName", "Di");
+
+        String firstName = repo.get("21785999").getFirstName();
+        assertEquals("firstName equals", "Di", firstName);
+
+        assertEquals("Test that the search index is rebuilt", "Di",
+                repo.query(eq("firstName", "Di")).get(0).getFirstName());
+
+    }
+
+    @Test
     public void testEasyFilter() throws Exception {
         Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
         repo.add(emp);
-        List<Employee> employees = repo.filter(eq("firstName", "Diana"));
+        List<Employee> employees = repo.query(eq("firstName", "Diana"));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Diana", employees.get(0).getFirstName());
@@ -59,8 +82,8 @@ public class RepoDefaultTest {
     public void testHarderFilter() throws Exception {
         Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
         repo.add(emp);
-        List<Employee> employees = repo.filter(
-                and(eq("firstName", "Diana"), eq("lastName","Hightower"), eq("ssn","21785999")));
+        List<Employee> employees = repo.query(
+                and(eq("firstName", "Diana"), eq("lastName", "Hightower"), eq("ssn", "21785999")));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Diana", employees.get(0).getFirstName());
@@ -68,8 +91,8 @@ public class RepoDefaultTest {
 
     @Test
     public void testFilterLogicalOperators() throws Exception {
-        List<Employee> employees = repo.filter(
-                and(startsWith("firstName", "Bob"), eq("lastName","Smith"), lte("salary",200_000),
+        List<Employee> employees = repo.query(
+                and(startsWith("firstName", "Bob"), eq("lastName", "Smith"), lte("salary", 200_000),
                         gte("salary", 190_000)));
         assertNotNull(employees);
         assertEquals(1, employees.size());
@@ -80,8 +103,8 @@ public class RepoDefaultTest {
 
     @Test
     public void testFilterLogicalOperators2() throws Exception {
-        List<Employee> employees = repo.filter(
-                and(startsWith("firstName", "Bob"), eq("lastName","Smith"), lt("salary",200_000),
+        List<Employee> employees = repo.query(
+                and(startsWith("firstName", "Bob"), eq("lastName", "Smith"), lt("salary", 200_000),
                         gt("salary", 190_000)));
         assertNotNull(employees);
         assertEquals(1, employees.size());
@@ -92,8 +115,8 @@ public class RepoDefaultTest {
 
     @Test
     public void testFilterLogicalOperators3() throws Exception {
-        List<Employee> employees = repo.filter(
-                and(startsWith("firstName", "Bob"), eq("lastName","Smith"), between("salary",190_000, 200_000)));
+        List<Employee> employees = repo.query(
+                and(startsWith("firstName", "Bob"), eq("lastName", "Smith"), between("salary", 190_000, 200_000)));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Bob", employees.get(0).getFirstName());
