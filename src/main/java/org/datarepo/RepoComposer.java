@@ -9,4 +9,6 @@ public interface RepoComposer <ITEM> {
     <KEY> void addLookupIndex(String name, LookupIndex <KEY, ITEM> si);
     <KEY> void setPrimaryKeyGetter(KeyGetter <KEY, ITEM> getter);
     void setPrimaryKeyName (String primaryKey);
+
+    void setFilter(Filter filter);
 }

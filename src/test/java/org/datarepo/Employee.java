@@ -11,9 +11,11 @@ public class Employee {
     String lastName;
     String ssn;
     Date birthDate;
+    int salary;
+
     static SimpleDateFormat dateParse = new SimpleDateFormat("dd.MM.yy");
 
-    public static Employee employee(String f, String l, String s, String d) {
+    public static Employee employee(String f, String l, String s, String d, int salary) {
         Employee e = new Employee();
         try {
             e.birthDate = dateParse.parse(d);
@@ -23,6 +25,7 @@ public class Employee {
         e.lastName = l;
         e.firstName = f;
         e.ssn = s;
+        e.salary = salary;
         return e;
     }
     public static List<Employee> employees(Employee... _employees) {
@@ -89,4 +92,15 @@ public class Employee {
         result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
         return result;
     }
+
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+
 }

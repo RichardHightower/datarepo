@@ -4,6 +4,11 @@ import java.util.Arrays;
 
 public class Group extends Expression {
     private Expression[] expressions;
+
+    public Grouping getGrouping() {
+        return grouping;
+    }
+
     private Grouping grouping = Grouping.AND;
 
     public Group (Grouping grouping, Expression... expressions) {

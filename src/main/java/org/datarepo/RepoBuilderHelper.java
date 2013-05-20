@@ -9,23 +9,8 @@ class RepoBuilderHelper {
     static Factory<SearchIndex> searchIndexFactory = null;
     static Factory<LookupIndex> lookupIndexFactory = null;
     static Factory<RepoComposer> repoFactory = null;
+    static Factory<Filter> filterFactory = null;
 
-
-    static Factory<RepoBuilder> getRepoBuilderFactory() {
-        return repoBuilderFactory;
-    }
-
-    static Factory<SearchIndex> getSearchIndexFactory() {
-        return searchIndexFactory;
-    }
-
-    static Factory<LookupIndex> getLookupIndexFactory() {
-        return lookupIndexFactory;
-    }
-
-    static Factory<RepoComposer> getRepoFactory() {
-        return repoFactory;
-    }
 
 
     static void init() {
@@ -59,6 +44,15 @@ class RepoBuilderHelper {
                 @Override
                 public RepoComposer create() {
                     return new RepoDefault<>();
+                }
+            };
+        }
+
+        if (filterFactory == null ) {
+            filterFactory = new Factory<Filter>() {
+                @Override
+                public Filter create() {
+                    return new FilterDefault();
                 }
             };
         }

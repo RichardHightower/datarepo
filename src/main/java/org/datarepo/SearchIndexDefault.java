@@ -11,14 +11,11 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
     private NavigableMap<KEY, MultiValue<ITEM>> navigableMap;
 
     public SearchIndexDefault() {
-
-    }
-
-    public SearchIndexDefault(KeyGetter<KEY, ITEM> keyGetter) {
-        super.keyGetter = keyGetter;
         super.map = new TreeMap<>();
         this.navigableMap = (NavigableMap<KEY, MultiValue<ITEM>>) super.map;
+
     }
+
 
 
     @Override

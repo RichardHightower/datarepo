@@ -26,6 +26,7 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     private List<LookupIndex> indexes = new ArrayList<LookupIndex>();
     private KeyGetter <KEY, ITEM> primaryKeyGetter;
     private String primaryKeyName;
+    private Filter filter;
 
     @Override
     public void addSearchIndex(String name, SearchIndex si) {
@@ -129,8 +130,8 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
 
     @Override
-    public List find(Expression... expressions) {
-        return null;
+    public List filter(Expression... expressions) {
+        return this.filter.filter(this.lookupIndexMap, this.searchIndexMap, expressions);
     }
 
 
@@ -152,5 +153,10 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     @Override
     public void setPrimaryKeyName(String primaryKey) {
         this.primaryKeyName = primaryKey;
+    }
+
+    @Override
+    public void setFilter(Filter filter) {
+        this.filter = filter;
     }
 }

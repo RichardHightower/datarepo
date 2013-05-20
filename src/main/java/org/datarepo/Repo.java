@@ -18,7 +18,7 @@ public interface Repo <KEY, ITEM> extends Bag <ITEM>{
     void modify(String property, String value);
     void modify(String property, int value);
     void modify(String property, long value);
-    List<ITEM> find(Expression... expressions);
+    List<ITEM> filter(Expression... expressions);
 
 
 }
