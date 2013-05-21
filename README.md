@@ -41,7 +41,7 @@ Or if you want to use JDK 8 stream API, this works with it not against it:
                 .sum();
 ```
 
-The above would be much faster if the number of employees was quite large. It would narrow down the employees whose name started with Smith and had a salary above 50_000. Let's say you had 100,000 employees and only 50 named Smith so now you narrow to 50 quickly by using the TreeMap which effectively pulls 50 employees out of 100_000, then we do the filter over just 50 instead of the whole 100_000.
+The above would be much faster if the number of employees was quite large. It would narrow down the employees whose name started with Smith and had a salary above 50,000. Let's say you had 100,000 employees and only 50 named Smith so now you narrow to 50 quickly by using the TreeMap which effectively pulls 50 employees out of 100_000, then we do the filter over just 50 instead of the whole 100,000.
 
 There is more work to be done, but the basic model works. 
 
@@ -87,7 +87,7 @@ The modify method is a nice method if you want to just edit the index associated
         assertEquals("firstName equals", "Di", firstName);
 ```
 
-The above would change the object without updating every index (if you had a lot of indexes, this would be faster, and also means there are as much cloning).
+The above would change the object without updating every index (if you had a lot of indexes, this would be faster, and also means there is not as much cloning).
 
 
 The advantage of this over using just the stream API is that if the data set is large, this would be much faster because it would use the indexes (TreeMap).
