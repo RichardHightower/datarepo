@@ -18,7 +18,7 @@ public class RepoDefaultTest {
 
     @Before
     public void setup() {
-        repo = TestHelper.createBuilderNoReflection();
+        repo = TestHelper.createFromBuilder();
     }
 
     @Test

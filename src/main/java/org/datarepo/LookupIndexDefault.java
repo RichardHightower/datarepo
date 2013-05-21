@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
+
+import static org.datarepo.Utils.*;
+import static org.datarepo.Utils.debug;
 
 /**
  * A really simple lookup index that uses a standard java.util.HashMap.
@@ -15,12 +19,14 @@ public class LookupIndexDefault <KEY, ITEM> implements  LookupIndex <KEY, ITEM> 
 
     protected KeyGetter <KEY, ITEM> keyGetter;
     protected Map<KEY, MultiValue<ITEM>> map =  new HashMap<>();
+    private Logger log = log(LookupIndexDefault.class);
 
     public LookupIndexDefault () {
     }
 
 
     public void setKeyGetter(KeyGetter<KEY, ITEM> keyGetter) {
+        notNull(keyGetter);
         this.keyGetter = keyGetter;
     }
 
@@ -42,6 +48,10 @@ public class LookupIndexDefault <KEY, ITEM> implements  LookupIndex <KEY, ITEM> 
 
     @Override
     public ITEM get(KEY key) {
+
+        if (isDebug(log)) {
+            debug(log, "key = %s", key);
+        }
         MultiValue<ITEM> mv =  map.get(key);
         if (mv == null) {
             return  null;
@@ -54,6 +64,10 @@ public class LookupIndexDefault <KEY, ITEM> implements  LookupIndex <KEY, ITEM> 
 
     @Override
     public void add(ITEM item) {
+        if (isDebug(log)) {
+            debug(log, "add item = %s", item);
+        }
+
         KEY key = keyGetter.getKey(item);
         MultiValue<ITEM> mv =  map.get(key);
         if (mv == null) {

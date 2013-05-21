@@ -64,4 +64,20 @@ public class TestHelper {
         }
         return repo;
     }
+
+    static Repo <String, Employee>  createFromBuilder() {
+
+        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+        repoBuilder.primaryKey("ssn")
+                .searchIndex("firstName").searchIndex("lastName").searchIndex("salary") ;
+
+        Repo <String, Employee> repo
+             = repoBuilder.build(String.class, Employee.class);
+
+        for (Employee employee : employees) {
+            repo.add(employee);
+        }
+        return repo;
+    }
+
 }

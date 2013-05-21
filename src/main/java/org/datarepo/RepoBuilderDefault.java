@@ -89,33 +89,55 @@ public class RepoBuilderDefault implements RepoBuilder {
         init();
         RepoComposer  repo = (RepoComposer ) this.repoComposerFactory.create();
 
-        configPrimaryKey(repo);
+        Map<String,FieldAccess> fields = Utils.mp("name", Reflection.getAllAccessorFields(clazz));
+
+        configPrimaryKey(repo, fields);
 
         repo.setFilter(this.filterFactory.create());
 
 
-        Map<String,FieldAccess> fields = Utils.mp("name", Reflection.getAllAccessorFields(clazz));
 
         repo.setFields(fields);
-        configSearchIndexes(repo);
+        configSearchIndexes(repo, fields);
 
 
 
         return (Repo<KEY, ITEM>) repo;
     }
 
-    private  void configSearchIndexes(RepoComposer repo) {
+    private KeyGetter createKeyGetter(final FieldAccess field) {
+        return new KeyGetter() {
+            @Override
+            public Object getKey(Object o) {
+                return field.getValue(o);
+            }
+        };
+    }
+
+    private  void configSearchIndexes(RepoComposer repo,
+                                      Map<String,FieldAccess> fields) {
         for (String prop : searchIndexes) {
             SearchIndex searchIndex = this.searchIndexFactory.create();
-            KeyGetter kg = this.keyGetterMap.get(prop);
+            KeyGetter kg = getKeyGetterOrCreate(fields, prop);
             searchIndex.setKeyGetter(kg);
             repo.addSearchIndex(prop, searchIndex);
         }
     }
 
-    private  void configPrimaryKey(RepoComposer repo) {
+    private KeyGetter getKeyGetterOrCreate(Map<String, FieldAccess> fields, String prop) {
+        KeyGetter kg = this.keyGetterMap.get(prop);
+
+        if (kg == null) {
+            FieldAccess field = fields.get(prop);
+            kg = createKeyGetter(field);
+            keyGetterMap.put(prop, kg);
+        }
+        return kg;
+    }
+
+    private  void configPrimaryKey(RepoComposer repo, Map<String,FieldAccess> fields) {
         LookupIndex primaryKeyIndex = this.lookupIndexFactory.create();
-        primaryKeyIndex.setKeyGetter(this.keyGetterMap.get(this.primaryKey));
+        primaryKeyIndex.setKeyGetter(getKeyGetterOrCreate(fields, this.primaryKey));
         repo.setPrimaryKeyName(this.primaryKey);
         repo.setPrimaryKeyGetter(this.keyGetterMap.get(this.primaryKey));
         repo.addLookupIndex(this.primaryKey,  primaryKeyIndex);
