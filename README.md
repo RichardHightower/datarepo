@@ -173,6 +173,8 @@ public class Employee {
 
 }
 
+```
+
 Everything is configurable. You can swap out factories for Filtering, SearchIndex creations, LookupIndex creation, etc. Thus, if you find a collection library that is faster or does less GC or ..., there is a an easy way to plug-it in.
 
 Also considering writing a backup mode to make backing the data repo to a database or NoSQL database faster. 
