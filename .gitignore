@@ -5,4 +5,5 @@
 *.war
 *.ear
 
-.idea
+.idea/misc.xml
+.idea/workspace.xml
