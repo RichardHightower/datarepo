@@ -375,7 +375,7 @@ public class Reflection {
         @Override
         public FieldAccess convert(Field from) {
             if (useUnsafe && thisUseUnsafe) {
-                return new UnsafeField(from);
+                return UnsafeField.createUnsafeField(from);
             } else {
                 return new ReflectField(from);
             }
