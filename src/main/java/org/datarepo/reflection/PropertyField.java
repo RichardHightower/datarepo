@@ -1,37 +1,43 @@
 package org.datarepo.reflection;
 
-
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.logging.Logger;
 
-import static org.datarepo.reflection.Types.*;
 import static org.datarepo.Utils.*;
+import static org.datarepo.reflection.Types.*;
 
-public class ReflectField implements FieldAccess {
-    protected final Field field;
+public class PropertyField implements  FieldAccess{
     protected final boolean isFinal;
     protected final boolean isStatic;
-    protected final boolean isVolatile;
-    protected final boolean qualified;
+    protected final boolean isVolatile  = false;
+    protected final boolean qualified  = false;
     protected final boolean readOnly;
     private final Class<?> type;
     private final String name;
+    private final Method getter;
+    private final Method setter;
+    private final Logger log = log(PropertyField.class);
 
-    public ReflectField(Field f) {
-        field = f;
-        isFinal = Modifier.isFinal(field.getModifiers());
-        isStatic = Modifier.isStatic(field.getModifiers());
-        isVolatile = Modifier.isVolatile(field.getModifiers());
-        qualified = isFinal || isVolatile;
-        readOnly = isFinal || isStatic ;
-        type = f.getType();
-        name = f.getName();
+
+    public PropertyField(String name, Pair<Method> methodPair) {
+        setter = methodPair.getFirst();
+        getter = methodPair.getSecond();
+
+        isStatic = Modifier.isStatic(getter.getModifiers());
+        isFinal = Modifier.isFinal(getter.getModifiers());
+
+
+        readOnly = setter == null;
+        type = getter.getReturnType();
+        this.name = name;
     }
 
     @Override
     public Object getValue(Object obj) {
         try {
-            return field.get(obj);
+            return getter.invoke(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +45,7 @@ public class ReflectField implements FieldAccess {
 
     public boolean getBoolean(Object obj) {
         try {
-            return field.getBoolean(obj);
+            return (Boolean) this.getValue(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -49,7 +55,7 @@ public class ReflectField implements FieldAccess {
     @Override
     public int getInt(Object obj) {
         try {
-            return field.getInt(obj);
+            return (Integer) this.getValue(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -58,7 +64,7 @@ public class ReflectField implements FieldAccess {
     @Override
     public short getShort(Object obj) {
         try {
-            return field.getShort(obj);
+            return (Short) this.getValue(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -67,7 +73,7 @@ public class ReflectField implements FieldAccess {
     @Override
     public char getChar(Object obj) {
         try {
-            return field.getChar(obj);
+            return (Character) this.getValue(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -75,7 +81,7 @@ public class ReflectField implements FieldAccess {
     @Override
     public long getLong(Object obj) {
         try {
-            return field.getLong(obj);
+            return (Long) this.getValue(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -84,7 +90,7 @@ public class ReflectField implements FieldAccess {
     @Override
     public double getDouble(Object obj) {
         try {
-            return field.getDouble(obj);
+            return (Double) this.getValue(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -94,7 +100,7 @@ public class ReflectField implements FieldAccess {
     @Override
     public float getFloat(Object obj) {
         try {
-            return field.getFloat(obj);
+            return (Float) this.getValue(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -103,7 +109,7 @@ public class ReflectField implements FieldAccess {
     @Override
     public byte getByte(Object obj) {
         try {
-            return field.getByte(obj);
+            return (Byte) this.getValue(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -159,7 +165,7 @@ public class ReflectField implements FieldAccess {
 
     @Override
     public Field getField() {
-        return field;
+        return null;
     }
 
 
@@ -235,10 +241,9 @@ public class ReflectField implements FieldAccess {
     @Override
     public void setBoolean(Object obj, boolean value) {
         try {
-            field.setBoolean(obj, value);
-        } catch (IllegalAccessException e) {
+            this.setObject(obj, value);
+        } catch (Exception e) {
             throw new RuntimeException(e);
-
         }
 
     }
@@ -246,10 +251,9 @@ public class ReflectField implements FieldAccess {
     @Override
     public void setInt(Object obj, int value) {
         try {
-            field.setInt(obj, value);
-        } catch (IllegalAccessException e) {
+            this.setObject(obj, value);
+        } catch (Exception e) {
             throw new RuntimeException(e);
-
         }
 
     }
@@ -257,10 +261,9 @@ public class ReflectField implements FieldAccess {
     @Override
     public void setShort(Object obj, short value) {
         try {
-            field.setShort(obj, value);
-        } catch (IllegalAccessException e) {
+            this.setObject(obj, value);
+        } catch (Exception e) {
             throw new RuntimeException(e);
-
         }
 
     }
@@ -268,10 +271,9 @@ public class ReflectField implements FieldAccess {
     @Override
     public void setChar(Object obj, char value) {
         try {
-            field.setChar(obj, value);
-        } catch (IllegalAccessException e) {
+            this.setObject(obj, value);
+        } catch (Exception e) {
             throw new RuntimeException(e);
-
         }
 
     }
@@ -279,10 +281,9 @@ public class ReflectField implements FieldAccess {
     @Override
     public void setLong(Object obj, long value) {
         try {
-            field.setLong(obj, value);
-        } catch (IllegalAccessException e) {
+            this.setObject(obj, value);
+        } catch (Exception e) {
             throw new RuntimeException(e);
-
         }
 
     }
@@ -290,10 +291,9 @@ public class ReflectField implements FieldAccess {
     @Override
     public void setDouble(Object obj, double value) {
         try {
-            field.setDouble(obj, value);
-        } catch (IllegalAccessException e) {
+            this.setObject(obj, value);
+        } catch (Exception e) {
             throw new RuntimeException(e);
-
         }
 
     }
@@ -301,10 +301,9 @@ public class ReflectField implements FieldAccess {
     @Override
     public void setFloat(Object obj, float value) {
         try {
-            field.setFloat(obj, value);
-        } catch (IllegalAccessException e) {
+            this.setObject(obj, value);
+        } catch (Exception e) {
             throw new RuntimeException(e);
-
         }
 
     }
@@ -312,8 +311,8 @@ public class ReflectField implements FieldAccess {
     @Override
     public void setByte(Object obj, byte value) {
         try {
-            field.setByte(obj, value);
-        } catch (IllegalAccessException e) {
+            this.setObject(obj, value);
+        } catch (Exception e) {
             throw new RuntimeException(e);
 
         }
@@ -322,10 +321,16 @@ public class ReflectField implements FieldAccess {
 
     @Override
     public void setObject(Object obj, Object value) {
+        if (readOnly) {
+            warning(log, "You tried to modify property %s of %s for instance %s with value %s",
+                    name, obj.getClass().getSimpleName(), obj, value);
+            return;
+        }
         try {
-            field.set(obj, value);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            setter.invoke(obj, value);
+        } catch (Exception e) {
+            die(e, "You tried to modify property %s of %s for instance %s with value %s using %s",
+                    name, obj.getClass().getSimpleName(), obj, value, setter.getName());
 
         }
 

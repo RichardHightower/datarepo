@@ -17,10 +17,10 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.datarepo.Utils.*;
+import static org.datarepo.Utils.slc;
 
 public class Reflection {
 
@@ -366,10 +366,15 @@ public class Reflection {
         }
     }
 
-    public static class FieldConverter implements Converter<FieldAccess, Field> {
+    private static class FieldConverter implements Converter<FieldAccess, Field> {
+
+        boolean thisUseUnsafe;
+        FieldConverter(boolean useUnsafe) {
+             this.thisUseUnsafe = useUnsafe;
+        }
         @Override
         public FieldAccess convert(Field from) {
-            if (useUnsafe) {
+            if (useUnsafe && thisUseUnsafe) {
                 return new UnsafeField(from);
             } else {
                 return new ReflectField(from);
@@ -381,9 +386,14 @@ public class Reflection {
 
     public static List<FieldAccess> getAllAccessorFields(
             Class<? extends Object> theClass) {
+        return getAllAccessorFields(theClass, false);
+    }
+
+    public static List<FieldAccess> getAllAccessorFields(
+            Class<? extends Object> theClass, boolean useUnsafe) {
         List<FieldAccess> list = allAccessorFieldsCache.get(theClass);
         if (list == null) {
-            list = map(new FieldConverter(), getAllFields(theClass));
+            list = map(new FieldConverter(useUnsafe), getAllFields(theClass));
         } else {
             allAccessorFieldsCache.put(theClass, list);
         }
@@ -397,6 +407,122 @@ public class Reflection {
             getFields(theClass, list);
         }
         return list;
+    }
+
+    public static List<FieldAccess> getPropertyFieldAccessors(
+            Class<? extends Object> theClass) {
+        Map<String, Pair<Method>> methods = getPropertySetterGetterMethods(theClass);
+        List<FieldAccess> fields = new ArrayList<>();
+        for (Map.Entry<String, Pair<Method>> entry : methods.entrySet()) {
+              fields.add(new PropertyField(entry.getKey(), entry.getValue()));
+        }
+        return fields;
+    }
+
+    public static List<Method> getPropertyGetterMethods(
+            Class<? extends Object> theClass) {
+
+        Method[] methods = theClass.getMethods();
+
+        List<Method> methodList = new ArrayList<Method>(methods.length);
+
+        for (int index = 0; index < methods.length; index++) {
+            Method method = methods[index];
+            String name = method.getName();
+
+            boolean staticFlag = Modifier.isStatic(method.getModifiers());
+
+
+            if (staticFlag || method.getParameterTypes().length > 0
+                    || method.getReturnType() == Void.class
+                    || !(name.startsWith("get") || name.startsWith("is"))
+                    || name.equals("getClass")) {
+                continue;
+            }
+            methodList.add(method);
+
+        }
+        return methodList;
+    }
+
+
+    public static List<Method> getPropertySetterMethods(
+            Class<? extends Object> theClass) {
+
+        Method[] methods = theClass.getMethods();
+
+        List<Method> methodList = new ArrayList<>(methods.length);
+
+
+
+        for (int index = 0; index < methods.length; index++) {
+            Method method = methods[index];
+            String name = method.getName();
+            boolean staticFlag = Modifier.isStatic(method.getModifiers());
+
+
+            if (!staticFlag && method.getParameterTypes().length == 1
+                    && method.getReturnType() == Void.class
+                     && name.startsWith("set")) {
+                methodList.add(method);
+            }
+
+        }
+        return methodList;
+    }
+
+    public static Map<String, Pair<Method>> getPropertySetterGetterMethods(
+            Class<? extends Object> theClass) {
+
+        Method[] methods = theClass.getMethods();
+
+        Map<String, Pair<Method>> methodMap = new HashMap<>(methods.length);
+        List<Method> getterMethodList = new ArrayList<>(methods.length);
+
+        for (int index = 0; index < methods.length; index++) {
+            Method method = methods[index];
+            String name = method.getName();
+
+            if (method.getParameterTypes().length == 1
+                    && method.getReturnType() == void.class
+                    && name.startsWith("set")) {
+                Pair<Method> pair = new Pair<Method>();
+                pair.setFirst(method);
+                String propertyName = slc(name, 3);
+
+                propertyName = lower(slc(propertyName, 0, 1)) + slc(propertyName, 1);
+                methodMap.put(propertyName, pair);
+            }
+
+            if (method.getParameterTypes().length > 0
+                    || method.getReturnType() == void.class
+                    || !(name.startsWith("get") || name.startsWith("is"))
+                    || name.equals("getClass")) {
+                continue;
+            }
+            getterMethodList.add(method);
+        }
+
+        for (Method method : getterMethodList) {
+            String name = method.getName();
+            String propertyName = null;
+            if (name.startsWith("is")) {
+                propertyName = slc(name, 2);
+            } else if (name.startsWith("get"))  {
+                propertyName = slc(name, 3);
+            }
+
+            propertyName = lower(slc(propertyName, 0, 1)) + slc(propertyName, 1);
+
+            Pair<Method> pair = methodMap.get(propertyName);
+            if (pair == null) {
+                pair = new Pair<>();
+                methodMap.put(propertyName, pair);
+            }
+            pair.setSecond(method);
+
+        }
+        return methodMap;
     }
 
     public static void getFields(Class<? extends Object> theClass,

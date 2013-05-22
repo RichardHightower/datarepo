@@ -420,6 +420,10 @@ public class Utils {
         throw new AssertionException(String.format(message, args));
     }
 
+    public static void die(Throwable t, String message, Object... args) {
+        throw new AssertionException(String.format(message, args), t);
+    }
+
     // CREATIONAL
     // CREATIONAL
 
@@ -1799,6 +1803,58 @@ public class Utils {
         return false;
     }
 
+    public static class Pair<T> {
+
+        private T first;
+        private T second;
+        private T[] both = (T[]) new Object[2];
+
+        public Pair() {
+        }
+
+        public Pair(T f, T s) {
+            this.first = f;
+            this.second = s;
+            both[0] = f;
+            both [1] = s;
+        }
+
+
+        public T getFirst() {
+            return first;
+        }
+
+        public T getSecond() {
+            return second;
+        }
+
+
+        public T[] getBoth() {
+            return both;
+        }
+
+        public void setFirst(T first) {
+            this.first = first;
+            both[0] = first;
+
+        }
+
+        public void setSecond(T second) {
+            this.second = second;
+            both [1] = second;
+
+        }
+
+        public void setBoth(T[] both) {
+            this.both = both;
+            this.first = both[0];
+            this.second = both[1];
+
+        }
+
+
+
+    }
 
 
 

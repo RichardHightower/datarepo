@@ -20,6 +20,22 @@ public class RepoBuilderDefault implements RepoBuilder {
     Set<String> lookupIndexes = new HashSet<>();
     Map<String, KeyGetter> keyGetterMap = new HashMap();
 
+    boolean useField = true;
+    boolean useUnSafe = true;
+
+
+    public void usePropertyForAccess(boolean useProperty) {
+        this.useField = !useProperty;
+    }
+
+    public void useFieldForAccess(boolean useField) {
+        this.useField = useField;
+    }
+
+    public void useUnsafe(boolean useUnSafe) {
+        this.useUnSafe = useUnSafe;
+    }
+
     @Override
     public RepoBuilder searchIndexFactory(Factory<SearchIndex> factory) {
         this.searchIndexFactory = factory;
@@ -89,7 +105,14 @@ public class RepoBuilderDefault implements RepoBuilder {
         init();
         RepoComposer  repo = (RepoComposer ) this.repoComposerFactory.create();
 
-        Map<String,FieldAccess> fields = Utils.mp("name", Reflection.getAllAccessorFields(clazz));
+        Map<String,FieldAccess> fields = null;
+
+        if (useField) {
+            fields = Utils.mp("name", Reflection.getAllAccessorFields(clazz, useUnSafe));
+
+        } else {
+            fields = Utils.mp("name", Reflection.getPropertyFieldAccessors(clazz));
+        }
 
         configPrimaryKey(repo, fields);
 

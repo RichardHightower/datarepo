@@ -289,6 +289,10 @@ public class UnsafeField implements FieldAccess {
 
     @Override
     public void setValue(Object obj, Object value) {
+        if (obj.getClass() == this.type) {
+            this.setObject(obj, value);
+            return;
+        }
 
 
         if (type == pint) {

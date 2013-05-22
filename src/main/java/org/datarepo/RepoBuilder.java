@@ -6,6 +6,7 @@ package org.datarepo;
 public interface RepoBuilder {
 
 
+
     public static void setRepoBuilder(Factory<RepoBuilder> factory) {
         RepoBuilderHelper.repoBuilderFactory = factory;
     }
@@ -37,6 +38,13 @@ public interface RepoBuilder {
     public RepoBuilder keyGetter(String propertyName, KeyGetter<?, ?> key);
 
     public RepoBuilder filterFactory(Factory<Filter> factory);
+
+
+    public void usePropertyForAccess(boolean useProperty);
+
+    public void useFieldForAccess(boolean useField);
+
+    public void useUnsafe(boolean useUnSafe);
 
 
     public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz);
