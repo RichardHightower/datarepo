@@ -253,3 +253,20 @@ public interface Repo <KEY, ITEM> extends Bag <ITEM>{
 
 ```
 
+Added some basic selection capabilities:
+
+```
+
+        List <Map<String, Object>> list =
+           repo.query(selects(select("firstName")), eq("lastName", "Hightower"));
+
+```
+
+You can have as many selects as you like.
+You can also bring the list back sorted:
+
+```
+        List <Map<String, Object>> list =
+           repo.sortedQuery("firstName",selects(select("firstName")), eq("lastName", "Hightower"));
+
+```
