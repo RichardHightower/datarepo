@@ -76,7 +76,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
             Collection<MultiValue<ITEM>> values = navigableMap.values();
             for (MultiValue<ITEM> mv : values) {
                 for (ITEM value : mv.getValues()) {
-                    String svalue = (String) this.keyGetter.getKey(value);
+                    String svalue = (String) this.keyGetter.apply(value);
                     if (svalue.endsWith((String)keyFrag)) {
                         results.add(value);
                     }
@@ -95,7 +95,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
             Collection<MultiValue<ITEM>> values = navigableMap.values();
             for (MultiValue<ITEM> mv : values) {
                 for (ITEM value : mv.getValues()) {
-                    String svalue = (String) this.keyGetter.getKey(value);
+                    String svalue = (String) this.keyGetter.apply(value);
                     if (svalue.endsWith((String)keyFrag)) {
                         results.add(value);
                     }

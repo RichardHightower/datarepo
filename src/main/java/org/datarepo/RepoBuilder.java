@@ -2,6 +2,9 @@ package org.datarepo;
 
 import org.datarepo.impl.RepoBuilderHelper;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 /**
  * Provides a builder for Repos.
  */
@@ -9,27 +12,27 @@ public interface RepoBuilder {
 
 
 
-    public static void setRepoBuilder(Factory<RepoBuilder> factory) {
+    public static void setRepoBuilder(Supplier<RepoBuilder> factory) {
         RepoBuilderHelper.setRepoBuilderFactory(factory);
     }
 
-    public static void setDefaultSearchIndexFactory(Factory<SearchIndex> factory) {
+    public static void setDefaultSearchIndexFactory(Supplier<SearchIndex> factory) {
         RepoBuilderHelper.setSearchIndexFactory(factory);
     }
 
-    public static void setLookupIndexFactory(Factory<LookupIndex> factory) {
+    public static void setLookupIndexFactory(Supplier<LookupIndex> factory) {
         RepoBuilderHelper.setLookupIndexFactory(factory);
     }
 
-    public static void setRepoFactory(Factory<RepoComposer> factory) {
+    public static void setRepoFactory(Supplier<RepoComposer> factory) {
         RepoBuilderHelper.setRepoFactory(factory);
     }
 
-    public RepoBuilder searchIndexFactory(Factory<SearchIndex> factory);
+    public RepoBuilder searchIndexFactory(Supplier<SearchIndex> factory);
 
-    public RepoBuilder lookupIndexFactory(Factory<LookupIndex> factory);
+    public RepoBuilder lookupIndexFactory(Supplier<LookupIndex> factory);
 
-    public RepoBuilder repoFactory(Factory<RepoComposer> factory);
+    public RepoBuilder repoFactory(Supplier<RepoComposer> factory);
 
     public RepoBuilder primaryKey(String propertyName);
 
@@ -37,9 +40,9 @@ public interface RepoBuilder {
 
     public RepoBuilder searchIndex(String propertyName);
 
-    public RepoBuilder keyGetter(String propertyName, KeyGetter<?, ?> key);
+    public RepoBuilder keyGetter(String propertyName, Function<?, ?> key);
 
-    public RepoBuilder filterFactory(Factory<Filter> factory);
+    public RepoBuilder filterFactory(Supplier<Filter> factory);
 
 
     public void usePropertyForAccess(boolean useProperty);
@@ -53,7 +56,7 @@ public interface RepoBuilder {
 
     public static RepoBuilder getInstance() {
         RepoBuilderHelper.init();
-        return RepoBuilderHelper.getRepoBuilderFactory().create();
+        return RepoBuilderHelper.getRepoBuilderFactory().get();
     }
 
 }

@@ -1,5 +1,9 @@
 package org.datarepo.criteria;
 
+import java.util.List;
+
+import static org.datarepo.utils.Utils.list;
+
 public class Criteria {
 
     public static Expression and(Expression... expressions) {
@@ -49,5 +53,7 @@ public class Criteria {
     public static Expression matches(Object name, Object value) {
         return new Criterion<Object>(name.toString(), Operator.MATCHES, value);
     }
+
+
 
 }

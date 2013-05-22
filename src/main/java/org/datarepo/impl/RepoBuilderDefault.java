@@ -9,18 +9,20 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class RepoBuilderDefault implements RepoBuilder {
 
-    Factory<SearchIndex> searchIndexFactory;
-    Factory<LookupIndex> lookupIndexFactory;
-    Factory<RepoComposer> repoComposerFactory;
-    Factory<Filter> filterFactory;
+    Supplier<SearchIndex> searchIndexFactory;
+    Supplier<LookupIndex> lookupIndexFactory;
+    Supplier<RepoComposer> repoComposerFactory;
+    Supplier<Filter> filterFactory;
 
     String primaryKey;
     Set<String> searchIndexes = new HashSet<>();
     Set<String> lookupIndexes = new HashSet<>();
-    Map<String, KeyGetter> keyGetterMap = new HashMap();
+    Map<String, Function> keyGetterMap = new HashMap();
 
     boolean useField = true;
     boolean useUnSafe = true;
@@ -39,25 +41,25 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     @Override
-    public RepoBuilder searchIndexFactory(Factory<SearchIndex> factory) {
+    public RepoBuilder searchIndexFactory(Supplier<SearchIndex> factory) {
         this.searchIndexFactory = factory;
         return this;
     }
 
     @Override
-    public RepoBuilder lookupIndexFactory(Factory<LookupIndex> factory) {
+    public RepoBuilder lookupIndexFactory(Supplier<LookupIndex> factory) {
         this.lookupIndexFactory = factory;
         return this;
     }
 
     @Override
-    public RepoBuilder repoFactory(Factory<RepoComposer> factory) {
+    public RepoBuilder repoFactory(Supplier<RepoComposer> factory) {
         this.repoComposerFactory = factory;
         return this;
     }
 
     @Override
-    public RepoBuilder filterFactory(Factory<Filter> factory) {
+    public RepoBuilder filterFactory(Supplier<Filter> factory) {
         this.filterFactory = factory;
         return this;
     }
@@ -81,7 +83,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     @Override
-    public RepoBuilder keyGetter(String propertyName, KeyGetter<?, ?> keyGetter) {
+    public RepoBuilder keyGetter(String propertyName, Function<?, ?> keyGetter) {
         keyGetterMap.put(propertyName, keyGetter);
         return this;
     }
@@ -105,7 +107,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     @Override
     public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz) {
         init();
-        RepoComposer  repo = (RepoComposer ) this.repoComposerFactory.create();
+        RepoComposer  repo = (RepoComposer ) this.repoComposerFactory.get();
 
         Map<String,FieldAccess> fields = null;
 
@@ -118,7 +120,7 @@ public class RepoBuilderDefault implements RepoBuilder {
 
         configPrimaryKey(repo, fields);
 
-        repo.setFilter(this.filterFactory.create());
+        repo.setFilter(this.filterFactory.get());
 
 
 
@@ -130,10 +132,10 @@ public class RepoBuilderDefault implements RepoBuilder {
         return (Repo<KEY, ITEM>) repo;
     }
 
-    private KeyGetter createKeyGetter(final FieldAccess field) {
-        return new KeyGetter() {
+    private Function createKeyGetter(final FieldAccess field) {
+        return new Function() {
             @Override
-            public Object getKey(Object o) {
+            public Object apply(Object o) {
                 return field.getValue(o);
             }
         };
@@ -142,15 +144,15 @@ public class RepoBuilderDefault implements RepoBuilder {
     private  void configSearchIndexes(RepoComposer repo,
                                       Map<String,FieldAccess> fields) {
         for (String prop : searchIndexes) {
-            SearchIndex searchIndex = this.searchIndexFactory.create();
-            KeyGetter kg = getKeyGetterOrCreate(fields, prop);
+            SearchIndex searchIndex = this.searchIndexFactory.get();
+            Function kg = getKeyGetterOrCreate(fields, prop);
             searchIndex.setKeyGetter(kg);
             repo.addSearchIndex(prop, searchIndex);
         }
     }
 
-    private KeyGetter getKeyGetterOrCreate(Map<String, FieldAccess> fields, String prop) {
-        KeyGetter kg = this.keyGetterMap.get(prop);
+    private Function getKeyGetterOrCreate(Map<String, FieldAccess> fields, String prop) {
+        Function kg = this.keyGetterMap.get(prop);
 
         if (kg == null) {
             FieldAccess field = fields.get(prop);
@@ -161,7 +163,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     private  void configPrimaryKey(RepoComposer repo, Map<String,FieldAccess> fields) {
-        LookupIndex primaryKeyIndex = this.lookupIndexFactory.create();
+        LookupIndex primaryKeyIndex = this.lookupIndexFactory.get();
         primaryKeyIndex.setKeyGetter(getKeyGetterOrCreate(fields, this.primaryKey));
         repo.setPrimaryKeyName(this.primaryKey);
         repo.setPrimaryKeyGetter(this.keyGetterMap.get(this.primaryKey));

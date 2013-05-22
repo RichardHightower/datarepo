@@ -1,6 +1,7 @@
 package org.datarepo;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static org.datarepo.Employee.employee;
 import static org.datarepo.Employee.employees;
@@ -29,30 +30,30 @@ public class TestHelper {
         RepoBuilder repoBuilder = RepoBuilder.getInstance();
         repoBuilder.primaryKey("ssn")
                 .searchIndex("firstName").searchIndex("lastName").searchIndex("salary") ;
-        repoBuilder.keyGetter("ssn", new KeyGetter<String, Employee>() {
+        repoBuilder.keyGetter("ssn", new Function<Employee, String>() {
             @Override
-            public String getKey(Employee employee) {
+            public String apply(Employee employee) {
                 return employee.getSsn();
             }
         });
 
-        repoBuilder.keyGetter("firstName", new KeyGetter<String, Employee>() {
+        repoBuilder.keyGetter("firstName", new Function<Employee, String>() {
             @Override
-            public String getKey(Employee employee) {
+            public String apply(Employee employee) {
                 return employee.getFirstName();
             }
         });
 
-        repoBuilder.keyGetter("lastName", new KeyGetter<String, Employee>() {
+        repoBuilder.keyGetter("lastName", new Function<Employee, String>() {
             @Override
-            public String getKey(Employee employee) {
+            public String apply(Employee employee) {
                 return employee.getLastName();
             }
         });
 
-        repoBuilder.keyGetter("salary", new KeyGetter<Integer, Employee>() {
+        repoBuilder.keyGetter("salary", new Function<Employee, Integer>() {
             @Override
-            public Integer getKey(Employee employee) {
+            public Integer apply(Employee employee) {
                 return employee.getSalary();
             }
         });

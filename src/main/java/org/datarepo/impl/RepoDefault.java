@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 import static org.datarepo.utils.Utils.*;
@@ -29,7 +30,7 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     private Map<String, FieldAccess> fields = new HashMap<>();
 
     private List<LookupIndex> indexes = new ArrayList<LookupIndex>();
-    private KeyGetter<KEY, ITEM> primaryKeyGetter;
+    private Function<ITEM, KEY> primaryKeyGetter;
     private String primaryKeyName;
     private Filter filter;
 
@@ -49,7 +50,7 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
-    public void setPrimaryKeyGetter(KeyGetter getter) {
+    public void setPrimaryKeyGetter(Function getter) {
         config(log, "primary key getter set %s", getter);
 
         this.primaryKeyGetter = getter;
@@ -68,7 +69,7 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         notNull(item);
 
         /** See if we have an original. */
-        KEY key = (KEY) this.primaryKeyGetter.getKey(item);
+        KEY key = (KEY) this.primaryKeyGetter.apply(item);
         ITEM oldItem = this.get(key);
 
         if (oldItem != null) {
@@ -86,7 +87,7 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     private ITEM lookupAndExpect(ITEM item) {
-        KEY key = (KEY) this.primaryKeyGetter.getKey(item);
+        KEY key = (KEY) this.primaryKeyGetter.apply(item);
         ITEM oldItem = this.get(key);
 
         if (oldItem == null) {

@@ -3,76 +3,78 @@ package org.datarepo.impl;
 import org.datarepo.*;
 import org.datarepo.impl.*;
 
+import java.util.function.Supplier;
+
 /**
  * Helper class for RepoBuilderHelper interface.
  */
 public class RepoBuilderHelper {
 
-    static Factory<RepoBuilder> repoBuilderFactory = null;
-    static Factory<SearchIndex> searchIndexFactory = null;
-    static Factory<LookupIndex> lookupIndexFactory = null;
-    static Factory<RepoComposer> repoFactory = null;
-    static Factory<Filter> filterFactory = null;
+    static Supplier<RepoBuilder> repoBuilderFactory = null;
+    static Supplier<SearchIndex> searchIndexFactory = null;
+    static Supplier<LookupIndex> lookupIndexFactory = null;
+    static Supplier<RepoComposer> repoFactory = null;
+    static Supplier<Filter> filterFactory = null;
 
-    public static Factory<RepoBuilder> getRepoBuilderFactory() {
+    public static Supplier<RepoBuilder> getRepoBuilderFactory() {
         return repoBuilderFactory;
     }
 
-    public static Factory<SearchIndex> getSearchIndexFactory() {
+    public static Supplier<SearchIndex> getSearchIndexFactory() {
         return searchIndexFactory;
     }
 
-    public static Factory<LookupIndex> getLookupIndexFactory() {
+    public static Supplier<LookupIndex> getLookupIndexFactory() {
         return lookupIndexFactory;
     }
 
-    public static Factory<RepoComposer> getRepoFactory() {
+    public static Supplier<RepoComposer> getRepoFactory() {
         return repoFactory;
     }
 
-    public static Factory<Filter> getFilterFactory() {
+    public static Supplier<Filter> getFilterFactory() {
         return filterFactory;
     }
 
     public static void init() {
         if (repoBuilderFactory == null) {
-            repoBuilderFactory = new Factory<RepoBuilder>() {
+            repoBuilderFactory = new Supplier<RepoBuilder>() {
                 @Override
-                public RepoBuilder create() {
+                public RepoBuilder get() {
                     return new RepoBuilderDefault();
                 }
             };
         }
         if (searchIndexFactory == null) {
-            searchIndexFactory = new Factory<SearchIndex>() {
+            searchIndexFactory = new Supplier<SearchIndex>() {
                 @Override
-                public SearchIndex create() {
+                public SearchIndex get() {
                     return new SearchIndexDefault();
                 }
             };
         }
         if (lookupIndexFactory ==  null) {
-            lookupIndexFactory = new Factory<LookupIndex>() {
+            lookupIndexFactory = new Supplier<LookupIndex>() {
                 @Override
-                public LookupIndex create() {
+                public LookupIndex get() {
 
                     return new LookupIndexDefault();
                 }
             };
         }
         if (repoFactory == null) {
-            repoFactory = new Factory<RepoComposer>() {
+            repoFactory = new Supplier<RepoComposer>() {
                 @Override
-                public RepoComposer create() {
+                public RepoComposer get() {
                     return new RepoDefault<>();
                 }
             };
         }
 
         if (filterFactory == null ) {
-            filterFactory = new Factory<Filter>() {
+            filterFactory = new Supplier<Filter>() {
                 @Override
-                public Filter create() {
+                public Filter get() {
                     return new FilterDefault();
                 }
             };
@@ -80,23 +82,23 @@ public class RepoBuilderHelper {
     }
 
 
-    public static void setRepoBuilderFactory(Factory<RepoBuilder> repoBuilderFactory) {
+    public static void setRepoBuilderFactory(Supplier<RepoBuilder> repoBuilderFactory) {
         RepoBuilderHelper.repoBuilderFactory = repoBuilderFactory;
     }
 
-    public static void setSearchIndexFactory(Factory<SearchIndex> searchIndexFactory) {
+    public static void setSearchIndexFactory(Supplier<SearchIndex> searchIndexFactory) {
         RepoBuilderHelper.searchIndexFactory = searchIndexFactory;
     }
 
-    public static void setLookupIndexFactory(Factory<LookupIndex> lookupIndexFactory) {
+    public static void setLookupIndexFactory(Supplier<LookupIndex> lookupIndexFactory) {
         RepoBuilderHelper.lookupIndexFactory = lookupIndexFactory;
     }
 
-    public static void setRepoFactory(Factory<RepoComposer> repoFactory) {
+    public static void setRepoFactory(Supplier<RepoComposer> repoFactory) {
         RepoBuilderHelper.repoFactory = repoFactory;
     }
 
-    public static void setFilterFactory(Factory<Filter> filterFactory) {
+    public static void setFilterFactory(Supplier<Filter> filterFactory) {
         RepoBuilderHelper.filterFactory = filterFactory;
     }
 

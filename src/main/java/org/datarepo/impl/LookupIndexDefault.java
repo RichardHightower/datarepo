@@ -1,12 +1,12 @@
 package org.datarepo.impl;
 
-import org.datarepo.KeyGetter;
 import org.datarepo.LookupIndex;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 import static org.datarepo.utils.Utils.*;
@@ -20,7 +20,7 @@ import static org.datarepo.utils.Utils.debug;
 public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
 
-    protected KeyGetter<KEY, ITEM> keyGetter;
+    protected Function<ITEM, KEY> keyGetter;
     protected Map<KEY, MultiValue<ITEM>> map =  new HashMap<>();
     private Logger log = log(LookupIndexDefault.class);
 
@@ -28,7 +28,7 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     }
 
 
-    public void setKeyGetter(KeyGetter<KEY, ITEM> keyGetter) {
+    public void setKeyGetter(Function<ITEM, KEY> keyGetter) {
         notNull(keyGetter);
         this.keyGetter = keyGetter;
     }
@@ -71,7 +71,7 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
             debug(log, "add item = %s", item);
         }
 
-        KEY key = keyGetter.getKey(item);
+        KEY key = keyGetter.apply(item);
         MultiValue<ITEM> mv =  map.get(key);
         if (mv == null) {
             mv = new MultiValue<ITEM>(item);
@@ -86,7 +86,7 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public void remove(ITEM item) {
-        KEY key = keyGetter.getKey(item);
+        KEY key = keyGetter.apply(item);
         MultiValue<ITEM> mv =  map.get(key);
 
         if (mv == null) {
