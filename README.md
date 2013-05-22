@@ -180,3 +180,76 @@ Everything is configurable. You can swap out factories for Filtering, SearchInde
 Also considering writing a backup mode to make backing the data repo to a database or NoSQL database faster. 
 
 https://github.com/RichardHightower/datarepo
+
+
+Updates:
+
+I added some more features.
+
+```
+ repo.updateByFilter(values(value("firstName", "Di")),
+                and( eq("firstName", "Diana"),
+                        eq("lastName", "Smith"),
+                        eq("ssn", "21785999") ) );
+
+```
+
+
+
+
+The above would be equivalent to
+
+```
+    UPDATE Employee e
+     SET e.firstName='Di'
+    WHERE e.firstName = 'Diana'
+      and e.lastName = 'Smith'
+      and e.ssn = '21785999'
+```
+
+This allows you to set multiple fields at once on multiple records
+so if you were doing a bulk update.
+
+There are overloaded methods for all basic types so if you have one
+value to update on each items returned from a Filter:
+
+```
+        repo.updateByFilter("firstName", "Di",
+                and( eq("firstName", "Diana"),
+                eq("lastName", "Smith"),
+                        eq("ssn", "21785999") ) );
+
+```
+
+Here is the full compliment of new methods added to the Repo Interface:
+
+```
+
+public interface Repo <KEY, ITEM> extends Bag <ITEM>{
+       ...
+       void modify(ITEM item, ValueSetter... values);
+
+       void update(KEY key, String property, Object value);
+       void update(KEY key, String property, String value);
+       void update(KEY key, String property, int value);
+       void update(KEY key, String property, long value);
+       void update(KEY key, String property, char value);
+       void update(KEY key, String property, short value);
+       void update(KEY key, String property, byte value);
+       void update(KEY key, String property, float value);
+       void update(KEY key, String property, double value);
+       void update(KEY key, ValueSetter... values);
+
+       void updateByFilter(String property, Object value, Expression... expressions);
+       void updateByFilter(String property, String value, Expression... expressions);
+       void updateByFilter(String property, int value, Expression... expressions);
+       void updateByFilter(String property, long value, Expression... expressions);
+       void updateByFilter(String property, char value, Expression... expressions);
+       void updateByFilter(String property, short value, Expression... expressions);
+       void updateByFilter(String property, byte value, Expression... expressions);
+       void updateByFilter(String property, float value, Expression... expressions);
+       void updateByFilter(String property, double value, Expression... expressions);
+       void updateByFilter(List<ValueSetter> values, Expression... expressions);
+
+```
+
