@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import static org.datarepo.reflection.Types.*;
-import static org.datarepo.Utils.*;
+import static org.datarepo.utils.Utils.*;
 
 public class ReflectField implements FieldAccess {
     protected final Field field;

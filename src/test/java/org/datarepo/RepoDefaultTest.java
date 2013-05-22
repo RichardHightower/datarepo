@@ -7,8 +7,8 @@ import java.util.List;
 
 import static junit.framework.Assert.*;
 import static org.datarepo.Employee.employee;
-import static org.datarepo.Employee.employees;
 import static org.datarepo.criteria.Criteria.*;
+import static org.datarepo.ValueSetter.*;
 
 public class RepoDefaultTest {
 
@@ -18,7 +18,7 @@ public class RepoDefaultTest {
 
     @Before
     public void setup() {
-        repo = TestHelper.createFromBuilderUsingPropertyAccess();
+        repo = TestHelper.createFromBuilder();
     }
 
     @Test
@@ -82,6 +82,21 @@ public class RepoDefaultTest {
     }
 
     @Test
+    public void testUpdateByKeyUsingValues() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
+        repo.add(emp);
+        assertNotNull(repo.get("21785999"));
+        repo.update(emp.getSsn(), value("firstName", "Di"));
+
+        String firstName = repo.get("21785999").getFirstName();
+        assertEquals("firstName equals", "Di", firstName);
+
+        assertEquals("Test that the search index is rebuilt", "Di",
+                repo.query(eq("firstName", "Di")).get(0).getFirstName());
+
+    }
+
+    @Test
     public void testUpdateByFilter() throws Exception {
         Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
         repo.add(emp);
@@ -91,6 +106,27 @@ public class RepoDefaultTest {
         repo.updateByFilter("firstName", "Di",
                 and( eq("firstName", "Diana"),
                 eq("lastName", "Hightower"),
+                        eq("ssn", "21785999") ) );
+
+
+        String firstName = repo.get("21785999").getFirstName();
+        assertEquals("firstName equals", "Di", firstName);
+
+        assertEquals("Test that the search index is rebuilt", "Di",
+                repo.query(eq("firstName", "Di")).get(0).getFirstName());
+
+    }
+
+    @Test
+    public void testUpdateByFilterUsingValues() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
+        repo.add(emp);
+        assertNotNull(repo.get("21785999"));
+
+
+        repo.updateByFilter(values(value("firstName", "Di")),
+                and( eq("firstName", "Diana"),
+                        eq("lastName", "Hightower"),
                         eq("ssn", "21785999") ) );
 
 

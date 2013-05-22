@@ -23,6 +23,7 @@ public interface Repo <KEY, ITEM> extends Bag <ITEM>{
     void modify(ITEM item, String property, byte value);
     void modify(ITEM item, String property, float value);
     void modify(ITEM item, String property, double value);
+    void modify(ITEM item, ValueSetter... values);
 
     void update(KEY key, String property, Object value);
     void update(KEY key, String property, String value);
@@ -33,6 +34,7 @@ public interface Repo <KEY, ITEM> extends Bag <ITEM>{
     void update(KEY key, String property, byte value);
     void update(KEY key, String property, float value);
     void update(KEY key, String property, double value);
+    void update(KEY key, ValueSetter... values);
 
     void updateByFilter(String property, Object value, Expression... expressions);
     void updateByFilter(String property, String value, Expression... expressions);
@@ -43,6 +45,7 @@ public interface Repo <KEY, ITEM> extends Bag <ITEM>{
     void updateByFilter(String property, byte value, Expression... expressions);
     void updateByFilter(String property, float value, Expression... expressions);
     void updateByFilter(String property, double value, Expression... expressions);
+    void updateByFilter(List<ValueSetter> values, Expression... expressions);
 
     List<ITEM> query(Expression... expressions);
 

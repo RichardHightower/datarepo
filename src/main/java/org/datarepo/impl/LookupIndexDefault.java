@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import static org.datarepo.Utils.*;
-import static org.datarepo.Utils.debug;
+import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.debug;
 
 /**
  * A really simple lookup index that uses a standard java.util.HashMap.

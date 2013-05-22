@@ -7,7 +7,7 @@ import java.lang.reflect.Modifier;
 import sun.misc.Unsafe;
 
 import static org.datarepo.reflection.Types.*;
-import static org.datarepo.Utils.*;
+import static org.datarepo.utils.Utils.*;
 
 
 public class UnsafeField implements FieldAccess {

@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import static org.datarepo.Utils.*;
+import static org.datarepo.utils.Utils.*;
 
 public class Types {
     static Class<Types> types = Types.class;

@@ -1,6 +1,6 @@
 package org.datarepo.reflection;
 
-import org.datarepo.Utils;
+import org.datarepo.utils.Utils;
 
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-import static org.datarepo.Utils.*;
-import static org.datarepo.Utils.slc;
+import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.slc;
 
 public class Reflection {
 

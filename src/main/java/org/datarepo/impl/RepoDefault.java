@@ -12,14 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import static org.datarepo.Utils.*;
+import static org.datarepo.utils.Utils.*;
 
 /**
  * Default Repo implementation.
- * @param <KEY> primary key or handle of object.
+ *
+ * @param <KEY>  primary key or handle of object.
  * @param <ITEM> item that this repo holds.
  */
-public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
+public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     private Logger log = log(RepoDefault.class);
     private Map<String, LookupIndex> lookupIndexMap = new HashMap<>();
@@ -93,6 +94,7 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         }
         return oldItem;
     }
+
     private ITEM lookupAndExpectByKey(KEY key) {
         ITEM oldItem = this.get(key);
 
@@ -112,7 +114,7 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         }
 
         index = this.lookupIndexMap.get(property);
-        if (index!=null) {
+        if (index != null) {
             index.remove(item);
         }
 
@@ -125,14 +127,14 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         }
 
         index = this.lookupIndexMap.get(property);
-        if (index!=null) {
+        if (index != null) {
             index.add(item);
         }
 
     }
 
 
-    private ITEM copy (ITEM item)  {
+    private ITEM copy(ITEM item) {
         return Reflection.copy(item);
     }
 
@@ -141,7 +143,7 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     public void modify(ITEM item, String property, Object value) {
         item = lookupAndExpect(item);
         invalidateIndex(property, item);
-        fields.get(property).setObject(item, value);
+        fields.get(property).setValue(item, value);
         validateIndex(property, item);
 
     }
@@ -150,7 +152,7 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     public void modify(ITEM item, String property, String value) {
         item = lookupAndExpect(item);
         invalidateIndex(property, item);
-        fields.get(property).setObject(item, value);
+        fields.get(property).setValue(item, value);
         validateIndex(property, item);
 
     }
@@ -212,10 +214,21 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
+    public void modify(ITEM item, ValueSetter... values) {
+        item = lookupAndExpect(item);
+        for (ValueSetter value : values) {
+            invalidateIndex(value.getName(), item);
+            value.doSet(this, item);
+            validateIndex(value.getName(), item);
+        }
+
+    }
+
+    @Override
     public void update(KEY key, String property, Object value) {
         ITEM item = lookupAndExpectByKey(key);
         invalidateIndex(property, item);
-        fields.get(property).setObject(item, value);
+        fields.get(property).setValue(item, value);
         validateIndex(property, item);
     }
 
@@ -223,7 +236,7 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     public void update(KEY key, String property, String value) {
         ITEM item = lookupAndExpectByKey(key);
         invalidateIndex(property, item);
-        fields.get(property).setObject(item, value);
+        fields.get(property).setValue(item, value);
         validateIndex(property, item);
     }
 
@@ -281,6 +294,17 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         invalidateIndex(property, item);
         fields.get(property).setDouble(item, value);
         validateIndex(property, item);
+    }
+
+    @Override
+    public void update(KEY key, ValueSetter... values) {
+        ITEM item = lookupAndExpectByKey(key);
+
+        for (ValueSetter value : values) {
+            invalidateIndex(value.getName(), item);
+            value.doSet(this, item);
+            validateIndex(value.getName(), item);
+        }
     }
 
     @Override
@@ -355,22 +379,33 @@ public class RepoDefault <KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         }
     }
 
+    @Override
+    public void updateByFilter(List<ValueSetter> values, Expression... expressions) {
+        List<ITEM> items = query(expressions);
+        for (ITEM item : items) {
+
+            for (ValueSetter value : values) {
+                invalidateIndex(value.getName(), item);
+                value.doSet(this, item);
+                validateIndex(value.getName(), item);
+            }
+        }
+    }
+
 
     @Override
-    public List <ITEM> query(Expression... expressions) {
+    public List<ITEM> query(Expression... expressions) {
         if (expressions == null || expressions.length == 0) {
-             return this.all();
+            return this.all();
         } else {
             return (List<ITEM>) this.filter.filter(this.lookupIndexMap, this.searchIndexMap, expressions);
         }
     }
 
     @Override
-    public List<ITEM> all () {
+    public List<ITEM> all() {
         return this.lookupIndexMap.get(primaryKeyName).all();
     }
-
-
 
 
     @Override
