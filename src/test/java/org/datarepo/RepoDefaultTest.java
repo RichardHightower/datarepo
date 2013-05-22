@@ -67,6 +67,42 @@ public class RepoDefaultTest {
     }
 
     @Test
+    public void testUpdateByKey() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
+        repo.add(emp);
+        assertNotNull(repo.get("21785999"));
+        repo.update(emp.getSsn(), "firstName", "Di");
+
+        String firstName = repo.get("21785999").getFirstName();
+        assertEquals("firstName equals", "Di", firstName);
+
+        assertEquals("Test that the search index is rebuilt", "Di",
+                repo.query(eq("firstName", "Di")).get(0).getFirstName());
+
+    }
+
+    @Test
+    public void testUpdateByFilter() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
+        repo.add(emp);
+        assertNotNull(repo.get("21785999"));
+
+
+        repo.updateByFilter("firstName", "Di",
+                and( eq("firstName", "Diana"),
+                eq("lastName", "Hightower"),
+                        eq("ssn", "21785999") ) );
+
+
+        String firstName = repo.get("21785999").getFirstName();
+        assertEquals("firstName equals", "Di", firstName);
+
+        assertEquals("Test that the search index is rebuilt", "Di",
+                repo.query(eq("firstName", "Di")).get(0).getFirstName());
+
+    }
+
+    @Test
     public void testEasyFilter() throws Exception {
         Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
         repo.add(emp);

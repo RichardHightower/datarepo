@@ -24,6 +24,26 @@ public interface Repo <KEY, ITEM> extends Bag <ITEM>{
     void modify(ITEM item, String property, float value);
     void modify(ITEM item, String property, double value);
 
+    void update(KEY key, String property, Object value);
+    void update(KEY key, String property, String value);
+    void update(KEY key, String property, int value);
+    void update(KEY key, String property, long value);
+    void update(KEY key, String property, char value);
+    void update(KEY key, String property, short value);
+    void update(KEY key, String property, byte value);
+    void update(KEY key, String property, float value);
+    void update(KEY key, String property, double value);
+
+    void updateByFilter(String property, Object value, Expression... expressions);
+    void updateByFilter(String property, String value, Expression... expressions);
+    void updateByFilter(String property, int value, Expression... expressions);
+    void updateByFilter(String property, long value, Expression... expressions);
+    void updateByFilter(String property, char value, Expression... expressions);
+    void updateByFilter(String property, short value, Expression... expressions);
+    void updateByFilter(String property, byte value, Expression... expressions);
+    void updateByFilter(String property, float value, Expression... expressions);
+    void updateByFilter(String property, double value, Expression... expressions);
+
     List<ITEM> query(Expression... expressions);
 
 

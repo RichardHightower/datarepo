@@ -1,5 +1,7 @@
 package org.datarepo;
 
+import org.datarepo.impl.RepoBuilderHelper;
+
 /**
  * Provides a builder for Repos.
  */
@@ -8,19 +10,19 @@ public interface RepoBuilder {
 
 
     public static void setRepoBuilder(Factory<RepoBuilder> factory) {
-        RepoBuilderHelper.repoBuilderFactory = factory;
+        RepoBuilderHelper.setRepoBuilderFactory(factory);
     }
 
     public static void setDefaultSearchIndexFactory(Factory<SearchIndex> factory) {
-        RepoBuilderHelper.searchIndexFactory = factory;
+        RepoBuilderHelper.setSearchIndexFactory(factory);
     }
 
     public static void setLookupIndexFactory(Factory<LookupIndex> factory) {
-        RepoBuilderHelper.lookupIndexFactory = factory;
+        RepoBuilderHelper.setLookupIndexFactory(factory);
     }
 
     public static void setRepoFactory(Factory<RepoComposer> factory) {
-        RepoBuilderHelper.repoFactory = factory;
+        RepoBuilderHelper.setRepoFactory(factory);
     }
 
     public RepoBuilder searchIndexFactory(Factory<SearchIndex> factory);
@@ -51,7 +53,7 @@ public interface RepoBuilder {
 
     public static RepoBuilder getInstance() {
         RepoBuilderHelper.init();
-        return RepoBuilderHelper.repoBuilderFactory.create();
+        return RepoBuilderHelper.getRepoBuilderFactory().create();
     }
 
 }
