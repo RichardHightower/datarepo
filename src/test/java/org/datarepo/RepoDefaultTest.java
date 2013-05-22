@@ -4,11 +4,15 @@ import org.junit.Test;
 import org.junit.Before;
 
 import java.util.List;
+import java.util.Map;
 
 import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
 import static org.datarepo.Employee.employee;
 import static org.datarepo.criteria.Criteria.*;
 import static org.datarepo.criteria.ValueSetter.*;
+import static org.datarepo.criteria.Selector.*;
+
 
 public class RepoDefaultTest {
 
@@ -148,6 +152,35 @@ public class RepoDefaultTest {
         assertEquals("Diana", employees.get(0).getFirstName());
     }
 
+    @Test
+    public void testEasySelect() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
+        Employee emp2 = employee("Bob", "Hightower", "21785990", "08.15.82", 100_000);
+
+        repo.add(emp);
+        repo.add(emp2);
+
+        List <Map<String, Object>> list = repo.query(selects(select("firstName")), eq("lastName", "Hightower"));
+
+        assertEquals("Diana", list.get(0).get("firstName"));
+        assertEquals("Bob", list.get(1).get("firstName"));
+
+    }
+
+    @Test
+    public void testEasySelectWithSort() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
+        Employee emp2 = employee("Bob", "Hightower", "21785990", "08.15.82", 100_000);
+
+        repo.add(emp);
+        repo.add(emp2);
+
+        List <Map<String, Object>> list = repo.sortedQuery("firstName",selects(select("firstName")), eq("lastName", "Hightower"));
+
+        assertEquals("Bob", list.get(0).get("firstName"));
+        assertEquals("Diana", list.get(1).get("firstName"));
+
+    }
 
 
     @Test

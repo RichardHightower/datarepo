@@ -2,9 +2,11 @@ package org.datarepo;
 
 
 import org.datarepo.criteria.Expression;
+import org.datarepo.criteria.Selector;
 import org.datarepo.criteria.ValueSetter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Repo, A Repo is like a DAO object or a Repository object.
@@ -50,6 +52,9 @@ public interface Repo <KEY, ITEM> extends Bag <ITEM>{
     void updateByFilter(List<ValueSetter> values, Expression... expressions);
 
     List<ITEM> query(Expression... expressions);
+
+    List<Map<String, Object>> query(List<Selector> selectors, Expression... expressions);
+    List<Map<String, Object>> sortedQuery(String sortBy, List<Selector> selectors, Expression... expressions);
 
 
 }

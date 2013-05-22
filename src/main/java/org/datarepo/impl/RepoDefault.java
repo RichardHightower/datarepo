@@ -3,14 +3,12 @@ package org.datarepo.impl;
 import org.datarepo.*;
 import org.datarepo.Filter;
 import org.datarepo.criteria.Expression;
+import org.datarepo.criteria.Selector;
 import org.datarepo.criteria.ValueSetter;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -402,6 +400,46 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         } else {
             return (List<ITEM>) this.filter.filter(this.lookupIndexMap, this.searchIndexMap, expressions);
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> sortedQuery(final String sortBy, List<Selector> selectors, Expression... expressions) {
+
+        final List<Map<String, Object>> results = query(selectors, expressions);
+        Function<ITEM, KEY> func = new Function<ITEM, KEY>(){
+            @Override
+            public KEY apply(ITEM item) {
+                return (KEY)((Map)item).get(sortBy);
+            }
+        };
+        return new SearchIndexDefault(results, func).all();
+    }
+        @Override
+    public List<Map<String, Object>> query(List<Selector> selectors, Expression... expressions) {
+
+        List<ITEM> results = this.query(expressions);
+        List<Map<String, Object>> rows = new ArrayList<>(results.size());
+
+        for (Selector s : selectors) {
+            s.handleStart(results);
+        }
+
+
+        int index = 0;
+        for (ITEM item : results) {
+            Map<String, Object> row = new LinkedHashMap<>();
+            for (Selector s : selectors) {
+                s.handleRow(index, row, item, fields);
+            }
+            index ++;
+            rows.add(row);
+        }
+
+        for (Selector s : selectors) {
+            s.handleComplete(rows);
+        }
+
+        return rows;
     }
 
     @Override

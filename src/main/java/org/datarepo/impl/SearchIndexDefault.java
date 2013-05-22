@@ -3,6 +3,7 @@ package org.datarepo.impl;
 import org.datarepo.SearchIndex;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * Default Search Index which uses a TreeMap
@@ -18,6 +19,18 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
 
     }
 
+    public SearchIndexDefault(List <ITEM> items, Function<ITEM, KEY> keyGetter) {
+        super.keyGetter = keyGetter;
+        super.map = new TreeMap<>();
+        this.navigableMap = (NavigableMap<KEY, MultiValue<ITEM>>) super.map;
+
+        for (ITEM item : items) {
+            add(item);
+        }
+
+
+
+    }
 
 
     @Override
