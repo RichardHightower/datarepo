@@ -2,6 +2,8 @@ package org.datarepo;
 
 
 import org.datarepo.criteria.Expression;
+import org.datarepo.criteria.ValueSetter;
+
 import java.util.List;
 
 /**

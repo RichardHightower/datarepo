@@ -8,7 +8,7 @@ import java.util.List;
 import static junit.framework.Assert.*;
 import static org.datarepo.Employee.employee;
 import static org.datarepo.criteria.Criteria.*;
-import static org.datarepo.ValueSetter.*;
+import static org.datarepo.criteria.ValueSetter.*;
 
 public class RepoDefaultTest {
 

@@ -382,7 +382,7 @@ public class Reflection {
         }
     }
 
-    static Map<Class<? extends Object>, List<FieldAccess>> allAccessorFieldsCache = new ConcurrentHashMap<>();
+    static Map<String, List<FieldAccess>> allAccessorFieldsCache = new ConcurrentHashMap<>();
 
     public static List<FieldAccess> getAllAccessorFields(
             Class<? extends Object> theClass) {
@@ -391,11 +391,11 @@ public class Reflection {
 
     public static List<FieldAccess> getAllAccessorFields(
             Class<? extends Object> theClass, boolean useUnsafe) {
-        List<FieldAccess> list = allAccessorFieldsCache.get(theClass);
+        List<FieldAccess> list = allAccessorFieldsCache.get(theClass.getName()+useUnsafe);
         if (list == null) {
             list = map(new FieldConverter(useUnsafe), getAllFields(theClass));
         } else {
-            allAccessorFieldsCache.put(theClass, list);
+            allAccessorFieldsCache.put(theClass.getName()+useUnsafe, list);
         }
         return list;
     }
@@ -411,11 +411,20 @@ public class Reflection {
 
     public static List<FieldAccess> getPropertyFieldAccessors(
             Class<? extends Object> theClass) {
-        Map<String, Pair<Method>> methods = getPropertySetterGetterMethods(theClass);
-        List<FieldAccess> fields = new ArrayList<>();
-        for (Map.Entry<String, Pair<Method>> entry : methods.entrySet()) {
-              fields.add(new PropertyField(entry.getKey(), entry.getValue()));
+
+
+        List<FieldAccess> fields = allAccessorFieldsCache.get(theClass.getName()+"PROPS");
+        if (fields == null) {
+            Map<String, Pair<Method>> methods = getPropertySetterGetterMethods(theClass);
+            fields = new ArrayList<>();
+            for (Map.Entry<String, Pair<Method>> entry : methods.entrySet()) {
+                fields.add(new PropertyField(entry.getKey(), entry.getValue()));
+
+            }
+            allAccessorFieldsCache.put(theClass.getName()+"PROPS", fields);
         }
+
+
         return fields;
     }
 

@@ -3,6 +3,7 @@ package org.datarepo.impl;
 import org.datarepo.*;
 import org.datarepo.Filter;
 import org.datarepo.criteria.Expression;
+import org.datarepo.criteria.ValueSetter;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;
 

@@ -1,6 +1,7 @@
-package org.datarepo;
+package org.datarepo.criteria;
 
-import java.util.ArrayList;
+import org.datarepo.Repo;
+
 import java.util.List;
 
 import static  org.datarepo.utils.Utils.*;
