@@ -1,7 +1,6 @@
 package org.datarepo.impl;
 
 import org.datarepo.*;
-import org.datarepo.impl.*;
 
 import java.util.function.Supplier;
 
@@ -12,6 +11,9 @@ public class RepoBuilderHelper {
 
     static Supplier<RepoBuilder> repoBuilderFactory = null;
     static Supplier<SearchIndex> searchIndexFactory = null;
+    static Supplier<LookupIndex> uniqueLookupIndexFactory = null;
+    static Supplier<SearchIndex> uniqueSearchIndexFactory = null;
+
     static Supplier<LookupIndex> lookupIndexFactory = null;
     static Supplier<RepoComposer> repoFactory = null;
     static Supplier<Filter> filterFactory = null;
@@ -24,8 +26,16 @@ public class RepoBuilderHelper {
         return searchIndexFactory;
     }
 
+    public static Supplier<SearchIndex> getUniqueSearchIndexFactory() {
+        return uniqueSearchIndexFactory;
+    }
+
     public static Supplier<LookupIndex> getLookupIndexFactory() {
         return lookupIndexFactory;
+    }
+
+    public static Supplier<LookupIndex> getUniqueLookupIndexFactory() {
+        return uniqueLookupIndexFactory;
     }
 
     public static Supplier<RepoComposer> getRepoFactory() {
@@ -62,6 +72,25 @@ public class RepoBuilderHelper {
                 }
             };
         }
+        if (uniqueLookupIndexFactory ==  null) {
+            uniqueLookupIndexFactory = new Supplier<LookupIndex>() {
+                @Override
+                public LookupIndex get() {
+
+                    return new UniqueLookupIndex();
+                }
+            };
+        }
+        if (uniqueSearchIndexFactory ==  null) {
+            uniqueSearchIndexFactory = new Supplier<SearchIndex>() {
+                @Override
+                public SearchIndex get() {
+
+                    return new UniqueSearchIndex();
+                }
+            };
+        }
+
         if (repoFactory == null) {
             repoFactory = new Supplier<RepoComposer>() {
                 @Override
@@ -92,6 +121,15 @@ public class RepoBuilderHelper {
 
     public static void setLookupIndexFactory(Supplier<LookupIndex> lookupIndexFactory) {
         RepoBuilderHelper.lookupIndexFactory = lookupIndexFactory;
+    }
+
+
+    public static void setUniqueLookupIndexFactory(Supplier<LookupIndex> lookupIndexFactory) {
+        RepoBuilderHelper.uniqueLookupIndexFactory = lookupIndexFactory;
+    }
+
+    public static void setUniqueSearchIndexFactory(Supplier<SearchIndex> factory) {
+        RepoBuilderHelper.uniqueSearchIndexFactory = factory;
     }
 
     public static void setRepoFactory(Supplier<RepoComposer> repoFactory) {

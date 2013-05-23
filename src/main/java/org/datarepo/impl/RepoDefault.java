@@ -134,8 +134,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
 
-    private ITEM copy(ITEM item) {
-        return Reflection.copy(item);
+    protected ITEM copy(ITEM item) {
+        return item;
     }
 
 

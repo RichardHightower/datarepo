@@ -19,9 +19,9 @@ public class TestHelper {
             employee("Bob", "Smith", "122-222-2222", "05.29.70", 99_000),
             employee("Bob", "Smith", "222-222-2222", "05.29.70", 199_000),
             employee("Bobbzie","Smith", "422-222-2222", "05.29.70", 666_000),
-            employee("Boc", "Smith", "666-222-2222", "05.29.70", 10_000),
-            employee("Darth", "Sith", "666-222-2222", "05.29.70", 10_000),
-            employee("ZZZ", "Zmm", "777-222-2222", "05.29.70", 10_000) );
+            employee("Boc", "Smith", "1010-222-2222", "05.29.70", 10_000),
+            employee("Darth", "Sith", "1111-222-2222", "05.29.70", 10_000),
+            employee("ZZZ", "Zmm", "777-333-3333", "05.29.70", 10_000) );
 
 
     static Repo <String, Employee>  createBuilderNoReflection() {

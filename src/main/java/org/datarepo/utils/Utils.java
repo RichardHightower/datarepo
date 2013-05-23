@@ -1627,8 +1627,8 @@ public class Utils {
         throw new UnsupportedOperationException();
     }
 
-    public static void complain(String msg) {
-        throw new UnsupportedOperationException(msg);
+    public static void complain(String msg, Object... args) {
+        throw new UnsupportedOperationException(sprintf(msg, args));
     }
 
 

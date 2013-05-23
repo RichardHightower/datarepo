@@ -16,12 +16,19 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     Supplier<SearchIndex> searchIndexFactory;
     Supplier<LookupIndex> lookupIndexFactory;
+    Supplier<LookupIndex> uniqueLookupIndexFactory;
+    Supplier<SearchIndex> uniqueSearchIndexFactory;
+
+
     Supplier<RepoComposer> repoComposerFactory;
     Supplier<Filter> filterFactory;
 
     String primaryKey;
     Set<String> searchIndexes = new HashSet<>();
     Set<String> lookupIndexes = new HashSet<>();
+    Set<String> uniqueSearchIndexes = new HashSet<>();
+    Set<String> uniqueLookupIndexes = new HashSet<>();
+
     Map<String, Function> keyGetterMap = new HashMap();
 
     boolean useField = true;
@@ -43,6 +50,18 @@ public class RepoBuilderDefault implements RepoBuilder {
     @Override
     public RepoBuilder searchIndexFactory(Supplier<SearchIndex> factory) {
         this.searchIndexFactory = factory;
+        return this;
+    }
+
+    @Override
+    public RepoBuilder uniqueLookupIndexFactory(Supplier<LookupIndex> factory) {
+        this.uniqueLookupIndexFactory = factory;
+        return this;
+    }
+
+    @Override
+    public RepoBuilder uniqueSearchIndexFactory(Supplier<SearchIndex> factory) {
+        this.uniqueSearchIndexFactory = factory;
         return this;
     }
 
@@ -76,9 +95,27 @@ public class RepoBuilderDefault implements RepoBuilder {
         return this;
     }
 
+    public RepoBuilder lookupIndex(String propertyName, boolean unique) {
+        if (unique) {
+            this.lookupIndexes.add(propertyName);
+        } else {
+            this.uniqueLookupIndexes.add(propertyName);
+        }
+        return this;
+    }
+
     @Override
     public RepoBuilder searchIndex(String propertyName) {
         this.searchIndexes.add(propertyName);
+        return this;
+    }
+
+    public RepoBuilder searchIndex(String propertyName, boolean unique) {
+        if (unique) {
+            this.searchIndexes.add(propertyName);
+        } else {
+            this.uniqueSearchIndexes.add(propertyName);
+        }
         return this;
     }
 
@@ -98,6 +135,10 @@ public class RepoBuilderDefault implements RepoBuilder {
         if (this.searchIndexFactory == null) {
             this.searchIndexFactory = RepoBuilderHelper.getSearchIndexFactory();
         }
+        if (this.uniqueLookupIndexFactory == null) {
+            this.uniqueLookupIndexFactory = RepoBuilderHelper.getUniqueLookupIndexFactory();
+        }
+
         if (this.filterFactory == null) {
             this.filterFactory = RepoBuilderHelper.getFilterFactory();
         }
@@ -125,7 +166,7 @@ public class RepoBuilderDefault implements RepoBuilder {
 
 
         repo.setFields(fields);
-        configSearchIndexes(repo, fields);
+        configIndexes(repo, fields);
 
 
 
@@ -141,14 +182,34 @@ public class RepoBuilderDefault implements RepoBuilder {
         };
     }
 
-    private  void configSearchIndexes(RepoComposer repo,
-                                      Map<String,FieldAccess> fields) {
+    private  void configIndexes(RepoComposer repo,
+                                Map<String, FieldAccess> fields) {
         for (String prop : searchIndexes) {
             SearchIndex searchIndex = this.searchIndexFactory.get();
             Function kg = getKeyGetterOrCreate(fields, prop);
             searchIndex.setKeyGetter(kg);
             repo.addSearchIndex(prop, searchIndex);
         }
+        for (String prop : uniqueSearchIndexes) {
+            SearchIndex searchIndex = this.uniqueSearchIndexFactory.get();
+            Function kg = getKeyGetterOrCreate(fields, prop);
+            searchIndex.setKeyGetter(kg);
+            repo.addSearchIndex(prop, searchIndex);
+        }
+
+        for (String prop : lookupIndexes) {
+            LookupIndex index = this.lookupIndexFactory.get();
+            Function kg = getKeyGetterOrCreate(fields, prop);
+            index.setKeyGetter(kg);
+            repo.addLookupIndex(prop, index);
+        }
+        for (String prop : uniqueLookupIndexes) {
+            LookupIndex index = this.uniqueLookupIndexFactory.get();
+            Function kg = getKeyGetterOrCreate(fields, prop);
+            index.setKeyGetter(kg);
+            repo.addLookupIndex(prop, index);
+        }
+
     }
 
     private Function getKeyGetterOrCreate(Map<String, FieldAccess> fields, String prop) {
@@ -163,7 +224,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     private  void configPrimaryKey(RepoComposer repo, Map<String,FieldAccess> fields) {
-        LookupIndex primaryKeyIndex = this.lookupIndexFactory.get();
+        LookupIndex primaryKeyIndex = this.uniqueLookupIndexFactory.get();
         primaryKeyIndex.setKeyGetter(getKeyGetterOrCreate(fields, this.primaryKey));
         repo.setPrimaryKeyName(this.primaryKey);
         repo.setPrimaryKeyGetter(this.keyGetterMap.get(this.primaryKey));

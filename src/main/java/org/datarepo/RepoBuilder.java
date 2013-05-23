@@ -24,15 +24,31 @@ public interface RepoBuilder {
         RepoBuilderHelper.setLookupIndexFactory(factory);
     }
 
+    public static void setUniqueLookupIndexFactory(Supplier<LookupIndex> factory) {
+        RepoBuilderHelper.setUniqueLookupIndexFactory(factory);
+    }
+
+    public static void setUniqueSearchIndexFactory(Supplier<SearchIndex> factory) {
+        RepoBuilderHelper.setUniqueSearchIndexFactory(factory);
+    }
+
     public static void setRepoFactory(Supplier<RepoComposer> factory) {
         RepoBuilderHelper.setRepoFactory(factory);
+    }
+
+    public static void setFilterFactory(Supplier<Filter> factory) {
+        RepoBuilderHelper.setFilterFactory(factory);
     }
 
     public RepoBuilder searchIndexFactory(Supplier<SearchIndex> factory);
 
     public RepoBuilder lookupIndexFactory(Supplier<LookupIndex> factory);
 
-    public RepoBuilder repoFactory(Supplier<RepoComposer> factory);
+    public RepoBuilder uniqueLookupIndexFactory(Supplier<LookupIndex> factory);
+
+    public RepoBuilder uniqueSearchIndexFactory(Supplier<SearchIndex> factory);
+
+    public RepoBuilder repoFactory(Supplier <RepoComposer> factory);
 
     public RepoBuilder primaryKey(String propertyName);
 
