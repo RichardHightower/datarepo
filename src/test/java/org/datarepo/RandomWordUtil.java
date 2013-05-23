@@ -11,7 +11,7 @@ public class RandomWordUtil {
 
     public static void main(String[] args) {
 
-        SortedSet<String> set = generateWords();
+        SortedSet<String> set = generateWords(10_000);
 
         for (String word : set) {
             System.out.println(word);
@@ -21,10 +21,35 @@ public class RandomWordUtil {
 
     }
 
-    private static SortedSet<String> generateWords() {
-        int wordCount = 10_000;
+    public static SortedSet<String> generateWords(int wordCount) {
 
         SortedSet<String> set = new TreeSet<String>();
+        set.add("Rick");
+        set.add("Hightower");
+        set.add("Pena");
+        set.add("Carr");
+        set.add("Vipin");
+        set.add("Jeff");
+        set.add("Diana");
+        set.add("Smith");
+        set.add("Patel");
+        set.add("Whitney");
+        set.add("Maya");
+        set.add("Lucas");
+        set.add("Noah");
+        set.add("Ryan");
+        set.add("Mary");
+        set.add("Alex");
+        set.add("Richard");
+        set.add("Nick");
+        set.add("Miguel");
+        set.add("Martha");
+        set.add("Melissa");
+
+
+
+
+
 
         makeWords(set, wordCount);
 

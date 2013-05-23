@@ -457,6 +457,10 @@ public class Utils {
     public static <V> List<V> ls(@SuppressWarnings("unchecked") final V... array) {
         return list(array);
     }
+    public static <V> List<V> ls(Class<V> cls, @SuppressWarnings("unchecked") final Object... array) {
+        return list(cls, array);
+    }
+
 
     public static List<Double> dlist(final double... array) {
         List<Double> list = new ArrayList<Double>();
@@ -620,6 +624,17 @@ public class Utils {
         ArrayList<V> list = new ArrayList<V>(array.length);
         for (V o : array) {
             list.add(o);
+        }
+        return list;
+    }
+
+    public static <V> List<V> list(Class<V> cls, final Object... array) {
+        if (array == null) {
+            return null;
+        }
+        ArrayList<V> list = new ArrayList<V>(array.length);
+        for (Object o : array) {
+            list.add((V)o);
         }
         return list;
     }

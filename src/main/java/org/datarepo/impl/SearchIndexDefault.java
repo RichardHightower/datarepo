@@ -4,6 +4,7 @@ import org.datarepo.SearchIndex;
 
 import java.util.*;
 import java.util.function.Function;
+import static org.datarepo.utils.Utils.*;
 
 /**
  * Default Search Index which uses a TreeMap
@@ -35,7 +36,14 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
 
     @Override
     public List<ITEM> findEquals(KEY key) {
-        return navigableMap.get(key).getValues();
+        notNull(key, navigableMap);
+
+        MultiValue<ITEM> items = navigableMap.get(key);
+        if (items == null) {
+            return null;
+        }
+        notNull(items);
+        return items.getValues();
     }
 
     @Override

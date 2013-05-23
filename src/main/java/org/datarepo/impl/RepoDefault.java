@@ -63,6 +63,48 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
+    public void removeAll(ITEM... items) {
+        for (ITEM item : items) {
+            this.remove(item);
+        }
+    }
+
+    @Override
+    public void removeAll(Collection<ITEM> items) {
+        for (ITEM item : items) {
+            this.remove(item);
+        }
+    }
+
+    @Override
+    public void addAll(ITEM... items) {
+        for (ITEM item : items) {
+            this.add(item);
+        }
+    }
+
+    @Override
+    public void addAll(Collection<ITEM> items) {
+        for (ITEM item : items) {
+            this.add(item);
+        }
+    }
+
+    @Override
+    public void modifyAll(ITEM... items) {
+        for (ITEM item : items) {
+            this.modify(item);
+        }
+    }
+
+    @Override
+    public void modifyAll(Collection<ITEM> items) {
+        for (ITEM item : items) {
+            this.modify(item);
+        }
+    }
+
+    @Override
     public void modify(ITEM item) {
 
         notNull(item);

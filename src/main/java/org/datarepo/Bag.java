@@ -8,7 +8,9 @@ import java.util.List;
  */
 public interface Bag <ITEM> {
     void add(ITEM item);
+
     void remove(ITEM item);
+
     List<ITEM> all ();
 
 

@@ -616,6 +616,14 @@ public class Reflection {
         }
     }
 
+    public static <T> List<T> copy(Collection<T> collection) {
+        List<T> list = new ArrayList<>();
+        for (T item : collection) {
+            list.add(copy(item));
+        }
+        return list;
+    }
+
     private static <T> T fieldByFieldCopy(T item) {
         Map<String, FieldAccess> fields = getAllAccessorFields(item.getClass());
         T clone = null;

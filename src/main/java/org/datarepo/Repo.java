@@ -5,6 +5,7 @@ import org.datarepo.criteria.Expression;
 import org.datarepo.criteria.Selector;
 import org.datarepo.criteria.ValueSetter;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,16 @@ import java.util.Map;
 public interface Repo <KEY, ITEM> extends Bag <ITEM>{
 
     ITEM get(KEY key);
+
+    //Maybe these belong on the Bag interface, but I don't feel like adding them to the index classes yet
+    void removeAll(ITEM... items);
+    void removeAll(Collection<ITEM> items);
+    void addAll(ITEM... items);
+    void addAll(Collection<ITEM> items);
+    void modifyAll(ITEM... items);
+    void modifyAll(Collection<ITEM> items);
+
+
 
     void modify(ITEM item);
     void modify(ITEM item, String property, Object value);
