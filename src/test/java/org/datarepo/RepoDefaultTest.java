@@ -267,6 +267,9 @@ public class RepoDefaultTest {
 
         print("list", list);
 
+        assertEquals("2tag1", idx(list.get(0).get("tags.metas.metas2.name2"), 0));
+
+
     }
 
     @Test
@@ -361,6 +364,9 @@ public class RepoDefaultTest {
                 eq("lastName", "Hightower"));
 
         print("list", list);
+
+        assertEquals("3tag1", idx(list.get(0).get("tags.metas.metas2.metas3.name3"), 0));
+
 
     }
 

@@ -331,3 +331,86 @@ Yields:
 {class=org.datarepo.Department, name=engineering}
 
 This can be useful for debugging and ad hoc queries for tooling.
+
+
+Added the ability to query collection properties.
+This should work with collections and arrays as deeply nested as you like.
+```
+        List <Map<String, Object>> list = repo.query(
+                selects(select("tags", "metas", "metas2", "metas3", "name3")),
+                eq("lastName", "Hightower"));
+
+        print("list", list);
+
+        assertEquals("3tag1", idx(list.get(0).get("tags.metas.metas2.metas3.name3"), 0));
+
+```
+
+The print out of the above looks like this:
+
+```
+list [{tags.metas.metas2.metas3.name3=[3tag1, 3tag2, 3tag3,
+3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3,
+3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3,
+3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3,
+3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3,
+3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3,
+3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3,
+3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3,
+3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3,
+3tag1, 3tag2, 3tag3, 3tag1, 3tag2, 3tag3]},
+...
+```
+
+I created several relationship classes to test this:
+
+```
+public class Employee {
+    List <Tag> tags = new ArrayList<>();
+    {
+        tags.add(new Tag("tag1"));
+        tags.add(new Tag("tag2"));
+        tags.add(new Tag("tag3"));
+
+    }
+...
+public class Tag {
+...
+    List<Meta> metas = new ArrayList<>();
+    {
+        metas.add(new Meta("mtag1"));
+        metas.add(new Meta("mtag2"));
+        metas.add(new Meta("mtag3"));
+
+    }
+
+}
+public class Meta {
+...
+       List<Meta2> metas2 = new ArrayList<>();
+       {
+           metas2.add(new Meta2("2tag1"));
+           metas2.add(new Meta2("2tag2"));
+           metas2.add(new Meta2("2tag3"));
+
+       }
+
+   }
+
+...
+public class Meta2 {
+
+
+
+    List<Meta3> metas3 = new ArrayList<>();
+    {
+        metas3.add(new Meta3("3tag1"));
+        metas3.add(new Meta3("3tag2"));
+        metas3.add(new Meta3("3tag3"));
+
+    }
+public class Meta3 {
+
+...
+
+```
