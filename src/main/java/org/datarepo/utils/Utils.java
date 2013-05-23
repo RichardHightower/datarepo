@@ -3,6 +3,7 @@ package org.datarepo.utils;
 import org.datarepo.reflection.Reflection;
 import org.datarepo.reflection.Types;
 
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,19 +11,6 @@ import java.util.logging.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.Date;
 
 public class Utils {
     static Class<Utils> utils = Utils.class;
@@ -663,7 +651,7 @@ public class Utils {
     }
 
     public static <K, V> Map<K, V> copy(final Map<K, V> map) {
-        return new HashMap<K, V>(map);
+        return new LinkedHashMap<K, V>(map);
     }
 
     public static <V> List<V> copy(final List<V> col) {
@@ -734,25 +722,25 @@ public class Utils {
     }
 
     public static <K, V> Map<K, V> mp(K k0, V v0) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         map.put(k0, v0);
         return map;
     }
 
     public static <K, V> Map<K, V> mp(Class<K> key, Class<V> v) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         return map;
     }
 
     public static <K, V> Map<K, V> mp(K k0, V v0, K k1, V v1) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         map.put(k0, v0);
         map.put(k1, v1);
         return map;
     }
 
     public static <K, V> Map<K, V> mp(K k0, V v0, K k1, V v1, K k2, V v2) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         map.put(k0, v0);
         map.put(k1, v1);
         map.put(k2, v2);
@@ -761,7 +749,7 @@ public class Utils {
 
     public static <K, V> Map<K, V> mp(K k0, V v0, K k1, V v1, K k2, V v2, K k3,
                                       V v3) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         map.put(k0, v0);
         map.put(k1, v1);
         map.put(k2, v2);
@@ -771,7 +759,7 @@ public class Utils {
 
     public static <K, V> Map<K, V> mp(K k0, V v0, K k1, V v1, K k2, V v2, K k3,
                                       V v3, K k4, V v4) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         map.put(k0, v0);
         map.put(k1, v1);
         map.put(k2, v2);
@@ -782,7 +770,7 @@ public class Utils {
 
     public static <K, V> Map<K, V> mp(K k0, V v0, K k1, V v1, K k2, V v2, K k3,
                                       V v3, K k4, V v4, K k5, V v5) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         map.put(k0, v0);
         map.put(k1, v1);
         map.put(k2, v2);
@@ -794,7 +782,7 @@ public class Utils {
 
     public static <K, V> Map<K, V> mp(K k0, V v0, K k1, V v1, K k2, V v2, K k3,
                                       V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         map.put(k0, v0);
         map.put(k1, v1);
         map.put(k2, v2);
@@ -807,7 +795,7 @@ public class Utils {
 
     public static <K, V> Map<K, V> mp(K k0, V v0, K k1, V v1, K k2, V v2, K k3,
                                       V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         map.put(k0, v0);
         map.put(k1, v1);
         map.put(k2, v2);
@@ -821,7 +809,7 @@ public class Utils {
 
     public static <K, V> Map<K, V> mp(K k0, V v0, K k1, V v1, K k2, V v2, K k3,
                                       V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         map.put(k0, v0);
         map.put(k1, v1);
         map.put(k2, v2);
@@ -837,7 +825,7 @@ public class Utils {
     public static <K, V> Map<K, V> mp(K k0, V v0, K k1, V v1, K k2, V v2, K k3,
                                       V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8,
                                       K k9, V v9) {
-        HashMap<K, V> map = new HashMap<K, V>(10);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10);
         map.put(k0, v0);
         map.put(k1, v1);
         map.put(k2, v2);
@@ -855,7 +843,7 @@ public class Utils {
     public static <K, V> Map<K, V> mp(K k0, V v0, K k1, V v1, K k2, V v2, K k3,
                                       V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8,
                                       K k9, V v9, Entry<K, V>... entries) {
-        HashMap<K, V> map = new HashMap<K, V>(10 + entries.length);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10 + entries.length);
         map.put(k0, v0);
         map.put(k1, v1);
         map.put(k2, v2);
@@ -873,7 +861,7 @@ public class Utils {
     }
 
     public static <K, V> Map<K, V> mp(Collection<K> keys, Collection<V> values) {
-        HashMap<K, V> map = new HashMap<K, V>(10 + keys.size());
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10 + keys.size());
         Iterator<V> iterator = values.iterator();
         for (K k : keys) {
             if (iterator.hasNext()) {
@@ -887,7 +875,7 @@ public class Utils {
     }
 
     public static <V> Map<String, V> mp(String propertyKey, Collection<V> values) {
-        HashMap<String, V> map = new HashMap<String, V>(values.size());
+        LinkedHashMap<String, V> map = new LinkedHashMap<String, V>(values.size());
         Iterator<V> iterator = values.iterator();
         for (V v : values) {
             String key = Reflection.getProperty(string, v, propertyKey);
@@ -897,7 +885,7 @@ public class Utils {
     }
 
     public static <K, V> Map<K, V> mp(K[] keys, V[] values) {
-        HashMap<K, V> map = new HashMap<K, V>(10 + keys.length);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(10 + keys.length);
         int index = 0;
         for (K k : keys) {
             if (index < keys.length) {
@@ -913,7 +901,7 @@ public class Utils {
 
     @SafeVarargs
     public static <K, V> Map<K, V> mp(Entry<K, V>... entries) {
-        HashMap<K, V> map = new HashMap<K, V>(entries.length);
+        LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(entries.length);
         for (Entry<K, V> entry : entries) {
             map.put(entry.key(), entry.value());
         }

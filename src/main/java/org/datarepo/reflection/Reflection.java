@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.info;
 import static org.datarepo.utils.Utils.slc;
 
 public class Reflection {
@@ -105,47 +106,41 @@ public class Reflection {
         if (object == null) {
             return null;
         }
-        object.getClass().getDeclaredMethods();
-        Class<? extends Object> clz = object.getClass();
-        outer: while (clz != Object.class) {
-            Method[] methods = clz.getDeclaredMethods();
-            for (Method method : methods) {
-                method.setAccessible(true);
-                if (method.getParameterTypes().length == 0
-                        && method.getName().toLowerCase()
-                        .endsWith(key.toLowerCase())
-                        && (method.getName().startsWith("is")
-                        || method.getName().startsWith("get") || method
-                        .getName().length() == key.length())) {
-                    try {
-                        object = method.invoke(object, (Object[]) null);
-                        break outer;
-                    } catch (Exception ex) {
-                        continue;
-                    }
-                }
-            }
-            Field[] declaredFields = clz.getDeclaredFields();
-            for (Field field : declaredFields) {
-                field.setAccessible(true);
-                if (field.getName().equals(key)) {
-                    try {
-                        object = field.get(object);
-                        break outer;
-                    } catch (Exception ex) {
-                        break;
-                    }
-                }
-            }
 
-            clz = clz.getSuperclass();
+        Class<?> cls = object.getClass();
+
+        Map<String, FieldAccess> fields = getPropertyFieldAccessors(cls);
+
+        if (!fields.containsKey(key)) {
+            fields = getAllAccessorFields(cls);
         }
-        return object;
+
+        if (!fields.containsKey(key)) {
+            return null;
+        } else {
+            return fields.get(key).getValue(object);
+        }
 
     }
 
+    public static Object getField(Object object, final String key) {
+        if (object == null) {
+            return null;
+        }
+
+        Class<?> cls = object.getClass();
+
+        Map<String, FieldAccess> fields = getPropertyFieldAccessors(cls);
+
+        if (!fields.containsKey(key)) {
+            return null;
+        } else {
+            return fields.get(key).getValue(object);
+        }
+    }
 
     private static boolean _useUnsafe;
+
     static {
         try {
             Class.forName("sun.misc.Unsafe");
@@ -163,45 +158,58 @@ public class Reflection {
     @SuppressWarnings("unchecked")
     public static <T> T fromMap(Map<String, Object> map, Class<T> clazz) {
 
-        if (map.get("class")==null) {
+        if (map.get("class") == null) {
             map.put("class", clazz.getName());
         }
         return (T) fromMap(map);
     }
 
-    @SuppressWarnings("unchecked")
-    public static Object fromMap(Map<String, Object> map) {
-        String className = (String) map.get("class");
-        Object newInstance = null;
+
+    public static Object newInstance(String className) {
         Class<?> clazz = null;
 
         try {
             clazz = Class.forName(className);
+            return newInstance(clazz);
+        } catch (Exception ex) {
+            info("Unable to create this class %s", className);
+            return null;
+        }
+    }
+
+    public static <T> T newInstance(Class<T> clazz) {
+        T newInstance = null;
+
+        try {
+
             newInstance = clazz.newInstance();
         } catch (Exception ex) {
+            handle(ex);
+        }
+
+        return newInstance;
+
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public static Object fromMap(Map<String, Object> map) {
+        String className = (String) map.get("class");
+        Object newInstance = newInstance(className);
+        if (newInstance == null) {
             info("we were not able to load the class so we are leaving this as a map");
             return map;
         }
 
-        List<FieldAccess> fields = getAllAccessorFields(clazz);
+        Collection<FieldAccess> fields = getAllAccessorFields(newInstance.getClass()).values();
 
         for (FieldAccess field : fields) {
             String name = field.getName();
             Object value = map.get(name);
             if (value instanceof Map && Types.getKeyType((Map<?, ?>) value) == string) {
                 value = fromMap((Map<String, Object>) value);
-            } else if (value instanceof Collection) {
-                Class<?> componentType = getComponentType((Collection<?>) value);
-                if (Types.isMap(componentType)) {
-                    handleCollectionOfMaps(newInstance, field,
-                            (Collection<Map<?, ?>>) value);
-                    continue;
-                }
-            } else if (value instanceof Map[]) {
-                Map<?,?> [] maps = (Map<?,?>[]) value;
-                List<Map<?,?>> list = Arrays.asList(maps);
-                handleCollectionOfMaps(newInstance, field,
-                        list);
+            } else if (value instanceof Collection || value instanceof Map[]) {
+                listOfMaps(newInstance, field, value);
                 continue;
             }
 
@@ -211,6 +219,21 @@ public class Reflection {
         }
 
         return newInstance;
+    }
+
+    private static void listOfMaps(Object newInstance, FieldAccess field, Object value) {
+        if (value instanceof Collection) {
+            Class<?> componentType = getComponentType((Collection<?>) value);
+            if (Types.isMap(componentType)) {
+                handleCollectionOfMaps(newInstance, field,
+                        (Collection<Map<?, ?>>) value);
+            }
+        } else if (value instanceof Map[]) {
+            Map<?, ?>[] maps = (Map<?, ?>[]) value;
+            List<Map<?, ?>> list = Arrays.asList(maps);
+            handleCollectionOfMaps(newInstance, field,
+                    list);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -237,7 +260,7 @@ public class Reflection {
                         target = value2;
                     }
                 }
-                if (target==null) {
+                if (target == null) {
                     target = (Collection<Object>) createCollection(type, value.size());
                 }
             }
@@ -268,13 +291,13 @@ public class Reflection {
     }
 
     public static Collection<Object> createCollection(Class<?> type, int size) {
-        if (type==List.class) {
+        if (type == List.class) {
             return new ArrayList<Object>(size);
         } else if (type == SortedSet.class) {
             return new TreeSet<Object>();
         } else if (type == Set.class) {
             return new HashSet<Object>(size);
-        } else if (type==Queue.class) {
+        } else if (type == Queue.class) {
             return new LinkedList<Object>();
         } else {
             return new ArrayList<Object>(size);
@@ -283,11 +306,11 @@ public class Reflection {
 
     public static Map<String, Object> toMap(final Object object) {
 
-        if (object==null) {
+        if (object == null) {
             return null;
         }
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new LinkedHashMap<>();
 
 
         class FieldToEntryConverter implements
@@ -302,14 +325,15 @@ public class Reflection {
                 return entry;
             }
         }
-        List<FieldAccess> fields = getAllAccessorFields(object.getClass());
-        fields = new ArrayList<>(fields);
+        List<FieldAccess> fields = new ArrayList(getAllAccessorFields(object.getClass()).values());
+
+
         Collections.reverse(fields); // make super classes fields first that
         // their values get overriden by
         // subclass fields with the same name
 
         List<Entry<String, Object>> entries = mapFilterNulls(
-                new FieldToEntryConverter(), fields);
+                new FieldToEntryConverter(), new ArrayList(fields));
 
         map.put("class", object.getClass().getName());
 
@@ -340,7 +364,7 @@ public class Reflection {
                     List<Map<String, Object>> list = new ArrayList<>(
                             collection.size());
                     for (Object item : collection) {
-                        if (item!=null) {
+                        if (item != null) {
                             list.add(toMap(item));
                         } else {
 
@@ -369,9 +393,11 @@ public class Reflection {
     private static class FieldConverter implements Converter<FieldAccess, Field> {
 
         boolean thisUseUnsafe;
+
         FieldConverter(boolean useUnsafe) {
-             this.thisUseUnsafe = useUnsafe;
+            this.thisUseUnsafe = useUnsafe;
         }
+
         @Override
         public FieldAccess convert(Field from) {
             if (useUnsafe && thisUseUnsafe) {
@@ -382,22 +408,23 @@ public class Reflection {
         }
     }
 
-    static Map<String, List<FieldAccess>> allAccessorFieldsCache = new ConcurrentHashMap<>();
+    static Map<String, Map<String, FieldAccess>> allAccessorFieldsCache = new ConcurrentHashMap<>();
 
-    public static List<FieldAccess> getAllAccessorFields(
+    public static Map<String, FieldAccess> getAllAccessorFields(
             Class<? extends Object> theClass) {
         return getAllAccessorFields(theClass, false);
     }
 
-    public static List<FieldAccess> getAllAccessorFields(
+    public static Map<String, FieldAccess> getAllAccessorFields(
             Class<? extends Object> theClass, boolean useUnsafe) {
-        List<FieldAccess> list = allAccessorFieldsCache.get(theClass.getName()+useUnsafe);
-        if (list == null) {
-            list = map(new FieldConverter(useUnsafe), getAllFields(theClass));
-        } else {
-            allAccessorFieldsCache.put(theClass.getName()+useUnsafe, list);
+        Map<String, FieldAccess> map = allAccessorFieldsCache.get(theClass.getName() + useUnsafe);
+        if (map == null) {
+            List<FieldAccess> list = map(new FieldConverter(useUnsafe), getAllFields(theClass));
+            map = mp("name", list);
+            allAccessorFieldsCache.put(theClass.getName() + useUnsafe, map);
+
         }
-        return list;
+        return map;
     }
 
     public static List<Field> getAllFields(Class<? extends Object> theClass) {
@@ -409,19 +436,19 @@ public class Reflection {
         return list;
     }
 
-    public static List<FieldAccess> getPropertyFieldAccessors(
+    public static Map<String, FieldAccess> getPropertyFieldAccessors(
             Class<? extends Object> theClass) {
 
 
-        List<FieldAccess> fields = allAccessorFieldsCache.get(theClass.getName()+"PROPS");
+        Map<String, FieldAccess> fields = allAccessorFieldsCache.get(theClass.getName() + "PROPS");
         if (fields == null) {
             Map<String, Pair<Method>> methods = getPropertySetterGetterMethods(theClass);
-            fields = new ArrayList<>();
+            fields = new LinkedHashMap<>();
             for (Map.Entry<String, Pair<Method>> entry : methods.entrySet()) {
-                fields.add(new PropertyField(entry.getKey(), entry.getValue()));
+                fields.put(entry.getKey(), new PropertyField(entry.getKey(), entry.getValue()));
 
             }
-            allAccessorFieldsCache.put(theClass.getName()+"PROPS", fields);
+            allAccessorFieldsCache.put(theClass.getName() + "PROPS", fields);
         }
 
 
@@ -463,7 +490,6 @@ public class Reflection {
         List<Method> methodList = new ArrayList<>(methods.length);
 
 
-
         for (int index = 0; index < methods.length; index++) {
             Method method = methods[index];
             String name = method.getName();
@@ -472,7 +498,7 @@ public class Reflection {
 
             if (!staticFlag && method.getParameterTypes().length == 1
                     && method.getReturnType() == Void.class
-                     && name.startsWith("set")) {
+                    && name.startsWith("set")) {
                 methodList.add(method);
             }
 
@@ -485,7 +511,7 @@ public class Reflection {
 
         Method[] methods = theClass.getMethods();
 
-        Map<String, Pair<Method>> methodMap = new HashMap<>(methods.length);
+        Map<String, Pair<Method>> methodMap = new LinkedHashMap<>(methods.length);
         List<Method> getterMethodList = new ArrayList<>(methods.length);
 
         for (int index = 0; index < methods.length; index++) {
@@ -517,7 +543,7 @@ public class Reflection {
             String propertyName = null;
             if (name.startsWith("is")) {
                 propertyName = slc(name, 2);
-            } else if (name.startsWith("get"))  {
+            } else if (name.startsWith("get")) {
                 propertyName = slc(name, 3);
             }
 
@@ -548,7 +574,7 @@ public class Reflection {
         return list;
     }
 
-    public static <T> T copy (T item)  {
+    public static <T> T copy(T item) {
         if (item instanceof Cloneable) {
             try {
                 Method method = item.getClass().getMethod("clone", null);
@@ -562,18 +588,18 @@ public class Reflection {
     }
 
     private static <T> T fieldByFieldCopy(T item) {
-        List<FieldAccess> fields = getAllAccessorFields(item.getClass());
+        Map<String, FieldAccess> fields = getAllAccessorFields(item.getClass());
         T clone = null;
         try {
-            clone = (T)item.getClass().newInstance();
+            clone = (T) item.getClass().newInstance();
         } catch (Exception e) {
             handle(e);
         }
-        for (FieldAccess field : fields) {
-               if (field.isStatic() || field.isFinal() || field.isReadOnly()) {
-                    continue;
-               }
-               field.setValue(clone, field.getValue(item));
+        for (FieldAccess field : fields.values()) {
+            if (field.isStatic() || field.isFinal() || field.isReadOnly()) {
+                continue;
+            }
+            field.setValue(clone, field.getValue(item));
         }
         return clone;
     }

@@ -153,10 +153,10 @@ public class RepoBuilderDefault implements RepoBuilder {
         Map<String,FieldAccess> fields = null;
 
         if (useField) {
-            fields = Utils.mp("name", Reflection.getAllAccessorFields(clazz, useUnSafe));
+            fields = Reflection.getAllAccessorFields(clazz, useUnSafe);
 
         } else {
-            fields = Utils.mp("name", Reflection.getPropertyFieldAccessors(clazz));
+            fields = Reflection.getPropertyFieldAccessors(clazz);
         }
 
         configPrimaryKey(repo, fields);
