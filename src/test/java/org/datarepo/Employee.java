@@ -14,6 +14,13 @@ public class Employee {
     int salary;
     Department department = new Department();
     long empNum;
+    List <Tag> tags = new ArrayList<>();
+    {
+        tags.add(new Tag("tag1"));
+        tags.add(new Tag("tag2"));
+        tags.add(new Tag("tag3"));
+
+    }
     public static long num = System.currentTimeMillis();
 
     {

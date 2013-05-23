@@ -69,25 +69,24 @@ public class Utils {
     public final static String quote = "\"";
 
     public static String quote(String str) {
-        return quote+str+quote;
+        return quote + str + quote;
     }
 
     public final static String singleQuote = "'";
 
     public static String singleQuote(String str) {
-        return singleQuote+str+singleQuote;
+        return singleQuote + str + singleQuote;
     }
 
     public final static String comma = ",";
 
     public final static String comma(String str) {
-        return str+comma;
+        return str + comma;
     }
 
     static {
         debug = sbprop(pkey(Utils.class, "debug"));
     }
-
 
 
     public static String pkey(Class<?> cls, String key) {
@@ -107,22 +106,24 @@ public class Utils {
     }
 
     public static void print(String... items) {
-        if (items!=null && items.length==1) {
+        if (items != null && items.length == 1) {
             System.out.println(items[0]);
         } else {
-            print ((Object[] )items);
+            print((Object[]) items);
         }
     }
+
     public static void print(Object... items) {
         System.out.println(sprint(items));
     }
+
     public static void fprint(Logger log, Object... items) {
         log.info(sprint(items));
     }
+
     public static void fprint(Appendable appendable, Object... items) {
         add(appendable, sprint(items) + "\n");
     }
-
 
 
     public static interface Enumerate<T> {
@@ -137,19 +138,21 @@ public class Utils {
         }
 
     }
+
     public static PrintEnumerate printEnum = new PrintEnumerate();
 
     public static String sprint(String... items) {
-        return sprint((Object [])items);
+        return sprint((Object[]) items);
     }
+
     public static String sprint(Object... items) {
         if (items == null) {
             return "";
         }
         StringBuilder builder = new StringBuilder(256);
         for (Object item : items) {
-            if ( item!=null && isArray(item)) {
-                builder.append(ls((Object[])item));
+            if (item != null && isArray(item)) {
+                builder.append(ls((Object[]) item));
             } else {
                 builder.append(item);
             }
@@ -276,7 +279,7 @@ public class Utils {
     }
 
     public static void config(Logger log, Throwable ex, String fmt,
-                             Object... args) {
+                              Object... args) {
         if (debug) {
             printf(fmt, args);
             return;
@@ -534,6 +537,7 @@ public class Utils {
         return System.identityHashCode(left) == System.identityHashCode(right);
 
     }
+
     public static boolean isEqual(Object left, Object right) {
         if (left == null && right == null) {
             return true;
@@ -547,13 +551,14 @@ public class Utils {
         return left.equals(right);
 
     }
+
     public static boolean isEqual(List<?> left, List<?> right) {
         if (left.size() != right.size()) {
             return false;
         }
         int index = 0;
         for (Object it : left) {
-            if(!isEqual(it, right.get(index))){
+            if (!isEqual(it, right.get(index))) {
                 return false;
             }
             index++;
@@ -607,12 +612,9 @@ public class Utils {
     }
 
 
-
-
-
     @SafeVarargs
     public static <V> List<V> list(final V... array) {
-        if (array==null) {
+        if (array == null) {
             return null;
         }
         ArrayList<V> list = new ArrayList<V>(array.length);
@@ -909,12 +911,9 @@ public class Utils {
     }
 
 
-
     public interface Filter<T> {
         boolean filter(T x);
     }
-
-
 
 
     public interface Converter<TO, FROM> {
@@ -941,7 +940,7 @@ public class Utils {
 
         for (FROM from : fromList) {
             TO converted = converter.convert(from);
-            if (converted!=null) {
+            if (converted != null) {
                 toList.add(converted);
             }
         }
@@ -955,17 +954,17 @@ public class Utils {
     }
 
     public static String lines(String... lines) {
-        return joinBy('\n',  lines);
+        return joinBy('\n', lines);
     }
 
     public static String joinByString(String delim, Object[] args) {
         StringBuilder builder = new StringBuilder(256);
-        int index=0;
+        int index = 0;
 
         for (Object arg : args) {
             builder.append(str(arg));
             builder.append(delim);
-            if (!(index==args.length-1)){
+            if (!(index == args.length - 1)) {
                 builder.append(delim);
             }
             index++;
@@ -974,26 +973,27 @@ public class Utils {
     }
 
     public static String joinBy(char delim, String... args) {
-        return joinBy(delim, (Object[])args);
+        return joinBy(delim, (Object[]) args);
     }
+
     public static String joinBy(char delim, Object... args) {
         StringBuilder builder = new StringBuilder(256);
 
-        if (args.length==1 && isArray(args[0])) {
+        if (args.length == 1 && isArray(args[0])) {
             Object array = args[0];
             for (int index = 0; index < len(array); index++) {
                 Object obj = Reflection.idx(array, index);
                 builder.append(obj.toString());
-                if (!(index==args.length-1)){
+                if (!(index == args.length - 1)) {
                     builder.append(delim);
                 }
 
             }
-        } else  {
-            int index=0;
+        } else {
+            int index = 0;
             for (Object arg : args) {
                 builder.append(arg.toString());
-                if (!(index==args.length-1)){
+                if (!(index == args.length - 1)) {
                     builder.append(delim);
                 }
                 index++;
@@ -1003,13 +1003,15 @@ public class Utils {
     }
 
     public static String join(char delim, Integer... args) {
-        return joinBy(delim, (Object[])args);
+        return joinBy(delim, (Object[]) args);
     }
+
     public static String join(Integer... args) {
-        return joinByString("", (Object[])args);
+        return joinByString("", (Object[]) args);
     }
+
     public static String join(String... args) {
-        return joinByString("", (Object[])args);
+        return joinByString("", (Object[]) args);
     }
 
     public static String join(Collection<?> args) {
@@ -1024,11 +1026,11 @@ public class Utils {
     public static String join(char delim, Collection<?> args) {
         StringBuilder builder = new StringBuilder(256);
 
-        int index=0;
+        int index = 0;
         for (Object arg : args) {
             builder.append(arg.toString());
             builder.append(delim);
-            if (!(index==args.size()-1)){
+            if (!(index == args.size() - 1)) {
                 builder.append(delim);
             }
             index++;
@@ -1036,13 +1038,14 @@ public class Utils {
         }
         return builder.toString();
     }
+
     public static String join(String delim, Collection<?> args) {
         StringBuilder builder = new StringBuilder(256);
-        int index=0;
+        int index = 0;
         for (Object arg : args) {
             builder.append(arg.toString());
             builder.append(delim);
-            if (!(index==args.size()-1)){
+            if (!(index == args.size() - 1)) {
                 builder.append(delim);
             }
             index++;
@@ -1261,7 +1264,7 @@ public class Utils {
     }
 
     public static void expect(double d1, double d2, double value) {
-        if (value>d1 && value < d2) {
+        if (value > d1 && value < d2) {
 
         } else {
             throw new AssertionException(sprintf(
@@ -1269,6 +1272,7 @@ public class Utils {
 
         }
     }
+
     public static <T> void expect(T ex, T v) {
         if (ex == null && v == null) {
             return;
@@ -1285,6 +1289,7 @@ public class Utils {
         }
 
     }
+
     public static void expect(boolean test) {
         if (!test) {
             throw new AssertionException(sprintf(
@@ -1353,12 +1358,14 @@ public class Utils {
 
     public static String[] split(String str, char c) {
         char[] array = str.toCharArray();
-        String[] strings = split(array,c);
+        String[] strings = split(array, c);
         return strings;
     }
+
     public static String repr(char c) {
         return "'" + c + "'";
     }
+
     public static String[] toLines(final char[] buffer) {
         List<String> list = new ArrayList<String>(100);
         StringBuilder builder = new StringBuilder(256);
@@ -1420,10 +1427,11 @@ public class Utils {
         return list.toArray(new String[list.size()]);
     }
 
-    public static String trim (String str) {
+    public static String trim(String str) {
         return str.trim();
     }
-   public static String[] toLines(String str) {
+
+    public static String[] toLines(String str) {
         return toLines(str.toCharArray());
     }
 
@@ -1443,11 +1451,11 @@ public class Utils {
 
     public static char[] chars(Object obj) {
         if (obj instanceof String) {
-            return chars((String)obj);
+            return chars((String) obj);
         } else if (obj instanceof StringBuilder) {
-            return chars((StringBuilder)obj);
-        } else if (obj instanceof CharSequence){
-            return chars((CharSequence)obj);
+            return chars((StringBuilder) obj);
+        } else if (obj instanceof CharSequence) {
+            return chars((CharSequence) obj);
         } else {
             return chars(obj.toString());
         }
@@ -1473,7 +1481,7 @@ public class Utils {
     public static char[] chars(StringBuilder str) {
         if (str != null) {
             final int length = str.length();
-            char [] chars = new char[length];
+            char[] chars = new char[length];
             str.getChars(0, length, chars, length);
             return chars;
         } else {
@@ -1524,7 +1532,7 @@ public class Utils {
         return false;
     }
 
-    public static <T> boolean isIn(T t1, Set <T> set) {
+    public static <T> boolean isIn(T t1, Set<T> set) {
         return set.contains(t1);
     }
 
@@ -1558,6 +1566,7 @@ public class Utils {
     public static <T> List<T> ls(Class<T> t) {
         return new ArrayList<T>();
     }
+
     public static List<Character> ls(char... chars) {
         List<Character> ls = new ArrayList<Character>();
         for (char c : chars) {
@@ -1570,6 +1579,7 @@ public class Utils {
         return log.isLoggable(Level.FINE);
 
     }
+
     @SafeVarargs
     public static <T> void notNull(T... objects) {
         if (objects == null) {
@@ -1594,9 +1604,9 @@ public class Utils {
     }
 
 
-    public static double sum(double...items) {
+    public static double sum(double... items) {
         double total = 0d;
-        for (int index=0 ; index < items.length; index++){
+        for (int index = 0; index < items.length; index++) {
             total += items[index];
         }
         return total;
@@ -1611,42 +1621,52 @@ public class Utils {
     public static int len(Object[] obj) {
         return obj.length;
     }
-    public static int len (Map<?, ?> map) {
+
+    public static int len(Map<?, ?> map) {
         return map.size();
     }
+
     public static int len(double[] v) {
         return v.length;
     }
+
     public static int len(long[] v) {
         return v.length;
     }
+
     public static int len(float[] v) {
         return v.length;
     }
+
     public static int len(int[] v) {
         return v.length;
     }
+
     public static int len(short[] v) {
         return v.length;
     }
+
     public static int len(byte[] v) {
         return v.length;
     }
+
     public static int len(char[] v) {
         return v.length;
     }
+
     public static int len(CharSequence cs) {
         return cs.length();
     }
+
     public static int len(Object obj) {
         if (isArray(obj)) {
             return arrayLength(obj);
         } else if (obj instanceof CharSequence) {
-            return ((CharSequence)obj).length();
-        }else if (obj instanceof Collection) {
-            return ((Collection<?>)obj).size();
-        }else if (obj instanceof Map) {
-            return ((Map<?,?>)obj).size();
+            return ((CharSequence) obj).length();
+        } else if (obj instanceof Collection) {
+            return ((Collection<?>) obj).size();
+        } else if (obj instanceof Map) {
+            return ((Map<?, ?>) obj).size();
         } else {
             throw new AssertionException("Not an array like object");
         }
@@ -1674,19 +1694,19 @@ public class Utils {
     }
 
 
-    @SuppressWarnings({"rawtypes" })
+    @SuppressWarnings({"rawtypes"})
     public static <T> T get(Class<T> clz, Object map, Object key) {
         if (map instanceof Map) {
-            return get(clz, (Map)map, key);
+            return get(clz, (Map) map, key);
         } else {
             return null;
         }
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static <T> T get(Class<T> clz, Map map, Object key) {
-        Object value =  map.get(key.toString());
-        if (value==null) {
+        Object value = map.get(key.toString());
+        if (value == null) {
             return (T) value;
         }
         if (value.getClass() != clz) {
@@ -1700,29 +1720,30 @@ public class Utils {
     public static String trimStart(String arg, String delim) {
         if (arg.startsWith(delim)) {
             return arg.substring(delim.length(), arg.length());
-        }else {
+        } else {
             return arg;
         }
     }
 
 
-    public static Appendable buf () {
+    public static Appendable buf() {
         return new StringBuilder();
     }
-    public static Appendable buf (int capacity) {
+
+    public static Appendable buf(int capacity) {
         return new StringBuilder(capacity);
     }
 
-    public static String upper (String str) {
+    public static String upper(String str) {
         return str.toUpperCase();
     }
 
-    public static String lower (String str) {
+    public static String lower(String str) {
         return str.toLowerCase();
     }
 
 
-    public static void add (Appendable buf, CharSequence... cs) {
+    public static void add(Appendable buf, CharSequence... cs) {
         try {
             for (CharSequence c : cs) {
                 buf.append(c);
@@ -1731,14 +1752,16 @@ public class Utils {
             handle(e);
         }
     }
-    public static void add (Appendable buf, char c) {
+
+    public static void add(Appendable buf, char c) {
         try {
             buf.append(c);
         } catch (IOException e) {
             handle(e);
         }
     }
-    public static <T> void add (List<T> list, T o) {
+
+    public static <T> void add(List<T> list, T o) {
         list.add(o);
     }
 
@@ -1778,7 +1801,7 @@ public class Utils {
             this.first = f;
             this.second = s;
             both[0] = f;
-            both [1] = s;
+            both[1] = s;
         }
 
 
@@ -1803,7 +1826,7 @@ public class Utils {
 
         public void setSecond(T second) {
             this.second = second;
-            both [1] = second;
+            both[1] = second;
 
         }
 
@@ -1815,9 +1838,60 @@ public class Utils {
         }
 
 
-
     }
 
 
+    public static Iterator iterator(final Object o) {
+        if (o instanceof Collection) {
+            return ((Collection) o).iterator();
+        } else if (isArray(o)) {
+            return new Iterator() {
+                int index = 0;
+                int length = len(o);
+
+                @Override
+                public boolean hasNext() {
+                    return index < length;
+                }
+
+                @Override
+                public Object next() {
+                    Object value = Reflection.idx(o, index);
+                    index++;
+                    return value;
+                }
+
+                @Override
+                public void remove() {
+                }
+            };
+        }
+        return null;
+    }
+
+    public static Object unifyList(Object o) {
+        return unifyList(o, null);
+    }
+
+    public static Object unifyList(Object o, List list) {
+        if (list == null) {
+            list = new ArrayList(400);
+        }
+        if (isArray(o)) {
+            int length = len(o);
+            for (int index = 0; index < length; index++) {
+                unifyList(Reflection.idx(o, index), list);
+            }
+        } else if (o instanceof Iterable) {
+            Iterable i = ((Iterable) o);
+            for (Object item : i) {
+                unifyList(item, list);
+            }
+        } else {
+            list.add(o);
+        }
+        return list;
+
+    }
 
 }

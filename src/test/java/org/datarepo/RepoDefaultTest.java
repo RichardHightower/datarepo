@@ -1,5 +1,6 @@
 package org.datarepo;
 
+import org.datarepo.reflection.Reflection;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -13,6 +14,8 @@ import static org.datarepo.criteria.Criteria.*;
 import static org.datarepo.criteria.ValueSetter.*;
 import static org.datarepo.criteria.Selector.*;
 
+import static org.datarepo.utils.Utils.*;
+import static org.datarepo.reflection.Reflection.*;
 
 public class RepoDefaultTest {
 
@@ -217,6 +220,56 @@ public class RepoDefaultTest {
     }
 
     @Test
+    public void testFieldPathSelectToCollection() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "2178599966", "08.15.82", 100_000);
+        Employee emp2 = employee("Bob", "Hightower", "21785990", "08.15.82", 100_000);
+
+        repo.add(emp);
+        repo.add(emp2);
+
+        List <Map<String, Object>> list = repo.query(
+                selects(select("tags", "name")),
+                eq("lastName", "Hightower"));
+
+        print("list", list);
+        assertEquals("tag1", idx(list.get(0).get("tags.name"), 0));
+
+    }
+
+    @Test
+    public void testFieldPathSelectToCollection2() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "2178599966", "08.15.82", 100_000);
+        Employee emp2 = employee("Bob", "Hightower", "21785990", "08.15.82", 100_000);
+
+        repo.add(emp);
+        repo.add(emp2);
+
+        List <Map<String, Object>> list = repo.query(
+                selects(select("tags", "metas", "name0")),
+                eq("lastName", "Hightower"));
+
+        print("list", list);
+        assertEquals("mtag1", idx(list.get(0).get("tags.metas.name0"), 0));
+
+
+    }
+    @Test
+    public void testFieldPathSelectToCollection3() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "2178599966", "08.15.82", 100_000);
+        Employee emp2 = employee("Bob", "Hightower", "21785990", "08.15.82", 100_000);
+
+        repo.add(emp);
+        repo.add(emp2);
+
+        List <Map<String, Object>> list = repo.query(
+                selects(select("tags", "metas", "metas2", "name2")),
+                eq("lastName", "Hightower"));
+
+        print("list", list);
+
+    }
+
+    @Test
     public void testPropertyPathSelect() throws Exception {
         Employee emp = employee("Diana", "Hightower", "2178599966", "08.15.82", 100_000);
         Employee emp2 = employee("Bob", "Hightower", "21785990", "08.15.82", 100_000);
@@ -292,6 +345,22 @@ public class RepoDefaultTest {
         assertEquals(1, employees.size());
         assertEquals("Bob", employees.get(0).getFirstName());
         assertEquals("222-222-2222", employees.get(0).getSsn());
+
+    }
+
+    @Test
+    public void testFieldPathSelectToCollection4() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "asdf", "08.15.82", 100_000);
+        Employee emp2 = employee("Bob", "Hightower", "217asdfasdfasdf85990", "08.15.82", 100_000);
+
+        repo.add(emp);
+        repo.add(emp2);
+
+        List <Map<String, Object>> list = repo.query(
+                selects(select("tags", "metas", "metas2", "metas3", "name3")),
+                eq("lastName", "Hightower"));
+
+        print("list", list);
 
     }
 

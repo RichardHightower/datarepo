@@ -18,6 +18,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
+import java.util.Iterator;
 
 import static org.datarepo.utils.Utils.*;
 import static org.datarepo.utils.Utils.info;
@@ -89,7 +90,11 @@ public class Reflection {
     }
 
     public static Object idx(Object object, int index) {
-        object = Array.get(object, index);
+        if (isArray(object)) {
+            object = Array.get(object, index);
+        } else if (object instanceof List) {
+            object = Utils.idx ((List)object, index);
+        }
         return object;
     }
 
@@ -123,6 +128,30 @@ public class Reflection {
 
     }
 
+    public static void getFields(Object object, final String key, Collection col) {
+        if (isArray(object) || object instanceof Collection)  {
+            Iterator iter = iterator(object);
+            while (iter.hasNext()) {
+                col.add(iter.next());
+            }
+        }else {
+            col.add(getField(object, key));
+        }
+
+    }
+
+    public static Object getFields(Object object, final String key) {
+        if (isArray(object) || object instanceof Collection)  {
+              Iterator iter = iterator(object);
+              List list = new ArrayList(len(object));
+              while (iter.hasNext()) {
+                  list.add(getFields(iter.next(), key));
+              }
+              return list;
+        }else {
+            return getField(object, key);
+        }
+    }
     public static Object getField(Object object, final String key) {
         if (object == null) {
             return null;
