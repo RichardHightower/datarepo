@@ -130,7 +130,7 @@ public class Reflection {
 
         Class<?> cls = object.getClass();
 
-        Map<String, FieldAccess> fields = getPropertyFieldAccessors(cls);
+        Map<String, FieldAccess> fields = getAllAccessorFields(cls);
 
         if (!fields.containsKey(key)) {
             return null;
@@ -412,7 +412,7 @@ public class Reflection {
 
     public static Map<String, FieldAccess> getAllAccessorFields(
             Class<? extends Object> theClass) {
-        return getAllAccessorFields(theClass, false);
+        return getAllAccessorFields(theClass, true);
     }
 
     public static Map<String, FieldAccess> getAllAccessorFields(

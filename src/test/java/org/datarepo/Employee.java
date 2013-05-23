@@ -12,6 +12,14 @@ public class Employee {
     String ssn;
     Date birthDate;
     int salary;
+    Department department = new Department();
+    long empNum;
+    public static long num = System.currentTimeMillis();
+
+    {
+        empNum = num;
+        num++;
+    }
 
     static SimpleDateFormat dateParse = new SimpleDateFormat("dd.MM.yy");
 

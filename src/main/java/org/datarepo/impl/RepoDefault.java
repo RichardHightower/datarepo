@@ -6,7 +6,8 @@ import org.datarepo.criteria.Expression;
 import org.datarepo.criteria.Selector;
 import org.datarepo.criteria.ValueSetter;
 import org.datarepo.reflection.FieldAccess;
-import org.datarepo.reflection.Reflection;
+
+import static org.datarepo.reflection.Reflection.*;
 
 import java.util.*;
 import java.util.function.Function;
@@ -400,6 +401,16 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         } else {
             return (List<ITEM>) this.filter.filter(this.lookupIndexMap, this.searchIndexMap, expressions);
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> queryAsMaps(Expression... expressions) {
+        List<ITEM> items = this.query(expressions);
+        List<Map<String, Object>> results = new ArrayList<>(items.size());
+        for (ITEM item : items) {
+            results.add(toMap(item));
+        }
+        return results;
     }
 
     @Override

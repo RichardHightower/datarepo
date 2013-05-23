@@ -143,6 +143,18 @@ public class RepoDefaultTest {
     }
 
     @Test
+    public void testEasyFilter2() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "7178599912", "08.15.82", 100_000);
+        repo.add(emp);
+        emp = employee("Diana", "Hightower", "8178599912", "08.15.82", 100_000);
+        repo.add(emp);
+
+        List<Employee> employees = repo.query(eq("firstName", "Diana"));
+        assertNotNull(employees);
+        assertEquals(2, employees.size());
+        assertEquals("Diana", employees.get(0).getFirstName());
+    }
+    @Test
     public void testEasyFilter() throws Exception {
         Employee emp = employee("Diana", "Hightower", "2178599912", "08.15.82", 100_000);
         repo.add(emp);
@@ -150,6 +162,16 @@ public class RepoDefaultTest {
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Diana", employees.get(0).getFirstName());
+    }
+
+    @Test
+    public void testEasyFilterByMap() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "3178599912", "08.15.82", 100_000);
+        repo.add(emp);
+        List<Map<String, Object>> employees = repo.queryAsMaps(eq("firstName", "Diana"));
+        assertNotNull(employees);
+        assertEquals(1, employees.size());
+        assertEquals("Diana", employees.get(0).get("firstName"));
     }
 
     @Test
@@ -164,6 +186,48 @@ public class RepoDefaultTest {
 
         assertEquals("Diana", list.get(0).get("firstName"));
         assertEquals("Bob", list.get(1).get("firstName"));
+
+    }
+
+    @Test
+    public void testQueryOnUniqueIndex() throws Exception {
+        List <Map<String, Object>> list = repo.query(selects(select("firstName")), gt("empNum", 5l));
+        assertNotNull(list);
+        assertTrue(list.size()>1);
+
+    }
+
+    @Test
+    public void testFieldPathSelect() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "2178599966", "08.15.82", 100_000);
+        Employee emp2 = employee("Bob", "Hightower", "21785990", "08.15.82", 100_000);
+
+        repo.add(emp);
+        repo.add(emp2);
+
+        List <Map<String, Object>> list = repo.query(
+                selects(select("department", "name")),
+                eq("lastName", "Hightower"));
+
+        assertEquals("engineering", list.get(0).get("department.name"));
+        assertEquals("engineering", list.get(1).get("department.name"));
+
+    }
+
+    @Test
+    public void testPropertyPathSelect() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "2178599966", "08.15.82", 100_000);
+        Employee emp2 = employee("Bob", "Hightower", "21785990", "08.15.82", 100_000);
+
+        repo.add(emp);
+        repo.add(emp2);
+
+        List <Map<String, Object>> list = repo.query(
+                selects(select("department", "name")),
+                eq("lastName", "Hightower"));
+
+        assertEquals("engineering", list.get(0).get("department.name"));
+        assertEquals("engineering", list.get(1).get("department.name"));
 
     }
 

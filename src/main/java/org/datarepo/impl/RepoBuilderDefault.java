@@ -156,7 +156,16 @@ public class RepoBuilderDefault implements RepoBuilder {
             fields = Reflection.getAllAccessorFields(clazz, useUnSafe);
 
         } else {
+            Map<String,FieldAccess> realFields = Reflection.getAllAccessorFields(clazz, useUnSafe);
+
             fields = Reflection.getPropertyFieldAccessors(clazz);
+
+            /* Add missing fields */
+            for (Map.Entry<String, FieldAccess> field : realFields.entrySet()) {
+                if (!fields.containsKey(field.getKey())) {
+                    fields.put(field.getKey(), field.getValue());
+                }
+            }
         }
 
         configPrimaryKey(repo, fields);
@@ -218,6 +227,7 @@ public class RepoBuilderDefault implements RepoBuilder {
         if (kg == null) {
             FieldAccess field = fields.get(prop);
             kg = createKeyGetter(field);
+
             keyGetterMap.put(prop, kg);
         }
         return kg;

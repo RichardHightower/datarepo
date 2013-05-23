@@ -29,7 +29,9 @@ public class TestHelper {
 
         RepoBuilder repoBuilder = RepoBuilder.getInstance();
         repoBuilder.primaryKey("ssn")
-                .searchIndex("firstName").searchIndex("lastName").searchIndex("salary") ;
+                .searchIndex("firstName").searchIndex("lastName")
+                .searchIndex("salary").searchIndex("empNum", true);
+
         repoBuilder.keyGetter("ssn", new Function<Employee, String>() {
             @Override
             public String apply(Employee employee) {
@@ -73,7 +75,8 @@ public class TestHelper {
 
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("ssn")
-                .searchIndex("firstName").searchIndex("lastName").searchIndex("salary") ;
+                .searchIndex("firstName").searchIndex("lastName")
+                .searchIndex("salary").searchIndex("empNum", true);
 
         /* Create the repo with the builder. */
         Repo <String, Employee> repo
@@ -92,7 +95,9 @@ public class TestHelper {
 
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("ssn")
-                .searchIndex("firstName").searchIndex("lastName").searchIndex("salary").usePropertyForAccess(true);
+                .searchIndex("firstName").searchIndex("lastName")
+                .searchIndex("salary").searchIndex("empNum", true)
+                .usePropertyForAccess(true);
 
         /* Create the repo with the builder. */
         Repo <String, Employee> repo

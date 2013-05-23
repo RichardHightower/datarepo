@@ -41,7 +41,7 @@ public abstract class Selector {
     }
 
     public static Selector select(final String... path) {
-        return new Selector(join('.', path)) {
+        return new Selector(joinBy('.', path)) {
             @Override
             public void handleRow(int rowNum, Map<String, Object> row,
                                   Object item, Map<String, FieldAccess> fields) {
@@ -49,10 +49,11 @@ public abstract class Selector {
                 Object o = item;
                 for (int index =0 ; index < path.length; index++) {
                     String propName = path[index];
+                    o = getField(o, propName);
                     if (o == null) {
                         break;
                     }
-                    o = getField(o, propName);
+
                 }
 
                 row.put(this.name, o);
@@ -69,7 +70,7 @@ public abstract class Selector {
     }
 
     public static Selector selectPropPath(final String... path) {
-        return new Selector(join('.', path)) {
+        return new Selector(joinBy('.', path)) {
             @Override
             public void handleRow(int rowNum, Map<String, Object> row,
                                   Object item, Map<String, FieldAccess> fields) {

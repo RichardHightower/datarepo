@@ -52,6 +52,7 @@ public interface Repo <KEY, ITEM> extends Bag <ITEM>{
     void updateByFilter(List<ValueSetter> values, Expression... expressions);
 
     List<ITEM> query(Expression... expressions);
+    List<Map<String, Object>> queryAsMaps(Expression... expressions);
 
     List<Map<String, Object>> query(List<Selector> selectors, Expression... expressions);
     List<Map<String, Object>> sortedQuery(String sortBy, List<Selector> selectors, Expression... expressions);

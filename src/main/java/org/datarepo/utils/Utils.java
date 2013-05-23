@@ -955,7 +955,7 @@ public class Utils {
     }
 
     public static String lines(String... lines) {
-        return join('\n', (Object[]) lines);
+        return joinBy('\n',  lines);
     }
 
     public static String joinByString(String delim, Object[] args) {
@@ -973,8 +973,8 @@ public class Utils {
         return builder.toString();
     }
 
-    public static String join(char delim, String... args) {
-        return join(delim, (Object[])args);
+    public static String joinBy(char delim, String... args) {
+        return joinBy(delim, (Object[])args);
     }
     public static String joinBy(char delim, Object... args) {
         StringBuilder builder = new StringBuilder(256);
@@ -1003,39 +1003,13 @@ public class Utils {
     }
 
     public static String join(char delim, Integer... args) {
-        return join(delim, (Object[])args);
+        return joinBy(delim, (Object[])args);
     }
     public static String join(Integer... args) {
-        return join((Object[])args);
+        return joinByString("", (Object[])args);
     }
     public static String join(String... args) {
-        return join((Object[])args);
-    }
-    public static String join(Object... args) {
-
-        if (args.length==2) {
-            Object arg1 = args[0];
-            Object arg2 = args[1];
-
-            if (arg2.getClass()==Character.class) {
-                if (isArray(arg1)) {
-                    return join((Character)arg2, (Object[])arg1);
-                } else if (arg1 instanceof Collection) {
-                    return join((Character)arg2, (Collection<?>)arg1);
-                }
-            } else if (arg2.getClass()==String.class) {
-                if (isArray(arg1)) {
-                    return join((String)arg2, (Object[])arg1);
-                } else if (arg1 instanceof Collection) {
-                    return join((String)arg2, (Collection<?>)arg1);
-                }
-            }
-        }
-        StringBuilder builder = new StringBuilder(256);
-        for (Object arg : args) {
-            builder.append(arg.toString());
-        }
-        return builder.toString();
+        return joinByString("", (Object[])args);
     }
 
     public static String join(Collection<?> args) {

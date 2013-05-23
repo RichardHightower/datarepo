@@ -54,7 +54,11 @@ public interface RepoBuilder {
 
     public RepoBuilder lookupIndex(String propertyName);
 
+    public RepoBuilder lookupIndex(String propertyName, boolean unique);
+
     public RepoBuilder searchIndex(String propertyName);
+
+    public RepoBuilder searchIndex(String propertyName, boolean unique);
 
     public RepoBuilder keyGetter(String propertyName, Function<?, ?> key);
 

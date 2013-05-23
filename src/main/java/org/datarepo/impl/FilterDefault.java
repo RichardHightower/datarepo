@@ -57,17 +57,15 @@ public class FilterDefault implements Filter {
         for (Expression expression : expressions) {
             if (expression instanceof Criterion) {
                 List list = doFilter(lookupIndexMap, searchIndexMap, (Criterion) expression);
-                if (list.size() == 0) {
-                    return Collections.EMPTY_LIST;
+                if (list.size() > 0) {
+                    listOfSets.add(new HashSet(list));
                 }
-                listOfSets.add(new HashSet(list));
             }
             if (expression instanceof Group) {
                 List list = doFilter(lookupIndexMap, searchIndexMap, (Group) expression);
-                if (list.size() == 0) {
-                    return Collections.EMPTY_LIST;
+                if (list.size() > 0) {
+                    listOfSets.add(new HashSet(list));
                 }
-                listOfSets.add(new HashSet(list));
           }
         }
 
