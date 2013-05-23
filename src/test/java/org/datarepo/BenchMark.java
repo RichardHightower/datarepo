@@ -10,7 +10,7 @@ import static org.datarepo.utils.Utils.*;
 public class BenchMark {
     public static void main (String [] args) {
 
-        List<Employee> employees1 = TestHelper.createMetricTonOfEmployees(1_000_000);
+        List<Employee> employees1 = TestHelper.createMetricTonOfEmployees(200_000);
         List<Employee> employees2 = copy(employees1);
 
 
