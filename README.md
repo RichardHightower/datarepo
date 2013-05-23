@@ -270,3 +270,64 @@ You can also bring the list back sorted:
            repo.sortedQuery("firstName",selects(select("firstName")), eq("lastName", "Hightower"));
 
 ```
+
+You can select properties of related properties (i.e., employee.department.name).
+
+```
+        List <Map<String, Object>> list = repo.query(
+                selects(select("department", "name")),
+                eq("lastName", "Hightower"));
+
+        assertEquals("engineering", list.get(0).get("department.name"));
+
+```
+
+The above would try to use the fields of the classes.
+If you want to use the actual properties (emp.getFoo() vs. emp.foo), then
+you need to use the selectPropertyPath.
+
+```
+        List <Map<String, Object>> list = repo.query(
+                selects(selectPropPath("department", "name")),
+                eq("lastName", "Hightower"));
+
+```
+
+Note that select("department", "name") is much faster than
+selectPropPath("department", "name"), which could matter in a tight loop.
+
+By default all search indexes and lookup indexes allow duplicates (except for primary key index).
+
+```
+        repoBuilder.primaryKey("ssn")
+                .searchIndex("firstName").searchIndex("lastName")
+                .searchIndex("salary").searchIndex("empNum", true)
+                .usePropertyForAccess(true);
+
+```
+
+You can override that by providing a true flag as the second argument to searchIndex.
+Notice empNum is a searchable unique index.
+
+If you prefer or need, you can get even simple searches back as maps:
+
+```
+        List<Map<String, Object>> employees = repo.queryAsMaps(eq("firstName", "Diana"));
+        assertNotNull(employees);
+        assertEquals(1, employees.size());
+        assertEquals("Diana", employees.get(0).get("firstName"));
+        System.out.println(employees.get(0).get("department"));
+
+```
+
+Note that the object to map conversion goes deep as in:
+
+```
+        System.out.println(employees.get(0).get("department"));
+```
+
+Yields:
+
+{class=org.datarepo.Department, name=engineering}
+
+This can be useful for debugging and ad hoc queries for tooling.

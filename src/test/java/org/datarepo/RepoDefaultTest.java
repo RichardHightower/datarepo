@@ -172,6 +172,8 @@ public class RepoDefaultTest {
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Diana", employees.get(0).get("firstName"));
+
+        System.out.println(employees.get(0).get("department"));
     }
 
     @Test
@@ -223,7 +225,7 @@ public class RepoDefaultTest {
         repo.add(emp2);
 
         List <Map<String, Object>> list = repo.query(
-                selects(select("department", "name")),
+                selects(selectPropPath("department", "name")),
                 eq("lastName", "Hightower"));
 
         assertEquals("engineering", list.get(0).get("department.name"));
