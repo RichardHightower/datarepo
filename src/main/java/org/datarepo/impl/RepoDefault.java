@@ -351,6 +351,190 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
+    public boolean compareAndUpdate(KEY key, String property, Object compare, Object value) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getObject(item).equals(compare)) {
+            invalidateIndex(property, item);
+            field.setObject(item, value);
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
+    public boolean compareAndUpdate(KEY key, String property, String compare, String value) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getObject(item).equals(compare)) {
+            invalidateIndex(property, item);
+            field.setObject(item, value);
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
+    public boolean compareAndUpdate(KEY key, String property, int compare, int value) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getInt(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setInt(item, value);
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
+    public boolean compareAndUpdate(KEY key, String property, long compare, long value) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getLong(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setLong(item, value);
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
+    public boolean compareAndUpdate(KEY key, String property, char compare, char value) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getChar(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setChar(item, value);
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
+    public boolean compareAndUpdate(KEY key, String property, short compare, short value) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getShort(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setShort(item, value);
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+
+    }
+
+    @Override
+    public boolean compareAndUpdate(KEY key, String property, byte compare, byte value) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getByte(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setByte(item, value);
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
+    public boolean compareAndUpdate(KEY key, String property, float compare, float value) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getFloat(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setFloat(item, value);
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
+    public boolean compareAndUpdate(KEY key, String property, double compare, double value) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getDouble(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setDouble(item, value);
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
+    public boolean compareAndIncrement(KEY key, String property, int compare) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getInt(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setInt(item, (compare + 1));
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+
+    }
+
+    @Override
+    public boolean compareAndIncrement(KEY key, String property, long compare) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getLong(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setLong(item, (compare + 1));
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
+    public boolean compareAndIncrement(KEY key, String property, short compare) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getShort(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setShort(item, (short) (compare + 1));
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
+    public boolean compareAndIncrement(KEY key, String property, byte compare) {
+        ITEM item = lookupAndExpectByKey(key);
+        FieldAccess field = fields.get(property);
+        boolean set = false;
+        if (field.getByte(item) == (compare)) {
+            invalidateIndex(property, item);
+            field.setByte(item, (byte) (compare + 1));
+            set = true;
+            validateIndex(property, item);
+        }
+        return set;
+    }
+
+    @Override
     public void updateByFilter(String property, Object value, Expression... expressions) {
         List<ITEM> items = query(expressions);
         for (ITEM item : items) {
@@ -467,7 +651,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         };
         return new SearchIndexDefault(results, func).all();
     }
-        @Override
+
+    @Override
     public List<Map<String, Object>> query(List<Selector> selectors, Expression... expressions) {
 
         List<ITEM> results = this.query(expressions);

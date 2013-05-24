@@ -1696,7 +1696,7 @@ public class Utils {
     }
 
 
-    public static void rest(long millis) {
+    public static void sleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {

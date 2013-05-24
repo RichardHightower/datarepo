@@ -147,4 +147,8 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
         return new ArrayList<>(keyMultiValueSortedMap.values());
     }
 
+    @Override
+    public List<ITEM> getAll(KEY key) {
+        return  this.findEquals(key);
+    }
 }

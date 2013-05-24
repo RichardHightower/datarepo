@@ -2,10 +2,7 @@ package org.datarepo.impl;
 
 import org.datarepo.LookupIndex;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -63,6 +60,18 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         }
     }
 
+
+    public List<ITEM> getAll(KEY key) {
+        if (isDebug(log)) {
+            debug(log, "key = %s", key);
+        }
+        MultiValue<ITEM> mv =  map.get(key);
+        if (mv == null) {
+            return  null;
+        } else {
+            return mv.getValues();
+        }
+    }
 
 
     @Override

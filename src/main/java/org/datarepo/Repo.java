@@ -51,6 +51,23 @@ public interface Repo <KEY, ITEM> extends Bag <ITEM>{
     void update(KEY key, String property, double value);
     void update(KEY key, ValueSetter... values);
 
+    boolean compareAndUpdate(KEY key, String property, Object compare, Object value);
+    boolean compareAndUpdate(KEY key, String property, String compare, String value);
+    boolean compareAndUpdate(KEY key, String property, int compare, int value);
+    boolean compareAndUpdate(KEY key, String property, long compare, long value);
+    boolean compareAndUpdate(KEY key, String property, char compare, char value);
+    boolean compareAndUpdate(KEY key, String property, short compare, short value);
+    boolean compareAndUpdate(KEY key, String property, byte compare, byte value);
+    boolean compareAndUpdate(KEY key, String property, float compare, float value);
+    boolean compareAndUpdate(KEY key, String property, double compare, double value);
+
+
+    boolean compareAndIncrement(KEY key, String property, int compare);
+    boolean compareAndIncrement(KEY key, String property, long compare);
+    boolean compareAndIncrement(KEY key, String property, short compare);
+    boolean compareAndIncrement(KEY key, String property, byte compare);
+
+
     void updateByFilter(String property, Object value, Expression... expressions);
     void updateByFilter(String property, String value, Expression... expressions);
     void updateByFilter(String property, int value, Expression... expressions);

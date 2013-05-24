@@ -91,7 +91,7 @@ public class FilterDefault implements Filter {
         LookupIndex lookupIndex = lookupIndexMap.get(name);
 
         if (lookupIndex != null && operator == Operator.EQUAL) {
-            return Collections.singletonList(lookupIndex.get(value));
+            return lookupIndex.getAll(value);
         }
 
         switch (operator) {

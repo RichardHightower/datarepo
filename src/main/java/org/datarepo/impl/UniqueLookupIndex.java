@@ -2,10 +2,7 @@ package org.datarepo.impl;
 
 import org.datarepo.LookupIndex;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -58,4 +55,10 @@ public class UniqueLookupIndex <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     public List<ITEM> all() {
         return new ArrayList<>(this.map.values());
     }
+
+    @Override
+    public List<ITEM> getAll(KEY key) {
+        return  Collections.singletonList(this.get(key));
+    }
+
 }

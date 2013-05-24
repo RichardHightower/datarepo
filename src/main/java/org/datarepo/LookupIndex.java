@@ -12,6 +12,7 @@ import java.util.function.Function;
 public interface LookupIndex <KEY, ITEM> extends Bag<ITEM> {
     ITEM get (KEY key);
     void setKeyGetter(Function<ITEM, KEY> keyGetter);
+    List<ITEM> getAll (KEY key);
 
 
 }
