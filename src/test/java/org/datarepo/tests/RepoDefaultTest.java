@@ -1,6 +1,6 @@
-package org.datarepo;
+package org.datarepo.tests;
 
-import org.datarepo.reflection.Reflection;
+import org.datarepo.Repo;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static junit.framework.Assert.*;
 import static junit.framework.Assert.assertEquals;
-import static org.datarepo.Employee.employee;
+import static org.datarepo.tests.Employee.employee;
 import static org.datarepo.criteria.Criteria.*;
 import static org.datarepo.criteria.ValueSetter.*;
 import static org.datarepo.criteria.Selector.*;
@@ -19,7 +19,7 @@ import static org.datarepo.reflection.Reflection.*;
 
 public class RepoDefaultTest {
 
-    Repo <String, Employee> repo;
+    Repo<String, Employee> repo;
 
 
 

@@ -1,10 +1,13 @@
-package org.datarepo;
+package org.datarepo.tests;
+
+import org.datarepo.Repo;
+import org.datarepo.RepoBuilder;
+import org.datarepo.tests.Employee;
+import org.datarepo.tests.TestHelper;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.datarepo.criteria.Criteria.eq;
-import static org.datarepo.reflection.Reflection.*;
 import static org.datarepo.utils.Utils.*;
 
 public class BenchMark {

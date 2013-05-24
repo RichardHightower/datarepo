@@ -1,4 +1,4 @@
-package org.datarepo;
+package org.datarepo.tests;
 
 import java.util.Random;
 import java.util.SortedSet;

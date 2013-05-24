@@ -1,13 +1,15 @@
-package org.datarepo;
+package org.datarepo.tests;
+
+import org.datarepo.Repo;
+import org.datarepo.RepoBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.SortedSet;
 import java.util.function.Function;
 
-import static org.datarepo.Employee.employee;
-import static org.datarepo.Employee.employees;
+import static org.datarepo.tests.Employee.employee;
+import static org.datarepo.tests.Employee.employees;
 
 import static org.datarepo.utils.Utils.*;
 
@@ -29,7 +31,7 @@ public class TestHelper {
             employee("ZZZ", "Zmm", "777-333-3333", "05.29.70", 10_000) );
 
 
-    static Repo <String, Employee>  createBuilderNoReflection() {
+    static Repo<String, Employee> createBuilderNoReflection() {
         Repo <String, Employee> repo;
 
         RepoBuilder repoBuilder = RepoBuilder.getInstance();

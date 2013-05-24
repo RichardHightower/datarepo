@@ -328,7 +328,7 @@ Note that the object to map conversion goes deep as in:
 
 Yields:
 
-{class=org.datarepo.Department, name=engineering}
+{class=org.datarepo.tests.Department, name=engineering}
 
 This can be useful for debugging and ad hoc queries for tooling.
 
