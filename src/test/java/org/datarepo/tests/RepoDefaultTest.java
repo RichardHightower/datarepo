@@ -14,6 +14,10 @@ import static org.datarepo.criteria.Criteria.*;
 import static org.datarepo.criteria.ValueSetter.*;
 import static org.datarepo.criteria.Selector.*;
 
+
+import static org.datarepo.criteria.ProjectedSelector.*;
+
+
 import static org.datarepo.utils.Utils.*;
 import static org.datarepo.reflection.Reflection.*;
 
@@ -191,6 +195,15 @@ public class RepoDefaultTest {
 
         assertEquals("Diana", list.get(0).get("firstName"));
         assertEquals("Bob", list.get(1).get("firstName"));
+
+    }
+
+
+    @Test
+    public void testMax() throws Exception {
+        List <Map<String, Object>> list = repo.query(selects(max("salary")));
+
+        assertEquals(666_000, list.get(0).get("max.salary"));
 
     }
 
