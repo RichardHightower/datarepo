@@ -1,11 +1,11 @@
 package org.datarepo.query;
 
-/**
- * Created with IntelliJ IDEA.
- * User: rick
- * Date: 5/24/13
- * Time: 5:17 PM
- * To change this template use File | Settings | File Templates.
- */
-public class Visitor {
+import org.datarepo.Repo;
+import java.util.List;
+
+public interface  Visitor <KEY, ITEM> {
+
+    public abstract void visit(KEY key, ITEM item, Object currentProperty, Repo<KEY, ITEM> repo, List<String> propertyPath);
+
+
 }
