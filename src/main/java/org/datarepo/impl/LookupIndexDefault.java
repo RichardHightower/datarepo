@@ -3,6 +3,7 @@ package org.datarepo.impl;
 import org.datarepo.LookupIndex;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -18,7 +19,7 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
 
     protected Function<ITEM, KEY> keyGetter;
-    protected Map<KEY, MultiValue<ITEM>> map =  new HashMap<>();
+    protected Map<KEY, MultiValue<ITEM>> map =  new ConcurrentHashMap<>();
     private Logger log = log(LookupIndexDefault.class);
 
     public LookupIndexDefault () {
@@ -80,7 +81,7 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
 
     @Override
-    public void add(ITEM item) {
+    public boolean add(ITEM item) {
         if (isDebug(log)) {
             debug(log, "add item = %s", item);
         }
@@ -96,21 +97,24 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
 
         map.put(key, mv);
+        return true;
     }
 
     @Override
-    public void remove(ITEM item) {
+    public boolean remove(ITEM item) {
         KEY key = keyGetter.apply(item);
         MultiValue<ITEM> mv =  map.get(key);
 
         if (mv == null) {
-            return;
+            return false;
         }
         mv.remove(item);
 
         if (mv.size() == 0) {
             map.remove(key);
         }
+
+        return true;
 
     }
 

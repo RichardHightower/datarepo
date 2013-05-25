@@ -3,6 +3,7 @@ package org.datarepo.impl;
 import org.datarepo.LookupIndex;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -11,7 +12,9 @@ import static org.datarepo.utils.Utils.*;
 public class UniqueLookupIndex <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     protected Function<ITEM, KEY> keyGetter;
-    protected Map<KEY, ITEM> map =  new HashMap<>();
+    protected Map<KEY, ITEM> map =  new ConcurrentHashMap<>();
+    protected List <ITEM> items = new LinkedList();
+
     private Logger log = log(UniqueLookupIndex.class);
 
     @Override
@@ -25,8 +28,7 @@ public class UniqueLookupIndex <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     }
 
     @Override
-    public void add(ITEM item) {
-        notNull(item);
+    public boolean add(ITEM item) {
 
         if (isDebug(log)) {
             debug(log, "add item = %s", item);
@@ -34,7 +36,6 @@ public class UniqueLookupIndex <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
         KEY key = keyGetter.apply(item);
 
-        notNull(key);
 
         if (map.containsKey(key)) {
             die("this index already contains this key %s", key);
@@ -43,17 +44,19 @@ public class UniqueLookupIndex <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
 
         map.put(key, item);
+        items.add(item);
+        return true;
     }
 
     @Override
-    public void remove(ITEM item) {
-        notNull(item);
+    public boolean remove(ITEM item) {
         map.remove(keyGetter.apply(item));
+        return items.remove(item);
     }
 
     @Override
     public List<ITEM> all() {
-        return new ArrayList<>(this.map.values());
+        return new ArrayList<>(items);
     }
 
     @Override
@@ -63,7 +66,7 @@ public class UniqueLookupIndex <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public int size() {
-        return this.map.size();
+        return this.items.size();
     }
 
 

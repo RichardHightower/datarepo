@@ -7,9 +7,9 @@ import java.util.List;
  * @param <ITEM> Type of Stuff you want to hold.
  */
 public interface Bag <ITEM> {
-    void add(ITEM item);
+    boolean add(ITEM item);
 
-    void remove(ITEM item);
+    boolean remove(ITEM item);
 
     List<ITEM> all ();
 

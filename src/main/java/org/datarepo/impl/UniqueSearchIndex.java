@@ -3,6 +3,7 @@ package org.datarepo.impl;
 import org.datarepo.SearchIndex;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.Function;
 
 /**
@@ -14,7 +15,7 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
     private NavigableMap<KEY, ITEM> navigableMap;
 
     public UniqueSearchIndex() {
-        super.map = new TreeMap<>();
+        super.map = new ConcurrentSkipListMap<>();
         this.navigableMap = (NavigableMap<KEY, ITEM>) super.map;
 
     }

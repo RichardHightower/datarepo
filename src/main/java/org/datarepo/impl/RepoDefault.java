@@ -73,10 +73,11 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
-    public void removeAll(Collection<ITEM> items) {
+    public boolean removeAll(Collection<ITEM> items) {
         for (ITEM item : items) {
             this.remove(item);
         }
+        return true;
     }
 
     @Override
@@ -87,10 +88,11 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
-    public void addAll(Collection<ITEM> items) {
+    public boolean addAll(Collection<ITEM> items) {
         for (ITEM item : items) {
             this.add(item);
         }
+        return true;
     }
 
     @Override
@@ -1060,18 +1062,20 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
 
     @Override
-    public void add(ITEM item) {
+    public boolean add(ITEM item) {
         item = copy(item);
         for (LookupIndex index : indexes) {
             index.add(item);
         }
+        return true;
     }
 
     @Override
-    public void remove(ITEM item) {
+    public boolean remove(ITEM item) {
         for (LookupIndex index : indexes) {
             index.remove(item);
         }
+        return true;
     }
 
     @Override
