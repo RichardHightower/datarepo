@@ -230,42 +230,42 @@ public abstract class UnsafeField implements FieldAccess {
 
 
     @Override
-    public boolean getBoolean() {
+    public boolean getStaticBoolean() {
         return getBoolean(base);
     }
 
 
     @Override
-    public int getInt() {
+    public int getStaticInt() {
         return getInt(base);
     }
 
 
     @Override
-    public short getShort() {
+    public short getStaticShort() {
         return getShort(base);
     }
 
 
     @Override
-    public long getLong() {
+    public long getStaticLong() {
         return getLong(base);
     }
 
     @Override
-    public double getDouble() {
+    public double getStaticDouble() {
         return getDouble(base);
     }
 
 
     @Override
-    public float getFloat() {
+    public float getStaticFloat() {
         return getFloat(base);
     }
 
 
     @Override
-    public byte getByte() {
+    public byte getStaticByte() {
         return getByte(base);
     }
 

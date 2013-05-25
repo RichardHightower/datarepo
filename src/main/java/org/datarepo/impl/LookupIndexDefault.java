@@ -45,6 +45,11 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         return list;
     }
 
+    @Override
+    public int size() {
+        return this.map.size();
+    }
+
 
     @Override
     public ITEM get(KEY key) {
@@ -108,4 +113,5 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         }
 
     }
+
 }

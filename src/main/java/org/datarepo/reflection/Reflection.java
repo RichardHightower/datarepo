@@ -459,6 +459,7 @@ public class Reflection {
     public static List<Field> getAllFields(Class<? extends Object> theClass) {
         List<Field> list = getFields(theClass);
         while (theClass != object) {
+
             theClass = theClass.getSuperclass();
             getFields(theClass, list);
         }

@@ -44,19 +44,19 @@ public interface FieldAccess {
     void setObject(Object obj, Object value);
 
 
-    boolean getBoolean();
+    boolean getStaticBoolean();
 
-    int getInt();
+    int getStaticInt();
 
-    short getShort();
+    short getStaticShort();
 
-    long getLong();
+    long getStaticLong();
 
-    double getDouble();
+    double getStaticDouble();
 
-    float getFloat();
+    float getStaticFloat();
 
-    byte getByte();
+    byte getStaticByte();
 
     Object getObject();
 

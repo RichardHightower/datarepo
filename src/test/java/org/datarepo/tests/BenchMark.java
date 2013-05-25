@@ -2,12 +2,10 @@ package org.datarepo.tests;
 
 import org.datarepo.Repo;
 import org.datarepo.RepoBuilder;
-import org.datarepo.tests.Employee;
-import org.datarepo.tests.TestHelper;
 
 import java.util.List;
 
-import static org.datarepo.criteria.Criteria.eq;
+import static org.datarepo.query.Criteria.eq;
 import static org.datarepo.utils.Utils.*;
 
 public class BenchMark {

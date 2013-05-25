@@ -126,6 +126,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
         return results;
     }
 
+
     @Override
     public List<ITEM> findBetween(KEY start, KEY end) {
         SortedMap<KEY, MultiValue<ITEM>> keyMultiValueSortedMap = this.navigableMap.subMap(start, end);
@@ -168,6 +169,28 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
     public List<ITEM> findLessThanEqual(KEY key) {
         SortedMap<KEY, MultiValue<ITEM>> keyMultiValueSortedMap = this.navigableMap.headMap(key);
         return getResults(keyMultiValueSortedMap);
+    }
+
+
+    @Override
+    public ITEM min() {
+        return this.navigableMap.firstEntry().getValue().getValue();
+    }
+
+    @Override
+    public ITEM max() {
+        return this.navigableMap.lastEntry().getValue().getValue();
+    }
+
+    @Override
+    public int count(KEY key) {
+        return this.navigableMap.get(key).size();
+    }
+
+
+    @Override
+    public int size() {
+        return this.navigableMap.size();
     }
 
 }

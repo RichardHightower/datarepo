@@ -148,7 +148,28 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
     }
 
     @Override
+    public ITEM min() {
+        return this.navigableMap.firstEntry().getValue();
+    }
+
+    @Override
+    public ITEM max() {
+        return this.navigableMap.lastEntry().getValue();
+    }
+
+    @Override
     public List<ITEM> getAll(KEY key) {
         return  this.findEquals(key);
     }
+
+    @Override
+    public int size() {
+        return this.navigableMap.size();
+    }
+
+    @Override
+    public int count(KEY key) {
+        return this.navigableMap.containsKey(key) ? 1 : 0;
+    }
+
 }

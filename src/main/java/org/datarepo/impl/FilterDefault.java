@@ -3,7 +3,7 @@ package org.datarepo.impl;
 import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.SearchIndex;
-import org.datarepo.criteria.*;
+import org.datarepo.query.*;
 
 import java.util.*;
 

@@ -1,6 +1,7 @@
 package org.datarepo.tests;
 
 import org.datarepo.Repo;
+import org.datarepo.query.Visitor;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -10,12 +11,12 @@ import java.util.Map;
 import static junit.framework.Assert.*;
 import static junit.framework.Assert.assertEquals;
 import static org.datarepo.tests.Employee.employee;
-import static org.datarepo.criteria.Criteria.*;
-import static org.datarepo.criteria.ValueSetter.*;
-import static org.datarepo.criteria.Selector.*;
+import static org.datarepo.query.Criteria.*;
+import static org.datarepo.query.ValueSetter.*;
+import static org.datarepo.query.Selector.*;
 
 
-import static org.datarepo.criteria.ProjectedSelector.*;
+import static org.datarepo.query.ProjectedSelector.*;
 
 
 import static org.datarepo.utils.Utils.*;
@@ -383,4 +384,15 @@ public class RepoDefaultTest {
 
     }
 
+    @Test
+    public void testVisitor() throws Exception {
+
+        repo.query(new Visitor<String, Employee>() {
+            @Override
+            public void visit(String s, Employee employee, Object currentProperty, Repo<String, Employee> repo, List<String> propertyPath) {
+                printf("key %s, \t employee=%s \t \n currentProperty=%s \t \npath=%s\n\n", s, employee, currentProperty, propertyPath);
+            }
+        });
+
+    }
 }

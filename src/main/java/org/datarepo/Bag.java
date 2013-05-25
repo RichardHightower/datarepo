@@ -13,5 +13,5 @@ public interface Bag <ITEM> {
 
     List<ITEM> all ();
 
-
+    int size();
 }

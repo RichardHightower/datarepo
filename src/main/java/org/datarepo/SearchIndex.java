@@ -18,6 +18,10 @@ public interface SearchIndex <KEY, ITEM> extends LookupIndex<KEY, ITEM> {
       List <ITEM> findGreaterThanEqual(KEY key);
       List <ITEM> findLessThanEqual(KEY key);
 
+      ITEM min();
+      ITEM max();
+      int count(KEY key);
+
 //      List <ITEM> findEquals (KEY key, int start, int length);
 //      List <ITEM> findStartsWith(KEY keyFrag, int start, int length);
 //      List <ITEM> findEndsWith(KEY keyFrag, int start, int length);

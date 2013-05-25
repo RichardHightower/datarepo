@@ -1,6 +1,6 @@
 package org.datarepo;
 
-import org.datarepo.criteria.Expression;
+import org.datarepo.query.Expression;
 
 import java.util.List;
 import java.util.Map;

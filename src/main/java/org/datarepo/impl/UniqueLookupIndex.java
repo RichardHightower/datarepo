@@ -61,4 +61,10 @@ public class UniqueLookupIndex <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         return  Collections.singletonList(this.get(key));
     }
 
+    @Override
+    public int size() {
+        return this.map.size();
+    }
+
+
 }

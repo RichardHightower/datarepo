@@ -115,40 +115,40 @@ public class ReflectField implements FieldAccess {
     }
 
     @Override
-    public boolean getBoolean() {
+    public boolean getStaticBoolean() {
         return getBoolean(null);
     }
 
     @Override
-    public int getInt() {
+    public int getStaticInt() {
         return getInt(null);
 
     }
 
     @Override
-    public short getShort() {
+    public short getStaticShort() {
         return getShort(null);
     }
 
 
     @Override
-    public long getLong() {
+    public long getStaticLong() {
         return getLong(null);
     }
 
 
     @Override
-    public double getDouble() {
+    public double getStaticDouble() {
         return getDouble(null);
     }
 
     @Override
-    public float getFloat() {
+    public float getStaticFloat() {
         return getFloat(null);
     }
 
     @Override
-    public byte getByte() {
+    public byte getStaticByte() {
         return getByte(null);
     }
 

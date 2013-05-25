@@ -2,10 +2,12 @@ package org.datarepo.impl;
 
 import org.datarepo.*;
 import org.datarepo.Filter;
-import org.datarepo.criteria.Expression;
-import org.datarepo.criteria.Selector;
-import org.datarepo.criteria.ValueSetter;
+import org.datarepo.query.Expression;
+import org.datarepo.query.Selector;
+import org.datarepo.query.ValueSetter;
+import org.datarepo.query.Visitor;
 import org.datarepo.reflection.FieldAccess;
+import org.datarepo.reflection.Reflection;
 
 import static org.datarepo.reflection.Reflection.*;
 
@@ -14,6 +16,7 @@ import java.util.function.Function;
 import java.util.logging.Logger;
 
 import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.isArray;
 
 /**
  * Default Repo implementation.
@@ -186,13 +189,13 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     public void modify(ITEM item, String property, Object value) {
         item = lookupAndExpect(item);
         invalidateIndex(property, item);
-        fields.get(property).setValue(item, value);
+        fields.get(property).setObject(item, value);
         validateIndex(property, item);
 
     }
 
     @Override
-    public void modify(ITEM item, String property, String value) {
+    public void modifyByValue(ITEM item, String property, String value) {
         item = lookupAndExpect(item);
         invalidateIndex(property, item);
         fields.get(property).setValue(item, value);
@@ -271,12 +274,12 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     public void update(KEY key, String property, Object value) {
         ITEM item = lookupAndExpectByKey(key);
         invalidateIndex(property, item);
-        fields.get(property).setValue(item, value);
+        fields.get(property).setObject(item, value);
         validateIndex(property, item);
     }
 
     @Override
-    public void update(KEY key, String property, String value) {
+    public void updateByValue(KEY key, String property, String value) {
         ITEM item = lookupAndExpectByKey(key);
         invalidateIndex(property, item);
         fields.get(property).setValue(item, value);
@@ -351,6 +354,305 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
+    public Object readObject(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getObject(item);
+    }
+
+
+    @Override
+    public <T> T readValue(KEY key, String property, Class<T> type) {
+        ITEM item = this.get(key);
+        return (T) this.fields.get(property).getObject(item);
+    }
+
+    @Override
+    public int readInt(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getInt(item);
+    }
+
+    @Override
+    public long readLong(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getLong(item);
+    }
+
+    @Override
+    public char readChar(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getChar(item);
+    }
+
+    @Override
+    public short readShort(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getShort(item);
+    }
+
+    @Override
+    public byte readByte(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getByte(item);
+    }
+
+    @Override
+    public float readFloat(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getFloat(item);
+
+    }
+
+    @Override
+    public double readDouble(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getDouble(item);
+
+    }
+
+    @Override
+    public int count(KEY key, String property, int value) {
+
+        SearchIndex  index = this.searchIndexMap.get(property);
+
+        if ( index == null ) {
+            die("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t value %s", key, property, value);
+        }
+
+        return index.count(key);
+
+    }
+
+    @Override
+    public int count(KEY key, String property, short value) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+
+        if ( index == null ) {
+            die("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t value %s", key, property, value);
+        }
+
+        return index.count(key);
+    }
+
+    @Override
+    public int count(KEY key, String property, byte value) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+
+        if ( index == null ) {
+            die("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t value %s", key, property, value);
+        }
+
+        return index.count(key);
+    }
+
+    @Override
+    public int count(KEY key, String property, long value) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+
+        if ( index == null ) {
+            die("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t value %s", key, property, value);
+        }
+
+        return index.count(key);
+    }
+
+    @Override
+    public int count(KEY key, String property, char value) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+
+        if ( index == null ) {
+            die("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t value %s", key, property, value);
+        }
+
+        return index.count(key);
+    }
+
+    @Override
+    public int count(KEY key, String property, float value) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+
+        if ( index == null ) {
+            die("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t value %s", key, property, value);
+        }
+
+        return index.count(key);
+    }
+
+    @Override
+    public int count(KEY key, String property, double value) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+
+        if ( index == null ) {
+            die("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t value %s", key, property, value);
+        }
+
+        return index.count(key);
+    }
+
+    @Override
+    public int count(KEY key, String property, Object value) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+
+        if ( index == null ) {
+            die("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t value %s", key, property, value);
+        }
+
+        return index.count(key);
+    }
+
+    @Override
+    public <T> T max(KEY key, String property, Class<T> type) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.max();
+            if (item != null) {
+                return (T) this.fields.get(property).getValue(item);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String maxString(KEY key, String property) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.max();
+            if (item != null) {
+                return (String)this.fields.get(property).getObject(item);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Number maxNumber(KEY key, String property) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.max();
+            if (item != null) {
+                return (Number)this.fields.get(property).getValue(item);
+            }
+        }
+        return Double.NaN;
+    }
+
+    @Override
+    public int maxInt(KEY key, String property) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.max();
+            if (item != null) {
+                return this.fields.get(property).getInt(item);
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+
+    @Override
+    public long maxLong(KEY key, String property) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.max();
+            if (item != null) {
+                return this.fields.get(property).getLong(item);
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+
+    @Override
+    public double maxDouble(KEY key, String property) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.max();
+            if (item != null) {
+                return this.fields.get(property).getDouble(item);
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+
+    @Override
+    public <T> T min(KEY key, String property, Class<T> type) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.min();
+            if (item != null) {
+                return (T) this.fields.get(property).getValue(item);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String minString(KEY key, String property) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.min();
+            if (item != null) {
+                return (String)this.fields.get(property).getObject(item);
+            }
+        }
+        return "";
+    }
+
+    @Override
+    public Number minNumber(KEY key, String property) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.min();
+            if (item != null) {
+                return (Number)this.fields.get(property).getValue(item);
+            }
+        }
+        return Double.NaN;
+    }
+
+    @Override
+    public int minInt(KEY key, String property) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.min();
+            if (item != null) {
+                return this.fields.get(property).getInt(item);
+            }
+        }
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public long minLong(KEY key, String property) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.min();
+            if (item != null) {
+                return this.fields.get(property).getLong(item);
+            }
+        }
+        return Long.MAX_VALUE;
+    }
+
+    @Override
+    public double minDouble(KEY key, String property) {
+        SearchIndex  index = this.searchIndexMap.get(property);
+        if ( index != null ) {
+            ITEM item = (ITEM) index.min();
+            if (item != null) {
+                return this.fields.get(property).getDouble(item);
+            }
+        }
+        return Double.MAX_VALUE;
+    }
+
+    @Override
     public boolean compareAndUpdate(KEY key, String property, Object compare, Object value) {
         ITEM item = lookupAndExpectByKey(key);
         FieldAccess field = fields.get(property);
@@ -364,19 +666,6 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         return set;
     }
 
-    @Override
-    public boolean compareAndUpdate(KEY key, String property, String compare, String value) {
-        ITEM item = lookupAndExpectByKey(key);
-        FieldAccess field = fields.get(property);
-        boolean set = false;
-        if (field.getObject(item).equals(compare)) {
-            invalidateIndex(property, item);
-            field.setObject(item, value);
-            set = true;
-            validateIndex(property, item);
-        }
-        return set;
-    }
 
     @Override
     public boolean compareAndUpdate(KEY key, String property, int compare, int value) {
@@ -543,10 +832,10 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
-    public void updateByFilter(String property, String value, Expression... expressions) {
+    public void updateByFilterUsingValue(String property, String value, Expression... expressions) {
         List<ITEM> items = query(expressions);
         for (ITEM item : items) {
-            modify(item, property, value);
+            modifyByValue(item, property, value);
         }
     }
 
@@ -630,6 +919,18 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
+    public List<ITEM> sortedQuery(final String sortBy, Expression... expressions) {
+        List<ITEM> results = this.query(expressions);
+        Function<ITEM, KEY> func = new Function<ITEM, KEY>(){
+            @Override
+            public KEY apply(ITEM item) {
+                return (KEY)((Map)item).get(sortBy);
+            }
+        };
+        return new SearchIndexDefault(results, func).all();
+    }
+
+    @Override
     public List<Map<String, Object>> queryAsMaps(Expression... expressions) {
         List<ITEM> items = this.query(expressions);
         List<Map<String, Object>> results = new ArrayList<>(items.size());
@@ -650,6 +951,78 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
             }
         };
         return new SearchIndexDefault(results, func).all();
+    }
+
+    private void visit(KEY key, ITEM item, Visitor<KEY, ITEM> visitor, Object o, List<String> path, int levels) {
+        if(o == null) {
+            return;
+        }
+        levels++;
+        if (levels > 20) {
+            return;
+        }
+        visitor.visit(key, item, o, this, path);
+
+
+        if (o.getClass().isPrimitive() ) {
+            return;
+        }
+
+
+        if (o.getClass().getName().startsWith("java")) {
+            return;
+        }
+
+
+        if (isArray(o) || o instanceof Collection) {
+
+            int index = 0;
+            Iterator iterator = iterator(o);
+            while(iterator.hasNext()) {
+                path.add(sprintf("[%s]", index));
+                Object objectItem = iterator.next();
+                visit(key, item, visitor, objectItem, path, levels);
+                path.remove(path.size()-1);
+                index++;
+
+            }
+
+        }
+
+        Map<String, FieldAccess> accessorFields = Reflection.getAllAccessorFields(o.getClass());
+        for (FieldAccess field : accessorFields.values()) {
+            if (field.isStatic()) {
+                continue;
+            }
+            path.add(field.getName());
+            visit(key, item, visitor, field.getValue(o), path, levels);
+            path.remove(path.size()-1);
+
+        }
+
+
+    }
+    @Override
+    public void query(Visitor<KEY, ITEM> visitor, Expression... expressions) {
+        List<ITEM> items = this.query(expressions);
+        for (ITEM item : items) {
+            KEY key = (KEY) this.primaryKeyGetter.apply(item);
+            int levels = 0;
+            visit(key, item, visitor, item, list("root"), levels);
+        }
+
+    }
+
+    @Override
+    public void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Expression... expressions) {
+
+        List<ITEM> items = this.sortedQuery(sortBy, expressions);
+        for (ITEM item : items) {
+            KEY key = (KEY) this.primaryKeyGetter.apply(item);
+            int levels = 0;
+            visit(key, item, visitor, item, list("root"), levels);
+        }
+
     }
 
     @Override
@@ -715,4 +1088,11 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     public void setFilter(Filter filter) {
         this.filter = filter;
     }
+
+
+    @Override
+    public int size() {
+        return this.lookupIndexMap.get(this.primaryKeyName).size();
+    }
+
 }
