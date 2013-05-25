@@ -4,20 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.*;
 import java.util.logging.Logger;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+
 import static org.datarepo.utils.Utils.*;
 
 public class Types {
@@ -797,5 +786,88 @@ public class Types {
         return array;
     }
 
+    public static Date toDate(Calendar c) {
+        return c.getTime();
 
+    }
+
+    public static Date toDateUS(String string) {
+
+        String[] split = splitByArray(string.toCharArray(), new char[]{'.', '\\', '/', ':'});
+
+        if (split.length == 3) {
+            return getUSDate(toInt(split[0]), toInt(split[1]), toInt(split[2]));
+        }  else if (split.length == 6) {
+            return getUSDate(toInt(split[0]), toInt(split[1]), toInt(split[2]),
+                    toInt(split[3]), toInt(split[4]), toInt(split[5])
+                    );
+        } else {
+            die("Not able to parse %s into a US date", string);
+            return null;
+        }
+
+    }
+    public static Date toEuroDate(String string) {
+
+        String[] split = splitByArray(string.toCharArray(), new char[]{'.', '\\', '/', ':'});
+
+        if (split.length == 3) {
+            return getEuroDate(toInt(split[0]), toInt(split[1]), toInt(split[2]));
+        }  else if (split.length == 6) {
+            return getEuroDate(toInt(split[0]), toInt(split[1]), toInt(split[2]),
+                    toInt(split[3]), toInt(split[4]), toInt(split[5])
+            );
+        } else {
+            die("Not able to parse %s into a US date", string);
+            return null;
+        }
+
+    }
+
+    public static Date year(int year) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("GMT"));
+        c.set(1970, Calendar.JANUARY , 2, 0, 0, 0);
+        c.set(Calendar.YEAR, year);
+        return c.getTime();
+    }
+
+    public static Date getUSDate(int month, int day, int year) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("GMT"));
+        c.set(year, month - 1, day + 1, 0, 0, 0);
+        return c.getTime();
+    }
+
+
+    public static Date getUSDate(int month, int day, int year, int hour, int minute, int second) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("GMT"));
+        c.set(year, month - 1, day + 1, hour, minute, second);
+        return c.getTime();
+    }
+
+    public static Date getEuroDate(int day, int month, int year) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("GMT"));
+        c.set(year, month - 1, day + 1, 0, 0, 0);
+        return c.getTime();
+    }
+
+    public static Date getEuroDate(int day, int month, int year, int hour, int minute, int second) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("GMT"));
+        c.set(year, month - 1, day + 1, hour, minute, second);
+        return c.getTime();
+    }
+
+    public static void main (String[] args) {
+        print(getUSDate(5, 29, 1970));
+        print(getUSDate(8, 15, 1985));
+
+        print(toDateUS("5/29/1970"));
+
+        print(year(2013));
+
+    }
 }

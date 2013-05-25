@@ -36,6 +36,12 @@ public class Criteria {
         return new Criterion<Object>(name.toString(), Operator.BETWEEN, value, value2);
     }
 
+
+    public static Expression betweenYears(Object name, int year1, int year2) {
+
+        return new Criterion<Object>(name.toString(), Operator.BETWEEN, null, null);
+    }
+
     public static Expression startsWith(Object name, Object value) {
         return new Criterion<Object>(name.toString(), Operator.STARTS_WITH, value);
     }

@@ -1442,6 +1442,30 @@ public class Utils {
         return list.toArray(new String[list.size()]);
     }
 
+    public static String[] splitByArray(final char[] buffer, final char splits[]) {
+        List<String> list = new ArrayList<String>(100);
+        StringBuilder builder = new StringBuilder(256);
+        String str = null;
+        for (int index = 0; index < buffer.length; index++) {
+            char c = buffer[index];
+
+            if (isIn(c, splits)) {
+                str = builder.toString();
+                builder.setLength(0);
+                list.add(str.trim());
+                continue;
+            } else {
+                builder.append(c);
+            }
+        }
+
+        if (builder.length() > 0) {
+            str = builder.toString();
+            list.add(str.trim());
+        }
+        return list.toArray(new String[list.size()]);
+    }
+
     public static String trim(String str) {
         return str.trim();
     }
@@ -1909,4 +1933,11 @@ public class Utils {
 
     }
 
+    public static Date date(String string) {
+        return Types.toDateUS(string);
+    }
+
+    public static Date euroDate(String string) {
+        return Types.toEuroDate(string);
+    }
 }
