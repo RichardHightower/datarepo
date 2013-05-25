@@ -1,4 +1,4 @@
-package org.datarepo.criteria;
+package org.datarepo.query;
 
 import org.datarepo.reflection.FieldAccess;
 

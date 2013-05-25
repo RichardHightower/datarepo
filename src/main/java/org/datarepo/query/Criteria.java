@@ -1,6 +1,4 @@
-package org.datarepo.criteria;
-
-import java.util.List;
+package org.datarepo.query;
 
 import static org.datarepo.utils.Utils.list;
 

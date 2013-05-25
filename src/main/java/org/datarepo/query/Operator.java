@@ -1,4 +1,4 @@
-package org.datarepo.criteria;
+package org.datarepo.query;
 
 public enum Operator {
     EQUAL,
