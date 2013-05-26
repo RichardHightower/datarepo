@@ -31,9 +31,9 @@ import static org.datarepo.utils.Utils.isArray;
 public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     private Logger log = log(RepoDefault.class);
-    private Map<String, LookupIndex> lookupIndexMap = new HashMap<>();
-    private Map<String, SearchIndex> searchIndexMap = new HashMap<>();
-    private Map<String, FieldAccess> fields = new HashMap<>();
+    private Map<String, LookupIndex> lookupIndexMap = new LinkedHashMap<>();
+    private Map<String, SearchIndex> searchIndexMap = new LinkedHashMap<>();
+    private Map<String, FieldAccess> fields = new LinkedHashMap<>();
 
     private List<LookupIndex> indexes = new ArrayList<LookupIndex>();
     private Function<ITEM, KEY> primaryKeyGetter;
