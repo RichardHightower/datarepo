@@ -11,7 +11,6 @@ import java.util.function.Supplier;
 public interface RepoBuilder {
 
 
-
     public static void setRepoBuilder(Supplier<RepoBuilder> factory) {
         RepoBuilderHelper.setRepoBuilderFactory(factory);
     }
@@ -48,7 +47,7 @@ public interface RepoBuilder {
 
     public RepoBuilder uniqueSearchIndexFactory(Supplier<SearchIndex> factory);
 
-    public RepoBuilder repoFactory(Supplier <RepoComposer> factory);
+    public RepoBuilder repoFactory(Supplier<RepoComposer> factory);
 
     public RepoBuilder primaryKey(String propertyName);
 

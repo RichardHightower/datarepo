@@ -4,23 +4,34 @@ import java.util.List;
 
 /**
  * SearchIndex
- * @param <KEY> Key we are indexing on.
+ *
+ * @param <KEY>  Key we are indexing on.
  * @param <ITEM> The item that we are indexing.
  */
-public interface SearchIndex <KEY, ITEM> extends LookupIndex<KEY, ITEM> {
-      List <ITEM> findEquals (KEY key);
-      List <ITEM> findStartsWith(KEY keyFrag);
-      List <ITEM> findEndsWith(KEY keyFrag);
-      List <ITEM> findContains(KEY keyFrag);
-      List <ITEM> findBetween(KEY start, KEY end);
-      List <ITEM> findGreaterThan(KEY key);
-      List <ITEM> findLessThan(KEY key);
-      List <ITEM> findGreaterThanEqual(KEY key);
-      List <ITEM> findLessThanEqual(KEY key);
+public interface SearchIndex<KEY, ITEM> extends LookupIndex<KEY, ITEM> {
+    List<ITEM> findEquals(KEY key);
 
-      ITEM min();
-      ITEM max();
-      int count(KEY key);
+    List<ITEM> findStartsWith(KEY keyFrag);
+
+    List<ITEM> findEndsWith(KEY keyFrag);
+
+    List<ITEM> findContains(KEY keyFrag);
+
+    List<ITEM> findBetween(KEY start, KEY end);
+
+    List<ITEM> findGreaterThan(KEY key);
+
+    List<ITEM> findLessThan(KEY key);
+
+    List<ITEM> findGreaterThanEqual(KEY key);
+
+    List<ITEM> findLessThanEqual(KEY key);
+
+    ITEM min();
+
+    ITEM max();
+
+    int count(KEY key);
 
 //      List <ITEM> findEquals (KEY key, int start, int length);
 //      List <ITEM> findStartsWith(KEY keyFrag, int start, int length);

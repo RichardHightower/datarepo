@@ -63,7 +63,7 @@ public class RepoBuilderHelper {
                 }
             };
         }
-        if (lookupIndexFactory ==  null) {
+        if (lookupIndexFactory == null) {
             lookupIndexFactory = new Supplier<LookupIndex>() {
                 @Override
                 public LookupIndex get() {
@@ -72,7 +72,7 @@ public class RepoBuilderHelper {
                 }
             };
         }
-        if (uniqueLookupIndexFactory ==  null) {
+        if (uniqueLookupIndexFactory == null) {
             uniqueLookupIndexFactory = new Supplier<LookupIndex>() {
                 @Override
                 public LookupIndex get() {
@@ -81,7 +81,7 @@ public class RepoBuilderHelper {
                 }
             };
         }
-        if (uniqueSearchIndexFactory ==  null) {
+        if (uniqueSearchIndexFactory == null) {
             uniqueSearchIndexFactory = new Supplier<SearchIndex>() {
                 @Override
                 public SearchIndex get() {
@@ -100,7 +100,7 @@ public class RepoBuilderHelper {
             };
         }
 
-        if (filterFactory == null ) {
+        if (filterFactory == null) {
             filterFactory = new Supplier<Filter>() {
                 @Override
                 public Filter get() {

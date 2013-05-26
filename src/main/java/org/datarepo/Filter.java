@@ -8,7 +8,7 @@ import java.util.Map;
 public interface Filter {
 
     List filter(Map<String, LookupIndex> lookupIndexMap,
-                       Map<String, SearchIndex> searchIndexMap,
-                       Expression... expressions) ;
+                Map<String, SearchIndex> searchIndexMap,
+                Expression... expressions);
 
 }

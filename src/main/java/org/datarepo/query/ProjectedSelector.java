@@ -22,8 +22,8 @@ public abstract class ProjectedSelector extends Selector {
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
                 Comparable value = (Comparable) fields.get(this.name).getValue(item);
 
-                if (max == null)  {
-                   max = value;
+                if (max == null) {
+                    max = value;
                 }
 
                 if (value.compareTo(max) > 0) {
@@ -38,7 +38,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "max", name), max);
                 }
             }
@@ -54,7 +54,7 @@ public abstract class ProjectedSelector extends Selector {
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
                 Comparable value = (Comparable) fields.get(this.name).getValue(item);
 
-                if (min == null)  {
+                if (min == null) {
                     min = value;
                 }
 
@@ -70,7 +70,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "min", name), min);
                 }
             }
@@ -97,8 +97,8 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
-                   rows.get(0).put(joinBy('.', "max", name), max);
+                if (rows.size() > 0) {
+                    rows.get(0).put(joinBy('.', "max", name), max);
                 }
             }
         };
@@ -123,7 +123,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "min", name), min);
                 }
             }
@@ -150,7 +150,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "max", name), max);
                 }
             }
@@ -176,7 +176,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "min", name), min);
                 }
             }
@@ -202,7 +202,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "max", name), max);
                 }
             }
@@ -228,7 +228,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "max", name), min);
                 }
             }
@@ -254,7 +254,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "min", name), min);
                 }
             }
@@ -280,7 +280,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "max", name), max);
                 }
             }
@@ -306,7 +306,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "max", name), max);
                 }
             }
@@ -333,7 +333,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
-                if ( rows.size() > 0 ) {
+                if (rows.size() > 0) {
                     rows.get(0).put(joinBy('.', "min", name), min);
                 }
             }

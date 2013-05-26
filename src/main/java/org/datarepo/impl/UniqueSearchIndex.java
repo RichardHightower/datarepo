@@ -8,8 +8,9 @@ import java.util.function.Function;
 
 /**
  * Default Search Index which uses a TreeMap
- * @param <KEY> Key we are indexing on.
- * @param <ITEM>  The items we are indexing.
+ *
+ * @param <KEY>  Key we are indexing on.
+ * @param <ITEM> The items we are indexing.
  */
 public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> implements SearchIndex<KEY, ITEM> {
     private NavigableMap<KEY, ITEM> navigableMap;
@@ -28,7 +29,6 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
         for (ITEM item : items) {
             add(item);
         }
-
 
 
     }
@@ -89,10 +89,10 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
 
             Collection<ITEM> values = navigableMap.values();
             for (ITEM value : values) {
-                    String svalue = (String) this.keyGetter.apply(value);
-                    if (svalue.endsWith((String)keyFrag)) {
-                        results.add(value);
-                    }
+                String svalue = (String) this.keyGetter.apply(value);
+                if (svalue.endsWith((String) keyFrag)) {
+                    results.add(value);
+                }
             }
         }
         return results;
@@ -107,7 +107,7 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
             Collection<ITEM> values = navigableMap.values();
             for (ITEM value : values) {
                 String svalue = (String) this.keyGetter.apply(value);
-                if (svalue.endsWith((String)keyFrag)) {
+                if (svalue.endsWith((String) keyFrag)) {
                     results.add(value);
                 }
             }
@@ -126,13 +126,13 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
 
     @Override
     public List<ITEM> findGreaterThan(KEY key) {
-        SortedMap<KEY, ITEM> keyMultiValueSortedMap  = this.navigableMap.tailMap(key, false);
+        SortedMap<KEY, ITEM> keyMultiValueSortedMap = this.navigableMap.tailMap(key, false);
         return new ArrayList<>(keyMultiValueSortedMap.values());
     }
 
     @Override
     public List<ITEM> findLessThan(KEY key) {
-        SortedMap<KEY, ITEM> keyMultiValueSortedMap  = this.navigableMap.headMap(key, false);
+        SortedMap<KEY, ITEM> keyMultiValueSortedMap = this.navigableMap.headMap(key, false);
         return new ArrayList<>(keyMultiValueSortedMap.values());
     }
 
@@ -160,13 +160,14 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
 
     @Override
     public List<ITEM> getAll(KEY key) {
-        return  this.findEquals(key);
+        return this.findEquals(key);
     }
 
     @Override
     public int size() {
         return this.navigableMap.size();
     }
+
 
     @Override
     public int count(KEY key) {

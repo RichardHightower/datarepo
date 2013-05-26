@@ -9,7 +9,7 @@ import static org.datarepo.query.Criteria.eq;
 import static org.datarepo.utils.Utils.*;
 
 public class BenchMark {
-    public static void main (String [] args) {
+    public static void main(String[] args) {
 
         List<Employee> employees1 = TestHelper.createMetricTonOfEmployees(200_000);
         List<Employee> employees2 = copy(employees1);
@@ -17,7 +17,7 @@ public class BenchMark {
 
         Repo<String, Employee> repo = RepoBuilder.getInstance()
                 .searchIndex("firstName")
-                //.lookupIndex("firstName")
+                        //.lookupIndex("firstName")
                 .primaryKey("ssn")
                 .build(String.class, Employee.class);
 
@@ -28,51 +28,49 @@ public class BenchMark {
         sleep(3000);
         print("Running tests");
 
-        for (int index=0; index < 5; index++) {
+        for (int index = 0; index < 5; index++) {
 
-        List<String> firstNames = ls("Rick", "Vipin", "Diana", "Alex");
+            List<String> firstNames = ls("Rick", "Vipin", "Diana", "Alex");
 
-        long startTime = System.nanoTime();
+            long startTime = System.nanoTime();
 
-        for (String firstName : firstNames) {
-             List<Employee> list = repo.query(eq("firstName", firstName));
-             if (list!=null && index == 0) {
-                 found = true;
-                 Employee emp = list.get(0);
-                 if (!emp.getFirstName().equals(firstName)){
-                     throw new RuntimeException("bad mojo");
-                 }
-             }
-        }
-        long endTime = System.nanoTime() - startTime;
-        print("index time",  endTime);
-
-        print(found);
-
-        startTime = System.nanoTime();
-
-
-        for (String firstName : firstNames) {
-
-            Object[] results = employees2.stream().filter(emp -> emp.getFirstName().equals(firstName)).toArray();
-
-
-            if (results!=null && results.length>0) {
-                List<Employee> list = ls(Employee.class, results);
-                found = true;
-                Employee emp = list.get(0);
-                if (!emp.getFirstName().equals(firstName)){
-                    throw new RuntimeException("bad mojo");
+            for (String firstName : firstNames) {
+                List<Employee> list = repo.query(eq("firstName", firstName));
+                if (list != null && index == 0) {
+                    found = true;
+                    Employee emp = list.get(0);
+                    if (!emp.getFirstName().equals(firstName)) {
+                        throw new RuntimeException("bad mojo");
+                    }
                 }
             }
+            long endTime = System.nanoTime() - startTime;
+            print("index time", endTime);
+
+            print(found);
+
+            startTime = System.nanoTime();
+
+
+            for (String firstName : firstNames) {
+
+                Object[] results = employees2.stream().filter(emp -> emp.getFirstName().equals(firstName)).toArray();
+
+
+                if (results != null && results.length > 0) {
+                    List<Employee> list = ls(Employee.class, results);
+                    found = true;
+                    Employee emp = list.get(0);
+                    if (!emp.getFirstName().equals(firstName)) {
+                        throw new RuntimeException("bad mojo");
+                    }
+                }
+            }
+
+            endTime = System.nanoTime() - startTime;
+            print("stream time", endTime);
+
         }
-
-        endTime = System.nanoTime() - startTime;
-        print("stream time",  endTime );
-
-        }
-
-
 
 
     }

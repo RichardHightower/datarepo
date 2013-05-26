@@ -457,6 +457,7 @@ public class Utils {
     public static <V> List<V> ls(@SuppressWarnings("unchecked") final V... array) {
         return list(array);
     }
+
     public static <V> List<V> ls(Class<V> cls, @SuppressWarnings("unchecked") final Object... array) {
         return list(cls, array);
     }
@@ -634,7 +635,7 @@ public class Utils {
         }
         ArrayList<V> list = new ArrayList<V>(array.length);
         for (Object o : array) {
-            list.add((V)o);
+            list.add((V) o);
         }
         return list;
     }

@@ -46,6 +46,7 @@ public abstract class Selector {
     public static Selector select(final String... path) {
         return new Selector(joinBy('.', path)) {
             int index = 0;
+
             @Override
             public void handleRow(int rowNum, Map<String, Object> row,
                                   Object item, Map<String, FieldAccess> fields) {
@@ -77,7 +78,7 @@ public abstract class Selector {
                 if (index + 1 == path.length) {
                     return o;
                 } else {
-                    return  getCollecitonProp(o);
+                    return getCollecitonProp(o);
                 }
             }
 

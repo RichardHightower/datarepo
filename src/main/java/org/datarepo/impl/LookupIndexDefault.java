@@ -12,17 +12,18 @@ import static org.datarepo.utils.Utils.debug;
 
 /**
  * A really simple lookup index that uses a standard java.util.HashMap.
+ *
  * @param <KEY>
  * @param <ITEM>
  */
-public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
+public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
 
     protected Function<ITEM, KEY> keyGetter;
-    protected Map<KEY, MultiValue<ITEM>> map =  new ConcurrentHashMap<>();
+    protected Map<KEY, MultiValue<ITEM>> map = new ConcurrentHashMap<>();
     private Logger log = log(LookupIndexDefault.class);
 
-    public LookupIndexDefault () {
+    public LookupIndexDefault() {
     }
 
 
@@ -39,7 +40,7 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
                 list.add(values.value);
             } else {
                 for (Object value : values.values) {
-                    list.add((ITEM)value);
+                    list.add((ITEM) value);
                 }
             }
         }
@@ -51,6 +52,11 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         return this.map.size();
     }
 
+    @Override
+    public Collection<ITEM> toCollection() {
+        return (Collection<ITEM>) this.map.values();
+    }
+
 
     @Override
     public ITEM get(KEY key) {
@@ -58,9 +64,9 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         if (isDebug(log)) {
             debug(log, "key = %s", key);
         }
-        MultiValue<ITEM> mv =  map.get(key);
+        MultiValue<ITEM> mv = map.get(key);
         if (mv == null) {
-            return  null;
+            return null;
         } else {
             return mv.getValue();
         }
@@ -71,12 +77,18 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         if (isDebug(log)) {
             debug(log, "key = %s", key);
         }
-        MultiValue<ITEM> mv =  map.get(key);
+        MultiValue<ITEM> mv = map.get(key);
         if (mv == null) {
-            return  null;
+            return null;
         } else {
             return mv.getValues();
         }
+    }
+
+    @Override
+    public boolean deleteByKey(KEY key) {
+        this.map.remove(key);
+        return true;
     }
 
 
@@ -87,7 +99,7 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         }
 
         KEY key = keyGetter.apply(item);
-        MultiValue<ITEM> mv =  map.get(key);
+        MultiValue<ITEM> mv = map.get(key);
         if (mv == null) {
             mv = new MultiValue<ITEM>(item);
         } else {
@@ -95,15 +107,14 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         }
 
 
-
         map.put(key, mv);
         return true;
     }
 
     @Override
-    public boolean remove(ITEM item) {
+    public boolean delete(ITEM item) {
         KEY key = keyGetter.apply(item);
-        MultiValue<ITEM> mv =  map.get(key);
+        MultiValue<ITEM> mv = map.get(key);
 
         if (mv == null) {
             return false;
@@ -116,6 +127,11 @@ public class LookupIndexDefault <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
         return true;
 
+    }
+
+    @Override
+    public void clear() {
+        this.map.clear();
     }
 
 }

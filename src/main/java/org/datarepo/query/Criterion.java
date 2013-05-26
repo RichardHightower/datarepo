@@ -6,7 +6,7 @@ public class Criterion<VALUE> extends Expression {
     private String name;
     private Operator operator;
     private VALUE value;
-    private VALUE [] values;
+    private VALUE[] values;
 
     public Criterion(String name, Operator operator, VALUE... values) {
         this.name = name;

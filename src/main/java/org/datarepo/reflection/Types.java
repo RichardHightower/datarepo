@@ -383,12 +383,10 @@ public class Types {
             return (T) toArray(clz, value);
         } else if (isCollection(clz)) {
             return toCollection(clz, value);
-        }
-        else if (clz!= null && clz.getPackage() != null && !clz.getPackage().getName().startsWith("java")
+        } else if (clz != null && clz.getPackage() != null && !clz.getPackage().getName().startsWith("java")
                 && isMap(value.getClass()) && isKeyTypeString(value)) {
             return (T) Reflection.fromMap((Map<String, Object>) value);
-        }
-        else {
+        } else {
             return (T) value;
         }
     }
@@ -415,7 +413,7 @@ public class Types {
             int index = 0;
             Object newInstance = Array.newInstance(clz.getComponentType(), len(value));
             Iterator<Object> iterator = iterator(object, value);
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 idx(newInstance, index, iterator.next());
                 index++;
             }
@@ -513,6 +511,7 @@ public class Types {
         }
         return values;
     }
+
     public static char[] carray(Object value) {
         //You could handle shorts, ints, longs and chars more efficiently
         if (value.getClass() == charA) {
@@ -569,56 +568,56 @@ public class Types {
         if (isList(clz)) {
             return (T) toList(value);
         } else if (isSortedSet(clz)) {
-            return (T)  toSortedSet(value);
+            return (T) toSortedSet(value);
         } else if (isSet(clz)) {
-            return  (T) toSet(value);
+            return (T) toSet(value);
         } else {
-            return  (T) toList(value);
+            return (T) toList(value);
         }
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static List toList(Object value) {
         if (value instanceof List) {
-            return (List)value;
+            return (List) value;
         } else if (value instanceof Collection) {
             return new ArrayList((Collection) value);
         } else {
             ArrayList list = new ArrayList(len(value));
             Iterator<Object> iterator = iterator(object, value);
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 list.add(iterator.next());
             }
             return list;
         }
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static Set toSet(Object value) {
         if (value instanceof Set) {
-            return (Set)value;
+            return (Set) value;
         } else if (value instanceof Collection) {
             return new HashSet((Collection) value);
         } else {
             HashSet set = new HashSet(len(value));
             Iterator<Object> iterator = iterator(object, value);
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 set.add(iterator.next());
             }
             return set;
         }
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static SortedSet toSortedSet(Object value) {
         if (value instanceof Set) {
-            return (SortedSet)value;
+            return (SortedSet) value;
         } else if (value instanceof Collection) {
             return new TreeSet((Collection) value);
         } else {
             TreeSet set = new TreeSet();
             Iterator<Object> iterator = iterator(object, value);
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 set.add(iterator.next());
             }
             return set;
@@ -778,7 +777,7 @@ public class Types {
         Object array = Array.newInstance(componentType, value.size());
         @SuppressWarnings("unchecked")
         Iterator<Object> iterator = (Iterator<Object>) value.iterator();
-        int index=0;
+        int index = 0;
         while (iterator.hasNext()) {
             idx(array, index, iterator.next());
             index++;
@@ -797,23 +796,24 @@ public class Types {
 
         if (split.length == 3) {
             return getUSDate(toInt(split[0]), toInt(split[1]), toInt(split[2]));
-        }  else if (split.length == 6) {
+        } else if (split.length == 6) {
             return getUSDate(toInt(split[0]), toInt(split[1]), toInt(split[2]),
                     toInt(split[3]), toInt(split[4]), toInt(split[5])
-                    );
+            );
         } else {
             die("Not able to parse %s into a US date", string);
             return null;
         }
 
     }
+
     public static Date toEuroDate(String string) {
 
         String[] split = splitByArray(string.toCharArray(), new char[]{'.', '\\', '/', ':'});
 
         if (split.length == 3) {
             return getEuroDate(toInt(split[0]), toInt(split[1]), toInt(split[2]));
-        }  else if (split.length == 6) {
+        } else if (split.length == 6) {
             return getEuroDate(toInt(split[0]), toInt(split[1]), toInt(split[2]),
                     toInt(split[3]), toInt(split[4]), toInt(split[5])
             );
@@ -827,7 +827,7 @@ public class Types {
     public static Date year(int year) {
         Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getTimeZone("GMT"));
-        c.set(1970, Calendar.JANUARY , 2, 0, 0, 0);
+        c.set(1970, Calendar.JANUARY, 2, 0, 0, 0);
         c.set(Calendar.YEAR, year);
         return c.getTime();
     }
@@ -861,7 +861,7 @@ public class Types {
         return c.getTime();
     }
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         print(getUSDate(5, 29, 1970));
         print(getUSDate(8, 15, 1985));
 

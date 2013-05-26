@@ -8,11 +8,11 @@ import java.util.logging.Logger;
 import static org.datarepo.utils.Utils.*;
 import static org.datarepo.reflection.Types.*;
 
-public class PropertyField implements  FieldAccess{
+public class PropertyField implements FieldAccess {
     protected final boolean isFinal;
     protected final boolean isStatic;
-    protected final boolean isVolatile  = false;
-    protected final boolean qualified  = false;
+    protected final boolean isVolatile = false;
+    protected final boolean qualified = false;
     protected final boolean readOnly;
     private final Class<?> type;
     private final String name;
@@ -78,6 +78,7 @@ public class PropertyField implements  FieldAccess{
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public long getLong(Object obj) {
         try {

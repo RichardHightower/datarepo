@@ -11,7 +11,7 @@ public class Group extends Expression {
 
     private Grouping grouping = Grouping.AND;
 
-    public Group (Grouping grouping, Expression... expressions) {
+    public Group(Grouping grouping, Expression... expressions) {
         this.grouping = grouping;
         this.expressions = expressions;
     }

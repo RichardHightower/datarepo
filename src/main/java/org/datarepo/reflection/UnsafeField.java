@@ -101,8 +101,6 @@ public abstract class UnsafeField implements FieldAccess {
     }
 
 
-
-
     @Override
     public Object getValue(Object obj) {
         if (type == pint) {
@@ -164,7 +162,6 @@ public abstract class UnsafeField implements FieldAccess {
         }
 
     }
-
 
 
     @Override
@@ -326,7 +323,6 @@ public abstract class UnsafeField implements FieldAccess {
     public String getName() {
         return name;
     }
-
 
 
     @Override

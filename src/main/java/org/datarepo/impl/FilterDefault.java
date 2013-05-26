@@ -13,8 +13,8 @@ public class FilterDefault implements Filter {
                        Expression... expressions) {
 
 
-        if (expressions.length == 1 && expressions[0] instanceof  Criterion) {
-                return doFilter(lookupIndexMap, searchIndexMap, (Criterion) expressions[0]);
+        if (expressions.length == 1 && expressions[0] instanceof Criterion) {
+            return doFilter(lookupIndexMap, searchIndexMap, (Criterion) expressions[0]);
         }
 
         return or(lookupIndexMap, searchIndexMap, expressions);
@@ -25,7 +25,7 @@ public class FilterDefault implements Filter {
                           Group group) {
         if (group.getGrouping() == Grouping.OR) {
             return or(lookupIndexMap, searchIndexMap, group.getExpressions());
-        }  else {
+        } else {
             return and(lookupIndexMap, searchIndexMap, group.getExpressions());
 
         }
@@ -51,9 +51,9 @@ public class FilterDefault implements Filter {
     }
 
     private List and(Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
-                    Expression... expressions) {
+                     Expression... expressions) {
 
-        List <HashSet> listOfSets = new ArrayList(new HashSet());
+        List<HashSet> listOfSets = new ArrayList(new HashSet());
         for (Expression expression : expressions) {
             if (expression instanceof Criterion) {
                 List list = doFilter(lookupIndexMap, searchIndexMap, (Criterion) expression);
@@ -66,7 +66,7 @@ public class FilterDefault implements Filter {
                 if (list.size() > 0) {
                     listOfSets.add(new HashSet(list));
                 }
-          }
+            }
         }
 
 
@@ -74,11 +74,11 @@ public class FilterDefault implements Filter {
 
 
         for (HashSet otherSet : listOfSets) {
-                mainSet.retainAll(otherSet);
+            mainSet.retainAll(otherSet);
         }
 
 
-        return  new ArrayList(mainSet);
+        return new ArrayList(mainSet);
 
     }
 

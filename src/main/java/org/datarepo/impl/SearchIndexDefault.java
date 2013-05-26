@@ -5,12 +5,14 @@ import org.datarepo.SearchIndex;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.Function;
+
 import static org.datarepo.utils.Utils.*;
 
 /**
  * Default Search Index which uses a TreeMap
- * @param <KEY> Key we are indexing on.
- * @param <ITEM>  The items we are indexing.
+ *
+ * @param <KEY>  Key we are indexing on.
+ * @param <ITEM> The items we are indexing.
  */
 public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM> implements SearchIndex<KEY, ITEM> {
     private NavigableMap<KEY, MultiValue<ITEM>> navigableMap;
@@ -21,7 +23,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
 
     }
 
-    public SearchIndexDefault(List <ITEM> items, Function<ITEM, KEY> keyGetter) {
+    public SearchIndexDefault(List<ITEM> items, Function<ITEM, KEY> keyGetter) {
         super.keyGetter = keyGetter;
         super.map = new TreeMap<>();
         this.navigableMap = (NavigableMap<KEY, MultiValue<ITEM>>) super.map;
@@ -29,7 +31,6 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
         for (ITEM item : items) {
             add(item);
         }
-
 
 
     }
@@ -99,7 +100,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
             for (MultiValue<ITEM> mv : values) {
                 for (ITEM value : mv.getValues()) {
                     String svalue = (String) this.keyGetter.apply(value);
-                    if (svalue.endsWith((String)keyFrag)) {
+                    if (svalue.endsWith((String) keyFrag)) {
                         results.add(value);
                     }
                 }
@@ -118,7 +119,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
             for (MultiValue<ITEM> mv : values) {
                 for (ITEM value : mv.getValues()) {
                     String svalue = (String) this.keyGetter.apply(value);
-                    if (svalue.endsWith((String)keyFrag)) {
+                    if (svalue.endsWith((String) keyFrag)) {
                         results.add(value);
                     }
                 }

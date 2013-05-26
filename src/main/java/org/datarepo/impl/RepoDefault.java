@@ -8,12 +8,16 @@ import org.datarepo.query.ValueSetter;
 import org.datarepo.query.Visitor;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;
+import org.datarepo.utils.Utils;
 
 import static org.datarepo.reflection.Reflection.*;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import static org.datarepo.utils.Utils.*;
 import static org.datarepo.utils.Utils.isArray;
@@ -35,6 +39,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     private Function<ITEM, KEY> primaryKeyGetter;
     private String primaryKeyName;
     private Filter filter;
+
+    private UniqueSearchIndex<KEY, ITEM> primaryIndex;
 
     @Override
     public void addSearchIndex(String name, SearchIndex si) {
@@ -66,18 +72,29 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
-    public void removeAll(ITEM... items) {
-        for (ITEM item : items) {
-            this.remove(item);
-        }
+    public void put(ITEM item) {
+        this.add(item);
     }
 
     @Override
-    public boolean removeAll(Collection<ITEM> items) {
+    public void removeByKey(KEY key) {
+        ITEM item = primaryIndex.get(key);
+        this.delete(item);
+    }
+
+    @Override
+    public void removeAll(ITEM... items) {
         for (ITEM item : items) {
-            this.remove(item);
+            this.delete(item);
         }
-        return true;
+    }
+
+
+    @Override
+    public void removeAllAsync(Collection<ITEM> items) {
+        for (ITEM item : items) {
+            this.delete(item);
+        }
     }
 
     @Override
@@ -87,12 +104,18 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         }
     }
 
+
     @Override
-    public boolean addAll(Collection<ITEM> items) {
+    public boolean addAll(Collection<? extends ITEM> items) {
         for (ITEM item : items) {
             this.add(item);
         }
         return true;
+    }
+
+    @Override
+    public void addAllAsync(Collection<ITEM> items) {
+        this.addAll(items);
     }
 
     @Override
@@ -158,12 +181,12 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
         LookupIndex index = this.searchIndexMap.get(property);
         if (index != null) {
-            index.remove(item);
+            index.delete(item);
         }
 
         index = this.lookupIndexMap.get(property);
         if (index != null) {
-            index.remove(item);
+            index.delete(item);
         }
 
     }
@@ -415,9 +438,9 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     @Override
     public int count(KEY key, String property, int value) {
 
-        SearchIndex  index = this.searchIndexMap.get(property);
+        SearchIndex index = this.searchIndexMap.get(property);
 
-        if ( index == null ) {
+        if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
                     "key %s \t property %s \t value %s", key, property, value);
         }
@@ -428,9 +451,9 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public int count(KEY key, String property, short value) {
-        SearchIndex  index = this.searchIndexMap.get(property);
+        SearchIndex index = this.searchIndexMap.get(property);
 
-        if ( index == null ) {
+        if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
                     "key %s \t property %s \t value %s", key, property, value);
         }
@@ -440,9 +463,9 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public int count(KEY key, String property, byte value) {
-        SearchIndex  index = this.searchIndexMap.get(property);
+        SearchIndex index = this.searchIndexMap.get(property);
 
-        if ( index == null ) {
+        if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
                     "key %s \t property %s \t value %s", key, property, value);
         }
@@ -452,9 +475,9 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public int count(KEY key, String property, long value) {
-        SearchIndex  index = this.searchIndexMap.get(property);
+        SearchIndex index = this.searchIndexMap.get(property);
 
-        if ( index == null ) {
+        if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
                     "key %s \t property %s \t value %s", key, property, value);
         }
@@ -464,9 +487,9 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public int count(KEY key, String property, char value) {
-        SearchIndex  index = this.searchIndexMap.get(property);
+        SearchIndex index = this.searchIndexMap.get(property);
 
-        if ( index == null ) {
+        if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
                     "key %s \t property %s \t value %s", key, property, value);
         }
@@ -476,9 +499,9 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public int count(KEY key, String property, float value) {
-        SearchIndex  index = this.searchIndexMap.get(property);
+        SearchIndex index = this.searchIndexMap.get(property);
 
-        if ( index == null ) {
+        if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
                     "key %s \t property %s \t value %s", key, property, value);
         }
@@ -488,9 +511,9 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public int count(KEY key, String property, double value) {
-        SearchIndex  index = this.searchIndexMap.get(property);
+        SearchIndex index = this.searchIndexMap.get(property);
 
-        if ( index == null ) {
+        if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
                     "key %s \t property %s \t value %s", key, property, value);
         }
@@ -500,9 +523,9 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public int count(KEY key, String property, Object value) {
-        SearchIndex  index = this.searchIndexMap.get(property);
+        SearchIndex index = this.searchIndexMap.get(property);
 
-        if ( index == null ) {
+        if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
                     "key %s \t property %s \t value %s", key, property, value);
         }
@@ -512,8 +535,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public <T> T max(KEY key, String property, Class<T> type) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.max();
             if (item != null) {
                 return (T) this.fields.get(property).getValue(item);
@@ -524,11 +547,11 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public String maxString(KEY key, String property) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.max();
             if (item != null) {
-                return (String)this.fields.get(property).getObject(item);
+                return (String) this.fields.get(property).getObject(item);
             }
         }
         return null;
@@ -536,11 +559,11 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public Number maxNumber(KEY key, String property) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.max();
             if (item != null) {
-                return (Number)this.fields.get(property).getValue(item);
+                return (Number) this.fields.get(property).getValue(item);
             }
         }
         return Double.NaN;
@@ -548,8 +571,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public int maxInt(KEY key, String property) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.max();
             if (item != null) {
                 return this.fields.get(property).getInt(item);
@@ -560,8 +583,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public long maxLong(KEY key, String property) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.max();
             if (item != null) {
                 return this.fields.get(property).getLong(item);
@@ -572,8 +595,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public double maxDouble(KEY key, String property) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.max();
             if (item != null) {
                 return this.fields.get(property).getDouble(item);
@@ -584,8 +607,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public <T> T min(KEY key, String property, Class<T> type) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.min();
             if (item != null) {
                 return (T) this.fields.get(property).getValue(item);
@@ -596,11 +619,11 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public String minString(KEY key, String property) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.min();
             if (item != null) {
-                return (String)this.fields.get(property).getObject(item);
+                return (String) this.fields.get(property).getObject(item);
             }
         }
         return "";
@@ -608,11 +631,11 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public Number minNumber(KEY key, String property) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.min();
             if (item != null) {
-                return (Number)this.fields.get(property).getValue(item);
+                return (Number) this.fields.get(property).getValue(item);
             }
         }
         return Double.NaN;
@@ -620,8 +643,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public int minInt(KEY key, String property) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.min();
             if (item != null) {
                 return this.fields.get(property).getInt(item);
@@ -632,8 +655,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public long minLong(KEY key, String property) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.min();
             if (item != null) {
                 return this.fields.get(property).getLong(item);
@@ -644,8 +667,8 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
 
     @Override
     public double minDouble(KEY key, String property) {
-        SearchIndex  index = this.searchIndexMap.get(property);
-        if ( index != null ) {
+        SearchIndex index = this.searchIndexMap.get(property);
+        if (index != null) {
             ITEM item = (ITEM) index.min();
             if (item != null) {
                 return this.fields.get(property).getDouble(item);
@@ -923,10 +946,10 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     @Override
     public List<ITEM> sortedQuery(final String sortBy, Expression... expressions) {
         List<ITEM> results = this.query(expressions);
-        Function<ITEM, KEY> func = new Function<ITEM, KEY>(){
+        Function<ITEM, KEY> func = new Function<ITEM, KEY>() {
             @Override
             public KEY apply(ITEM item) {
-                return (KEY)((Map)item).get(sortBy);
+                return (KEY) ((Map) item).get(sortBy);
             }
         };
         return new SearchIndexDefault(results, func).all();
@@ -946,17 +969,17 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     public List<Map<String, Object>> sortedQuery(final String sortBy, List<Selector> selectors, Expression... expressions) {
 
         final List<Map<String, Object>> results = query(selectors, expressions);
-        Function<ITEM, KEY> func = new Function<ITEM, KEY>(){
+        Function<ITEM, KEY> func = new Function<ITEM, KEY>() {
             @Override
             public KEY apply(ITEM item) {
-                return (KEY)((Map)item).get(sortBy);
+                return (KEY) ((Map) item).get(sortBy);
             }
         };
         return new SearchIndexDefault(results, func).all();
     }
 
     private void visit(KEY key, ITEM item, Visitor<KEY, ITEM> visitor, Object o, List<String> path, int levels) {
-        if(o == null) {
+        if (o == null) {
             return;
         }
         levels++;
@@ -966,7 +989,7 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         visitor.visit(key, item, o, this, path);
 
 
-        if (o.getClass().isPrimitive() ) {
+        if (o.getClass().isPrimitive()) {
             return;
         }
 
@@ -979,12 +1002,12 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         if (isArray(o) || o instanceof Collection) {
 
             int index = 0;
-            Iterator iterator = iterator(o);
-            while(iterator.hasNext()) {
+            Iterator iterator = Utils.iterator(o);
+            while (iterator.hasNext()) {
                 path.add(sprintf("[%s]", index));
                 Object objectItem = iterator.next();
                 visit(key, item, visitor, objectItem, path, levels);
-                path.remove(path.size()-1);
+                path.remove(path.size() - 1);
                 index++;
 
             }
@@ -998,12 +1021,13 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
             }
             path.add(field.getName());
             visit(key, item, visitor, field.getValue(o), path, levels);
-            path.remove(path.size()-1);
+            path.remove(path.size() - 1);
 
         }
 
 
     }
+
     @Override
     public void query(Visitor<KEY, ITEM> visitor, Expression... expressions) {
         List<ITEM> items = this.query(expressions);
@@ -1044,7 +1068,7 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
             for (Selector s : selectors) {
                 s.handleRow(index, row, item, fields);
             }
-            index ++;
+            index++;
             rows.add(row);
         }
 
@@ -1071,9 +1095,103 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
     }
 
     @Override
-    public boolean remove(ITEM item) {
+    public boolean remove(Object o) {
+        KEY key = null;
+        ITEM item = null;
+        try {
+            key = (KEY) object;
+            removeByKey(key);
+        } catch (ClassCastException ex) {
+            item = (ITEM) object;
+            delete(item);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+
+        for (Object object : c) {
+            KEY key = null;
+            ITEM item = null;
+            try {
+                key = (KEY) object;
+                item = get(key);
+            } catch (ClassCastException ex) {
+                ITEM itemArg = (ITEM) object;
+                key = this.primaryKeyGetter.apply(itemArg);
+                item = get(key);
+            }
+            if (item == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        this.removeAllAsync((Collection<ITEM>) c);
+        return true;
+    }
+
+    @Override
+    public boolean removeIf(Predicate<? super ITEM> filter) {
+        List<ITEM> all = this.all();
+        boolean removedSum = false;
+        for (ITEM item : all) {
+            boolean test = filter.test(item);
+            if (test) {
+                this.delete(item);
+            }
+        }
+        return removedSum;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        for (Object object : c) {
+            KEY key = null;
+            ITEM item = null;
+            try {
+                key = (KEY) object;
+                item = get(key);
+            } catch (ClassCastException ex) {
+                item = (ITEM) object;
+            }
+            if (item == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void clear() {
         for (LookupIndex index : indexes) {
-            index.remove(item);
+            index.clear();
+        }
+    }
+
+    @Override
+    public Spliterator<ITEM> spliterator() {
+        return this.primaryIndex.toCollection().spliterator();
+    }
+
+    @Override
+    public Stream<ITEM> stream() {
+        return this.primaryIndex.toCollection().stream();
+    }
+
+    @Override
+    public Stream<ITEM> parallelStream() {
+        return this.primaryIndex.toCollection().parallelStream();
+    }
+
+    @Override
+    public boolean delete(ITEM item) {
+        for (LookupIndex index : indexes) {
+            index.delete((ITEM) item);
         }
         return true;
     }
@@ -1093,10 +1211,68 @@ public class RepoDefault<KEY, ITEM> implements RepoComposer, Repo<KEY, ITEM> {
         this.filter = filter;
     }
 
+    @Override
+    public void init() {
+
+
+        primaryIndex = (UniqueSearchIndex<KEY, ITEM>) this.lookupIndexMap.get(this.primaryKeyName);
+
+    }
+
 
     @Override
     public int size() {
         return this.lookupIndexMap.get(this.primaryKeyName).size();
+    }
+
+    @Override
+    public Collection<ITEM> toCollection() {
+        return this.primaryIndex.toCollection();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.primaryIndex.toCollection().isEmpty();
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        KEY key = null;
+        ITEM item = null;
+        try {
+            key = (KEY) object;
+            item = get(key);
+        } catch (ClassCastException ex) {
+            ITEM itemArg = (ITEM) object;
+            key = this.primaryKeyGetter.apply(itemArg);
+            item = get(key);
+        }
+        if (item == null) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public Iterator<ITEM> iterator() {
+        return primaryIndex.toCollection().iterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super ITEM> action) {
+        primaryIndex.toCollection().forEach(action);
+    }
+
+    @Override
+    public Object[] toArray() {
+        return primaryIndex.toCollection().toArray();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return primaryIndex.toCollection().toArray(a);
     }
 
 }

@@ -23,7 +23,7 @@ public class ReflectField implements FieldAccess {
         isStatic = Modifier.isStatic(field.getModifiers());
         isVolatile = Modifier.isVolatile(field.getModifiers());
         qualified = isFinal || isVolatile;
-        readOnly = isFinal || isStatic ;
+        readOnly = isFinal || isStatic;
         type = f.getType();
         name = f.getName();
     }
@@ -72,6 +72,7 @@ public class ReflectField implements FieldAccess {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public long getLong(Object obj) {
         try {

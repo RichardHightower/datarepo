@@ -48,7 +48,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         assertNotNull(repo.get("21785999"));
         //assertNotSame(emp, repo.get("21785999"));
-        repo.remove(emp);
+        repo.delete(emp);
         assertNull("We were able to remove emp", repo.get("21785999"));
 
     }
@@ -58,7 +58,7 @@ public class RepoDefaultTest {
         Employee emp = employee("Diana", "Hightower", "21785999", "08.15.82", 100_000);
         repo.add(emp);
         assertNotNull(repo.get("21785999"));
-        repo.remove(emp);
+        repo.delete(emp);
         assertNull("We were able to remove emp", repo.get("21785999"));
 
     }

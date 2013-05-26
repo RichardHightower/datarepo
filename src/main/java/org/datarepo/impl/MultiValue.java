@@ -1,12 +1,14 @@
 package org.datarepo.impl;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Internal class
+ *
  * @param <T>
  */
-class MultiValue <T> {
+class MultiValue<T> {
     T value;
     List<T> values;
 
@@ -19,21 +21,21 @@ class MultiValue <T> {
     }
 
     void add(T item) {
-         if (values == null) {
+        if (values == null) {
             values = new ArrayList();
-         }
-         if (value != null) {
-             values.add(value);
-             value = null;
-         }
-         values.add(item);
+        }
+        if (value != null) {
+            values.add(value);
+            value = null;
+        }
+        values.add(item);
     }
 
     void remove(T item) {
         if (value != null) {
             value = null;
         } else {
-            if ( values!=null ) {
+            if (values != null) {
                 values.remove(item);
             }
         }
@@ -58,9 +60,9 @@ class MultiValue <T> {
     }
 
     int size() {
-        if (value!=null) {
+        if (value != null) {
             return 1;
-        }else {
+        } else {
             return values == null ? 0 : values.size();
         }
     }
@@ -73,7 +75,6 @@ class MultiValue <T> {
         }
 
     }
-
 
 
 }

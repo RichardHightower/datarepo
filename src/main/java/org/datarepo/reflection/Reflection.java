@@ -93,7 +93,7 @@ public class Reflection {
         if (isArray(object)) {
             object = Array.get(object, index);
         } else if (object instanceof List) {
-            object = Utils.idx ((List)object, index);
+            object = Utils.idx((List) object, index);
         }
         return object;
     }
@@ -129,29 +129,30 @@ public class Reflection {
     }
 
     public static void getFields(Object object, final String key, Collection col) {
-        if (isArray(object) || object instanceof Collection)  {
+        if (isArray(object) || object instanceof Collection) {
             Iterator iter = iterator(object);
             while (iter.hasNext()) {
                 col.add(iter.next());
             }
-        }else {
+        } else {
             col.add(getField(object, key));
         }
 
     }
 
     public static Object getFields(Object object, final String key) {
-        if (isArray(object) || object instanceof Collection)  {
-              Iterator iter = iterator(object);
-              List list = new ArrayList(len(object));
-              while (iter.hasNext()) {
-                  list.add(getFields(iter.next(), key));
-              }
-              return list;
-        }else {
+        if (isArray(object) || object instanceof Collection) {
+            Iterator iter = iterator(object);
+            List list = new ArrayList(len(object));
+            while (iter.hasNext()) {
+                list.add(getFields(iter.next(), key));
+            }
+            return list;
+        } else {
             return getField(object, key);
         }
     }
+
     public static Object getField(Object object, final String key) {
         if (object == null) {
             return null;

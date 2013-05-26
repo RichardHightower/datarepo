@@ -6,13 +6,18 @@ import java.util.function.Function;
 
 /**
  * Creates a simple lookup index (like a hash map).
- * @param <KEY>    The key
- * @param <ITEM>   The item
+ *
+ * @param <KEY>  The key
+ * @param <ITEM> The item
  */
-public interface LookupIndex <KEY, ITEM> extends Bag<ITEM> {
-    ITEM get (KEY key);
+public interface LookupIndex<KEY, ITEM> extends Bag<ITEM> {
+    ITEM get(KEY key);
+
     void setKeyGetter(Function<ITEM, KEY> keyGetter);
-    List<ITEM> getAll (KEY key);
+
+    List<ITEM> getAll(KEY key);
+
+    boolean deleteByKey(KEY key);
 
 
 }

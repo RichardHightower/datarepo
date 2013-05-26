@@ -4,7 +4,7 @@ import org.datarepo.Repo;
 
 import java.util.List;
 
-import static  org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.*;
 
 public abstract class ValueSetter {
 
@@ -18,12 +18,12 @@ public abstract class ValueSetter {
     public abstract void doSet(Repo repo, Object item);
 
     public static ValueSetter value(String name, final int value) {
-           return new ValueSetter() {
-               @Override
-               public void doSet(Repo repo, Object item) {
-                   repo.modify(item, name, value);
-               }
-           };
+        return new ValueSetter() {
+            @Override
+            public void doSet(Repo repo, Object item) {
+                repo.modify(item, name, value);
+            }
+        };
     }
 
     public static ValueSetter value(String name, final long value) {
@@ -80,7 +80,7 @@ public abstract class ValueSetter {
         };
     }
 
-    public static List<ValueSetter> values (ValueSetter... values) {
+    public static List<ValueSetter> values(ValueSetter... values) {
         return list(values);
     }
 

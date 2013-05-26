@@ -9,11 +9,11 @@ import java.util.logging.Logger;
 
 import static org.datarepo.utils.Utils.*;
 
-public class UniqueLookupIndex <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
+public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     protected Function<ITEM, KEY> keyGetter;
-    protected Map<KEY, ITEM> map =  new ConcurrentHashMap<>();
-    protected List <ITEM> items = new LinkedList();
+    protected Map<KEY, ITEM> map = new ConcurrentHashMap<>();
+    protected List<ITEM> items = new LinkedList();
 
     private Logger log = log(UniqueLookupIndex.class);
 
@@ -42,14 +42,13 @@ public class UniqueLookupIndex <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         }
 
 
-
         map.put(key, item);
         items.add(item);
         return true;
     }
 
     @Override
-    public boolean remove(ITEM item) {
+    public boolean delete(ITEM item) {
         map.remove(keyGetter.apply(item));
         return items.remove(item);
     }
@@ -61,12 +60,28 @@ public class UniqueLookupIndex <KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public List<ITEM> getAll(KEY key) {
-        return  Collections.singletonList(this.get(key));
+        return Collections.singletonList(this.get(key));
     }
 
     @Override
     public int size() {
         return this.items.size();
+    }
+
+    @Override
+    public Collection<ITEM> toCollection() {
+        return this.items;
+    }
+
+    @Override
+    public void clear() {
+        this.map.clear();
+    }
+
+    @Override
+    public boolean deleteByKey(KEY key) {
+        this.map.remove(key);
+        return true;
     }
 
 
