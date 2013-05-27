@@ -39,6 +39,8 @@ public class RepoBuilderDefault implements RepoBuilder {
     boolean useField = true;
     boolean useUnSafe = true;
 
+    boolean nullChecksAndLogging = true;
+
     SearchableCollectionComposer query;
 
 
@@ -52,6 +54,16 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     public void useUnsafe(boolean useUnSafe) {
         this.useUnSafe = useUnSafe;
+    }
+
+    @Override
+    public void nullChecks(boolean nullChecks) {
+        this.nullChecksAndLogging = nullChecks;
+    }
+
+    @Override
+    public void addLogging(boolean logging) {
+        this.nullChecksAndLogging = logging;
     }
 
     @Override
@@ -162,8 +174,14 @@ public class RepoBuilderDefault implements RepoBuilder {
     public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz) {
         init();
         RepoComposer repo = (RepoComposer) this.repoComposerFactory.get();
-        ObjectEditorComposer editor =  this.objectEditorFactory.get();
-        repo.setObjectEditor((ObjectEditor)editor);
+        ObjectEditorComposer editorComposer =  this.objectEditorFactory.get();
+        ObjectEditor editor = (ObjectEditor) editorComposer;
+
+        if (nullChecksAndLogging) {
+            editor = new ObjectEditorLogNullCheckDecorator(editor);
+        }
+
+        repo.setObjectEditor(editor);
 
 
 
@@ -185,7 +203,7 @@ public class RepoBuilderDefault implements RepoBuilder {
             }
         }
 
-        editor.setFields(fields);
+        editorComposer.setFields(fields);
 
 
 
@@ -201,7 +219,7 @@ public class RepoBuilderDefault implements RepoBuilder {
 
 
         repo.setSearchableCollection((SearchableCollection<KEY, ITEM>)query);
-        editor.setSearchableCollection((SearchableCollection<KEY, ITEM>)query);
+        editorComposer.setSearchableCollection((SearchableCollection<KEY, ITEM>) query);
 
 
 

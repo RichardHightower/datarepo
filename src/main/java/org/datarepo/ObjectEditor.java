@@ -104,4 +104,6 @@ public interface ObjectEditor<KEY, ITEM> extends Bag<ITEM> {
 
 
     void addAll(List<ITEM> items);
+
+
 }

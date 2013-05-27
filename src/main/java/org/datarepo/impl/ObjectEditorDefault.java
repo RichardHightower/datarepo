@@ -396,6 +396,7 @@ public class ObjectEditorDefault <KEY, ITEM> implements ObjectEditorComposer<KEY
         query.addAll(items);
     }
 
+
     public boolean add(ITEM item) {
 
         return query.add(item);
@@ -478,7 +479,7 @@ public class ObjectEditorDefault <KEY, ITEM> implements ObjectEditorComposer<KEY
 
     @Override
     public Collection<ITEM> toCollection() {
-        return query;  //To change body of implemented methods use File | Settings | File Templates.
+        return query;
     }
 
 

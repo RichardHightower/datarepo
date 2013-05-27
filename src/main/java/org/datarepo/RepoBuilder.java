@@ -71,6 +71,10 @@ public interface RepoBuilder {
 
     public void useUnsafe(boolean useUnSafe);
 
+    public void nullChecks(boolean nullChecks);
+
+    public void addLogging(boolean logging);
+
 
     public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz);
 
