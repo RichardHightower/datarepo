@@ -536,7 +536,6 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     }
 
     public boolean add(ITEM item) {
-        item = item;
         for (LookupIndex index : indexes) {
             index.add(item);
         }

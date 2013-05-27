@@ -9,9 +9,9 @@ import org.datarepo.impl.*;
 import java.util.function.Supplier;
 
 /**
- * Helper class for RepoBuilderHelper interface.
+ * Helper class for SPIFactory interface.
  */
-public class RepoBuilderHelper {
+public class SPIFactory {
 
     static Supplier<RepoBuilder> repoBuilderFactory = null;
     static Supplier<SearchIndex> searchIndexFactory = null;
@@ -138,34 +138,38 @@ public class RepoBuilderHelper {
 
     }
 
+    static {
+        init();
+    }
+
 
     public static void setRepoBuilderFactory(Supplier<RepoBuilder> repoBuilderFactory) {
-        RepoBuilderHelper.repoBuilderFactory = repoBuilderFactory;
+        SPIFactory.repoBuilderFactory = repoBuilderFactory;
     }
 
     public static void setSearchIndexFactory(Supplier<SearchIndex> searchIndexFactory) {
-        RepoBuilderHelper.searchIndexFactory = searchIndexFactory;
+        SPIFactory.searchIndexFactory = searchIndexFactory;
     }
 
     public static void setLookupIndexFactory(Supplier<LookupIndex> lookupIndexFactory) {
-        RepoBuilderHelper.lookupIndexFactory = lookupIndexFactory;
+        SPIFactory.lookupIndexFactory = lookupIndexFactory;
     }
 
 
     public static void setUniqueLookupIndexFactory(Supplier<LookupIndex> lookupIndexFactory) {
-        RepoBuilderHelper.uniqueLookupIndexFactory = lookupIndexFactory;
+        SPIFactory.uniqueLookupIndexFactory = lookupIndexFactory;
     }
 
     public static void setUniqueSearchIndexFactory(Supplier<SearchIndex> factory) {
-        RepoBuilderHelper.uniqueSearchIndexFactory = factory;
+        SPIFactory.uniqueSearchIndexFactory = factory;
     }
 
     public static void setRepoFactory(Supplier<RepoComposer> repoFactory) {
-        RepoBuilderHelper.repoFactory = repoFactory;
+        SPIFactory.repoFactory = repoFactory;
     }
 
     public static void setFilterFactory(Supplier<Filter> filterFactory) {
-        RepoBuilderHelper.filterFactory = filterFactory;
+        SPIFactory.filterFactory = filterFactory;
     }
 
     public static Supplier<ObjectEditorComposer> getObjectEditorFactory() {

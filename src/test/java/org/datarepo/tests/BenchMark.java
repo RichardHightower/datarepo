@@ -1,12 +1,12 @@
 package org.datarepo.tests;
 
-import org.datarepo.Repo;
-import org.datarepo.RepoBuilder;
 
 import java.util.List;
 
 import static org.datarepo.query.Criteria.eq;
 import static org.datarepo.utils.Utils.*;
+
+import static org.datarepo.Collections.*;
 
 public class BenchMark {
     public static void main(String[] args) {
@@ -14,28 +14,21 @@ public class BenchMark {
         List<Employee> employees1 = TestHelper.createMetricTonOfEmployees(200_000);
         List<Employee> employees2 = copy(employees1);
 
-
-        Repo<String, Employee> repo = RepoBuilder.getInstance()
-                .searchIndex("firstName")
-                        .lookupIndex("firstName")
-                .primaryKey("ssn").debug().cloneEdits(true)
-                .build(String.class, Employee.class);
-
-        repo.addAll(employees1);
+        employees1 = $q(employees1);
 
         boolean found = false;
         print("Data loaded");
         sleep(3000);
         print("Running tests");
 
-        for (int index = 0; index < 5; index++) {
+        for (int index = 0; index < 500; index++) {
 
             List<String> firstNames = ls("Rick", "Vipin", "Diana", "Alex");
 
             long startTime = System.nanoTime();
 
             for (String firstName : firstNames) {
-                List<Employee> list = repo.query(eq("firstName", firstName));
+                List<Employee> list = query(employees1, eq("firstName", firstName));
                 if (list != null && index == 0) {
                     found = true;
                     Employee emp = list.get(0);

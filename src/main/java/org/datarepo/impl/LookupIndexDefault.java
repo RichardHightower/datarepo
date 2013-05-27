@@ -101,6 +101,11 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         }
 
         KEY key = keyGetter.apply(item);
+
+        if (key == null) {
+            return false;
+        }
+
         MultiValue<ITEM> mv = map.get(key);
         if (mv == null) {
             mv = new MultiValue<ITEM>(item);

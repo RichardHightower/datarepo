@@ -4,17 +4,16 @@ import org.datarepo.*;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;
 import org.datarepo.spi.ObjectEditorComposer;
-import org.datarepo.spi.RepoBuilderHelper;
+import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.RepoComposer;
 import org.datarepo.spi.SearchableCollectionComposer;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Level;
+import  org.datarepo.utils.Utils;
+
 
 public class RepoBuilderDefault implements RepoBuilder {
 
@@ -171,26 +170,26 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     private void init() {
         if (this.repoComposerFactory == null) {
-            this.repoComposerFactory = RepoBuilderHelper.getRepoFactory();
+            this.repoComposerFactory = SPIFactory.getRepoFactory();
         }
         if (this.lookupIndexFactory == null) {
-            this.lookupIndexFactory = RepoBuilderHelper.getLookupIndexFactory();
+            this.lookupIndexFactory = SPIFactory.getLookupIndexFactory();
         }
         if (this.searchIndexFactory == null) {
-            this.searchIndexFactory = RepoBuilderHelper.getSearchIndexFactory();
+            this.searchIndexFactory = SPIFactory.getSearchIndexFactory();
         }
         if (this.uniqueLookupIndexFactory == null) {
-            this.uniqueLookupIndexFactory = RepoBuilderHelper.getUniqueLookupIndexFactory();
+            this.uniqueLookupIndexFactory = SPIFactory.getUniqueLookupIndexFactory();
         }
         if (this.searchableCollectionFactory == null) {
-            this.searchableCollectionFactory = RepoBuilderHelper.getSearchableCollectionFactory();
+            this.searchableCollectionFactory = SPIFactory.getSearchableCollectionFactory();
         }
         if (this.filterFactory == null) {
-            this.filterFactory = RepoBuilderHelper.getFilterFactory();
+            this.filterFactory = SPIFactory.getFilterFactory();
         }
 
         if (this.objectEditorFactory == null) {
-            this.objectEditorFactory = RepoBuilderHelper.getObjectEditorFactory();
+            this.objectEditorFactory = SPIFactory.getObjectEditorFactory();
         }
 
     }
@@ -262,6 +261,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     private Function createKeyGetter(final FieldAccess field) {
+        Utils.notNull(field);
         return new Function() {
             @Override
             public Object apply(Object o) {
@@ -302,6 +302,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     private Function getKeyGetterOrCreate(Map<String, FieldAccess> fields, String prop) {
+        Utils.notNull(fields, prop);
         Function kg = this.keyGetterMap.get(prop);
 
         if (kg == null) {
@@ -315,10 +316,20 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     private void configPrimaryKey(Map<String, FieldAccess> fields) {
         LookupIndex primaryKeyIndex = this.uniqueLookupIndexFactory.get();
+
+        Utils.notNull(primaryKey);
+
+        if(!fields.containsKey(primaryKey)) {
+            Utils.complain("Fields does not have primary key %s", primaryKey);
+        }
+
+
         primaryKeyIndex.setKeyGetter(getKeyGetterOrCreate(fields, this.primaryKey));
         query.setPrimaryKeyName(this.primaryKey);
         query.setPrimaryKeyGetter(this.keyGetterMap.get(this.primaryKey));
         ((SearchableCollection) query).addLookupIndex(this.primaryKey, primaryKeyIndex);
+
+
     }
 
 

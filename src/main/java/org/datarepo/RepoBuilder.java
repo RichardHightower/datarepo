@@ -1,6 +1,6 @@
 package org.datarepo;
 
-import org.datarepo.spi.RepoBuilderHelper;
+import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.RepoComposer;
 
 import java.util.function.Function;
@@ -14,31 +14,31 @@ public interface RepoBuilder {
 
 
     public static void setRepoBuilder(Supplier<RepoBuilder> factory) {
-        RepoBuilderHelper.setRepoBuilderFactory(factory);
+        SPIFactory.setRepoBuilderFactory(factory);
     }
 
     public static void setDefaultSearchIndexFactory(Supplier<SearchIndex> factory) {
-        RepoBuilderHelper.setSearchIndexFactory(factory);
+        SPIFactory.setSearchIndexFactory(factory);
     }
 
     public static void setLookupIndexFactory(Supplier<LookupIndex> factory) {
-        RepoBuilderHelper.setLookupIndexFactory(factory);
+        SPIFactory.setLookupIndexFactory(factory);
     }
 
     public static void setUniqueLookupIndexFactory(Supplier<LookupIndex> factory) {
-        RepoBuilderHelper.setUniqueLookupIndexFactory(factory);
+        SPIFactory.setUniqueLookupIndexFactory(factory);
     }
 
     public static void setUniqueSearchIndexFactory(Supplier<SearchIndex> factory) {
-        RepoBuilderHelper.setUniqueSearchIndexFactory(factory);
+        SPIFactory.setUniqueSearchIndexFactory(factory);
     }
 
     public static void setRepoFactory(Supplier<RepoComposer> factory) {
-        RepoBuilderHelper.setRepoFactory(factory);
+        SPIFactory.setRepoFactory(factory);
     }
 
     public static void setFilterFactory(Supplier<Filter> factory) {
-        RepoBuilderHelper.setFilterFactory(factory);
+        SPIFactory.setFilterFactory(factory);
     }
 
     public RepoBuilder searchIndexFactory(Supplier<SearchIndex> factory);
@@ -84,8 +84,8 @@ public interface RepoBuilder {
     public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz);
 
     public static RepoBuilder getInstance() {
-        RepoBuilderHelper.init();
-        return RepoBuilderHelper.getRepoBuilderFactory().get();
+        SPIFactory.init();
+        return SPIFactory.getRepoBuilderFactory().get();
     }
 
     RepoBuilder level(Level info);

@@ -118,7 +118,7 @@ public class RepoDefaultTest {
         repo.updateByFilter("firstName", "Di",
                 and( eq("firstName", "Diana"),
                 eq("lastName", "Hightower"),
-                        eq("ssn", "217859992") ) );
+                        eq("id", "217859992") ) );
 
 
         String firstName = repo.get("217859992").getFirstName();
@@ -139,7 +139,7 @@ public class RepoDefaultTest {
         repo.updateByFilter(values(value("firstName", "Di")),
                 and( eq("firstName", "Diana"),
                         eq("lastName", "Hightower"),
-                        eq("ssn", "2178599917788") ) );
+                        eq("id", "2178599917788") ) );
 
 
         String firstName = repo.get("2178599917788").getFirstName();
@@ -324,7 +324,7 @@ public class RepoDefaultTest {
         Employee emp = employee("Diana", "Hightower", "217859997", "08.15.82", 100_000);
         repo.add(emp);
         List<Employee> employees = repo.query(
-                and(eq("firstName", "Diana"), eq("lastName", "Hightower"), eq("ssn", "217859997")));
+                and(eq("firstName", "Diana"), eq("lastName", "Hightower"), eq("id", "217859997")));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Diana", employees.get(0).getFirstName());

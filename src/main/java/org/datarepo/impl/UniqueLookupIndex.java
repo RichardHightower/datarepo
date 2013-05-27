@@ -36,6 +36,10 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
         KEY key = keyGetter.apply(item);
 
+        if (key == null) {
+            return false;
+        }
+
 
         if (map.containsKey(key)) {
             die("this index already contains this key %s", key);
