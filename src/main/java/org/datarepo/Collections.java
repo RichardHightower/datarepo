@@ -23,6 +23,18 @@ public class Collections {
         return listQuery(list, true, true);
     }
 
+    public static <T> List<T>  $c(final List<T> list) {
+        return plainList(list);
+    }
+
+    private static <T> List<T> plainList(List<T> list) {
+        if (list instanceof QList) {
+            return ((QList)list).list;
+        } else {
+            return list;
+        }
+    }
+
     public static <T> List<T>  listQuery(final List<T> list) {
         return listQuery(list, true, true);
     }
@@ -61,6 +73,59 @@ public class Collections {
         return new QList<T>(list, (SearchableCollection)query);
     }
 
+    public static <T> Set<T>  $q(final Set<T> set) {
+        return setQuery(set, true, true);
+    }
+
+    public static <T> Set<T>  $c(final Set<T> set) {
+        return plainSet(set);
+    }
+
+    private static <T> Set<T> plainSet(Set<T> set) {
+        if (set instanceof QSet) {
+            return ((QSet)set).set;
+        } else {
+            return set;
+        }
+    }
+
+    public static <T> Set<T>  listQuery(final Set<T> set) {
+        return setQuery(set, true, true);
+    }
+
+    public static <T> Set<T>  setQuery(final Set<T> set, boolean useField, boolean useUnSafe) {
+        if (set == null || set.size()==0) {
+            return set;
+        }
+
+        Class<?> clazz = set.iterator().next().getClass();
+
+        SearchableCollectionComposer query = SPIFactory.getSearchableCollectionFactory().get();
+        Map<String, FieldAccess> fields = getStringFieldAccessMap(useField, useUnSafe, clazz);
+        String primaryKey = findPrimaryKey(fields);
+        FieldAccess field = fields.get(primaryKey);
+        Function keyGetter = createKeyGetter(field);
+
+        query.setFields(fields);
+        query.setPrimaryKeyGetter(keyGetter);
+        query.setPrimaryKeyName(primaryKey);
+        query.setFilter(SPIFactory.getFilterFactory().get());
+
+        for (FieldAccess f : fields.values()) {
+            if (f.getName().equals(primaryKey)) {
+                continue;
+            }
+            if (Types.isBasicType(f.getType())) {
+                configIndexes((SearchableCollection)query, f.getName(), fields);
+            }
+        }
+
+        query.init();
+
+        ((SearchableCollection)query).addAll(set);
+
+        return new QSet<T>(set, (SearchableCollection)query);
+    }
 
 
 
@@ -76,6 +141,23 @@ public class Collections {
         if (list instanceof QList) {
             QList qlist = (QList)list;
             return qlist.searchCollection().sortedQuery(sortBy, expressions);
+        }
+        return null;
+    }
+
+
+    public static <T> List<T> query(final Set<T> set, Expression... expressions) {
+        if (set instanceof QSet) {
+            QSet qset = (QSet)set;
+            return qset.searchCollection().query(expressions);
+        }
+        return null;
+    }
+
+    public static <T> List<T> sortedQuery(final Set<T> set, String sortBy, Expression... expressions) {
+        if (set instanceof QSet) {
+            QSet qset = (QSet)set;
+            return qset.searchCollection().sortedQuery(sortBy, expressions);
         }
         return null;
     }
@@ -117,6 +199,73 @@ public class Collections {
     }
 
 
+    static class QSet <T> extends AbstractSet<T> implements CollectionDecorator {
+        final Set <T> set;
+        final SearchableCollection searchCollection;
+
+        QSet (Set<T> set, SearchableCollection searchCollection) {
+            this.set = set;
+            this.searchCollection = searchCollection;
+        }
+
+        @Override
+        public boolean add(T item) {
+            searchCollection.add(item);
+            return set.add(item);
+        }
+
+        @Override
+        public boolean remove(Object item) {
+            searchCollection.delete((T) item);
+            return set.remove(item);
+        }
+
+
+        @Override
+        public Iterator<T> iterator() {
+            return set.iterator();
+        }
+
+        @Override
+        public void forEach(Consumer<? super T> action) {
+            set.forEach(action);
+        }
+
+        @Override
+        public boolean removeIf(Predicate<? super T> filter) {
+            return set.removeIf(filter);
+        }
+
+        @Override
+        public Spliterator<T> spliterator() {
+            return set.spliterator();
+        }
+
+        @Override
+        public Stream<T> stream() {
+            return set.stream();
+        }
+
+        @Override
+        public Stream<T> parallelStream() {
+            return set.parallelStream();
+        }
+
+        @Override
+        public int size() {
+            return set.size();
+        }
+
+        @Override
+        public SearchableCollection searchCollection() {
+            return   searchCollection;
+        }
+
+        @Override
+        public Collection collection() {
+            return set;
+        }
+    }
 
     static class QList <T> extends AbstractList<T> implements CollectionDecorator {
         List<T> list;
@@ -132,6 +281,13 @@ public class Collections {
             query.add(item);
             return list.add(item);
         }
+
+        @Override
+        public boolean remove(Object item) {
+            query.delete((T) item);
+            return list.remove(item);
+        }
+
 
         @Override
         public T get(int index) {
@@ -181,6 +337,11 @@ public class Collections {
         @Override
         public SearchableCollection searchCollection() {
             return query;
+        }
+
+        @Override
+        public Collection collection() {
+            return this.list;
         }
     }
 

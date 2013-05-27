@@ -1,7 +1,9 @@
 package org.datarepo.tests;
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.datarepo.query.Criteria.eq;
 import static org.datarepo.utils.Utils.*;
@@ -11,8 +13,8 @@ import static org.datarepo.Collections.*;
 public class BenchMark {
     public static void main(String[] args) {
 
-        List<Employee> employees1 = TestHelper.createMetricTonOfEmployees(200_000);
-        List<Employee> employees2 = copy(employees1);
+        Set<Employee> employees1 = new HashSet<>(TestHelper.createMetricTonOfEmployees(200_000));
+        Set<Employee> employees2 = copy(employees1);
 
         employees1 = $q(employees1);
 
