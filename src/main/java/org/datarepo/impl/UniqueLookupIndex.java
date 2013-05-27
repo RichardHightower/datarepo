@@ -1,9 +1,9 @@
 package org.datarepo.impl;
 
 import org.datarepo.LookupIndex;
+import org.datarepo.spi.SPIFactory;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -12,10 +12,18 @@ import static org.datarepo.utils.Utils.*;
 public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     protected Function<ITEM, KEY> keyGetter;
-    protected Map<KEY, ITEM> map = new ConcurrentHashMap<>();
+    protected Map<KEY, ITEM> map = null;
     protected List<ITEM> items = new LinkedList();
 
     private Logger log = log(UniqueLookupIndex.class);
+
+    public UniqueLookupIndex(Class<?> keyType) {
+        if (keyType == null) {
+            return;
+        }
+        map = SPIFactory.getMapCreatorFactory().get().createMap(keyType);
+
+    }
 
     @Override
     public ITEM get(KEY key) {

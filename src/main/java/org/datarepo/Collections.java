@@ -349,12 +349,12 @@ public class Collections {
     private static void configIndexes(SearchableCollection query, String prop,
                                       Map<String, FieldAccess> fields) {
 
-        SearchIndex searchIndex = SPIFactory.getSearchIndexFactory().get();
+        SearchIndex searchIndex = SPIFactory.getSearchIndexFactory().apply(fields.get(prop).getType());
         Function kg = createKeyGetter(fields.get(prop));
         searchIndex.setKeyGetter(kg);
         query.addSearchIndex(prop, searchIndex);
 
-        LookupIndex index = SPIFactory.getLookupIndexFactory().get();
+        LookupIndex index = SPIFactory.getLookupIndexFactory().apply(fields.get(prop).getType());
         index.setKeyGetter(kg);
         query.addLookupIndex(prop, index);
 

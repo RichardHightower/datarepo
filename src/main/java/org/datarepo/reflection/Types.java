@@ -691,6 +691,35 @@ public class Types {
         }
     }
 
+    public static Object wrapAsObject(boolean i) {
+        return Boolean.valueOf(i);
+    }
+
+
+    public static Object wrapAsObject(byte i) {
+        return Byte.valueOf(i);
+    }
+
+    public static Object wrapAsObject(short i) {
+        return Short.valueOf(i);
+    }
+
+    public static Object wrapAsObject(int i) {
+        return Integer.valueOf(i);
+    }
+
+    public static Object wrapAsObject(long i) {
+        return Long.valueOf(i);
+    }
+
+    public static Object wrapAsObject(double i) {
+        return Double.valueOf(i);
+    }
+
+    public static Object wrapAsObject(float i) {
+        return Float.valueOf(i);
+    }
+
     public static boolean isBasicType(Object value) {
         return (value instanceof Number || value instanceof CharSequence
                 || value instanceof Date || value instanceof Calendar);

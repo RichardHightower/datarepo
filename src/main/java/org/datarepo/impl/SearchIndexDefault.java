@@ -1,6 +1,7 @@
 package org.datarepo.impl;
 
 import org.datarepo.SearchIndex;
+import org.datarepo.spi.SPIFactory;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -17,15 +18,18 @@ import static org.datarepo.utils.Utils.notNull;
 public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM> implements SearchIndex<KEY, ITEM> {
     private NavigableMap<KEY, MultiValue<ITEM>> navigableMap;
 
-    public SearchIndexDefault() {
-        super.map = new ConcurrentSkipListMap<>();
+
+    public SearchIndexDefault(Class <?> keyType) {
+        super (null);
+        super.map = SPIFactory.getMapCreatorFactory().get().createNavigableMap(keyType);
         this.navigableMap = (NavigableMap<KEY, MultiValue<ITEM>>) super.map;
 
     }
 
-    public SearchIndexDefault(List<ITEM> items, Function<ITEM, KEY> keyGetter) {
+    public SearchIndexDefault(Class <?> keyType, List<ITEM> items, Function<ITEM, KEY> keyGetter) {
+        super(null);
         super.keyGetter = keyGetter;
-        super.map = new TreeMap<>();
+        super.map = SPIFactory.getMapCreatorFactory().get().createNavigableMap(keyType);
         this.navigableMap = (NavigableMap<KEY, MultiValue<ITEM>>) super.map;
 
         for (ITEM item : items) {

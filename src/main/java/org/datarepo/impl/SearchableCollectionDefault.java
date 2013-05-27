@@ -364,7 +364,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
                 return (KEY) ((Map) item).get(sortBy);
             }
         };
-        return new SearchIndexDefault(results, func).all();
+        return new SearchIndexDefault(null, results, func).all();
     }
 
     @Override
@@ -387,7 +387,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
                 return (KEY) ((Map) item).get(sortBy);
             }
         };
-        return new SearchIndexDefault(results, func).all();
+        return new SearchIndexDefault(null, results, func).all();
     }
 
     private void visit(KEY key, ITEM item, Visitor<KEY, ITEM> visitor, Object o, List<String> path, int levels) {

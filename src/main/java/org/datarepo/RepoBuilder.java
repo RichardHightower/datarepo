@@ -17,19 +17,19 @@ public interface RepoBuilder {
         SPIFactory.setRepoBuilderFactory(factory);
     }
 
-    public static void setDefaultSearchIndexFactory(Supplier<SearchIndex> factory) {
+    public static void setDefaultSearchIndexFactory(Function<Class, SearchIndex>factory) {
         SPIFactory.setSearchIndexFactory(factory);
     }
 
-    public static void setLookupIndexFactory(Supplier<LookupIndex> factory) {
+    public static void setLookupIndexFactory(Function<Class, LookupIndex> factory) {
         SPIFactory.setLookupIndexFactory(factory);
     }
 
-    public static void setUniqueLookupIndexFactory(Supplier<LookupIndex> factory) {
+    public static void setUniqueLookupIndexFactory(Function<Class, LookupIndex> factory) {
         SPIFactory.setUniqueLookupIndexFactory(factory);
     }
 
-    public static void setUniqueSearchIndexFactory(Supplier<SearchIndex> factory) {
+    public static void setUniqueSearchIndexFactory(Function<Class, SearchIndex> factory) {
         SPIFactory.setUniqueSearchIndexFactory(factory);
     }
 
@@ -41,13 +41,13 @@ public interface RepoBuilder {
         SPIFactory.setFilterFactory(factory);
     }
 
-    public RepoBuilder searchIndexFactory(Supplier<SearchIndex> factory);
+    public RepoBuilder searchIndexFactory(Function<Class, SearchIndex> factory);
 
-    public RepoBuilder lookupIndexFactory(Supplier<LookupIndex> factory);
+    public RepoBuilder lookupIndexFactory(Function<Class, LookupIndex> factory);
 
-    public RepoBuilder uniqueLookupIndexFactory(Supplier<LookupIndex> factory);
+    public RepoBuilder uniqueLookupIndexFactory(Function<Class, LookupIndex> factory);
 
-    public RepoBuilder uniqueSearchIndexFactory(Supplier<SearchIndex> factory);
+    public RepoBuilder uniqueSearchIndexFactory(Function<Class, SearchIndex> factory);
 
     public RepoBuilder repoFactory(Supplier<RepoComposer> factory);
 

@@ -1,12 +1,12 @@
 package org.datarepo.impl;
 
 import org.datarepo.LookupIndex;
+import org.datarepo.spi.SPIFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -22,11 +22,17 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
 
     protected Function<ITEM, KEY> keyGetter;
-    protected Map<KEY, MultiValue<ITEM>> map = new ConcurrentHashMap<>();
+    protected Map<KEY, MultiValue<ITEM>> map;
     private Logger log = log(LookupIndexDefault.class);
 
-    public LookupIndexDefault() {
+    public LookupIndexDefault(Class<?> keyType) {
+        if (keyType == null) {
+            return;
+        }
+        map = SPIFactory.getMapCreatorFactory().get().createMap(keyType);
+
     }
+
 
 
     public void setKeyGetter(Function<ITEM, KEY> keyGetter) {
