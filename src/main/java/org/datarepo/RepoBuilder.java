@@ -1,6 +1,7 @@
 package org.datarepo;
 
-import org.datarepo.impl.RepoBuilderHelper;
+import org.datarepo.spi.RepoBuilderHelper;
+import org.datarepo.spi.RepoComposer;
 
 import java.util.function.Function;
 import java.util.function.Supplier;

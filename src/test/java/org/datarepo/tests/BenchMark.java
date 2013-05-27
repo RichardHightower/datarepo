@@ -17,7 +17,7 @@ public class BenchMark {
 
         Repo<String, Employee> repo = RepoBuilder.getInstance()
                 .searchIndex("firstName")
-                        //.lookupIndex("firstName")
+                        .lookupIndex("firstName")
                 .primaryKey("ssn")
                 .build(String.class, Employee.class);
 

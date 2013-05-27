@@ -1,10 +1,20 @@
 package org.datarepo;
 
 import org.datarepo.query.ValueSetter;
+import org.datarepo.reflection.FieldAccess;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public interface ObjectEditor<KEY, ITEM> extends Bag<ITEM> {
+
+
+
+    ITEM get(KEY key);
+
+    KEY getKey(ITEM item);
+
 
     void put(ITEM item);
 
@@ -93,4 +103,5 @@ public interface ObjectEditor<KEY, ITEM> extends Bag<ITEM> {
     boolean compareAndIncrement(KEY key, String property, byte compare);
 
 
+    void addAll(List<ITEM> items);
 }

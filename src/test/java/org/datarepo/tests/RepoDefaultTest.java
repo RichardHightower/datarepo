@@ -389,7 +389,7 @@ public class RepoDefaultTest {
 
         repo.query(new Visitor<String, Employee>() {
             @Override
-            public void visit(String s, Employee employee, Object currentProperty, Repo<String, Employee> repo, List<String> propertyPath) {
+            public void visit(String s, Employee employee, Object currentProperty, List<String> propertyPath) {
                 printf("key %s, \t employee=%s \t \n currentProperty=%s \t \npath=%s\n\n", s, employee, currentProperty, propertyPath);
             }
         });

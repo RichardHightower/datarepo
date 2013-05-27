@@ -1,5 +1,6 @@
 package org.datarepo.query;
 
+import org.datarepo.ObjectEditor;
 import org.datarepo.Repo;
 
 import java.util.List;
@@ -15,12 +16,12 @@ public abstract class ValueSetter {
     }
 
 
-    public abstract void doSet(Repo repo, Object item);
+    public abstract void doSet(ObjectEditor repo, Object item);
 
     public static ValueSetter value(String name, final int value) {
         return new ValueSetter() {
             @Override
-            public void doSet(Repo repo, Object item) {
+            public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
             }
         };
@@ -29,7 +30,7 @@ public abstract class ValueSetter {
     public static ValueSetter value(String name, final long value) {
         return new ValueSetter() {
             @Override
-            public void doSet(Repo repo, Object item) {
+            public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
             }
         };
@@ -38,7 +39,7 @@ public abstract class ValueSetter {
     public static ValueSetter value(String name, final Object value) {
         return new ValueSetter() {
             @Override
-            public void doSet(Repo repo, Object item) {
+            public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
             }
         };
@@ -47,7 +48,7 @@ public abstract class ValueSetter {
     public static ValueSetter value(String name, final byte value) {
         return new ValueSetter() {
             @Override
-            public void doSet(Repo repo, Object item) {
+            public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
             }
         };
@@ -56,7 +57,7 @@ public abstract class ValueSetter {
     public static ValueSetter value(String name, final float value) {
         return new ValueSetter() {
             @Override
-            public void doSet(Repo repo, Object item) {
+            public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
             }
         };
@@ -65,7 +66,7 @@ public abstract class ValueSetter {
     public static ValueSetter value(String name, final char value) {
         return new ValueSetter() {
             @Override
-            public void doSet(Repo repo, Object item) {
+            public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
             }
         };
@@ -74,7 +75,7 @@ public abstract class ValueSetter {
     public static ValueSetter value(String name, final String value) {
         return new ValueSetter() {
             @Override
-            public void doSet(Repo repo, Object item) {
+            public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
             }
         };

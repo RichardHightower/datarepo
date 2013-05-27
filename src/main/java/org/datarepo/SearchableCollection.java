@@ -4,31 +4,23 @@ import org.datarepo.query.Expression;
 import org.datarepo.query.Selector;
 import org.datarepo.query.ValueSetter;
 import org.datarepo.query.Visitor;
+import org.datarepo.reflection.FieldAccess;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
-public interface SearchableCollection<KEY, ITEM> {
+public interface SearchableCollection<KEY, ITEM> extends Collection<ITEM> {
 
-    void updateByFilter(String property, Object value, Expression... expressions);
+    ITEM get(KEY key);
 
-    void updateByFilterUsingValue(String property, String value, Expression... expressions);
+    KEY getKey(ITEM item);
 
-    void updateByFilter(String property, int value, Expression... expressions);
+    void invalidateIndex(String property, ITEM item);
 
-    void updateByFilter(String property, long value, Expression... expressions);
+    void validateIndex(String property, ITEM item);
 
-    void updateByFilter(String property, char value, Expression... expressions);
-
-    void updateByFilter(String property, short value, Expression... expressions);
-
-    void updateByFilter(String property, byte value, Expression... expressions);
-
-    void updateByFilter(String property, float value, Expression... expressions);
-
-    void updateByFilter(String property, double value, Expression... expressions);
-
-    void updateByFilter(List<ValueSetter> values, Expression... expressions);
 
 
     Object readObject(KEY key, String property);
@@ -103,5 +95,20 @@ public interface SearchableCollection<KEY, ITEM> {
     void query(Visitor<KEY, ITEM> visitor, Expression... expressions);
 
     void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Expression... expressions);
+
+
+    boolean delete(ITEM item);
+
+
+
+    void addSearchIndex(String name, SearchIndex<?, ?> si);
+
+    void addLookupIndex(String name, LookupIndex<?, ?> si);
+
+
+
+    List<ITEM> all();
+
+    void removeByKey(KEY key);
 
 }

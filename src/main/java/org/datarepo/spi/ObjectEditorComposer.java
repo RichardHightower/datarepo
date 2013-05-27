@@ -1,11 +1,15 @@
 package org.datarepo.spi;
 
-/**
- * Created with IntelliJ IDEA.
- * User: rick
- * Date: 5/26/13
- * Time: 8:09 PM
- * To change this template use File | Settings | File Templates.
- */
-public class ObjectEditorComposer {
+import org.datarepo.SearchableCollection;
+import org.datarepo.reflection.FieldAccess;
+
+import java.util.Map;
+
+public interface ObjectEditorComposer <KEY, ITEM> {
+    void setFields(Map<String, FieldAccess> fields);
+
+    void setSearchableCollection(SearchableCollection<KEY, ITEM> searchableCollection);
+
+    void init();
+
 }
