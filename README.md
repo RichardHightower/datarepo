@@ -8,8 +8,42 @@ DataRepo allows you to treat Java collections more like a database.
 I tired using the JDK 8 stream API on a large dataset, and it was slow.
 It was more or less a linear search. This is by design, but for what I was doing, it did not work.
 
+Makes doing index based queries a lot easier.
 
-A simple query looks like this:
+You can use a wrapper class to wrap a collection into a indexed collection.
+
+Let's say you have a method that creates 200,000 employee objects like this:
+```
+        List<Employee> employees = TestHelper.createMetricTonOfEmployees(200_000);
+
+```
+
+So now we have 200,000 employees. Let's search them...
+
+First wrap Employees in a searchable query:
+
+```
+        employees = $q(employees);
+
+```
+Now search:
+
+```
+        List<Employee> results = query(employees, eq("firstName", firstName));
+```
+
+So what is the main difference between the above and the stream API?
+
+```
+        employees.stream().filter(emp -> emp.getFirstName().equals(firstName)
+```
+
+About a factor of 20,000% slower!
+
+There is an API that looks just like your built in collections.
+There is also an API that looks more like a DAO object.
+
+A simple query with the Repo/DAO object looks like this:
 
 ```
         List<Employee> employees = repo.query(eq("firstName", "Diana"));
