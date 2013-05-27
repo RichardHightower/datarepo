@@ -5,6 +5,7 @@ import org.datarepo.spi.RepoComposer;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 
 /**
  * Provides a builder for Repos.
@@ -65,15 +66,19 @@ public interface RepoBuilder {
     public RepoBuilder filterFactory(Supplier<Filter> factory);
 
 
-    public void usePropertyForAccess(boolean useProperty);
+    public RepoBuilder usePropertyForAccess(boolean useProperty);
 
-    public void useFieldForAccess(boolean useField);
+    public RepoBuilder useFieldForAccess(boolean useField);
 
-    public void useUnsafe(boolean useUnSafe);
+    public RepoBuilder useUnsafe(boolean useUnSafe);
 
-    public void nullChecks(boolean nullChecks);
+    public RepoBuilder nullChecks(boolean nullChecks);
 
-    public void addLogging(boolean logging);
+    public RepoBuilder addLogging(boolean logging);
+
+    public RepoBuilder cloneEdits(boolean cloneEdits);
+
+    RepoBuilder debug();
 
 
     public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz);
@@ -83,4 +88,5 @@ public interface RepoBuilder {
         return RepoBuilderHelper.getRepoBuilderFactory().get();
     }
 
+    RepoBuilder level(Level info);
 }

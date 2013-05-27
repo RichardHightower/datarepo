@@ -121,6 +121,10 @@ public class Utils {
         log.info(sprint(items));
     }
 
+    public static void fprint(Logger log, Level level, Object... items) {
+        log.log(level, sprint(items));
+    }
+
     public static void fprint(Appendable appendable, Object... items) {
         add(appendable, sprint(items) + "\n");
     }
@@ -183,6 +187,15 @@ public class Utils {
 
     public static String sprintf(String fmt, Object... args) {
         return String.format(fmt, args);
+    }
+
+    public static void fprintf(Logger log, Level level, String fmt, Object... args) {
+        if (debug) {
+            printf(fmt, args);
+            return;
+        }
+        String message = sprintf(fmt, args);
+        log.log(level, message);
     }
 
     public static void fprintf(Logger log, String fmt, Object... args) {

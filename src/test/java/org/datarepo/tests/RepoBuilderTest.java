@@ -33,6 +33,14 @@ public class RepoBuilderTest {
     }
 
     @Test
+    public void testNormalLogAndClone() throws Exception {
+
+        test.repo = TestHelper.createFromBuilderLogAndClone();
+        runAll();
+
+    }
+
+    @Test
     public void testNoReflect() throws Exception {
 
         test.repo = TestHelper.createBuilderNoReflection();

@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 
 public class RepoBuilderDefault implements RepoBuilder {
 
@@ -36,34 +37,58 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     Map<String, Function> keyGetterMap = new HashMap();
 
+
     boolean useField = true;
     boolean useUnSafe = true;
+    boolean nullChecksAndLogging;
+    boolean cloneEdits;
 
-    boolean nullChecksAndLogging = true;
+    boolean debug;
+    Level level = Level.FINER;
+
 
     SearchableCollectionComposer query;
 
 
-    public void usePropertyForAccess(boolean useProperty) {
+    public RepoBuilder usePropertyForAccess(boolean useProperty) {
         this.useField = !useProperty;
+        return this;
     }
 
-    public void useFieldForAccess(boolean useField) {
+    public RepoBuilder useFieldForAccess(boolean useField) {
         this.useField = useField;
+        return this;
+
     }
 
-    public void useUnsafe(boolean useUnSafe) {
+    public RepoBuilder useUnsafe(boolean useUnSafe) {
         this.useUnSafe = useUnSafe;
+        return this;
+
     }
 
     @Override
-    public void nullChecks(boolean nullChecks) {
+    public RepoBuilder nullChecks(boolean nullChecks) {
         this.nullChecksAndLogging = nullChecks;
+        return this;
     }
 
     @Override
-    public void addLogging(boolean logging) {
+    public RepoBuilder addLogging(boolean logging) {
         this.nullChecksAndLogging = logging;
+        return this;
+    }
+
+    @Override
+    public RepoBuilder cloneEdits(boolean cloneEdits) {
+        this.cloneEdits = cloneEdits;
+        return this;
+    }
+
+    @Override
+    public RepoBuilder debug() {
+        this.debug = true;
+        return this;
     }
 
     @Override
@@ -177,8 +202,16 @@ public class RepoBuilderDefault implements RepoBuilder {
         ObjectEditorComposer editorComposer =  this.objectEditorFactory.get();
         ObjectEditor editor = (ObjectEditor) editorComposer;
 
-        if (nullChecksAndLogging) {
-            editor = new ObjectEditorLogNullCheckDecorator(editor);
+        if (debug || nullChecksAndLogging) {
+            ObjectEditorLogNullCheckDecorator logNullCheckDecorator = new ObjectEditorLogNullCheckDecorator(editor);
+            logNullCheckDecorator.setLevel(level);
+            logNullCheckDecorator.setDebug(debug);
+
+            editor =   logNullCheckDecorator;
+        }
+
+        if(cloneEdits) {
+            editor = new ObjectEditorCloneDecorator(editor);
         }
 
         repo.setObjectEditor(editor);
@@ -224,6 +257,12 @@ public class RepoBuilderDefault implements RepoBuilder {
 
 
         return (Repo<KEY, ITEM>) repo;
+    }
+
+    @Override
+    public RepoBuilder level(Level level) {
+        this.level   = level;
+        return this;
     }
 
     private Function createKeyGetter(final FieldAccess field) {

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.logging.Level;
 
 import static org.datarepo.tests.Employee.employee;
 import static org.datarepo.tests.Employee.employees;
@@ -94,6 +95,28 @@ public class TestHelper {
         }
         return repo;
     }
+
+    public static Repo<String,Employee> createFromBuilderLogAndClone() {
+        /* Create a repo, and decide what to index. */
+        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+
+        /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
+        repoBuilder.primaryKey("ssn")
+                .searchIndex("firstName").searchIndex("lastName")
+                .searchIndex("salary").searchIndex("empNum", true)
+        .debug().level(Level.INFO).cloneEdits(true);
+
+        /* Create the repo with the builder. */
+        Repo <String, Employee> repo
+                = repoBuilder.build(String.class, Employee.class);
+
+        for (Employee employee : employees) {
+            repo.add(employee);
+        }
+        return repo;
+
+    }
+
 
     static Repo <String, Employee>  createFromBuilderUsingPropertyAccess() {
 

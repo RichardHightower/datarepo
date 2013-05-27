@@ -4,7 +4,6 @@ import org.datarepo.*;
 import org.datarepo.query.ValueSetter;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.spi.ObjectEditorComposer;
-import org.datarepo.spi.RepoComposer;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -69,7 +68,7 @@ public class ObjectEditorDefault <KEY, ITEM> implements ObjectEditorComposer<KEY
 
         /** See if we have an original. */
         KEY key = query.getKey(item);
-        ITEM oldItem = this.get(key);
+        ITEM oldItem = this.doGet(key);
 
         if (oldItem != null) {
             delete(oldItem);
@@ -422,8 +421,11 @@ public class ObjectEditorDefault <KEY, ITEM> implements ObjectEditorComposer<KEY
 
 
 
-
     public ITEM get(KEY key) {
+        return (ITEM) query.get(key);
+    }
+
+    private ITEM doGet(KEY key) {
         return (ITEM) query.get(key);
     }
 
@@ -434,7 +436,7 @@ public class ObjectEditorDefault <KEY, ITEM> implements ObjectEditorComposer<KEY
 
     private ITEM lookupAndExpect(ITEM item) {
         KEY key = getKey(item);
-        ITEM oldItem = this.get(key);
+        ITEM oldItem = this.doGet(key);
 
         if (oldItem == null) {
             complain(sprintf("An original item was not in the repo %s", item));
@@ -444,7 +446,7 @@ public class ObjectEditorDefault <KEY, ITEM> implements ObjectEditorComposer<KEY
     }
 
     private ITEM lookupAndExpectByKey(KEY key) {
-        ITEM oldItem = this.get(key);
+        ITEM oldItem = this.doGet(key);
 
         if (oldItem == null) {
             complain(sprintf("An original item was not in the repo at this key %s", key));
