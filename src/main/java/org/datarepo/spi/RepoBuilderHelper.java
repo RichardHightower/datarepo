@@ -1,6 +1,7 @@
-package org.datarepo.impl;
+package org.datarepo.spi;
 
 import org.datarepo.*;
+import org.datarepo.impl.*;
 
 import java.util.function.Supplier;
 
@@ -13,10 +14,15 @@ public class RepoBuilderHelper {
     static Supplier<SearchIndex> searchIndexFactory = null;
     static Supplier<LookupIndex> uniqueLookupIndexFactory = null;
     static Supplier<SearchIndex> uniqueSearchIndexFactory = null;
-
     static Supplier<LookupIndex> lookupIndexFactory = null;
     static Supplier<RepoComposer> repoFactory = null;
     static Supplier<Filter> filterFactory = null;
+    static Supplier<SearchableCollectionComposer> searchableCollectionFactory = null;
+    static Supplier<ObjectEditorComposer> objectEditorFactory;
+
+    public static Supplier<SearchableCollectionComposer> getSearchableCollectionFactory() {
+        return searchableCollectionFactory;
+    }
 
     public static Supplier<RepoBuilder> getRepoBuilderFactory() {
         return repoBuilderFactory;
@@ -108,6 +114,25 @@ public class RepoBuilderHelper {
                 }
             };
         }
+
+        if (searchableCollectionFactory == null) {
+            searchableCollectionFactory = new Supplier<SearchableCollectionComposer>() {
+                @Override
+                public SearchableCollectionComposer get() {
+                    return new SearchableCollectionDefault();
+                }
+            };
+        }
+
+        if (objectEditorFactory == null) {
+            objectEditorFactory = new Supplier<ObjectEditorComposer>() {
+                @Override
+                public ObjectEditorComposer get() {
+                    return new ObjectEditorDefault();
+                }
+            };
+        }
+
     }
 
 
@@ -140,4 +165,7 @@ public class RepoBuilderHelper {
         RepoBuilderHelper.filterFactory = filterFactory;
     }
 
+    public static Supplier<ObjectEditorComposer> getObjectEditorFactory() {
+        return objectEditorFactory;
+    }
 }
