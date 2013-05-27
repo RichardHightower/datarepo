@@ -6,14 +6,14 @@ import org.datarepo.query.ValueSetter;
 import java.util.Collection;
 import java.util.List;
 
-public class ObjectEditorDecoratorBase <KEY, ITEM> implements ObjectEditor<KEY, ITEM> {
+public class ObjectEditorDecoratorBase<KEY, ITEM> implements ObjectEditor<KEY, ITEM> {
     private final ObjectEditor<KEY, ITEM> objectEditorDefault;
 
-    public ObjectEditorDecoratorBase () {
+    public ObjectEditorDecoratorBase() {
         this.objectEditorDefault = null;
     }
 
-    public  ObjectEditorDecoratorBase (ObjectEditor oe) {
+    public ObjectEditorDecoratorBase(ObjectEditor oe) {
         this.objectEditorDefault = oe;
 
     }

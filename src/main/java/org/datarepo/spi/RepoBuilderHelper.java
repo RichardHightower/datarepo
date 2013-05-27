@@ -1,6 +1,9 @@
 package org.datarepo.spi;
 
-import org.datarepo.*;
+import org.datarepo.Filter;
+import org.datarepo.LookupIndex;
+import org.datarepo.RepoBuilder;
+import org.datarepo.SearchIndex;
 import org.datarepo.impl.*;
 
 import java.util.function.Supplier;

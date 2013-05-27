@@ -5,7 +5,10 @@ import org.datarepo.LookupIndex;
 import org.datarepo.SearchIndex;
 import org.datarepo.query.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class FilterDefault implements Filter {
     @Override

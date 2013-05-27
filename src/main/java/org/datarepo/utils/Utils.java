@@ -3,14 +3,12 @@ package org.datarepo.utils;
 import org.datarepo.reflection.Reflection;
 import org.datarepo.reflection.Types;
 
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Utils {
     static Class<Utils> utils = Utils.class;

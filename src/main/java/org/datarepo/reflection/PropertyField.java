@@ -5,8 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.logging.Logger;
 
-import static org.datarepo.utils.Utils.*;
 import static org.datarepo.reflection.Types.*;
+import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.log;
 
 public class PropertyField implements FieldAccess {
     protected final boolean isFinal;

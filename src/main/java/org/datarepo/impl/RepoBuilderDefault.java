@@ -199,7 +199,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz) {
         init();
         RepoComposer repo = (RepoComposer) this.repoComposerFactory.get();
-        ObjectEditorComposer editorComposer =  this.objectEditorFactory.get();
+        ObjectEditorComposer editorComposer = this.objectEditorFactory.get();
         ObjectEditor editor = (ObjectEditor) editorComposer;
 
         if (debug || nullChecksAndLogging) {
@@ -207,15 +207,14 @@ public class RepoBuilderDefault implements RepoBuilder {
             logNullCheckDecorator.setLevel(level);
             logNullCheckDecorator.setDebug(debug);
 
-            editor =   logNullCheckDecorator;
+            editor = logNullCheckDecorator;
         }
 
-        if(cloneEdits) {
+        if (cloneEdits) {
             editor = new ObjectEditorCloneDecorator(editor);
         }
 
         repo.setObjectEditor(editor);
-
 
 
         Map<String, FieldAccess> fields = null;
@@ -239,8 +238,6 @@ public class RepoBuilderDefault implements RepoBuilder {
         editorComposer.setFields(fields);
 
 
-
-
         query = searchableCollectionFactory.get();
         query.setFilter(this.filterFactory.get());
         query.setFields(fields);
@@ -251,9 +248,8 @@ public class RepoBuilderDefault implements RepoBuilder {
         query.init();
 
 
-        repo.setSearchableCollection((SearchableCollection<KEY, ITEM>)query);
+        repo.setSearchableCollection((SearchableCollection<KEY, ITEM>) query);
         editorComposer.setSearchableCollection((SearchableCollection<KEY, ITEM>) query);
-
 
 
         return (Repo<KEY, ITEM>) repo;
@@ -261,7 +257,7 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     @Override
     public RepoBuilder level(Level level) {
-        this.level   = level;
+        this.level = level;
         return this;
     }
 
@@ -276,7 +272,7 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     private void configIndexes(RepoComposer repo,
                                Map<String, FieldAccess> fields) {
-        SearchableCollection query = (SearchableCollection)this.query;
+        SearchableCollection query = (SearchableCollection) this.query;
         for (String prop : searchIndexes) {
             SearchIndex searchIndex = this.searchIndexFactory.get();
             Function kg = getKeyGetterOrCreate(fields, prop);
@@ -322,7 +318,7 @@ public class RepoBuilderDefault implements RepoBuilder {
         primaryKeyIndex.setKeyGetter(getKeyGetterOrCreate(fields, this.primaryKey));
         query.setPrimaryKeyName(this.primaryKey);
         query.setPrimaryKeyGetter(this.keyGetterMap.get(this.primaryKey));
-        ((SearchableCollection)query).addLookupIndex(this.primaryKey, primaryKeyIndex);
+        ((SearchableCollection) query).addLookupIndex(this.primaryKey, primaryKeyIndex);
     }
 
 

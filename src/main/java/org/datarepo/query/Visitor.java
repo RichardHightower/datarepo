@@ -1,7 +1,5 @@
 package org.datarepo.query;
 
-import org.datarepo.Repo;
-
 import java.util.List;
 
 public interface Visitor<KEY, ITEM> {

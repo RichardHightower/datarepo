@@ -2,13 +2,15 @@ package org.datarepo.impl;
 
 import org.datarepo.LookupIndex;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
 import static org.datarepo.utils.Utils.*;
-import static org.datarepo.utils.Utils.debug;
 
 /**
  * A really simple lookup index that uses a standard java.util.HashMap.

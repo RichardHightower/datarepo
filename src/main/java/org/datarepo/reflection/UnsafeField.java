@@ -1,10 +1,9 @@
 package org.datarepo.reflection;
 
+import sun.misc.Unsafe;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-
-
-import sun.misc.Unsafe;
 
 import static org.datarepo.reflection.Types.*;
 import static org.datarepo.utils.Utils.*;

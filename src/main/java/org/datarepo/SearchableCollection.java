@@ -2,14 +2,11 @@ package org.datarepo;
 
 import org.datarepo.query.Expression;
 import org.datarepo.query.Selector;
-import org.datarepo.query.ValueSetter;
 import org.datarepo.query.Visitor;
-import org.datarepo.reflection.FieldAccess;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public interface SearchableCollection<KEY, ITEM> extends Collection<ITEM> {
 
@@ -20,7 +17,6 @@ public interface SearchableCollection<KEY, ITEM> extends Collection<ITEM> {
     void invalidateIndex(String property, ITEM item);
 
     void validateIndex(String property, ITEM item);
-
 
 
     Object readObject(KEY key, String property);
@@ -100,11 +96,9 @@ public interface SearchableCollection<KEY, ITEM> extends Collection<ITEM> {
     boolean delete(ITEM item);
 
 
-
     void addSearchIndex(String name, SearchIndex<?, ?> si);
 
     void addLookupIndex(String name, LookupIndex<?, ?> si);
-
 
 
     List<ITEM> all();

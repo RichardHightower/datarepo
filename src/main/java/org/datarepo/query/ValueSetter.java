@@ -1,11 +1,10 @@
 package org.datarepo.query;
 
 import org.datarepo.ObjectEditor;
-import org.datarepo.Repo;
 
 import java.util.List;
 
-import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.list;
 
 public abstract class ValueSetter {
 

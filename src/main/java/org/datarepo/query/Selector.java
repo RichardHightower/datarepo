@@ -2,11 +2,13 @@ package org.datarepo.query;
 
 import org.datarepo.reflection.FieldAccess;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
+import static org.datarepo.reflection.Reflection.*;
 import static org.datarepo.reflection.Reflection.isArray;
 import static org.datarepo.utils.Utils.*;
-import static org.datarepo.reflection.Reflection.*;
 
 public abstract class Selector {
     protected String name;

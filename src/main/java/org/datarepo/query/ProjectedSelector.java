@@ -5,7 +5,8 @@ import org.datarepo.reflection.FieldAccess;
 import java.util.List;
 import java.util.Map;
 
-import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.joinBy;
+import static org.datarepo.utils.Utils.list;
 
 public abstract class ProjectedSelector extends Selector {
 

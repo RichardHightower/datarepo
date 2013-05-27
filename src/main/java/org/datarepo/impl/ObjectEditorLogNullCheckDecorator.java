@@ -38,7 +38,7 @@ public class ObjectEditorLogNullCheckDecorator<KEY, ITEM> extends ObjectEditorDe
         this.logger = logger;
     }
 
-    public ObjectEditorLogNullCheckDecorator () {
+    public ObjectEditorLogNullCheckDecorator() {
 
 
     }
@@ -51,7 +51,7 @@ public class ObjectEditorLogNullCheckDecorator<KEY, ITEM> extends ObjectEditorDe
 
     @Override
     public void put(ITEM item) {
-        notNull(item) ;
+        notNull(item);
         l("put (item=%s)", item);
         super.put(item);
     }
@@ -59,14 +59,14 @@ public class ObjectEditorLogNullCheckDecorator<KEY, ITEM> extends ObjectEditorDe
 
     @Override
     public boolean add(ITEM item) {
-        notNull(item) ;
+        notNull(item);
         l("add (item=%s)", item);
         return super.add(item);
     }
 
     @Override
     public ITEM get(KEY key) {
-        notNull(key) ;
+        notNull(key);
         l("get (key=%s)", key);
 
         return super.get(key);
@@ -75,7 +75,7 @@ public class ObjectEditorLogNullCheckDecorator<KEY, ITEM> extends ObjectEditorDe
 
     @Override
     public void modify(ITEM item) {
-        notNull(item) ;
+        notNull(item);
         l("modify (item=%s)", item);
 
         super.modify(item);

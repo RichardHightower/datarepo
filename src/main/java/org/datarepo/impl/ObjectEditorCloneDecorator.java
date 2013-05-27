@@ -1,7 +1,8 @@
 package org.datarepo.impl;
 
 import org.datarepo.ObjectEditor;
-import static org.datarepo.reflection.Reflection.*;
+
+import static org.datarepo.reflection.Reflection.copy;
 
 
 public class ObjectEditorCloneDecorator<KEY, ITEM> extends ObjectEditorDecoratorBase<KEY, ITEM> {

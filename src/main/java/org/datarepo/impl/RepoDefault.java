@@ -7,7 +7,10 @@ import org.datarepo.query.ValueSetter;
 import org.datarepo.query.Visitor;
 import org.datarepo.spi.RepoComposer;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Default Repo implementation.
@@ -18,7 +21,7 @@ import java.util.*;
 public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY, ITEM> {
 
     private ObjectEditor<KEY, ITEM> editor;
-    private SearchableCollection<KEY,ITEM> query;
+    private SearchableCollection<KEY, ITEM> query;
 
     @Override
     public void updateByFilter(String property, Object value, Expression... expressions) {
@@ -106,16 +109,14 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
 
-
-
     @Override
     public ITEM get(KEY key) {
-        return  editor.get(key);
+        return editor.get(key);
     }
 
     @Override
     public KEY getKey(ITEM item) {
-        return  editor.getKey(item);
+        return editor.getKey(item);
     }
 
     @Override
@@ -525,27 +526,27 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
 
     @Override
     public boolean remove(Object o) {
-        return  query.remove(o);
+        return query.remove(o);
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return  query.containsAll(c);
+        return query.containsAll(c);
     }
 
     @Override
     public boolean addAll(Collection<? extends ITEM> c) {
-        return  query.addAll(c);
+        return query.addAll(c);
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return  query.removeAll(c);
+        return query.removeAll(c);
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return  query.retainAll(c);
+        return query.retainAll(c);
     }
 
     @Override
@@ -612,7 +613,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
 
     @Override
     public void setSearchableCollection(SearchableCollection<KEY, ITEM> searchableCollection) {
-        this.query =  searchableCollection;
+        this.query = searchableCollection;
     }
 
     @Override

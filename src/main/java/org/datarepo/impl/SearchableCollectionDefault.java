@@ -21,9 +21,8 @@ import java.util.stream.Stream;
 
 import static org.datarepo.reflection.Reflection.toMap;
 import static org.datarepo.utils.Utils.*;
-import static org.datarepo.utils.Utils.list;
 
-public class SearchableCollectionDefault <KEY, ITEM> implements SearchableCollection<KEY, ITEM>, SearchableCollectionComposer {
+public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollection<KEY, ITEM>, SearchableCollectionComposer {
 
     protected Logger log = Utils.log(RepoDefault.class);
     protected Map<String, LookupIndex> lookupIndexMap = new LinkedHashMap<>();
@@ -32,7 +31,7 @@ public class SearchableCollectionDefault <KEY, ITEM> implements SearchableCollec
     protected Filter filter;
 
     protected Map<String, FieldAccess> fields = new LinkedHashMap<>();
-    protected   UniqueLookupIndex<KEY, ITEM> primaryIndex;
+    protected UniqueLookupIndex<KEY, ITEM> primaryIndex;
 
     protected Function<ITEM, KEY> primaryKeyGetter;
     protected String primaryKeyName;
@@ -347,8 +346,6 @@ public class SearchableCollectionDefault <KEY, ITEM> implements SearchableCollec
     }
 
 
-
-
     @Override
     public List<ITEM> query(Expression... expressions) {
         if (expressions == null || expressions.length == 0) {
@@ -595,7 +592,6 @@ public class SearchableCollectionDefault <KEY, ITEM> implements SearchableCollec
     }
 
 
-
     public Iterator<ITEM> iterator() {
         return primaryIndex.toCollection().iterator();
     }
@@ -681,10 +677,9 @@ public class SearchableCollectionDefault <KEY, ITEM> implements SearchableCollec
     }
 
 
-
     public boolean removeAll(Collection<?> items) {
         for (Object o : items) {
-             remove(o);
+            remove(o);
         }
         return true;
     }
@@ -737,7 +732,6 @@ public class SearchableCollectionDefault <KEY, ITEM> implements SearchableCollec
         }
 
     }
-
 
 
 }

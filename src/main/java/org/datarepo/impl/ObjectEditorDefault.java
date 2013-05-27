@@ -1,22 +1,24 @@
 package org.datarepo.impl;
 
-import org.datarepo.*;
+import org.datarepo.ObjectEditor;
+import org.datarepo.SearchableCollection;
 import org.datarepo.query.ValueSetter;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.spi.ObjectEditorComposer;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import static org.datarepo.utils.Utils.*;
 
-public class ObjectEditorDefault <KEY, ITEM> implements ObjectEditorComposer<KEY, ITEM>, ObjectEditor<KEY, ITEM>{
+public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY, ITEM>, ObjectEditor<KEY, ITEM> {
 
     private Logger log = log(ObjectEditorDefault.class);
-    protected   SearchableCollection<KEY,ITEM> query;
+    protected SearchableCollection<KEY, ITEM> query;
     protected Map<String, FieldAccess> fields = new LinkedHashMap<>();
-
-
 
 
     public void put(ITEM item) {
@@ -407,18 +409,15 @@ public class ObjectEditorDefault <KEY, ITEM> implements ObjectEditorComposer<KEY
     }
 
 
-
-
     @Override
     public void setSearchableCollection(SearchableCollection searchableCollection) {
-        this.query =  searchableCollection;
+        this.query = searchableCollection;
     }
 
     @Override
     public void init() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
-
 
 
     public ITEM get(KEY key) {
@@ -454,7 +453,6 @@ public class ObjectEditorDefault <KEY, ITEM> implements ObjectEditorComposer<KEY
         }
         return oldItem;
     }
-
 
 
     @Override

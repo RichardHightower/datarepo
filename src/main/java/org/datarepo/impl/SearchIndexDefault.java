@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.Function;
 
-import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.notNull;
 
 /**
  * Default Search Index which uses a TreeMap

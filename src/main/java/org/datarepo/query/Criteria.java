@@ -1,7 +1,5 @@
 package org.datarepo.query;
 
-import static org.datarepo.utils.Utils.list;
-
 public class Criteria {
 
     public static Expression and(Expression... expressions) {

@@ -14,7 +14,7 @@ public interface SearchableCollectionComposer {
 
     void init();
 
-    void setFields(Map<String,FieldAccess> fields);
+    void setFields(Map<String, FieldAccess> fields);
 
     void setFilter(Filter filter);
 }
