@@ -40,7 +40,7 @@ public class FilterDefault implements Filter {
                 return doFilterWithIndex(lookupIndexMap, searchIndexMap, criterion);
             } else {
                 //TODO fix this... it may work, but who is going to remember.
-                return doFilter(new ArrayList(lookupIndexMap.values().iterator().next().all()), criterion);
+                return doFilter(searchableCollection.all(), criterion);
             }
         }
 
