@@ -2,11 +2,12 @@ package org.datarepo.query;
 
 import org.datarepo.ObjectEditor;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static org.datarepo.utils.Utils.list;
 
-public abstract class ValueSetter {
+public abstract class ValueSetter implements Serializable {
 
     private String name;
 
