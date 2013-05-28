@@ -181,7 +181,6 @@ public class RepoDefaultTest {
         assertEquals(1, employees.size());
         assertEquals("Diana", employees.get(0).get("firstName"));
 
-        System.out.println(employees.get(0).get("department"));
     }
 
     @Test
@@ -245,7 +244,6 @@ public class RepoDefaultTest {
                 selects(select("tags", "name")),
                 eq("lastName", "Hightower"));
 
-        print("list", list);
         assertEquals("tag1", idx(list.get(0).get("tags.name"), 0));
 
     }
@@ -262,7 +260,6 @@ public class RepoDefaultTest {
                 selects(select("tags", "metas", "name0")),
                 eq("lastName", "Hightower"));
 
-        print("list", list);
         assertEquals("mtag1", idx(list.get(0).get("tags.metas.name0"), 0));
 
 
@@ -279,7 +276,6 @@ public class RepoDefaultTest {
                 selects(select("tags", "metas", "metas2", "name2")),
                 eq("lastName", "Hightower"));
 
-        print("list", list);
 
         assertEquals("2tag1", idx(list.get(0).get("tags.metas.metas2.name2"), 0));
 
@@ -390,7 +386,7 @@ public class RepoDefaultTest {
         repo.query(new Visitor<String, Employee>() {
             @Override
             public void visit(String s, Employee employee, Object currentProperty, List<String> propertyPath) {
-                printf("key %s, \t employee=%s \t \n currentProperty=%s \t \npath=%s\n\n", s, employee, currentProperty, propertyPath);
+                printf("VISITOR TEST key %s, \t employee=%s \t \n currentProperty=%s \t \npath=%s\n\n", s, employee, currentProperty, propertyPath);
             }
         });
 

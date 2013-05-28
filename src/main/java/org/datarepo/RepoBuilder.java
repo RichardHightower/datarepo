@@ -1,5 +1,6 @@
 package org.datarepo;
 
+import org.datarepo.modification.ModificationListener;
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.RepoComposer;
 
@@ -77,6 +78,8 @@ public interface RepoBuilder {
     public RepoBuilder addLogging(boolean logging);
 
     public RepoBuilder cloneEdits(boolean cloneEdits);
+
+    RepoBuilder events(ModificationListener... listeners);
 
     RepoBuilder debug();
 

@@ -1,6 +1,7 @@
 package org.datarepo.impl;
 
 import org.datarepo.*;
+import org.datarepo.modification.ModificationListener;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;
 import org.datarepo.spi.ObjectEditorComposer;
@@ -12,7 +13,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Level;
-import  org.datarepo.utils.Utils;
+
+import org.datarepo.utils.Utils;
 
 
 public class RepoBuilderDefault implements RepoBuilder {
@@ -81,6 +83,16 @@ public class RepoBuilderDefault implements RepoBuilder {
     @Override
     public RepoBuilder cloneEdits(boolean cloneEdits) {
         this.cloneEdits = cloneEdits;
+        return this;
+    }
+
+    boolean events = false;
+    ModificationListener[] listeners;
+
+    @Override
+    public RepoBuilder events(ModificationListener... listeners) {
+        events = true;
+        this.listeners = listeners;
         return this;
     }
 
@@ -217,6 +229,15 @@ public class RepoBuilderDefault implements RepoBuilder {
             editor = new ObjectEditorCloneDecorator(editor);
         }
 
+        if (events) {
+            ObjectEditorEventDecorator eventManager = new ObjectEditorEventDecorator(editor);
+
+            for (ModificationListener l : listeners) {
+                eventManager.add(l);
+            }
+            editor = eventManager;
+        }
+
         repo.setObjectEditor(editor);
 
 
@@ -246,7 +267,7 @@ public class RepoBuilderDefault implements RepoBuilder {
         query.setFields(fields);
 
 
-        configPrimaryKey(primitiveKey==null?clazz:primitiveKey, fields);
+        configPrimaryKey(primitiveKey == null ? clazz : primitiveKey, fields);
         configIndexes(repo, fields);
         query.init();
 
@@ -323,7 +344,7 @@ public class RepoBuilderDefault implements RepoBuilder {
 
         Utils.notNull(primaryKey);
 
-        if(!fields.containsKey(primaryKey)) {
+        if (!fields.containsKey(primaryKey)) {
             Utils.complain("Fields does not have primary key %s", primaryKey);
         }
 

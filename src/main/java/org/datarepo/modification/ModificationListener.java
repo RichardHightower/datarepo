@@ -1,7 +1,7 @@
 package org.datarepo.modification;
 
 
-public interface Modification <KEY, ITEM> {
+public interface ModificationListener<KEY, ITEM> {
 
      void modification(ModificationEvent event);
 

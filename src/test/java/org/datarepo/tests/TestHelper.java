@@ -2,6 +2,7 @@ package org.datarepo.tests;
 
 import org.datarepo.Repo;
 import org.datarepo.RepoBuilder;
+import org.datarepo.modification.ModificationEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +105,7 @@ public class TestHelper {
         repoBuilder.primaryKey("id")
                 .searchIndex("firstName").searchIndex("lastName")
                 .searchIndex("salary").searchIndex("empNum", true)
-        .debug().level(Level.INFO).cloneEdits(true);
+        .debug().level(Level.INFO).cloneEdits(true).events((ModificationEvent event)->{print (event);});
 
         /* Create the repo with the builder. */
         Repo <String, Employee> repo
