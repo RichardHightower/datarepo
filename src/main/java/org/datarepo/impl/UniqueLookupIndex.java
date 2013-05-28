@@ -96,5 +96,10 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         return true;
     }
 
+    @Override
+    public boolean isPrimaryKeyOnly() {
+        return false;
+    }
+
 
 }

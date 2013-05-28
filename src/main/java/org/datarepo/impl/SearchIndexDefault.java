@@ -16,13 +16,13 @@ import static org.datarepo.utils.Utils.notNull;
  * @param <ITEM> The items we are indexing.
  */
 public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM> implements SearchIndex<KEY, ITEM> {
-    private NavigableMap<KEY, MultiValue<ITEM>> navigableMap;
+    private NavigableMap<KEY, MultiValue> navigableMap;
 
 
     public SearchIndexDefault(Class <?> keyType) {
         super (null);
         super.map = SPIFactory.getMapCreatorFactory().get().createNavigableMap(keyType);
-        this.navigableMap = (NavigableMap<KEY, MultiValue<ITEM>>) super.map;
+        this.navigableMap = (NavigableMap<KEY, MultiValue>) super.map;
 
     }
 
@@ -30,7 +30,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
         super(null);
         super.keyGetter = keyGetter;
         super.map = SPIFactory.getMapCreatorFactory().get().createNavigableMap(keyType);
-        this.navigableMap = (NavigableMap<KEY, MultiValue<ITEM>>) super.map;
+        this.navigableMap = (NavigableMap<KEY, MultiValue>) super.map;
 
         for (ITEM item : items) {
             add(item);
@@ -70,19 +70,19 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
             after.append(sub);
             after.append((char) (endLetter + 1));
 
-            NavigableMap<String, MultiValue<ITEM>> sortMap = (NavigableMap<String, MultiValue<ITEM>>) this.navigableMap;
+            NavigableMap<String, MultiValue> sortMap = (NavigableMap<String, MultiValue>) this.navigableMap;
 
 
-            SortedMap<String, MultiValue<ITEM>> sortedSubMap = sortMap.subMap(start, after.toString());
+            SortedMap<String, MultiValue> sortedSubMap = sortMap.subMap(start, after.toString());
 
             if (sortedSubMap.size() > 0) {
                 results = new ArrayList<>();
-                for (MultiValue<ITEM> values : sortedSubMap.values()) {
+                for (MultiValue values : sortedSubMap.values()) {
                     if (values.value != null) {
-                        results.add(values.value);
+                        results.add((ITEM)values.value);
                     } else {
-                        for (ITEM value : values.values) {
-                            results.add(value);
+                        for (Object value : values.values) {
+                            results.add((ITEM)value);
                         }
                     }
                 }
@@ -100,7 +100,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
 
         if (keyFrag instanceof String) {
 
-            Collection<MultiValue<ITEM>> values = navigableMap.values();
+            Collection<MultiValue> values = navigableMap.values();
             for (MultiValue<ITEM> mv : values) {
                 for (ITEM value : mv.getValues()) {
                     String svalue = (String) this.keyGetter.apply(value);
@@ -119,7 +119,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
 
         if (keyFrag instanceof String) {
 
-            Collection<MultiValue<ITEM>> values = navigableMap.values();
+            Collection<MultiValue> values = navigableMap.values();
             for (MultiValue<ITEM> mv : values) {
                 for (ITEM value : mv.getValues()) {
                     String svalue = (String) this.keyGetter.apply(value);
@@ -135,13 +135,13 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
 
     @Override
     public List<ITEM> findBetween(KEY start, KEY end) {
-        SortedMap<KEY, MultiValue<ITEM>> keyMultiValueSortedMap = this.navigableMap.subMap(start, end);
+        SortedMap<KEY, MultiValue> keyMultiValueSortedMap = this.navigableMap.subMap(start, end);
 
         return getResults(keyMultiValueSortedMap);
 
     }
 
-    private List<ITEM> getResults(SortedMap<KEY, MultiValue<ITEM>> keyMultiValueSortedMap) {
+    private List<ITEM> getResults(SortedMap<KEY, MultiValue> keyMultiValueSortedMap) {
         List<ITEM> results = null;
         if (keyMultiValueSortedMap.size() > 0) {
             results = new ArrayList<>();
@@ -155,44 +155,43 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
 
     @Override
     public List<ITEM> findGreaterThan(KEY key) {
-        SortedMap<KEY, MultiValue<ITEM>> keyMultiValueSortedMap = this.navigableMap.tailMap(key, false);
+        SortedMap<KEY, MultiValue> keyMultiValueSortedMap = this.navigableMap.tailMap(key, false);
         return getResults(keyMultiValueSortedMap);
     }
 
     @Override
     public List<ITEM> findLessThan(KEY key) {
-        SortedMap<KEY, MultiValue<ITEM>> keyMultiValueSortedMap = this.navigableMap.headMap(key, false);
+        SortedMap<KEY, MultiValue> keyMultiValueSortedMap = this.navigableMap.headMap(key, false);
         return getResults(keyMultiValueSortedMap);
     }
 
     @Override
     public List<ITEM> findGreaterThanEqual(KEY key) {
-        SortedMap<KEY, MultiValue<ITEM>> keyMultiValueSortedMap = this.navigableMap.tailMap(key);
+        SortedMap<KEY, MultiValue> keyMultiValueSortedMap = this.navigableMap.tailMap(key);
         return getResults(keyMultiValueSortedMap);
     }
 
     @Override
     public List<ITEM> findLessThanEqual(KEY key) {
-        SortedMap<KEY, MultiValue<ITEM>> keyMultiValueSortedMap = this.navigableMap.headMap(key);
+        SortedMap<KEY, MultiValue> keyMultiValueSortedMap = this.navigableMap.headMap(key);
         return getResults(keyMultiValueSortedMap);
     }
 
 
     @Override
     public ITEM min() {
-        return this.navigableMap.firstEntry().getValue().getValue();
+        return (ITEM) this.navigableMap.firstEntry().getValue().getValue();
     }
 
     @Override
     public ITEM max() {
-        return this.navigableMap.lastEntry().getValue().getValue();
+        return (ITEM) this.navigableMap.lastEntry().getValue().getValue();
     }
 
     @Override
     public int count(KEY key) {
         return this.navigableMap.get(key).size();
     }
-
 
     @Override
     public int size() {

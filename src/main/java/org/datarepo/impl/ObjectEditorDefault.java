@@ -66,8 +66,6 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
 
     public void modify(ITEM item) {
 
-        notNull(item);
-
         /** See if we have an original. */
         KEY key = query.getKey(item);
         ITEM oldItem = this.doGet(key);
@@ -399,7 +397,6 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
 
 
     public boolean add(ITEM item) {
-
         return query.add(item);
     }
 
@@ -416,7 +413,6 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
 
     @Override
     public void init() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
 

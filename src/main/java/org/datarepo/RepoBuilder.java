@@ -79,6 +79,8 @@ public interface RepoBuilder {
 
     public RepoBuilder cloneEdits(boolean cloneEdits);
 
+    public RepoBuilder storeKeyInIndexOnly();
+
     RepoBuilder events(ModificationListener... listeners);
 
     RepoBuilder debug();

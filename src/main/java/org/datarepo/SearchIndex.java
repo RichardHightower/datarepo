@@ -33,6 +33,7 @@ public interface SearchIndex<KEY, ITEM> extends LookupIndex<KEY, ITEM> {
 
     int count(KEY key);
 
+
 //      List <ITEM> findEquals (KEY key, int start, int length);
 //      List <ITEM> findStartsWith(KEY keyFrag, int start, int length);
 //      List <ITEM> findEndsWith(KEY keyFrag, int start, int length);

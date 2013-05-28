@@ -22,8 +22,12 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
 
     protected Function<ITEM, KEY> keyGetter;
-    protected Map<KEY, MultiValue<ITEM>> map;
+    protected Function<ITEM, KEY> primaryKeyGetter;
+
+    protected Map<KEY, MultiValue> map;
     private Logger log = log(LookupIndexDefault.class);
+    protected boolean storeKeyInIndexOnly;
+
 
     public LookupIndexDefault(Class<?> keyType) {
         if (keyType == null) {
@@ -34,25 +38,87 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     }
 
 
+    @Override
+    public boolean add(ITEM item) {
+        if (isDebug(log)) {
+            debug(log, "add item = %s", item);
+        }
+
+        KEY key = keyGetter.apply(item);
+        if (key == null) {
+            return false;
+        }
+
+
+        MultiValue mv = null;
+        mv = map.get(key);
+
+
+        if (storeKeyInIndexOnly) {
+            Object primaryKey = primaryKeyGetter.apply(item);
+
+            mv = mvCreateOrAddToMV(mv, primaryKey);
+        } else {
+            mv = mvCreateOrAddToMV(mv, item);
+        }
+
+        map.put(key, mv);
+        return true;
+
+    }
+
+    private MultiValue mvCreateOrAddToMV(MultiValue mv, Object obj) {
+        if (mv == null) {
+            mv = new MultiValue(obj);
+        } else {
+            mv.add(obj);
+        }
+        return mv;
+    }
+
+    @Override
+    public boolean delete(ITEM item) {
+        KEY key = keyGetter.apply(item);
+        MultiValue mv = map.get(key);
+
+        if (mv == null) {
+            return false;
+        }
+        mv.remove(item);
+
+        if (mv.size() == 0) {
+            map.remove(key);
+        }
+
+        return true;
+
+    }
+
 
     public void setKeyGetter(Function<ITEM, KEY> keyGetter) {
         notNull(keyGetter);
         this.keyGetter = keyGetter;
     }
 
+    public void setPrimaryKeyGetter(Function<ITEM, KEY> keyGetter) {
+        notNull(keyGetter);
+        storeKeyInIndexOnly = true;
+        this.primaryKeyGetter = keyGetter;
+    }
+
     @Override
     public List<ITEM> all() {
-        List<ITEM> list = new ArrayList<>(map.size());
-        for (MultiValue<ITEM> values : map.values()) {
+        List results = new ArrayList<>(map.size());
+        for (MultiValue values : map.values()) {
             if (values.value != null) {
-                list.add(values.value);
+                results.add(values.value);
             } else {
                 for (Object value : values.values) {
-                    list.add((ITEM) value);
+                    results.add((ITEM) value);
                 }
             }
         }
-        return list;
+        return results;
     }
 
     @Override
@@ -72,11 +138,11 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         if (isDebug(log)) {
             debug(log, "key = %s", key);
         }
-        MultiValue<ITEM> mv = map.get(key);
+        MultiValue mv = map.get(key);
         if (mv == null) {
             return null;
         } else {
-            return mv.getValue();
+            return (ITEM) mv.getValue();
         }
     }
 
@@ -85,7 +151,7 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         if (isDebug(log)) {
             debug(log, "key = %s", key);
         }
-        MultiValue<ITEM> mv = map.get(key);
+        MultiValue mv = map.get(key);
         if (mv == null) {
             return null;
         } else {
@@ -100,47 +166,13 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     }
 
 
+    //TODO implement so we can store only primary keys in a index to make indexes smaller if
+    //we ever decide to cache actual items
     @Override
-    public boolean add(ITEM item) {
-        if (isDebug(log)) {
-            debug(log, "add item = %s", item);
-        }
-
-        KEY key = keyGetter.apply(item);
-
-        if (key == null) {
-            return false;
-        }
-
-        MultiValue<ITEM> mv = map.get(key);
-        if (mv == null) {
-            mv = new MultiValue<ITEM>(item);
-        } else {
-            mv.add(item);
-        }
-
-
-        map.put(key, mv);
-        return true;
+    public boolean isPrimaryKeyOnly() {
+        return storeKeyInIndexOnly;
     }
 
-    @Override
-    public boolean delete(ITEM item) {
-        KEY key = keyGetter.apply(item);
-        MultiValue<ITEM> mv = map.get(key);
-
-        if (mv == null) {
-            return false;
-        }
-        mv.remove(item);
-
-        if (mv.size() == 0) {
-            map.remove(key);
-        }
-
-        return true;
-
-    }
 
     @Override
     public void clear() {

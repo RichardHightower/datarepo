@@ -43,7 +43,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     boolean useUnSafe = true;
     boolean nullChecksAndLogging;
     boolean cloneEdits;
-
+    boolean storeKeyInIndexOnly;
     boolean debug;
     Level level = Level.FINER;
 
@@ -83,6 +83,13 @@ public class RepoBuilderDefault implements RepoBuilder {
     @Override
     public RepoBuilder cloneEdits(boolean cloneEdits) {
         this.cloneEdits = cloneEdits;
+        return this;
+    }
+
+    @Override
+    public RepoBuilder storeKeyInIndexOnly() {
+        this.storeKeyInIndexOnly = true;
+
         return this;
     }
 
@@ -328,7 +335,9 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     private Function getKeyGetterOrCreate(Map<String, FieldAccess> fields, String prop) {
         Utils.notNull(fields, prop);
-        Function kg = this.keyGetterMap.get(prop);
+        Function kg = null;
+
+        kg = this.keyGetterMap.get(prop);
 
         if (kg == null) {
             FieldAccess field = fields.get(prop);
@@ -337,6 +346,7 @@ public class RepoBuilderDefault implements RepoBuilder {
             keyGetterMap.put(prop, kg);
         }
         return kg;
+
     }
 
     private void configPrimaryKey(Class<?> type, Map<String, FieldAccess> fields) {

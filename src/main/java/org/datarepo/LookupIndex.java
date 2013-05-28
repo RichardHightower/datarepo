@@ -18,5 +18,8 @@ public interface LookupIndex<KEY, ITEM> extends Bag<ITEM> {
 
     boolean deleteByKey(KEY key);
 
+    boolean isPrimaryKeyOnly();
+
+
 
 }

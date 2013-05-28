@@ -1142,4 +1142,110 @@ public class LinearSearch {
         return results;
     }
 
+    public static <T> List<T> findStartsWith(List<T> items, String propertyName, Object value) {
+        if (items.size() == 0 || value == null) {
+            return Collections.EMPTY_LIST;
+        }
+        Map<String, FieldAccess> fields = getAllAccessorFields(items.iterator().next().getClass());
+        FieldAccess field = fields.get(propertyName);
+
+        List<T> results = new ArrayList<>();
+        for (T item : items) {
+            Object value2 = field.getValue(item);
+
+            if (value2 == null) {
+                return Collections.EMPTY_LIST;
+            }
+
+            String s1 = null, s2 = null;
+
+            if (value2 instanceof String && value instanceof String) {
+                s1 = (String) value;
+                s2 = (String) value2;
+
+            }else {
+                s1 = value.toString();
+                s2 = value2.toString();
+
+            }
+
+            if (s2.startsWith(s1)) {
+                results.add(item);
+            }
+
+        }
+        return results;
+
+    }
+
+    public static <T> List<T> findEndsWith(List<T> items, String propertyName, Object value) {
+        if (items.size() == 0 || value == null) {
+            return Collections.EMPTY_LIST;
+        }
+        Map<String, FieldAccess> fields = getAllAccessorFields(items.iterator().next().getClass());
+        FieldAccess field = fields.get(propertyName);
+
+        List<T> results = new ArrayList<>();
+        for (T item : items) {
+            Object value2 = field.getValue(item);
+
+            if (value2 == null) {
+                return Collections.EMPTY_LIST;
+            }
+
+            String s1 = null, s2 = null;
+
+            if (value2 instanceof String && value instanceof String) {
+                s1 = (String) value;
+                s2 = (String) value2;
+
+            }else {
+                s1 = value.toString();
+                s2 = value2.toString();
+
+            }
+
+            if (s2.endsWith(s1)) {
+                results.add(item);
+            }
+
+        }
+        return results;
+
+    }
+
+    public static <T> List<T> findContains(List<T> items, String propertyName, Object value) {
+        if (items.size() == 0 || value == null) {
+            return Collections.EMPTY_LIST;
+        }
+        Map<String, FieldAccess> fields = getAllAccessorFields(items.iterator().next().getClass());
+        FieldAccess field = fields.get(propertyName);
+
+        List<T> results = new ArrayList<>();
+        for (T item : items) {
+            Object value2 = field.getValue(item);
+
+            if (value2 == null) {
+                return Collections.EMPTY_LIST;
+            }
+
+            String s1 = null, s2 = null;
+
+            if (value2 instanceof String && value instanceof String) {
+                 s1 = (String) value;
+                 s2 = (String) value2;
+
+            }else {
+                 s1 = value.toString();
+                 s2 = value2.toString();
+            }
+
+            if (s2.contains(s1)) {
+                results.add(item);
+            }
+
+        }
+        return results;
+
+    }
 }

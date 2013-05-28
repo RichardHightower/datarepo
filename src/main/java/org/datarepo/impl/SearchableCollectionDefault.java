@@ -36,6 +36,24 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     protected Function<ITEM, KEY> primaryKeyGetter;
     protected String primaryKeyName;
 
+
+
+    @Override
+    public boolean delete(ITEM item) {
+        for (LookupIndex index : indexes) {
+            index.delete((ITEM) item);
+        }
+        return true;
+    }
+
+    public boolean add(ITEM item) {
+        for (LookupIndex index : indexes) {
+            index.add(item);
+        }
+        return true;
+    }
+
+
     public ITEM get(KEY key) {
         LookupIndex lookupIndex = primaryIndex;
         return (ITEM) lookupIndex.get(key);
@@ -56,7 +74,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     @Override
     public <T> T readValue(KEY key, String property, Class<T> type) {
         ITEM item = this.get(key);
-        return (T) this.fields.get(property).getObject(item);
+        return (T) this.fields.get(property).getValue(item);
     }
 
     @Override
@@ -527,20 +545,6 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         }
     }
 
-    @Override
-    public boolean delete(ITEM item) {
-        for (LookupIndex index : indexes) {
-            index.delete((ITEM) item);
-        }
-        return true;
-    }
-
-    public boolean add(ITEM item) {
-        for (LookupIndex index : indexes) {
-            index.add(item);
-        }
-        return true;
-    }
 
     public void setFilter(org.datarepo.Filter filter) {
         this.filter = filter;
