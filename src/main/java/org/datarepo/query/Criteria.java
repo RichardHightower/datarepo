@@ -1,5 +1,7 @@
 package org.datarepo.query;
 
+import org.datarepo.reflection.Types;
+
 public class Criteria {
 
     public static Expression and(Expression... expressions) {
@@ -13,6 +15,19 @@ public class Criteria {
     public static Expression eq(Object name, Object value) {
         return new Criterion<Object>(name.toString(), Operator.EQUAL, value);
     }
+
+    public static Expression notEq(Object name, Object value) {
+        return new Criterion<Object>(name.toString(), Operator.NOT_EQUAL, value);
+    }
+
+    public static Expression notIn(Object name, Object... values) {
+        return new Criterion<Object>(name.toString(), Operator.NOT_IN, values);
+    }
+
+    public static Expression in(Object name, Object... values) {
+        return new Criterion<Object>(name.toString(), Operator.IN, values);
+    }
+
 
     public static Expression lt(Object name, Object value) {
         return new Criterion<Object>(name.toString(), Operator.LESS_THAN, value);
@@ -37,7 +52,7 @@ public class Criteria {
 
     public static Expression betweenYears(Object name, int year1, int year2) {
 
-        return new Criterion<Object>(name.toString(), Operator.BETWEEN, null, null);
+        return new Criterion<Object>(name.toString(), Operator.BETWEEN, Types.year(year1), Types.year(year2));
     }
 
     public static Expression startsWith(Object name, Object value) {

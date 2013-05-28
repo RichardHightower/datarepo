@@ -2,6 +2,8 @@ package org.datarepo.query;
 
 public enum Operator {
     EQUAL,
+    NOT_EQUAL,
+
     LESS_THAN,
     LESS_THAN_EQUAL,
     GREATER_THAN,
@@ -12,5 +14,9 @@ public enum Operator {
     CONTAINS,
     MATCHES,
     BETWEEN,
-    IN //Not IMPLEMENTED YET
+    IN,
+    NOT_IN,
+    NOT
+
+
 }

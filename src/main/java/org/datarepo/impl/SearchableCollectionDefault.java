@@ -351,7 +351,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         if (expressions == null || expressions.length == 0) {
             return this.all();
         } else {
-            return (List<ITEM>) this.filter.filter(this.lookupIndexMap, this.searchIndexMap, expressions);
+            return (List<ITEM>) this.filter.filter(this, this.fields, this.lookupIndexMap, this.searchIndexMap, expressions);
         }
     }
 

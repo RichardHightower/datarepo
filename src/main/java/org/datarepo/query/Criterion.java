@@ -75,10 +75,12 @@ public class Criterion<VALUE> extends Expression {
         return result;
     }
 
+
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(80);
-        builder.append("{");
+        builder.append("c{");
         builder.append("\"name\":'");
         builder.append(name);
         builder.append(", \"operator\":");

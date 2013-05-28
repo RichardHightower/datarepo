@@ -3,21 +3,45 @@ package org.datarepo.impl;
 import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.SearchIndex;
+import org.datarepo.SearchableCollection;
 import org.datarepo.query.*;
+import org.datarepo.reflection.FieldAccess;
+import org.datarepo.utils.LinearSearch;
+import org.datarepo.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FilterDefault implements Filter {
+
+    Set<Operator> indexedOperators = Utils.set(Operator.BETWEEN, Operator.EQUAL, Operator.STARTS_WITH,
+            Operator.GREATER_THAN, Operator.GREATER_THAN_EQUAL,
+            Operator.LESS_THAN, Operator.LESS_THAN_EQUAL);
+
     @Override
-    public List filter(Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
+    public List filter(SearchableCollection searchableCollection, Map<String, FieldAccess> fields, Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
                        Expression... expressions) {
+
+//        Set<SearchIndex> indexSet = new TreeSet<SearchIndex>((SearchIndex index, SearchIndex index2) -> {
+//            return index.size() > index.size() ? 1 : -1;
+//        }
+//        );
+//
+//        for (SearchIndex si : indexSet) {
+//            Utils.print(si.size());
+//        }
 
 
         if (expressions.length == 1 && expressions[0] instanceof Criterion) {
-            return doFilter(lookupIndexMap, searchIndexMap, (Criterion) expressions[0]);
+
+            Criterion criterion = (Criterion) expressions[0];
+
+
+            if (Utils.isIn(criterion.getOperator(), indexedOperators)) {
+                return doFilterWithIndex(lookupIndexMap, searchIndexMap, criterion);
+            } else {
+                //TODO fix this... it may work, but who is going to remember.
+                return doFilter(new ArrayList(lookupIndexMap.values().iterator().next().all()), criterion);
+            }
         }
 
         return or(lookupIndexMap, searchIndexMap, expressions);
@@ -40,7 +64,7 @@ public class FilterDefault implements Filter {
         HashSet set = new HashSet();
         for (Expression expression : expressions) {
             if (expression instanceof Criterion) {
-                List list = doFilter(lookupIndexMap, searchIndexMap, (Criterion) expression);
+                List list = doFilterWithIndex(lookupIndexMap, searchIndexMap, (Criterion) expression);
                 set.addAll(list);
             }
             if (expression instanceof Group) {
@@ -53,17 +77,64 @@ public class FilterDefault implements Filter {
 
     }
 
+
     private List and(Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
                      Expression... expressions) {
 
         List<HashSet> listOfSets = new ArrayList(new HashSet());
+        Set<Expression> expressionSet = Utils.set(expressions);
+
+
         for (Expression expression : expressions) {
             if (expression instanceof Criterion) {
-                List list = doFilter(lookupIndexMap, searchIndexMap, (Criterion) expression);
-                if (list.size() > 0) {
-                    listOfSets.add(new HashSet(list));
+                Criterion criteria = (Criterion) expression;
+                if (Utils.isIn(criteria.getOperator(), indexedOperators)) {
+                    List list = doFilterWithIndex(lookupIndexMap, searchIndexMap, (Criterion) expression);
+                    if (list.size() > 0) {
+                        listOfSets.add(new HashSet(list));
+                    } else {
+                        return Collections.EMPTY_LIST;
+                    }
+                    expressionSet.remove(criteria);
+                    if (list.size() < 10) {
+                        break;
+                    }
+
                 }
+
             }
+        }
+
+        HashSet mainSet = listOfSets.get(0);
+
+
+        for (HashSet otherSet : listOfSets) {
+            mainSet.retainAll(otherSet);
+        }
+
+
+        List results = new ArrayList(mainSet);
+
+        Set <Expression> visitedExpressions = new HashSet<>();
+        for (Expression expression : expressionSet) {
+            if (expression instanceof Criterion) {
+                Criterion criteria = (Criterion) expression;
+                results = doFilter(results, criteria);
+                if (results.size() == 0) {
+                    return Collections.EMPTY_LIST;
+                }
+                visitedExpressions.add(criteria);
+            }
+        }
+
+        expressionSet.removeAll(visitedExpressions);
+
+
+        listOfSets = new ArrayList(new HashSet());
+        listOfSets.add(new HashSet(results));
+
+        for (Expression expression : expressionSet) {
+
             if (expression instanceof Group) {
                 List list = doFilter(lookupIndexMap, searchIndexMap, (Group) expression);
                 if (list.size() > 0) {
@@ -72,21 +143,19 @@ public class FilterDefault implements Filter {
             }
         }
 
-
-        HashSet mainSet = listOfSets.get(1);
-
-
         for (HashSet otherSet : listOfSets) {
             mainSet.retainAll(otherSet);
         }
 
 
-        return new ArrayList(mainSet);
+        results = new ArrayList(mainSet);
+
+        return results;
 
     }
 
-    private List doFilter(Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
-                          Criterion criterion) {
+    private List doFilterWithIndex(Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
+                                   Criterion criterion) {
         String name = criterion.getName();
         Object value = criterion.getValue();
         Operator operator = criterion.getOperator();
@@ -121,6 +190,49 @@ public class FilterDefault implements Filter {
 
         }
 
-        return null;
+        return Collections.EMPTY_LIST;
+    }
+
+    private List doFilter(List list, Criterion criterion) {
+        String name = criterion.getName();
+        Object value = criterion.getValue();
+        Operator operator = criterion.getOperator();
+        //Need to optimize for primitives, but not now TODO
+        switch (operator) {
+            case EQUAL:
+                return LinearSearch.findEquals(list, name, value);
+
+            //TODO NEED STARTS WITH
+            //case STARTS_WITH:
+            //    return LinearSearch.findEquals(list, name, value);
+
+            case GREATER_THAN:
+                return LinearSearch.findGreaterThan(list, name, (Comparable) value);
+
+            case GREATER_THAN_EQUAL:
+                return LinearSearch.findGreaterThanEqual(list, name, (Comparable) value);
+
+            case LESS_THAN:
+                return LinearSearch.findLessThan(list, name, (Comparable) value);
+
+            case BETWEEN:
+                return LinearSearch.findBetween(list, name, (Comparable) value, (Comparable) criterion.getValues()[1]);
+
+            case LESS_THAN_EQUAL:
+                return LinearSearch.findLessThanEqual(list, name, (Comparable) value);
+
+            case NOT_EQUAL:
+                return LinearSearch.findEquals(list, name, value);
+
+            case NOT_IN:
+                return LinearSearch.findNotIn(list, name, criterion.getValues());
+
+            case IN:
+                return LinearSearch.findIn(list, name, criterion.getValues());
+
+        }
+
+        return Collections.EMPTY_LIST;
+
     }
 }
