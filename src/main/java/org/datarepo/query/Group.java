@@ -3,18 +3,46 @@ package org.datarepo.query;
 import java.util.Arrays;
 
 public class Group extends Expression {
+    
     private Expression[] expressions;
 
-    public Grouping getGrouping() {
-        return grouping;
-    }
+    private final int hashCode;
+    private final String toString;
 
     private Grouping grouping = Grouping.AND;
 
     public Group(Grouping grouping, Expression... expressions) {
         this.grouping = grouping;
         this.expressions = expressions;
+        hashCode = doHashCode();
+        toString = doToString();
+
     }
+
+    private int doHashCode() {
+        int result = expressions != null ? Arrays.hashCode(expressions) : 0;
+        result = 31 * result + (grouping != null ? grouping.hashCode() : 0);
+        return result;
+
+    }
+
+    private String doToString() {
+
+        StringBuilder builder = new StringBuilder(255);
+        builder.append("{");
+        builder.append("\"expressions\":");
+        builder.append(Arrays.toString(expressions));
+        builder.append(", \"grouping\":");
+        builder.append(grouping);
+        builder.append('}');
+        return builder.toString();
+
+    }
+
+    public Grouping getGrouping() {
+        return grouping;
+    }
+
 
     public Expression[] getExpressions() {
         return expressions;
@@ -35,21 +63,11 @@ public class Group extends Expression {
 
     @Override
     public int hashCode() {
-        int result = expressions != null ? Arrays.hashCode(expressions) : 0;
-        result = 31 * result + (grouping != null ? grouping.hashCode() : 0);
-        return result;
+        return hashCode;
     }
 
     @Override
     public String toString() {
-
-        StringBuilder builder = new StringBuilder(255);
-        builder.append("{");
-        builder.append("\"expressions\":");
-        builder.append(Arrays.toString(expressions));
-        builder.append(", \"grouping\":");
-        builder.append(grouping);
-        builder.append('}');
-        return builder.toString();
+        return toString;
     }
 }

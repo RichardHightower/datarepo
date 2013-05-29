@@ -4,11 +4,11 @@ import org.datarepo.reflection.Types;
 
 public class Criteria {
 
-    public static Expression and(Expression... expressions) {
+    public static Group and(Expression... expressions) {
         return new Group(Grouping.AND, expressions);
     }
 
-    public static Expression or(Expression... expressions) {
+    public static Group or(Expression... expressions) {
         return new Group(Grouping.OR, expressions);
     }
 

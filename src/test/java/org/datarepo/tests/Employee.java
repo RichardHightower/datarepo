@@ -7,8 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 public class Employee {
-    String firstName;
-    String lastName;
+    private String firstName;
+    private String lastName;
+    private String id;
+    private Date birthDate;
+    private int salary;
+    Department department = new Department();
+    long empNum;
+    private int _hashCode=-1;
 
     public String getId() {
         return id;
@@ -18,11 +24,6 @@ public class Employee {
         this.id = id;
     }
 
-    String id;
-    Date birthDate;
-    int salary;
-    Department department = new Department();
-    long empNum;
     List <Tag> tags = new ArrayList<>();
     {
         tags.add(new Tag("tag1"));
@@ -110,6 +111,9 @@ public class Employee {
 
     @Override
     public int hashCode() {
+        if (_hashCode!=-1) {
+            return _hashCode;
+        }
         int result = firstName != null ? firstName.hashCode() : 0;
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (id != null ? id.hashCode() : 0);

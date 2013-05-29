@@ -88,14 +88,25 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         item = lookupAndExpect(item);
         query.invalidateIndex(property, item);
         fields.get(property).setObject(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
+    }
 
+    private void optimizeHash(ITEM item) {
+        FieldAccess hashCode = fields.get("_hashCode");
+        if (hashCode==null) {
+            return;
+        } else {
+          hashCode.setInt(item, -1);
+          hashCode.setInt(item, item.hashCode());
+        }
     }
 
     public void modifyByValue(ITEM item, String property, String value) {
         item = lookupAndExpect(item);
         query.invalidateIndex(property, item);
         fields.get(property).setValue(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
 
     }
@@ -104,6 +115,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         item = lookupAndExpect(item);
         query.invalidateIndex(property, item);
         fields.get(property).setInt(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -111,6 +123,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         item = lookupAndExpect(item);
         query.invalidateIndex(property, item);
         fields.get(property).setLong(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -118,6 +131,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         item = lookupAndExpect(item);
         query.invalidateIndex(property, item);
         fields.get(property).setChar(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -125,6 +139,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         item = lookupAndExpect(item);
         query.invalidateIndex(property, item);
         fields.get(property).setShort(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -132,6 +147,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         item = lookupAndExpect(item);
         query.invalidateIndex(property, item);
         fields.get(property).setByte(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -139,6 +155,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         item = lookupAndExpect(item);
         query.invalidateIndex(property, item);
         fields.get(property).setFloat(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -146,6 +163,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         item = lookupAndExpect(item);
         query.invalidateIndex(property, item);
         fields.get(property).setDouble(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -154,6 +172,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         for (ValueSetter value : values) {
             query.invalidateIndex(value.getName(), item);
             value.doSet(this, item);
+            optimizeHash(item);
             query.validateIndex(value.getName(), item);
         }
 
@@ -163,6 +182,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         ITEM item = lookupAndExpectByKey(key);
         query.invalidateIndex(property, item);
         fields.get(property).setObject(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -170,6 +190,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         ITEM item = lookupAndExpectByKey(key);
         query.invalidateIndex(property, item);
         fields.get(property).setValue(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -177,6 +198,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         ITEM item = lookupAndExpectByKey(key);
         query.invalidateIndex(property, item);
         fields.get(property).setInt(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -184,6 +206,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         ITEM item = lookupAndExpectByKey(key);
         query.invalidateIndex(property, item);
         fields.get(property).setLong(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -191,6 +214,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         ITEM item = lookupAndExpectByKey(key);
         query.invalidateIndex(property, item);
         fields.get(property).setChar(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -198,6 +222,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         ITEM item = lookupAndExpectByKey(key);
         query.invalidateIndex(property, item);
         fields.get(property).setShort(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -205,6 +230,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         ITEM item = lookupAndExpectByKey(key);
         query.invalidateIndex(property, item);
         fields.get(property).setByte(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -212,6 +238,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         ITEM item = lookupAndExpectByKey(key);
         query.invalidateIndex(property, item);
         fields.get(property).setFloat(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -219,6 +246,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         ITEM item = lookupAndExpectByKey(key);
         query.invalidateIndex(property, item);
         fields.get(property).setDouble(item, value);
+        optimizeHash(item);
         query.validateIndex(property, item);
     }
 
@@ -228,6 +256,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         for (ValueSetter value : values) {
             query.invalidateIndex(value.getName(), item);
             value.doSet(this, item);
+            optimizeHash(item);
             query.validateIndex(value.getName(), item);
         }
     }
@@ -240,6 +269,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setObject(item, value);
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -253,6 +283,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setInt(item, value);
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -266,6 +297,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setLong(item, value);
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -279,6 +311,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setChar(item, value);
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -292,6 +325,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setShort(item, value);
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -306,6 +340,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setByte(item, value);
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -319,6 +354,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setFloat(item, value);
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -332,6 +368,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setDouble(item, value);
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -345,6 +382,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setInt(item, (compare + 1));
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -359,6 +397,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setLong(item, (compare + 1));
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -372,6 +411,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setShort(item, (short) (compare + 1));
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -385,6 +425,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
             query.invalidateIndex(property, item);
             field.setByte(item, (byte) (compare + 1));
             set = true;
+            optimizeHash(item);
             query.validateIndex(property, item);
         }
         return set;
@@ -432,6 +473,7 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
     private ITEM lookupAndExpect(ITEM item) {
         KEY key = getKey(item);
         ITEM oldItem = this.doGet(key);
+
 
         if (oldItem == null) {
             complain(sprintf("An original item was not in the repo %s", item));

@@ -363,7 +363,6 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         return Double.MAX_VALUE;
     }
 
-
     @Override
     public List<ITEM> query(Expression... expressions) {
         if (expressions == null || expressions.length == 0) {
@@ -521,6 +520,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         if (index != null) {
             index.delete(item);
         }
+        filter.invalidate();
 
     }
 

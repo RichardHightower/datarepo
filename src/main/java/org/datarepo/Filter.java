@@ -12,4 +12,6 @@ public interface Filter {
                 Map<String, SearchIndex> searchIndexMap,
                 Expression... expressions);
 
+    void invalidate();
+
 }

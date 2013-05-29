@@ -7,11 +7,15 @@ public class Criterion<VALUE> extends Expression {
     private Operator operator;
     private VALUE value;
     private VALUE[] values;
+    private final int hashCode;
+    private final String toString;
 
     public Criterion(String name, Operator operator, VALUE... values) {
         this.name = name;
         this.operator = operator;
         this.setValues(values);
+        hashCode = doHashCode();
+        toString = doToString();
     }
 
 
@@ -19,26 +23,15 @@ public class Criterion<VALUE> extends Expression {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Operator getOperator() {
         return operator;
     }
 
-    public void setOperator(Operator operator) {
-        this.operator = operator;
-    }
 
     public VALUE getValue() {
         return value;
     }
 
-    public void setValue(VALUE value) {
-        this.value = value;
-        this.values = null;
-    }
 
     public VALUE[] getValues() {
         return values;
@@ -50,6 +43,7 @@ public class Criterion<VALUE> extends Expression {
         }
         this.values = values;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -66,8 +60,12 @@ public class Criterion<VALUE> extends Expression {
         return true;
     }
 
+
     @Override
-    public int hashCode() {
+    public int hashCode () {
+        return hashCode;
+    }
+    public int doHashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (operator != null ? operator.hashCode() : 0);
         result = 31 * result + (value != null ? value.hashCode() : 0);
@@ -75,10 +73,13 @@ public class Criterion<VALUE> extends Expression {
         return result;
     }
 
-
-
     @Override
     public String toString() {
+        return toString;
+    }
+
+
+    public String doToString() {
         StringBuilder builder = new StringBuilder(80);
         builder.append("c{");
         builder.append("\"name\":'");
