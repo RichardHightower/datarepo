@@ -110,13 +110,7 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     public List<ITEM> all() {
         List results = new ArrayList<>(map.size());
         for (MultiValue values : map.values()) {
-            if (values.value != null) {
-                results.add(values.value);
-            } else {
-                for (Object value : values.values) {
-                    results.add((ITEM) value);
-                }
-            }
+            values.addTo(results);
         }
         return results;
     }

@@ -4,10 +4,7 @@ import org.datarepo.SearchIndex;
 import org.datarepo.spi.SPIFactory;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.Function;
-
-import static org.datarepo.utils.Utils.notNull;
 
 /**
  * Default Search Index which uses a TreeMap
@@ -19,14 +16,14 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
     private NavigableMap<KEY, MultiValue> navigableMap;
 
 
-    public SearchIndexDefault(Class <?> keyType) {
-        super (null);
+    public SearchIndexDefault(Class<?> keyType) {
+        super(null);
         super.map = SPIFactory.getMapCreatorFactory().get().createNavigableMap(keyType);
         this.navigableMap = (NavigableMap<KEY, MultiValue>) super.map;
 
     }
 
-    public SearchIndexDefault(Class <?> keyType, List<ITEM> items, Function<ITEM, KEY> keyGetter) {
+    public SearchIndexDefault(Class<?> keyType, List<ITEM> items, Function<ITEM, KEY> keyGetter) {
         super(null);
         super.keyGetter = keyGetter;
         super.map = SPIFactory.getMapCreatorFactory().get().createNavigableMap(keyType);
@@ -42,13 +39,11 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
 
     @Override
     public List<ITEM> findEquals(KEY key) {
-        notNull(key, navigableMap);
 
         MultiValue<ITEM> items = navigableMap.get(key);
         if (items == null) {
             return null;
         }
-        notNull(items);
         return items.getValues();
     }
 
@@ -78,13 +73,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
             if (sortedSubMap.size() > 0) {
                 results = new ArrayList<>();
                 for (MultiValue values : sortedSubMap.values()) {
-                    if (values.value != null) {
-                        results.add((ITEM)values.value);
-                    } else {
-                        for (Object value : values.values) {
-                            results.add((ITEM)value);
-                        }
-                    }
+                    values.addTo(results);
                 }
                 return results;
             }
@@ -122,6 +111,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
             Collection<MultiValue> values = navigableMap.values();
             for (MultiValue<ITEM> mv : values) {
                 for (ITEM value : mv.getValues()) {
+
                     String svalue = (String) this.keyGetter.apply(value);
                     if (svalue.endsWith((String) keyFrag)) {
                         results.add(value);

@@ -21,6 +21,7 @@ public class FilterDefault implements Filter {
 
     Map<Expression, List> queryCache = new ConcurrentHashMap<>();
     int flushCount = 0;
+    final boolean cache = true;
 
     @Override
     public List filter(SearchableCollection searchableCollection, Map<String, FieldAccess> fields, Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
@@ -31,7 +32,7 @@ public class FilterDefault implements Filter {
         if (expressions.length == 1 && expressions[0] instanceof Criterion) {
 
             return simpleQueryPlanOneCriterion(searchableCollection, fields, lookupIndexMap, searchIndexMap,
-                    (Criterion)expressions[0]);
+                    (Criterion) expressions[0]);
         }
 
         return mainQueryPlan(searchableCollection, fields, lookupIndexMap, searchIndexMap, expressions);
@@ -39,9 +40,12 @@ public class FilterDefault implements Filter {
     }
 
     private void checkCache() {
-        flushCount++;
-        if (flushCount > 10_000) {
-            queryCache.clear();
+        if (cache) {
+            if (flushCount > 10_000 && queryCache.size() > 10_000) {
+                queryCache.clear();
+            } else {
+                flushCount = 0;
+            }
         }
     }
 
@@ -51,15 +55,20 @@ public class FilterDefault implements Filter {
 
         Group group = (Group) Criteria.or(expressions);
 
-        results = queryCache.get(group);
+        if (cache) {
+            results = queryCache.get(group);
 
-        if (results!=null) {
-            return results;
+            if (results != null) {
+                return results;
+            }
         }
 
         results = doFilterGroup(searchableCollection, lookupIndexMap, searchIndexMap, group, fields);
 
-        queryCache.put(group, results == null ? Collections.EMPTY_LIST : results);
+        if (cache) {
+            flushCount++;
+            queryCache.put(group, results == null ? Collections.EMPTY_LIST : results);
+        }
         return results;
     }
 
@@ -67,20 +76,33 @@ public class FilterDefault implements Filter {
                                              Map<String, FieldAccess> fields, Map<String, LookupIndex> lookupIndexMap,
                                              Map<String, SearchIndex> searchIndexMap,
                                              Criterion criterion) {
-        List results = queryCache.get(criterion);
+        List results = null;
 
-        if (results!=null) {
-            return results;
+        if (cache) {
+            results = queryCache.get(criterion);
+
+            if (results != null) {
+                return results;
+            }
         }
 
 
-        if (Utils.isIn(criterion.getOperator(), indexedOperators)) {
+        Operator operator = criterion.getOperator();
+//        //I was using isIn here but it was causing most of the slow down.
+//        if (operator == Operator.BETWEEN || operator == Operator.EQUAL || operator == Operator.STARTS_WITH || operator ==
+//                Operator.GREATER_THAN || operator == Operator.GREATER_THAN_EQUAL || operator ==
+//                Operator.LESS_THAN || operator == Operator.LESS_THAN_EQUAL) {
+        //It is slighlty faster with isIn versus roll out.
+        if (Utils.isIn(operator, indexedOperators)) {
             results = doFilterWithIndex(searchableCollection, lookupIndexMap, searchIndexMap, criterion, fields);
         } else {
-            results =  doFilterUsingLinear(searchableCollection.all(), criterion, fields);
+            results = doFilterUsingLinear(searchableCollection.all(), criterion, fields);
         }
 
-        queryCache.put(criterion, results == null ? Collections.EMPTY_LIST : results);
+        if (cache) {
+            flushCount++;
+            queryCache.put(criterion, results == null ? Collections.EMPTY_LIST : results);
+        }
         return results;
     }
 
@@ -158,7 +180,7 @@ public class FilterDefault implements Filter {
 
         List results = new ArrayList(mainSet);
 
-        Set <Expression> visitedExpressions = new HashSet<>();
+        Set<Expression> visitedExpressions = new HashSet<>();
         for (Expression expression : expressionSet) {
             if (expression instanceof Criterion) {
                 Criterion criteria = (Criterion) expression;
@@ -210,7 +232,7 @@ public class FilterDefault implements Filter {
         }
 
         if (searchIndex == null) {
-            return this.doFilterUsingLinear( searchableCollection.all(),  criterion,  fields);
+            return this.doFilterUsingLinear(searchableCollection.all(), criterion, fields);
         }
 
         switch (operator) {
@@ -244,7 +266,7 @@ public class FilterDefault implements Filter {
         if (searchIndex.isPrimaryKeyOnly()) {
             //TODO iterate through list and lookup items from keys, and put those in the actual results
             return null;
-        }else {
+        } else {
             return results;
         }
     }
@@ -312,7 +334,7 @@ public class FilterDefault implements Filter {
             case BETWEEN:
                 int value2 = Types.toInt(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2 );
+                return LinearSearch.findBetween(list, name, value, value2);
 
             case LESS_THAN_EQUAL:
                 return LinearSearch.findLessThanEqual(list, name, value);
@@ -351,18 +373,18 @@ public class FilterDefault implements Filter {
                 return LinearSearch.findGreaterThan(list, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name,  value);
+                return LinearSearch.findGreaterThanEqual(list, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name,  value);
+                return LinearSearch.findLessThan(list, name, value);
 
             case BETWEEN:
                 double value2 = Types.toDouble(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2 );
+                return LinearSearch.findBetween(list, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name,  value);
+                return LinearSearch.findLessThanEqual(list, name, value);
 
             case NOT_EQUAL:
                 return LinearSearch.findEquals(list, name, value);
@@ -395,21 +417,21 @@ public class FilterDefault implements Filter {
                 return LinearSearch.findContains(list, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name,  value);
+                return LinearSearch.findGreaterThan(list, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name,  value);
+                return LinearSearch.findGreaterThanEqual(list, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name,  value);
+                return LinearSearch.findLessThan(list, name, value);
 
             case BETWEEN:
                 boolean value2 = Types.toBoolean(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2 );
+                return LinearSearch.findBetween(list, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name,  value);
+                return LinearSearch.findLessThanEqual(list, name, value);
 
             case NOT_EQUAL:
                 return LinearSearch.findEquals(list, name, value);
@@ -443,21 +465,21 @@ public class FilterDefault implements Filter {
                 return LinearSearch.findContains(list, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name,  value);
+                return LinearSearch.findGreaterThan(list, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name,  value);
+                return LinearSearch.findGreaterThanEqual(list, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name,  value);
+                return LinearSearch.findLessThan(list, name, value);
 
             case BETWEEN:
                 char value2 = Types.toChar(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2 );
+                return LinearSearch.findBetween(list, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name,  value);
+                return LinearSearch.findLessThanEqual(list, name, value);
 
             case NOT_EQUAL:
                 return LinearSearch.findEquals(list, name, value);
@@ -473,6 +495,7 @@ public class FilterDefault implements Filter {
         return Collections.EMPTY_LIST;
 
     }
+
     private List linearFilterShort(List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
         short value = Types.toShort(ovalue);
         switch (operator) {
@@ -489,21 +512,21 @@ public class FilterDefault implements Filter {
                 return LinearSearch.findContains(list, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name,  value);
+                return LinearSearch.findGreaterThan(list, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name,  value);
+                return LinearSearch.findGreaterThanEqual(list, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name,  value);
+                return LinearSearch.findLessThan(list, name, value);
 
             case BETWEEN:
                 short value2 = Types.toShort(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2 );
+                return LinearSearch.findBetween(list, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name,  value);
+                return LinearSearch.findLessThanEqual(list, name, value);
 
             case NOT_EQUAL:
                 return LinearSearch.findEquals(list, name, value);
@@ -520,7 +543,7 @@ public class FilterDefault implements Filter {
 
     }
 
-    private List linearFilterByte (List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
+    private List linearFilterByte(List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
         byte value = Types.toByte(ovalue);
         switch (operator) {
             case EQUAL:
@@ -536,21 +559,21 @@ public class FilterDefault implements Filter {
                 return LinearSearch.findContains(list, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name,  value);
+                return LinearSearch.findGreaterThan(list, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name,  value);
+                return LinearSearch.findGreaterThanEqual(list, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name,  value);
+                return LinearSearch.findLessThan(list, name, value);
 
             case BETWEEN:
                 byte value2 = Types.toByte(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2 );
+                return LinearSearch.findBetween(list, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name,  value);
+                return LinearSearch.findLessThanEqual(list, name, value);
 
             case NOT_EQUAL:
                 return LinearSearch.findEquals(list, name, value);
@@ -567,7 +590,7 @@ public class FilterDefault implements Filter {
 
     }
 
-    private List linearFilterFloat (List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
+    private List linearFilterFloat(List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
         float value = Types.toFloat(ovalue);
         switch (operator) {
             case EQUAL:
@@ -583,21 +606,21 @@ public class FilterDefault implements Filter {
                 return LinearSearch.findContains(list, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name,  value);
+                return LinearSearch.findGreaterThan(list, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name,  value);
+                return LinearSearch.findGreaterThanEqual(list, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name,  value);
+                return LinearSearch.findLessThan(list, name, value);
 
             case BETWEEN:
                 float value2 = Types.toFloat(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2 );
+                return LinearSearch.findBetween(list, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name,  value);
+                return LinearSearch.findLessThanEqual(list, name, value);
 
             case NOT_EQUAL:
                 return LinearSearch.findEquals(list, name, value);

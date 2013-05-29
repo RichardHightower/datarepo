@@ -1,6 +1,8 @@
 package org.datarepo.impl;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -9,67 +11,109 @@ import java.util.List;
  * @param <T>
  */
 class MultiValue<T> {
-    T value;
+    T[] array = (T[]) new Object[10];
     List<T> values;
+    int index = 0;
 
     MultiValue() {
 
     }
 
-    MultiValue(T value) {
-        this.value = value;
+    MultiValue(T item) {
+        array[index] = item;
+        index++;
     }
 
     void add(T item) {
+        if (index < 10) {
+            array[index] = item;
+            index++;
+        } else {
+            createList();
+            values.add(item);
+        }
+    }
+
+    private final void createList() {
         if (values == null) {
-            values = new ArrayList();
+            values = new ArrayList(index);
+            for (int i = 0; i < index; i++) {
+                values.add(array[i]);
+            }
+            array = null;
+            index = Integer.MAX_VALUE;
         }
-        if (value != null) {
-            values.add(value);
-            value = null;
-        }
-        values.add(item);
     }
 
     void remove(T item) {
-        if (value != null) {
-            value = null;
-        } else {
-            if (values != null) {
-                values.remove(item);
-            }
-        }
+        createList();
+        values.remove(item);
     }
 
     T getValue() {
-        if (value == null && values != null) {
-            return values.get(0);
+
+        if (index < 10) {
+            return array[0];
         } else {
-            return value;
+            return values.get(0);
         }
+
     }
 
-    List<T> getValues() {
-        if (values != null) {
-            return new ArrayList(values);
+    final List<T> getValues() {
+
+        if (index < 10) {
+            return new AbstractList<T>() {
+                @Override
+                public T get(int i) {
+                    return array[i];
+                }
+
+                @Override
+                public int size() {
+                    return index;  //To change body of implemented methods use File | Settings | File Templates.
+                }
+
+                @Override
+                public Iterator<T> iterator() {
+                    return new Iterator<T>() {
+                        int size = index;
+                        int i = 0;
+
+                        @Override
+                        public boolean hasNext() {
+                            return i < index;
+                        }
+
+                        @Override
+                        public T next() {
+                            T v = array[i];
+                            i++;
+                            return v;
+                        }
+                    };
+                }
+            };
         } else {
-            List<T> list = new ArrayList<T>();
-            list.add(value);
-            return list;
+            return values;
         }
+
     }
+
 
     int size() {
-        if (value != null) {
-            return 1;
+        if (index < 10) {
+            return index;
         } else {
-            return values == null ? 0 : values.size();
+            return values.size();
         }
     }
 
     void addTo(List<T> results) {
-        if (value != null) {
-            results.add(value);
+        if (index < 10) {
+            for (int i = 0; i < index; i++) {
+                results.add(array[i]);
+            }
         } else {
             results.addAll(values);
         }

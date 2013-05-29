@@ -15,7 +15,7 @@ import java.util.function.Function;
 public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> implements SearchIndex<KEY, ITEM> {
     private NavigableMap<KEY, ITEM> navigableMap;
 
-    public UniqueSearchIndex(Class <?> keyType) {
+    public UniqueSearchIndex(Class<?> keyType) {
         super(null);
         super.map
                 = SPIFactory.getMapCreatorFactory().get().createNavigableMap(keyType);
@@ -24,7 +24,7 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
 
     }
 
-    public UniqueSearchIndex(Class <?> keyType, List<ITEM> items, Function<ITEM, KEY> keyGetter) {
+    public UniqueSearchIndex(Class<?> keyType, List<ITEM> items, Function<ITEM, KEY> keyGetter) {
         super(null);
         super.keyGetter = keyGetter;
         super.map
@@ -71,13 +71,7 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
             if (sortedSubMap.size() > 0) {
                 results = new ArrayList<>();
                 for (MultiValue<ITEM> values : sortedSubMap.values()) {
-                    if (values.value != null) {
-                        results.add(values.value);
-                    } else {
-                        for (ITEM value : values.values) {
-                            results.add(value);
-                        }
-                    }
+                    values.addTo(results);
                 }
                 return results;
             }

@@ -7,13 +7,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.datarepo.Collections.$q;
+import static org.datarepo.Collections.query;
 import static org.datarepo.query.Criteria.eq;
 import static org.datarepo.utils.Utils.*;
 
-import static org.datarepo.Collections.*;
-
 public class BenchMark {
     public static void main(String[] args) {
+
 
         Set<Employee> employees1 = new HashSet<>(TestHelper.createMetricTonOfEmployees(200_000));
         Set<Employee> employees2 = copy(employees1);
@@ -21,7 +22,7 @@ public class BenchMark {
         employees1 = $q(employees1);
 
         boolean found = false;
-        print("Data loaded");
+        print("Data loaded - Start Profiler now");
         sleep(3000);
         print("Running tests");
 
@@ -37,11 +38,11 @@ public class BenchMark {
             }
         }
 
-        List<Expression> firstNamesExp = ls(eq("firstName","Rick"),
-                eq("firstName","Vipin"), eq("firstName", "Diana"), eq("firstName", "Alex"));
+        List<Expression> firstNamesExp = ls(eq("firstName", "Rick"),
+                eq("firstName", "Vipin"), eq("firstName", "Diana"), eq("firstName", "Alex"));
 
         long startTime = System.nanoTime();
-        for (int index = 0; index < 50; index++) {
+        for (int index = 0; index < 10_000_000; index++) {
 
             for (Expression firstNameExp : firstNamesExp) {
                 List<Employee> list = query(employees1, firstNameExp);
@@ -51,7 +52,7 @@ public class BenchMark {
             }
         }
 
-        long endTime = (System.nanoTime() - startTime)/50;
+        long endTime = (System.nanoTime() - startTime) / 10_000_000;
         print("index time", endTime);
 
         for (int index = 0; index < 10; index++) {
@@ -72,7 +73,7 @@ public class BenchMark {
                 }
             }
         }
-        endTime = (System.nanoTime() - startTime)/50;
+        endTime = (System.nanoTime() - startTime) / 50;
         print("stream time", endTime);
 
 
