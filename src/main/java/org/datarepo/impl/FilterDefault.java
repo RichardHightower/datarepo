@@ -26,10 +26,7 @@ public class FilterDefault implements Filter {
     public List filter(SearchableCollection searchableCollection, Map<String, FieldAccess> fields, Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
                        Expression... expressions) {
 
-        flushCount++;
-        if (flushCount > 10_000) {
-            queryCache.clear();
-        }
+        checkCache();
 
         if (expressions.length == 1 && expressions[0] instanceof Criterion) {
 
@@ -40,6 +37,14 @@ public class FilterDefault implements Filter {
         return mainQueryPlan(searchableCollection, fields, lookupIndexMap, searchIndexMap, expressions);
 
     }
+
+    private void checkCache() {
+        flushCount++;
+        if (flushCount > 10_000) {
+            queryCache.clear();
+        }
+    }
+
 
     private List mainQueryPlan(SearchableCollection searchableCollection, Map<String, FieldAccess> fields, Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap, Expression[] expressions) {
         List results = null;
