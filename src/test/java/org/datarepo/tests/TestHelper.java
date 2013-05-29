@@ -119,6 +119,27 @@ public class TestHelper {
     }
 
 
+
+    public static Repo<String,Employee> createWithNoIndexes() {
+        /* Create a repo, and decide what to index. */
+        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+
+        /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
+        repoBuilder.primaryKey("id");
+
+
+        /* Create the repo with the builder. */
+        Repo <String, Employee> repo
+                = repoBuilder.build(String.class, Employee.class);
+
+        for (Employee employee : employees) {
+            repo.add(employee);
+        }
+        return repo;
+
+    }
+
+
     static Repo <String, Employee>  createFromBuilderUsingPropertyAccess() {
 
         /* Create a repo, and decide what to index. */

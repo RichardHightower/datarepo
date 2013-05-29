@@ -33,6 +33,14 @@ public class RepoBuilderTest {
     }
 
     @Test
+    public void testNoIndexes() throws Exception {
+
+        test.repo = TestHelper.createWithNoIndexes();
+        runAll();
+
+    }
+
+    @Test
     public void testNormalLogAndClone() throws Exception {
 
         test.repo = TestHelper.createFromBuilderLogAndClone();
