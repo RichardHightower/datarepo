@@ -7,13 +7,14 @@ import org.datarepo.SearchableCollection;
 import org.datarepo.query.*;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Types;
+import org.datarepo.spi.FilterComposer;
 import org.datarepo.utils.LinearSearch;
 import org.datarepo.utils.Utils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class FilterDefault implements Filter {
+public class FilterDefault implements Filter, FilterComposer {
 
     Set<Operator> indexedOperators = Utils.set(Operator.BETWEEN, Operator.EQUAL, Operator.STARTS_WITH,
             Operator.GREATER_THAN, Operator.GREATER_THAN_EQUAL,
@@ -21,21 +22,24 @@ public class FilterDefault implements Filter {
 
     Map<Expression, List> queryCache = new ConcurrentHashMap<>();
     int flushCount = 0;
-    final boolean cache = true;
+    boolean cache = true;
+    private Map<String, FieldAccess> fields;
+    private SearchableCollection searchableCollection;
+    private Map<String, SearchIndex> searchIndexMap;
+    private Map<String, LookupIndex> lookupIndexMap;
+
 
     @Override
-    public List filter(SearchableCollection searchableCollection, Map<String, FieldAccess> fields, Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
-                       Expression... expressions) {
+    public List filter(Expression... expressions) {
 
         checkCache();
 
         if (expressions.length == 1 && expressions[0] instanceof Criterion) {
 
-            return simpleQueryPlanOneCriterion(searchableCollection, fields, lookupIndexMap, searchIndexMap,
-                    (Criterion) expressions[0]);
+            return simpleQueryPlanOneCriterion((Criterion) expressions[0]);
         }
 
-        return mainQueryPlan(searchableCollection, fields, lookupIndexMap, searchIndexMap, expressions);
+        return mainQueryPlan(expressions);
 
     }
 
@@ -50,7 +54,7 @@ public class FilterDefault implements Filter {
     }
 
 
-    private List mainQueryPlan(SearchableCollection searchableCollection, Map<String, FieldAccess> fields, Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap, Expression[] expressions) {
+    private List mainQueryPlan(Expression[] expressions) {
         List results = null;
 
         Group group = (Group) Criteria.or(expressions);
@@ -63,7 +67,7 @@ public class FilterDefault implements Filter {
             }
         }
 
-        results = doFilterGroup(searchableCollection, lookupIndexMap, searchIndexMap, group, fields);
+        results = doFilterGroup(group, fields);
 
         if (cache) {
             flushCount++;
@@ -72,10 +76,7 @@ public class FilterDefault implements Filter {
         return results;
     }
 
-    private List simpleQueryPlanOneCriterion(SearchableCollection searchableCollection,
-                                             Map<String, FieldAccess> fields, Map<String, LookupIndex> lookupIndexMap,
-                                             Map<String, SearchIndex> searchIndexMap,
-                                             Criterion criterion) {
+    private List simpleQueryPlanOneCriterion(Criterion criterion) {
         List results = null;
 
         if (cache) {
@@ -88,13 +89,8 @@ public class FilterDefault implements Filter {
 
 
         Operator operator = criterion.getOperator();
-//        //I was using isIn here but it was causing most of the slow down.
-//        if (operator == Operator.BETWEEN || operator == Operator.EQUAL || operator == Operator.STARTS_WITH || operator ==
-//                Operator.GREATER_THAN || operator == Operator.GREATER_THAN_EQUAL || operator ==
-//                Operator.LESS_THAN || operator == Operator.LESS_THAN_EQUAL) {
-        //It is slighlty faster with isIn versus roll out.
         if (Utils.isIn(operator, indexedOperators)) {
-            results = doFilterWithIndex(searchableCollection, lookupIndexMap, searchIndexMap, criterion, fields);
+            results = doFilterWithIndex(criterion, fields);
         } else {
             results = doFilterUsingLinear(searchableCollection.all(), criterion, fields);
         }
@@ -106,34 +102,33 @@ public class FilterDefault implements Filter {
         return results;
     }
 
+
     @Override
     public void invalidate() {
         queryCache.clear();
 
     }
 
-    private List doFilterGroup(SearchableCollection searchableCollection, Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
-                               Group group, Map<String, FieldAccess> fields) {
+    private List doFilterGroup(Group group, Map<String, FieldAccess> fields) {
         if (group.getGrouping() == Grouping.OR) {
-            return or(searchableCollection, lookupIndexMap, searchIndexMap, group.getExpressions(), fields);
+            return or(group.getExpressions(), fields);
         } else {
-            return and(searchableCollection, lookupIndexMap, searchIndexMap, group.getExpressions(), fields);
+            return and(group.getExpressions(), fields);
 
         }
     }
 
-    private List or(SearchableCollection searchableCollection, Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
-                    Expression[] expressions,
+    private List or(Expression[] expressions,
                     Map<String, FieldAccess> fields) {
 
         HashSet set = new HashSet();
         for (Expression expression : expressions) {
             if (expression instanceof Criterion) {
-                List list = doFilterWithIndex(searchableCollection, lookupIndexMap, searchIndexMap, (Criterion) expression, fields);
+                List list = doFilterWithIndex((Criterion) expression, fields);
                 set.addAll(list);
             }
             if (expression instanceof Group) {
-                List list = doFilterGroup(searchableCollection, lookupIndexMap, searchIndexMap, (Group) expression, fields);
+                List list = doFilterGroup((Group) expression, fields);
                 set.addAll(list);
             }
         }
@@ -143,8 +138,7 @@ public class FilterDefault implements Filter {
     }
 
 
-    private List and(SearchableCollection searchableCollection, Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
-                     Expression[] expressions, Map<String, FieldAccess> fields) {
+    private List and(Expression[] expressions, Map<String, FieldAccess> fields) {
 
         List<HashSet> listOfSets = new ArrayList(new HashSet());
         Set<Expression> expressionSet = Utils.set(expressions);
@@ -154,7 +148,7 @@ public class FilterDefault implements Filter {
             if (expression instanceof Criterion) {
                 Criterion criteria = (Criterion) expression;
                 if (Utils.isIn(criteria.getOperator(), indexedOperators)) {
-                    List list = doFilterWithIndex(searchableCollection, lookupIndexMap, searchIndexMap, (Criterion) expression, fields);
+                    List list = doFilterWithIndex((Criterion) expression, fields);
                     if (list.size() > 0) {
                         listOfSets.add(new HashSet(list));
                     } else {
@@ -201,7 +195,7 @@ public class FilterDefault implements Filter {
         for (Expression expression : expressionSet) {
 
             if (expression instanceof Group) {
-                List list = doFilterGroup(searchableCollection, lookupIndexMap, searchIndexMap, (Group) expression, fields);
+                List list = doFilterGroup((Group) expression, fields);
                 if (list.size() > 0) {
                     listOfSets.add(new HashSet(list));
                 }
@@ -219,8 +213,7 @@ public class FilterDefault implements Filter {
 
     }
 
-    private List doFilterWithIndex(SearchableCollection searchableCollection, Map<String, LookupIndex> lookupIndexMap, Map<String, SearchIndex> searchIndexMap,
-                                   Criterion criterion, Map<String, FieldAccess> fields) {
+    private List doFilterWithIndex(Criterion criterion, Map<String, FieldAccess> fields) {
         String name = criterion.getName();
         Object value = criterion.getValue();
         Operator operator = criterion.getOperator();
@@ -637,7 +630,7 @@ public class FilterDefault implements Filter {
 
     }
 
-    private List linearFilter(List list, Criterion criterion, String name, Operator operator, Object value, Map<String, FieldAccess> fields) {
+    static List linearFilter(List list, Criterion criterion, String name, Operator operator, Object value, Map<String, FieldAccess> fields) {
 
         switch (operator) {
             case EQUAL:
@@ -680,5 +673,31 @@ public class FilterDefault implements Filter {
 
         return Collections.EMPTY_LIST;
 
+    }
+
+
+    @Override
+    public void setSearchableCollection(SearchableCollection searchableCollection) {
+        this.searchableCollection = searchableCollection;
+    }
+
+    @Override
+    public void setFields(Map<String, FieldAccess> fields) {
+        this.fields = fields;
+    }
+
+    @Override
+    public void setUseCache(boolean cache) {
+        this.cache = cache;
+    }
+
+    @Override
+    public void setSearchIndexMap(Map<String, SearchIndex> searchIndexMap) {
+        this.searchIndexMap = searchIndexMap;
+    }
+
+    @Override
+    public void setLookupIndexMap(Map<String, LookupIndex> lookupIndexMap) {
+        this.lookupIndexMap = lookupIndexMap;
     }
 }

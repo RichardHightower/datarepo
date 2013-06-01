@@ -9,6 +9,7 @@ import org.datarepo.query.Selector;
 import org.datarepo.query.Visitor;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;
+import org.datarepo.spi.FilterComposer;
 import org.datarepo.spi.SearchableCollectionComposer;
 import org.datarepo.utils.Utils;
 
@@ -35,7 +36,6 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
     protected Function<ITEM, KEY> primaryKeyGetter;
     protected String primaryKeyName;
-
 
 
     @Override
@@ -368,7 +368,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         if (expressions == null || expressions.length == 0) {
             return this.all();
         } else {
-            return (List<ITEM>) this.filter.filter(this, this.fields, this.lookupIndexMap, this.searchIndexMap, expressions);
+            return (List<ITEM>) this.filter.filter(expressions);
         }
     }
 
@@ -621,6 +621,14 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     @Override
     public void init() {
         this.primaryIndex = (UniqueLookupIndex<KEY, ITEM>) this.lookupIndexMap.get(this.primaryKeyName);
+        if (filter instanceof FilterComposer) {
+            FilterComposer fc = (FilterComposer) filter;
+            fc.setFields(fields);
+            fc.setLookupIndexMap(this.lookupIndexMap);
+            fc.setSearchIndexMap(this.searchIndexMap);
+            fc.setSearchableCollection(this);
+
+        }
     }
 
     @Override

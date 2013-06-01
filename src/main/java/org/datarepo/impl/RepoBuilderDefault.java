@@ -5,16 +5,18 @@ import org.datarepo.modification.ModificationListener;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;
 import org.datarepo.spi.ObjectEditorComposer;
-import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.RepoComposer;
+import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.SearchableCollectionComposer;
+import org.datarepo.utils.Utils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Level;
-
-import org.datarepo.utils.Utils;
 
 
 public class RepoBuilderDefault implements RepoBuilder {
@@ -46,9 +48,10 @@ public class RepoBuilderDefault implements RepoBuilder {
     boolean storeKeyInIndexOnly;
     boolean debug;
     Level level = Level.FINER;
-
-
-    SearchableCollectionComposer query;
+    private Map<String, FieldAccess> fields;
+    private RepoComposer repo;
+    private ObjectEditor editor;
+    private SearchableCollectionComposer query;
 
 
     public RepoBuilder usePropertyForAccess(boolean useProperty) {
@@ -188,6 +191,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     private void init() {
+
         if (this.repoComposerFactory == null) {
             this.repoComposerFactory = SPIFactory.getRepoFactory();
         }
@@ -220,10 +224,55 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     public <KEY, ITEM> Repo<KEY, ITEM> build(Class<?> primitiveKey, Class<KEY> key, Class<ITEM> clazz) {
         init();
-        RepoComposer repo = (RepoComposer) this.repoComposerFactory.get();
-        ObjectEditorComposer editorComposer = this.objectEditorFactory.get();
-        ObjectEditor editor = (ObjectEditor) editorComposer;
 
+        this.fields = Reflection.getPropertyFieldAccessMap(clazz, useField, useUnSafe);
+
+
+        /* Construct */
+        this.repo = (RepoComposer) this.repoComposerFactory.get();
+        this.editor = constructObjectEditor(fields);
+        SearchableCollectionComposer query = constructSearchableCollection(primitiveKey, clazz, repo, fields);
+
+        /* Inject */
+        repo.setSearchableCollection((SearchableCollection<KEY, ITEM>) query);
+        ((ObjectEditorComposer) editor).setSearchableCollection((SearchableCollection<KEY, ITEM>) query);
+        repo.setObjectEditor((ObjectEditor) editor);
+
+        editor = decorateEditor(editor);
+
+        return (Repo<KEY, ITEM>) repo;
+    }
+
+    private SearchableCollectionComposer constructSearchableCollection(Class<?> primitiveKey, Class<?> itemClazz, RepoComposer repo, Map<String, FieldAccess> fields) {
+
+        query = searchableCollectionFactory.get();
+
+        Filter filter = this.filterFactory.get();
+
+        configPrimaryKey(primitiveKey == null ? itemClazz : primitiveKey, fields);
+        configIndexes(repo, fields);
+
+        query.setFilter(filter);
+        query.setFields(fields);
+
+        query.init();
+
+        return query;
+    }
+
+    private ObjectEditor constructObjectEditor(Map<String, FieldAccess> fields) {
+        ObjectEditorComposer editorComposer = this.objectEditorFactory.get();
+
+        ObjectEditor editor = (ObjectEditor) editorComposer;
+        editorComposer.init();
+
+
+        editorComposer.setFields(fields);
+        return editor;
+    }
+
+
+    private ObjectEditor decorateEditor(ObjectEditor editor) {
         if (debug || nullChecksAndLogging) {
             ObjectEditorLogNullCheckDecorator logNullCheckDecorator = new ObjectEditorLogNullCheckDecorator(editor);
             logNullCheckDecorator.setLevel(level);
@@ -244,46 +293,7 @@ public class RepoBuilderDefault implements RepoBuilder {
             }
             editor = eventManager;
         }
-
-        repo.setObjectEditor(editor);
-
-
-        Map<String, FieldAccess> fields = null;
-
-        if (useField) {
-            fields = Reflection.getAllAccessorFields(clazz, useUnSafe);
-
-        } else {
-            Map<String, FieldAccess> realFields = Reflection.getAllAccessorFields(clazz, useUnSafe);
-
-            fields = Reflection.getPropertyFieldAccessors(clazz);
-
-            /* Add missing fields */
-            for (Map.Entry<String, FieldAccess> field : realFields.entrySet()) {
-                if (!fields.containsKey(field.getKey())) {
-                    fields.put(field.getKey(), field.getValue());
-                }
-            }
-        }
-
-        editorComposer.setFields(fields);
-
-
-        query = searchableCollectionFactory.get();
-        query.setFilter(this.filterFactory.get());
-        query.setFields(fields);
-
-
-        configPrimaryKey(primitiveKey == null ? clazz : primitiveKey, fields);
-        configIndexes(repo, fields);
-        query.init();
-
-
-        repo.setSearchableCollection((SearchableCollection<KEY, ITEM>) query);
-        editorComposer.setSearchableCollection((SearchableCollection<KEY, ITEM>) query);
-
-
-        return (Repo<KEY, ITEM>) repo;
+        return editor;
     }
 
     @Override
@@ -304,31 +314,31 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     private void configIndexes(RepoComposer repo,
                                Map<String, FieldAccess> fields) {
-        SearchableCollection query = (SearchableCollection) this.query;
+        query = this.query;
         for (String prop : searchIndexes) {
             SearchIndex searchIndex = this.searchIndexFactory.apply(fields.get(prop).getType());
             Function kg = getKeyGetterOrCreate(fields, prop);
             searchIndex.setKeyGetter(kg);
-            query.addSearchIndex(prop, searchIndex);
+            ((SearchableCollection) query).addSearchIndex(prop, searchIndex);
         }
         for (String prop : uniqueSearchIndexes) {
             SearchIndex searchIndex = this.uniqueSearchIndexFactory.apply(fields.get(prop).getType());
             Function kg = getKeyGetterOrCreate(fields, prop);
             searchIndex.setKeyGetter(kg);
-            query.addSearchIndex(prop, searchIndex);
+            ((SearchableCollection) query).addSearchIndex(prop, searchIndex);
         }
 
         for (String prop : lookupIndexes) {
             LookupIndex index = this.lookupIndexFactory.apply(fields.get(prop).getType());
             Function kg = getKeyGetterOrCreate(fields, prop);
             index.setKeyGetter(kg);
-            query.addLookupIndex(prop, index);
+            ((SearchableCollection) query).addLookupIndex(prop, index);
         }
         for (String prop : uniqueLookupIndexes) {
             LookupIndex index = this.uniqueLookupIndexFactory.apply(fields.get(prop).getType());
             Function kg = getKeyGetterOrCreate(fields, prop);
             index.setKeyGetter(kg);
-            query.addLookupIndex(prop, index);
+            ((SearchableCollection) query).addLookupIndex(prop, index);
         }
 
     }
@@ -360,8 +370,8 @@ public class RepoBuilderDefault implements RepoBuilder {
 
 
         primaryKeyIndex.setKeyGetter(getKeyGetterOrCreate(fields, this.primaryKey));
-        query.setPrimaryKeyName(this.primaryKey);
-        query.setPrimaryKeyGetter(this.keyGetterMap.get(this.primaryKey));
+        ((SearchableCollectionComposer) query).setPrimaryKeyName(this.primaryKey);
+        ((SearchableCollectionComposer) query).setPrimaryKeyGetter(this.keyGetterMap.get(this.primaryKey));
         ((SearchableCollection) query).addLookupIndex(this.primaryKey, primaryKeyIndex);
 
 

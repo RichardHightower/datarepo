@@ -16,6 +16,52 @@ public class Reflection {
     private static final Logger log = log(reflection);
 
 
+    /**
+     * Does this return getPropertyFieldFieldAccessMap(clazz, true, true);
+     *
+     * @param clazz
+     * @return
+     */
+    public static Map<String, FieldAccess> getPropertyFieldAccessMap(Class<?> clazz) {
+        return getPropertyFieldAccessMap(clazz, true, true);
+    }
+
+    /**
+     * Gets a list of fields merges with properties if field is not found.
+     *
+     * @param clazz
+     * @param useFieldFirst
+     * @param useUnSafe
+     * @return
+     */
+    public static Map<String, FieldAccess> getPropertyFieldAccessMap(Class<?> clazz, boolean useFieldFirst, boolean useUnSafe) {
+        Map<String, FieldAccess> fieldsFallbacks = null;
+        Map<String, FieldAccess> fieldsPrimary = null;
+
+        if (useFieldFirst) {
+            fieldsPrimary = Reflection.getAllAccessorFields(clazz, useUnSafe);
+
+            fieldsFallbacks = Reflection.getPropertyFieldAccessors(clazz);
+
+        } else {
+
+            fieldsFallbacks = Reflection.getAllAccessorFields(clazz, useUnSafe);
+
+            fieldsPrimary = Reflection.getPropertyFieldAccessors(clazz);
+
+        }
+
+        /* Add missing fields */
+        for (Map.Entry<String, FieldAccess> field : fieldsFallbacks.entrySet()) {
+            if (!fieldsPrimary.containsKey(field.getKey())) {
+                fieldsPrimary.put(field.getKey(), field.getValue());
+            }
+        }
+
+        return fieldsPrimary;
+    }
+
+
     @SuppressWarnings("serial")
     public static class ReflectionException extends RuntimeException {
 
