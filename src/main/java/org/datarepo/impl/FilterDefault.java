@@ -14,6 +14,7 @@ import org.datarepo.utils.Utils;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 public class FilterDefault implements Filter, FilterComposer {
 
     Set<Operator> indexedOperators = Utils.set(Operator.BETWEEN, Operator.EQUAL, Operator.STARTS_WITH,
