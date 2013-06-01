@@ -8,7 +8,7 @@ import org.datarepo.query.*;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Types;
 import org.datarepo.spi.FilterComposer;
-import org.datarepo.utils.LinearSearch;
+import org.datarepo.utils.LinearSearchWithFields;
 import org.datarepo.utils.Utils;
 
 import java.util.*;
@@ -343,42 +343,42 @@ public class FilterDefault implements Filter, FilterComposer {
         int value = Types.toInt(ovalue);
         switch (operator) {
             case EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case STARTS_WITH:
-                return LinearSearch.findStartsWith(list, name, value);
+                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
 
             case ENDS_WITH:
-                return LinearSearch.findEndsWith(list, name, value);
+                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
 
             case CONTAINS:
-                return LinearSearch.findContains(list, name, value);
+                return LinearSearchWithFields.findContains(list, fields, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name, value);
+                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name, value);
+                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name, value);
+                return LinearSearchWithFields.findLessThan(list, fields, name, value);
 
             case BETWEEN:
                 int value2 = Types.toInt(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2);
+                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name, value);
+                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
 
             case NOT_EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case NOT_IN:
-                return LinearSearch.findNotIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
 
             case IN:
-                return LinearSearch.findIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
 
         }
 
@@ -390,42 +390,42 @@ public class FilterDefault implements Filter, FilterComposer {
         double value = Types.toDouble(ovalue);
         switch (operator) {
             case EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case STARTS_WITH:
-                return LinearSearch.findStartsWith(list, name, value);
+                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
 
             case ENDS_WITH:
-                return LinearSearch.findEndsWith(list, name, value);
+                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
 
             case CONTAINS:
-                return LinearSearch.findContains(list, name, value);
+                return LinearSearchWithFields.findContains(list, fields, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name, value);
+                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name, value);
+                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name, value);
+                return LinearSearchWithFields.findLessThan(list, fields, name, value);
 
             case BETWEEN:
                 double value2 = Types.toDouble(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2);
+                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name, value);
+                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
 
             case NOT_EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case NOT_IN:
-                return LinearSearch.findNotIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
 
             case IN:
-                return LinearSearch.findIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
 
         }
 
@@ -437,42 +437,42 @@ public class FilterDefault implements Filter, FilterComposer {
         boolean value = Types.toBoolean(ovalue);
         switch (operator) {
             case EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case STARTS_WITH:
-                return LinearSearch.findStartsWith(list, name, value);
+                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
 
             case ENDS_WITH:
-                return LinearSearch.findEndsWith(list, name, value);
+                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
 
             case CONTAINS:
-                return LinearSearch.findContains(list, name, value);
+                return LinearSearchWithFields.findContains(list, fields, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name, value);
+                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name, value);
+                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name, value);
+                return LinearSearchWithFields.findLessThan(list, fields, name, value);
 
             case BETWEEN:
                 boolean value2 = Types.toBoolean(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2);
+                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name, value);
+                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
 
             case NOT_EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case NOT_IN:
-                return LinearSearch.findNotIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
 
             case IN:
-                return LinearSearch.findIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
 
         }
 
@@ -485,42 +485,42 @@ public class FilterDefault implements Filter, FilterComposer {
         char value = Types.toChar(ovalue);
         switch (operator) {
             case EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case STARTS_WITH:
-                return LinearSearch.findStartsWith(list, name, value);
+                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
 
             case ENDS_WITH:
-                return LinearSearch.findEndsWith(list, name, value);
+                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
 
             case CONTAINS:
-                return LinearSearch.findContains(list, name, value);
+                return LinearSearchWithFields.findContains(list, fields, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name, value);
+                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name, value);
+                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name, value);
+                return LinearSearchWithFields.findLessThan(list, fields, name, value);
 
             case BETWEEN:
                 char value2 = Types.toChar(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2);
+                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name, value);
+                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
 
             case NOT_EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case NOT_IN:
-                return LinearSearch.findNotIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
 
             case IN:
-                return LinearSearch.findIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
 
         }
 
@@ -532,42 +532,42 @@ public class FilterDefault implements Filter, FilterComposer {
         short value = Types.toShort(ovalue);
         switch (operator) {
             case EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case STARTS_WITH:
-                return LinearSearch.findStartsWith(list, name, value);
+                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
 
             case ENDS_WITH:
-                return LinearSearch.findEndsWith(list, name, value);
+                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
 
             case CONTAINS:
-                return LinearSearch.findContains(list, name, value);
+                return LinearSearchWithFields.findContains(list, fields, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name, value);
+                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name, value);
+                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name, value);
+                return LinearSearchWithFields.findLessThan(list, fields, name, value);
 
             case BETWEEN:
                 short value2 = Types.toShort(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2);
+                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name, value);
+                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
 
             case NOT_EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case NOT_IN:
-                return LinearSearch.findNotIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
 
             case IN:
-                return LinearSearch.findIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
 
         }
 
@@ -579,42 +579,42 @@ public class FilterDefault implements Filter, FilterComposer {
         byte value = Types.toByte(ovalue);
         switch (operator) {
             case EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case STARTS_WITH:
-                return LinearSearch.findStartsWith(list, name, value);
+                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
 
             case ENDS_WITH:
-                return LinearSearch.findEndsWith(list, name, value);
+                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
 
             case CONTAINS:
-                return LinearSearch.findContains(list, name, value);
+                return LinearSearchWithFields.findContains(list, fields, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name, value);
+                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name, value);
+                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name, value);
+                return LinearSearchWithFields.findLessThan(list, fields, name, value);
 
             case BETWEEN:
                 byte value2 = Types.toByte(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2);
+                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name, value);
+                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
 
             case NOT_EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case NOT_IN:
-                return LinearSearch.findNotIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
 
             case IN:
-                return LinearSearch.findIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
 
         }
 
@@ -626,42 +626,42 @@ public class FilterDefault implements Filter, FilterComposer {
         float value = Types.toFloat(ovalue);
         switch (operator) {
             case EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case STARTS_WITH:
-                return LinearSearch.findStartsWith(list, name, value);
+                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
 
             case ENDS_WITH:
-                return LinearSearch.findEndsWith(list, name, value);
+                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
 
             case CONTAINS:
-                return LinearSearch.findContains(list, name, value);
+                return LinearSearchWithFields.findContains(list, fields, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name, value);
+                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name, value);
+                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name, value);
+                return LinearSearchWithFields.findLessThan(list, fields, name, value);
 
             case BETWEEN:
                 float value2 = Types.toFloat(criterion.getValues()[1]);
 
-                return LinearSearch.findBetween(list, name, value, value2);
+                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name, value);
+                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
 
             case NOT_EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case NOT_IN:
-                return LinearSearch.findNotIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
 
             case IN:
-                return LinearSearch.findIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
 
         }
 
@@ -673,40 +673,40 @@ public class FilterDefault implements Filter, FilterComposer {
 
         switch (operator) {
             case EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case STARTS_WITH:
-                return LinearSearch.findStartsWith(list, name, value);
+                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
 
             case ENDS_WITH:
-                return LinearSearch.findEndsWith(list, name, value);
+                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
 
             case CONTAINS:
-                return LinearSearch.findContains(list, name, value);
+                return LinearSearchWithFields.findContains(list, fields, name, value);
 
             case GREATER_THAN:
-                return LinearSearch.findGreaterThan(list, name, (Comparable) value);
+                return LinearSearchWithFields.findGreaterThan(list, fields, name, (Comparable) value);
 
             case GREATER_THAN_EQUAL:
-                return LinearSearch.findGreaterThanEqual(list, name, (Comparable) value);
+                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, (Comparable) value);
 
             case LESS_THAN:
-                return LinearSearch.findLessThan(list, name, (Comparable) value);
+                return LinearSearchWithFields.findLessThan(list, fields, name, (Comparable) value);
 
             case BETWEEN:
-                return LinearSearch.findBetween(list, name, (Comparable) value, (Comparable) criterion.getValues()[1]);
+                return LinearSearchWithFields.findBetween(list, fields, name, (Comparable) value, (Comparable) criterion.getValues()[1]);
 
             case LESS_THAN_EQUAL:
-                return LinearSearch.findLessThanEqual(list, name, (Comparable) value);
+                return LinearSearchWithFields.findLessThanEqual(list, fields, name, (Comparable) value);
 
             case NOT_EQUAL:
-                return LinearSearch.findEquals(list, name, value);
+                return LinearSearchWithFields.findEquals(list, fields, name, value);
 
             case NOT_IN:
-                return LinearSearch.findNotIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
 
             case IN:
-                return LinearSearch.findIn(list, name, criterion.getValues());
+                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
 
         }
 
