@@ -1,8 +1,8 @@
 package org.datarepo;
 
 import org.datarepo.modification.ModificationListener;
-import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.RepoComposer;
+import org.datarepo.spi.SPIFactory;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -18,7 +18,7 @@ public interface RepoBuilder {
         SPIFactory.setRepoBuilderFactory(factory);
     }
 
-    public static void setDefaultSearchIndexFactory(Function<Class, SearchIndex>factory) {
+    public static void setDefaultSearchIndexFactory(Function<Class, SearchIndex> factory) {
         SPIFactory.setSearchIndexFactory(factory);
     }
 
@@ -78,6 +78,8 @@ public interface RepoBuilder {
     public RepoBuilder addLogging(boolean logging);
 
     public RepoBuilder cloneEdits(boolean cloneEdits);
+
+    public RepoBuilder useCache();
 
     public RepoBuilder storeKeyInIndexOnly();
 

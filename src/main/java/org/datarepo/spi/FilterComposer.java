@@ -19,4 +19,6 @@ public interface FilterComposer {
     public void setSearchIndexMap(Map<String, SearchIndex> searchIndexMap);
 
     public void setLookupIndexMap(Map<String, LookupIndex> lookupIndexMap);
+
+    public void init();
 }

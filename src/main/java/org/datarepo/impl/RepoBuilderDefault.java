@@ -4,10 +4,7 @@ import org.datarepo.*;
 import org.datarepo.modification.ModificationListener;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;
-import org.datarepo.spi.ObjectEditorComposer;
-import org.datarepo.spi.RepoComposer;
-import org.datarepo.spi.SPIFactory;
-import org.datarepo.spi.SearchableCollectionComposer;
+import org.datarepo.spi.*;
 import org.datarepo.utils.Utils;
 
 import java.util.HashMap;
@@ -52,6 +49,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     private RepoComposer repo;
     private ObjectEditor editor;
     private SearchableCollectionComposer query;
+    private boolean cache = true;
 
 
     public RepoBuilder usePropertyForAccess(boolean useProperty) {
@@ -86,6 +84,12 @@ public class RepoBuilderDefault implements RepoBuilder {
     @Override
     public RepoBuilder cloneEdits(boolean cloneEdits) {
         this.cloneEdits = cloneEdits;
+        return this;
+    }
+
+    @Override
+    public RepoBuilder useCache() {
+        this.cache = true;
         return this;
     }
 
@@ -248,11 +252,15 @@ public class RepoBuilderDefault implements RepoBuilder {
         query = searchableCollectionFactory.get();
 
         Filter filter = this.filterFactory.get();
+        ((FilterComposer) filter).setUseCache(this.cache);
 
         configPrimaryKey(primitiveKey == null ? itemClazz : primitiveKey, fields);
         configIndexes(repo, fields);
 
+
         query.setFilter(filter);
+
+
         query.setFields(fields);
 
         query.init();

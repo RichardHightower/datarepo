@@ -57,7 +57,7 @@ public class FilterDefault implements Filter, FilterComposer {
     private List mainQueryPlan(Expression[] expressions) {
         List results = null;
 
-        Group group = (Group) Criteria.or(expressions);
+        Group group = Criteria.or(expressions);
 
         if (cache) {
             results = queryCache.get(group);
@@ -89,7 +89,10 @@ public class FilterDefault implements Filter, FilterComposer {
 
 
         Operator operator = criterion.getOperator();
-        if (Utils.isIn(operator, indexedOperators)) {
+        if (operator == Operator.EQUAL && lookupIndexMap.get(criterion.getName()) != null) {
+            return lookupIndexMap.get(criterion.getName()).getAll(criterion.getValue());
+        }
+        if (this.isIndexed(criterion.getName()) && Utils.isIn(operator, indexedOperators)) {
             results = doFilterWithIndex(criterion, fields);
         } else {
             results = doFilterUsingLinear(searchableCollection.all(), criterion, fields);
@@ -147,15 +150,22 @@ public class FilterDefault implements Filter, FilterComposer {
         for (Expression expression : expressions) {
             if (expression instanceof Criterion) {
                 Criterion criteria = (Criterion) expression;
-                if (Utils.isIn(criteria.getOperator(), indexedOperators)) {
+                Operator operator = criteria.getOperator();
+                String name = criteria.getName();
+                Object value = criteria.getValue();
+                if (operator == Operator.EQUAL && lookupIndexMap.get(name) != null) {
+                    List list = lookupIndexMap.get(name).getAll(value);
+                    if (list.size() > 0) {
+                        listOfSets.add(new HashSet(list));
+                    }
+                    expressionSet.remove(criteria);
+                } else if (isIndexed(criteria.getName()) && Utils.isIn(criteria.getOperator(), indexedOperators)) {
                     List list = doFilterWithIndex((Criterion) expression, fields);
                     if (list.size() > 0) {
                         listOfSets.add(new HashSet(list));
-                    } else {
-                        return Collections.EMPTY_LIST;
                     }
                     expressionSet.remove(criteria);
-                    if (list.size() < 10) {
+                    if (list.size() < 20) {
                         break;
                     }
 
@@ -164,15 +174,22 @@ public class FilterDefault implements Filter, FilterComposer {
             }
         }
 
-        HashSet mainSet = listOfSets.get(0);
+        List results = null;
+        HashSet mainSet = null;
+
+        if (listOfSets.size() != 0) {
+            mainSet = listOfSets.get(0);
 
 
-        for (HashSet otherSet : listOfSets) {
-            mainSet.retainAll(otherSet);
+            for (HashSet otherSet : listOfSets) {
+                mainSet.retainAll(otherSet);
+            }
+
+
+            results = new ArrayList(mainSet);
+        } else {
+            results = new ArrayList(this.searchableCollection.all());
         }
-
-
-        List results = new ArrayList(mainSet);
 
         Set<Expression> visitedExpressions = new HashSet<>();
         for (Expression expression : expressionSet) {
@@ -189,7 +206,7 @@ public class FilterDefault implements Filter, FilterComposer {
         expressionSet.removeAll(visitedExpressions);
 
 
-        listOfSets = new ArrayList(new HashSet());
+        listOfSets = new ArrayList();
         listOfSets.add(new HashSet(results));
 
         for (Expression expression : expressionSet) {
@@ -202,6 +219,9 @@ public class FilterDefault implements Filter, FilterComposer {
             }
         }
 
+        if (mainSet == null) {
+            mainSet = new HashSet(results);
+        }
         for (HashSet otherSet : listOfSets) {
             mainSet.retainAll(otherSet);
         }
@@ -211,6 +231,10 @@ public class FilterDefault implements Filter, FilterComposer {
 
         return results;
 
+    }
+
+    private boolean isIndexed(String name) {
+        return searchIndexMap.containsKey(name);
     }
 
     private List doFilterWithIndex(Criterion criterion, Map<String, FieldAccess> fields) {
@@ -225,7 +249,7 @@ public class FilterDefault implements Filter, FilterComposer {
         }
 
         if (searchIndex == null) {
-            return this.doFilterUsingLinear(searchableCollection.all(), criterion, fields);
+            Utils.complain("Trying to do a indexed search without an index!");
         }
 
         switch (operator) {
@@ -699,5 +723,10 @@ public class FilterDefault implements Filter, FilterComposer {
     @Override
     public void setLookupIndexMap(Map<String, LookupIndex> lookupIndexMap) {
         this.lookupIndexMap = lookupIndexMap;
+    }
+
+    @Override
+    public void init() {
+
     }
 }

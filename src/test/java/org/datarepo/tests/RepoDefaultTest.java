@@ -2,30 +2,26 @@ package org.datarepo.tests;
 
 import org.datarepo.Repo;
 import org.datarepo.query.Visitor;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Map;
 
 import static junit.framework.Assert.*;
-import static junit.framework.Assert.assertEquals;
-import static org.datarepo.tests.Employee.employee;
 import static org.datarepo.query.Criteria.*;
-import static org.datarepo.query.ValueSetter.*;
+import static org.datarepo.query.ProjectedSelector.max;
 import static org.datarepo.query.Selector.*;
-
-
-import static org.datarepo.query.ProjectedSelector.*;
-
-
-import static org.datarepo.utils.Utils.*;
-import static org.datarepo.reflection.Reflection.*;
+import static org.datarepo.query.ValueSetter.value;
+import static org.datarepo.query.ValueSetter.values;
+import static org.datarepo.reflection.Reflection.idx;
+import static org.datarepo.tests.Employee.employee;
+import static org.datarepo.utils.Utils.print;
+import static org.datarepo.utils.Utils.printf;
 
 public class RepoDefaultTest {
 
     Repo<String, Employee> repo;
-
 
 
     @Before
@@ -116,9 +112,9 @@ public class RepoDefaultTest {
 
 
         repo.updateByFilter("firstName", "Di",
-                and( eq("firstName", "Diana"),
-                eq("lastName", "Hightower"),
-                        eq("id", "217859992") ) );
+                and(eq("firstName", "Diana"),
+                        eq("lastName", "Hightower"),
+                        eq("id", "217859992")));
 
 
         String firstName = repo.get("217859992").getFirstName();
@@ -137,9 +133,9 @@ public class RepoDefaultTest {
 
 
         repo.updateByFilter(values(value("firstName", "Di")),
-                and( eq("firstName", "Diana"),
+                and(eq("firstName", "Diana"),
                         eq("lastName", "Hightower"),
-                        eq("id", "2178599917788") ) );
+                        eq("id", "2178599917788")));
 
 
         String firstName = repo.get("2178599917788").getFirstName();
@@ -162,6 +158,7 @@ public class RepoDefaultTest {
         assertEquals(2, employees.size());
         assertEquals("Diana", employees.get(0).getFirstName());
     }
+
     @Test
     public void testEasyFilter() throws Exception {
         Employee emp = employee("Diana", "Hightower", "2178599912", "08.15.82", 100_000);
@@ -191,7 +188,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List <Map<String, Object>> list = repo.query(selects(select("firstName")), eq("lastName", "Hightower"));
+        List<Map<String, Object>> list = repo.query(selects(select("firstName")), eq("lastName", "Hightower"));
 
         assertEquals("Diana", list.get(0).get("firstName"));
         assertEquals("Bob", list.get(1).get("firstName"));
@@ -201,7 +198,7 @@ public class RepoDefaultTest {
 
     @Test
     public void testMax() throws Exception {
-        List <Map<String, Object>> list = repo.query(selects(max("salary")));
+        List<Map<String, Object>> list = repo.query(selects(max("salary")));
 
         assertEquals(666_000, list.get(0).get("max.salary"));
 
@@ -209,9 +206,9 @@ public class RepoDefaultTest {
 
     @Test
     public void testQueryOnUniqueIndex() throws Exception {
-        List <Map<String, Object>> list = repo.query(selects(select("firstName")), gt("empNum", 5l));
+        List<Map<String, Object>> list = repo.query(selects(select("firstName")), gt("empNum", 5l));
         assertNotNull(list);
-        assertTrue(list.size()>1);
+        assertTrue(list.size() > 1);
 
     }
 
@@ -223,7 +220,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List <Map<String, Object>> list = repo.query(
+        List<Map<String, Object>> list = repo.query(
                 selects(select("department", "name")),
                 eq("lastName", "Hightower"));
 
@@ -240,7 +237,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List <Map<String, Object>> list = repo.query(
+        List<Map<String, Object>> list = repo.query(
                 selects(select("tags", "name")),
                 eq("lastName", "Hightower"));
 
@@ -256,7 +253,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List <Map<String, Object>> list = repo.query(
+        List<Map<String, Object>> list = repo.query(
                 selects(select("tags", "metas", "name0")),
                 eq("lastName", "Hightower"));
 
@@ -264,6 +261,7 @@ public class RepoDefaultTest {
 
 
     }
+
     @Test
     public void testFieldPathSelectToCollection3() throws Exception {
         Employee emp = employee("Diana", "Hightower", "2178599966", "08.15.82", 100_000);
@@ -272,7 +270,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List <Map<String, Object>> list = repo.query(
+        List<Map<String, Object>> list = repo.query(
                 selects(select("tags", "metas", "metas2", "name2")),
                 eq("lastName", "Hightower"));
 
@@ -290,7 +288,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List <Map<String, Object>> list = repo.query(
+        List<Map<String, Object>> list = repo.query(
                 selects(selectPropPath("department", "name")),
                 eq("lastName", "Hightower"));
 
@@ -307,7 +305,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List <Map<String, Object>> list = repo.sortedQuery("firstName",selects(select("firstName")), eq("lastName", "Hightower"));
+        List<Map<String, Object>> list = repo.sortedQuery("firstName", selects(select("firstName")), eq("lastName", "Hightower"));
 
         assertEquals("Bob", list.get(0).get("firstName"));
         assertEquals("Diana", list.get(1).get("firstName"));
@@ -329,8 +327,8 @@ public class RepoDefaultTest {
     @Test
     public void testFilterLogicalOperators() throws Exception {
         List<Employee> employees = repo.query(
-                and(startsWith("firstName", "Bob"), eq("lastName", "Smith"), lte("salary", 200_000),
-                        gte("salary", 190_000)));
+                and(startsWith("firstName", "Bob"), eq("lastName", "Smith"),
+                        lte("salary", 200_000), gte("salary", 190_000)));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Bob", employees.get(0).getFirstName());
@@ -369,7 +367,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List <Map<String, Object>> list = repo.query(
+        List<Map<String, Object>> list = repo.query(
                 selects(select("tags", "metas", "metas2", "metas3", "name3")),
                 eq("lastName", "Hightower"));
 

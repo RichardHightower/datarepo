@@ -627,7 +627,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
             fc.setLookupIndexMap(this.lookupIndexMap);
             fc.setSearchIndexMap(this.searchIndexMap);
             fc.setSearchableCollection(this);
-
+            fc.init();
         }
     }
 
