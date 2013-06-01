@@ -67,7 +67,7 @@ public class FilterDefault implements Filter, FilterComposer {
             }
         }
 
-        results = doFilterGroup(group, fields);
+        results = doFilterGroup(group);
 
         if (cache) {
             flushCount++;
@@ -112,7 +112,7 @@ public class FilterDefault implements Filter, FilterComposer {
 
     }
 
-    private List doFilterGroup(Group group, Map<String, FieldAccess> fields) {
+    private List doFilterGroup(Group group) {
         if (group.getGrouping() == Grouping.OR) {
             return or(group.getExpressions(), fields);
         } else {
@@ -127,11 +127,11 @@ public class FilterDefault implements Filter, FilterComposer {
         HashSet set = new HashSet();
         for (Expression expression : expressions) {
             if (expression instanceof Criterion) {
-                List list = doFilterWithIndex((Criterion) expression, fields);
+                List list = simpleQueryPlanOneCriterion((Criterion) expression);
                 set.addAll(list);
             }
             if (expression instanceof Group) {
-                List list = doFilterGroup((Group) expression, fields);
+                List list = doFilterGroup((Group) expression);
                 set.addAll(list);
             }
         }
@@ -143,37 +143,56 @@ public class FilterDefault implements Filter, FilterComposer {
 
     private List and(Expression[] expressions, Map<String, FieldAccess> fields) {
 
-        List<HashSet> listOfSets = new ArrayList(new HashSet());
         Set<Expression> expressionSet = Utils.set(expressions);
 
 
-        for (Expression expression : expressions) {
+        List results = applyIndexedFilters(expressions, fields, expressionSet);
+
+        results = applyLinearSearch(results, expressions, expressionSet);
+
+
+        results = applyGroups(results, expressions, expressionSet);
+
+
+        return results;
+
+    }
+
+    private List applyGroups(List items, Expression[] expressions, Set<Expression> expressionSet) {
+        List<HashSet> listOfSets = new ArrayList();
+        listOfSets.add(new HashSet(items));
+
+        for (Expression expression : expressionSet) {
+
+            if (expression instanceof Group) {
+                List list = doFilterGroup((Group) expression);
+                if (list.size() > 0) {
+                    listOfSets.add(new HashSet(list));
+                }
+            }
+        }
+        List results = reduceToResults(listOfSets);
+        return results;
+    }
+
+    private List applyLinearSearch(List items, Expression[] expressions, Set<Expression> expressionSet) {
+        Set<Expression> visitedExpressions = new HashSet<>();
+        for (Expression expression : expressionSet) {
             if (expression instanceof Criterion) {
                 Criterion criteria = (Criterion) expression;
-                Operator operator = criteria.getOperator();
-                String name = criteria.getName();
-                Object value = criteria.getValue();
-                if (operator == Operator.EQUAL && lookupIndexMap.get(name) != null) {
-                    List list = lookupIndexMap.get(name).getAll(value);
-                    if (list.size() > 0) {
-                        listOfSets.add(new HashSet(list));
-                    }
-                    expressionSet.remove(criteria);
-                } else if (isIndexed(criteria.getName()) && Utils.isIn(criteria.getOperator(), indexedOperators)) {
-                    List list = doFilterWithIndex((Criterion) expression, fields);
-                    if (list.size() > 0) {
-                        listOfSets.add(new HashSet(list));
-                    }
-                    expressionSet.remove(criteria);
-                    if (list.size() < 20) {
-                        break;
-                    }
-
+                items = doFilterUsingLinear(items, criteria, fields);
+                if (items.size() == 0) {
+                    return Collections.EMPTY_LIST;
                 }
-
+                visitedExpressions.add(criteria);
             }
         }
 
+        expressionSet.removeAll(visitedExpressions);
+        return items;
+    }
+
+    private List reduceToResults(List<HashSet> listOfSets) {
         List results = null;
         HashSet mainSet = null;
 
@@ -190,47 +209,43 @@ public class FilterDefault implements Filter, FilterComposer {
         } else {
             results = new ArrayList(this.searchableCollection.all());
         }
+        return results;
+    }
 
-        Set<Expression> visitedExpressions = new HashSet<>();
-        for (Expression expression : expressionSet) {
+    private List applyIndexedFilters(Expression[] expressions, Map<String, FieldAccess> fields, Set<Expression> expressionSet) {
+        List<HashSet> listOfSets = new ArrayList();
+
+        for (Expression expression : expressions) {
             if (expression instanceof Criterion) {
                 Criterion criteria = (Criterion) expression;
-                results = doFilterUsingLinear(results, criteria, fields);
-                if (results.size() == 0) {
-                    return Collections.EMPTY_LIST;
+                Operator operator = criteria.getOperator();
+                String name = criteria.getName();
+                Object value = criteria.getValue();
+                if (operator == Operator.EQUAL && lookupIndexMap.get(name) != null) {
+                    List list = lookupIndexMap.get(name).getAll(value);
+                    if (list.size() > 0) {
+                        listOfSets.add(new HashSet(list));
+                    }
+                    expressionSet.remove(criteria);
+                    if (list.size() < 20) {
+                        break;
+                    }
+                } else if (isIndexed(name) && Utils.isIn(operator, indexedOperators)) {
+                    List list = doFilterWithIndex((Criterion) expression, fields);
+                    if (list.size() > 0) {
+                        listOfSets.add(new HashSet(list));
+                    }
+                    expressionSet.remove(criteria);
+                    if (list.size() < 20) {
+                        break;
+                    }
+
                 }
-                visitedExpressions.add(criteria);
+
             }
         }
-
-        expressionSet.removeAll(visitedExpressions);
-
-
-        listOfSets = new ArrayList();
-        listOfSets.add(new HashSet(results));
-
-        for (Expression expression : expressionSet) {
-
-            if (expression instanceof Group) {
-                List list = doFilterGroup((Group) expression, fields);
-                if (list.size() > 0) {
-                    listOfSets.add(new HashSet(list));
-                }
-            }
-        }
-
-        if (mainSet == null) {
-            mainSet = new HashSet(results);
-        }
-        for (HashSet otherSet : listOfSets) {
-            mainSet.retainAll(otherSet);
-        }
-
-
-        results = new ArrayList(mainSet);
-
+        List results = reduceToResults(listOfSets);
         return results;
-
     }
 
     private boolean isIndexed(String name) {
