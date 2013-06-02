@@ -1,6 +1,7 @@
 package org.datarepo.tests;
 
 
+import org.datarepo.query.Criterion;
 import org.datarepo.query.Expression;
 
 import java.util.HashSet;
@@ -38,7 +39,7 @@ public class BenchMark {
             }
         }
 
-        List<Expression> firstNamesExp = ls(eq("firstName", "Rick"),
+        List<Criterion> firstNamesExp = ls(eq("firstName", "Rick"),
                 eq("firstName", "Vipin"), eq("firstName", "Diana"), eq("firstName", "Alex"));
 
         long startTime = System.nanoTime();
