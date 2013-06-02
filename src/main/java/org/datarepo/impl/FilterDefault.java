@@ -7,7 +7,6 @@ import org.datarepo.SearchableCollection;
 import org.datarepo.query.*;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.spi.FilterComposer;
-import org.datarepo.utils.LinearSearchWithFields;
 import org.datarepo.utils.Utils;
 
 import java.util.*;
@@ -100,7 +99,7 @@ public class FilterDefault implements Filter, FilterComposer {
         } else if (this.isIndexed(criterion.getName()) && Utils.isIn(operator, indexedOperators)) {
             results = doFilterWithIndex(criterion, fields);
         } else {
-            results = doFilterUsingLinearAnd(searchableCollection.all(), criterion);
+            results = Criteria.filter(searchableCollection.all(), criterion);
         }
 
         if (cache) {
@@ -177,7 +176,7 @@ public class FilterDefault implements Filter, FilterComposer {
         }
 
         Criterion[] criteria = (Criterion[]) expressionSet.toArray(new Criterion[set.size()]);
-        return doFilterUsingLinearOr(new ArrayList(set), criteria);
+        return Criteria.filter(new ArrayList(set), Criteria.or(criteria));
     }
 
 
@@ -222,7 +221,7 @@ public class FilterDefault implements Filter, FilterComposer {
         });
 
         Criterion[] criteria = (Criterion[]) set.toArray(new Criterion[set.size()]);
-        items = doFilterUsingLinearAnd(items, criteria);
+        items = Criteria.filter(items, Criteria.and(criteria));
 
         return items;
     }
@@ -338,13 +337,6 @@ public class FilterDefault implements Filter, FilterComposer {
         }
     }
 
-    private List doFilterUsingLinearAnd(List list, Criterion... filters) {
-        return LinearSearchWithFields.findWithFiltersAnd(list, fields, filters);
-    }
-
-    private List doFilterUsingLinearOr(List list, Criterion... filters) {
-        return LinearSearchWithFields.findWithFiltersOr(list, fields, filters);
-    }
 
     @Override
     public void setSearchableCollection(SearchableCollection searchableCollection) {

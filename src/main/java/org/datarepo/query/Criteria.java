@@ -18,7 +18,7 @@ public class Criteria {
         return or(exp).test(obj);
     }
 
-    public static <T> List<T> filter(Collection<T> items, Map<String, FieldAccess> fields, Expression exp) {
+    public static <T> List<T> filter(Collection<T> items, Expression exp) {
         if (items.size() == 0) {
             return Collections.EMPTY_LIST;
         }
