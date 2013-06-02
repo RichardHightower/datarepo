@@ -215,6 +215,7 @@ public class Criteria {
                 int value = field.getInt(owner);
                 return value == compareValue;
             }
+
         };
     }
 
