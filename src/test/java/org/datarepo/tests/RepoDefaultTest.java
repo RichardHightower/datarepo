@@ -112,9 +112,9 @@ public class RepoDefaultTest {
 
 
         repo.updateByFilter("firstName", "Di",
-                and(eq("firstName", "Diana"),
-                        eq("lastName", "Hightower"),
-                        eq("id", "217859992")));
+                eq("firstName", "Diana"),
+                eq("lastName", "Hightower"),
+                eq("id", "217859992"));
 
 
         String firstName = repo.get("217859992").getFirstName();
@@ -133,9 +133,9 @@ public class RepoDefaultTest {
 
 
         repo.updateByFilter(values(value("firstName", "Di")),
-                and(eq("firstName", "Diana"),
-                        eq("lastName", "Hightower"),
-                        eq("id", "2178599917788")));
+                eq("firstName", "Diana"),
+                eq("lastName", "Hightower"),
+                eq("id", "2178599917788"));
 
 
         String firstName = repo.get("2178599917788").getFirstName();
@@ -318,7 +318,7 @@ public class RepoDefaultTest {
         Employee emp = employee("Diana", "Hightower", "217859997", "08.15.82", 100_000);
         repo.add(emp);
         List<Employee> employees = repo.query(
-                and(eq("firstName", "Diana"), eq("lastName", "Hightower"), eq("id", "217859997")));
+                eq("firstName", "Diana"), eq("lastName", "Hightower"), eq("id", "217859997"));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Diana", employees.get(0).getFirstName());
@@ -327,8 +327,8 @@ public class RepoDefaultTest {
     @Test
     public void testFilterLogicalOperators() throws Exception {
         List<Employee> employees = repo.query(
-                and(startsWith("firstName", "Bob"), eq("lastName", "Smith"),
-                        lte("salary", 200_000), gte("salary", 190_000)));
+                startsWith("firstName", "Bob"), eq("lastName", "Smith"),
+                lte("salary", 200_000), gte("salary", 190_000));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Bob", employees.get(0).getFirstName());
@@ -339,8 +339,8 @@ public class RepoDefaultTest {
     @Test
     public void testFilterLogicalOperators2() throws Exception {
         List<Employee> employees = repo.query(
-                and(startsWith("firstName", "Bob"), eq("lastName", "Smith"), lt("salary", 200_000),
-                        gt("salary", 190_000)));
+                startsWith("firstName", "Bob"), eq("lastName", "Smith"), lt("salary", 200_000),
+                gt("salary", 190_000));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Bob", employees.get(0).getFirstName());
@@ -349,9 +349,20 @@ public class RepoDefaultTest {
     }
 
     @Test
+    public void testFilterLT() throws Exception {
+        List<Employee> employees = repo.query(
+                gt("salary", 200_000), eq("lastName", "Smith"));
+        assertNotNull(employees);
+        assertEquals(1, employees.size());
+        assertEquals("Bobbzie", employees.get(0).getFirstName());
+        assertEquals("422-222-2222", employees.get(0).getSsn());
+
+    }
+
+    @Test
     public void testFilterLogicalOperators3() throws Exception {
         List<Employee> employees = repo.query(
-                and(startsWith("firstName", "Bob"), eq("lastName", "Smith"), between("salary", 190_000, 200_000)));
+                startsWith("firstName", "Bob"), eq("lastName", "Smith"), between("salary", 190_000, 200_000));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Bob", employees.get(0).getFirstName());

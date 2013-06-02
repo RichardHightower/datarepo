@@ -6,7 +6,6 @@ import org.datarepo.SearchIndex;
 import org.datarepo.SearchableCollection;
 import org.datarepo.query.*;
 import org.datarepo.reflection.FieldAccess;
-import org.datarepo.reflection.Types;
 import org.datarepo.spi.FilterComposer;
 import org.datarepo.utils.LinearSearchWithFields;
 import org.datarepo.utils.Utils;
@@ -58,7 +57,7 @@ public class FilterDefault implements Filter, FilterComposer {
     private List mainQueryPlan(Expression[] expressions) {
         List results = null;
 
-        Group group = Criteria.or(expressions);
+        Group group = Criteria.and(expressions);
 
         if (cache) {
             results = queryCache.get(group);
@@ -91,12 +90,11 @@ public class FilterDefault implements Filter, FilterComposer {
 
         Operator operator = criterion.getOperator();
         if (operator == Operator.EQUAL && lookupIndexMap.get(criterion.getName()) != null) {
-            return lookupIndexMap.get(criterion.getName()).getAll(criterion.getValue());
-        }
-        if (this.isIndexed(criterion.getName()) && Utils.isIn(operator, indexedOperators)) {
+            results = lookupIndexMap.get(criterion.getName()).getAll(criterion.getValue());
+        } else if (this.isIndexed(criterion.getName()) && Utils.isIn(operator, indexedOperators)) {
             results = doFilterWithIndex(criterion, fields);
         } else {
-            results = doFilterUsingLinear(searchableCollection.all(), criterion, fields);
+            results = doFilterUsingLinearAnd(searchableCollection.all(), criterion);
         }
 
         if (cache) {
@@ -106,6 +104,34 @@ public class FilterDefault implements Filter, FilterComposer {
         return results;
     }
 
+    private List orPlanWithIndex(Criterion criterion) {
+        List results = null;
+
+        if (cache) {
+            results = queryCache.get(criterion);
+
+            if (results != null) {
+                return results;
+            }
+        }
+
+
+        Operator operator = criterion.getOperator();
+        if (operator == Operator.EQUAL && lookupIndexMap.get(criterion.getName()) != null) {
+            results = lookupIndexMap.get(criterion.getName()).getAll(criterion.getValue());
+        } else if (this.isIndexed(criterion.getName()) && Utils.isIn(operator, indexedOperators)) {
+            results = doFilterWithIndex(criterion, fields);
+        } else {
+            return null;
+        }
+
+
+        if (cache) {
+            flushCount++;
+            queryCache.put(criterion, results == null ? Collections.EMPTY_LIST : results);
+        }
+        return results;
+    }
 
     @Override
     public void invalidate() {
@@ -125,20 +151,27 @@ public class FilterDefault implements Filter, FilterComposer {
     private List or(Expression[] expressions,
                     Map<String, FieldAccess> fields) {
 
+        Set<Expression> expressionSet = Utils.set(expressions);
+
+
         HashSet set = new HashSet();
         for (Expression expression : expressions) {
             if (expression instanceof Criterion) {
-                List list = simpleQueryPlanOneCriterion((Criterion) expression);
-                set.addAll(list);
+                List list = orPlanWithIndex((Criterion) expression);
+                if (list != null) {
+                    set.addAll(list);
+                    expressionSet.remove(expression);
+                }
             }
             if (expression instanceof Group) {
                 List list = doFilterGroup((Group) expression);
                 set.addAll(list);
+                expressionSet.remove(expression);
             }
         }
-        return new ArrayList(set);
 
-
+        Criterion[] criteria = (Criterion[]) expressionSet.toArray(new Criterion[set.size()]);
+        return doFilterUsingLinearOr(new ArrayList(set), criteria);
     }
 
 
@@ -149,17 +182,17 @@ public class FilterDefault implements Filter, FilterComposer {
 
         List results = applyIndexedFilters(expressions, fields, expressionSet);
 
-        results = applyLinearSearch(results, expressions, expressionSet);
+        results = applyLinearSearch(results, expressionSet);
 
 
-        results = applyGroups(results, expressions, expressionSet);
+        results = applyGroups(results, expressionSet);
 
 
         return results;
 
     }
 
-    private List applyGroups(List items, Expression[] expressions, Set<Expression> expressionSet) {
+    private List applyGroups(List items, Set<Expression> expressionSet) {
         List<HashSet> listOfSets = new ArrayList();
         listOfSets.add(new HashSet(items));
 
@@ -176,20 +209,15 @@ public class FilterDefault implements Filter, FilterComposer {
         return results;
     }
 
-    private List applyLinearSearch(List items, Expression[] expressions, Set<Expression> expressionSet) {
-        Set<Expression> visitedExpressions = new HashSet<>();
-        for (Expression expression : expressionSet) {
-            if (expression instanceof Criterion) {
-                Criterion criteria = (Criterion) expression;
-                items = doFilterUsingLinear(items, criteria, fields);
-                if (items.size() == 0) {
-                    return Collections.EMPTY_LIST;
-                }
-                visitedExpressions.add(criteria);
-            }
-        }
+    private List applyLinearSearch(List items, Set<Expression> expressionSet) {
+        HashSet set = new HashSet(expressionSet);
+        set.removeIf((e) -> {
+            return e instanceof Group;
+        });
 
-        expressionSet.removeAll(visitedExpressions);
+        Criterion[] criteria = (Criterion[]) set.toArray(new Criterion[set.size()]);
+        items = doFilterUsingLinearAnd(items, criteria);
+
         return items;
     }
 
@@ -304,417 +332,13 @@ public class FilterDefault implements Filter, FilterComposer {
         }
     }
 
-    private List doFilterUsingLinear(List list, Criterion criterion, Map<String, FieldAccess> fields) {
-        String name = criterion.getName();
-        Object value = criterion.getValue();
-        Operator operator = criterion.getOperator();
-        FieldAccess field = fields.get(name);
-
-        if (!field.getType().isPrimitive()) {
-            return linearFilter(list, criterion, name, operator, value, fields);
-        } else {
-            return linearFilterWithPrimitive(list, criterion, name, operator, value, fields, field);
-        }
+    private List doFilterUsingLinearAnd(List list, Criterion... filters) {
+        return LinearSearchWithFields.findWithFiltersAnd(list, fields, filters);
     }
 
-    private List linearFilterWithPrimitive(List list, Criterion criterion, String name, Operator operator, Object value, Map<String, FieldAccess> fields, FieldAccess field) {
-        Class<?> type = field.getType();
-        if (type == int.class) {
-            return linearFilterInt(list, criterion, name, operator, value, fields, field);
-        } else if (type == float.class) {
-            return linearFilterFloat(list, criterion, name, operator, value, fields, field);
-        } else if (type == short.class) {
-            return linearFilterShort(list, criterion, name, operator, value, fields, field);
-        } else if (type == double.class) {
-            return linearFilterDouble(list, criterion, name, operator, value, fields, field);
-        } else if (type == boolean.class) {
-            return linearFilterBoolean(list, criterion, name, operator, value, fields, field);
-        } else if (type == byte.class) {
-            return linearFilterByte(list, criterion, name, operator, value, fields, field);
-        } else if (type == char.class) {
-            return linearFilterChar(list, criterion, name, operator, value, fields, field);
-        }
-
-        return linearFilter(list, criterion, name, operator, value, fields);
-
-
+    private List doFilterUsingLinearOr(List list, Criterion... filters) {
+        return LinearSearchWithFields.findWithFiltersOr(list, fields, filters);
     }
-
-    private List linearFilterInt(List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
-        int value = Types.toInt(ovalue);
-        switch (operator) {
-            case EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case STARTS_WITH:
-                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
-
-            case ENDS_WITH:
-                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
-
-            case CONTAINS:
-                return LinearSearchWithFields.findContains(list, fields, name, value);
-
-            case GREATER_THAN:
-                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
-
-            case GREATER_THAN_EQUAL:
-                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
-
-            case LESS_THAN:
-                return LinearSearchWithFields.findLessThan(list, fields, name, value);
-
-            case BETWEEN:
-                int value2 = Types.toInt(criterion.getValues()[1]);
-
-                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
-
-            case LESS_THAN_EQUAL:
-                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
-
-            case NOT_EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case NOT_IN:
-                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
-
-            case IN:
-                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
-
-        }
-
-        return Collections.EMPTY_LIST;
-
-    }
-
-    private List linearFilterDouble(List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
-        double value = Types.toDouble(ovalue);
-        switch (operator) {
-            case EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case STARTS_WITH:
-                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
-
-            case ENDS_WITH:
-                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
-
-            case CONTAINS:
-                return LinearSearchWithFields.findContains(list, fields, name, value);
-
-            case GREATER_THAN:
-                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
-
-            case GREATER_THAN_EQUAL:
-                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
-
-            case LESS_THAN:
-                return LinearSearchWithFields.findLessThan(list, fields, name, value);
-
-            case BETWEEN:
-                double value2 = Types.toDouble(criterion.getValues()[1]);
-
-                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
-
-            case LESS_THAN_EQUAL:
-                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
-
-            case NOT_EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case NOT_IN:
-                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
-
-            case IN:
-                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
-
-        }
-
-        return Collections.EMPTY_LIST;
-
-    }
-
-    private List linearFilterBoolean(List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
-        boolean value = Types.toBoolean(ovalue);
-        switch (operator) {
-            case EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case STARTS_WITH:
-                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
-
-            case ENDS_WITH:
-                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
-
-            case CONTAINS:
-                return LinearSearchWithFields.findContains(list, fields, name, value);
-
-            case GREATER_THAN:
-                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
-
-            case GREATER_THAN_EQUAL:
-                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
-
-            case LESS_THAN:
-                return LinearSearchWithFields.findLessThan(list, fields, name, value);
-
-            case BETWEEN:
-                boolean value2 = Types.toBoolean(criterion.getValues()[1]);
-
-                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
-
-            case LESS_THAN_EQUAL:
-                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
-
-            case NOT_EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case NOT_IN:
-                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
-
-            case IN:
-                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
-
-        }
-
-        return Collections.EMPTY_LIST;
-
-    }
-
-
-    private List linearFilterChar(List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
-        char value = Types.toChar(ovalue);
-        switch (operator) {
-            case EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case STARTS_WITH:
-                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
-
-            case ENDS_WITH:
-                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
-
-            case CONTAINS:
-                return LinearSearchWithFields.findContains(list, fields, name, value);
-
-            case GREATER_THAN:
-                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
-
-            case GREATER_THAN_EQUAL:
-                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
-
-            case LESS_THAN:
-                return LinearSearchWithFields.findLessThan(list, fields, name, value);
-
-            case BETWEEN:
-                char value2 = Types.toChar(criterion.getValues()[1]);
-
-                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
-
-            case LESS_THAN_EQUAL:
-                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
-
-            case NOT_EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case NOT_IN:
-                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
-
-            case IN:
-                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
-
-        }
-
-        return Collections.EMPTY_LIST;
-
-    }
-
-    private List linearFilterShort(List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
-        short value = Types.toShort(ovalue);
-        switch (operator) {
-            case EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case STARTS_WITH:
-                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
-
-            case ENDS_WITH:
-                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
-
-            case CONTAINS:
-                return LinearSearchWithFields.findContains(list, fields, name, value);
-
-            case GREATER_THAN:
-                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
-
-            case GREATER_THAN_EQUAL:
-                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
-
-            case LESS_THAN:
-                return LinearSearchWithFields.findLessThan(list, fields, name, value);
-
-            case BETWEEN:
-                short value2 = Types.toShort(criterion.getValues()[1]);
-
-                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
-
-            case LESS_THAN_EQUAL:
-                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
-
-            case NOT_EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case NOT_IN:
-                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
-
-            case IN:
-                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
-
-        }
-
-        return Collections.EMPTY_LIST;
-
-    }
-
-    private List linearFilterByte(List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
-        byte value = Types.toByte(ovalue);
-        switch (operator) {
-            case EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case STARTS_WITH:
-                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
-
-            case ENDS_WITH:
-                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
-
-            case CONTAINS:
-                return LinearSearchWithFields.findContains(list, fields, name, value);
-
-            case GREATER_THAN:
-                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
-
-            case GREATER_THAN_EQUAL:
-                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
-
-            case LESS_THAN:
-                return LinearSearchWithFields.findLessThan(list, fields, name, value);
-
-            case BETWEEN:
-                byte value2 = Types.toByte(criterion.getValues()[1]);
-
-                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
-
-            case LESS_THAN_EQUAL:
-                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
-
-            case NOT_EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case NOT_IN:
-                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
-
-            case IN:
-                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
-
-        }
-
-        return Collections.EMPTY_LIST;
-
-    }
-
-    private List linearFilterFloat(List list, Criterion criterion, String name, Operator operator, Object ovalue, Map<String, FieldAccess> fields, FieldAccess field) {
-        float value = Types.toFloat(ovalue);
-        switch (operator) {
-            case EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case STARTS_WITH:
-                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
-
-            case ENDS_WITH:
-                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
-
-            case CONTAINS:
-                return LinearSearchWithFields.findContains(list, fields, name, value);
-
-            case GREATER_THAN:
-                return LinearSearchWithFields.findGreaterThan(list, fields, name, value);
-
-            case GREATER_THAN_EQUAL:
-                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, value);
-
-            case LESS_THAN:
-                return LinearSearchWithFields.findLessThan(list, fields, name, value);
-
-            case BETWEEN:
-                float value2 = Types.toFloat(criterion.getValues()[1]);
-
-                return LinearSearchWithFields.findBetween(list, fields, name, value, value2);
-
-            case LESS_THAN_EQUAL:
-                return LinearSearchWithFields.findLessThanEqual(list, fields, name, value);
-
-            case NOT_EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case NOT_IN:
-                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
-
-            case IN:
-                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
-
-        }
-
-        return Collections.EMPTY_LIST;
-
-    }
-
-    static List linearFilter(List list, Criterion criterion, String name, Operator operator, Object value, Map<String, FieldAccess> fields) {
-
-        switch (operator) {
-            case EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case STARTS_WITH:
-                return LinearSearchWithFields.findStartsWith(list, fields, name, value);
-
-            case ENDS_WITH:
-                return LinearSearchWithFields.findEndsWith(list, fields, name, value);
-
-            case CONTAINS:
-                return LinearSearchWithFields.findContains(list, fields, name, value);
-
-            case GREATER_THAN:
-                return LinearSearchWithFields.findGreaterThan(list, fields, name, (Comparable) value);
-
-            case GREATER_THAN_EQUAL:
-                return LinearSearchWithFields.findGreaterThanEqual(list, fields, name, (Comparable) value);
-
-            case LESS_THAN:
-                return LinearSearchWithFields.findLessThan(list, fields, name, (Comparable) value);
-
-            case BETWEEN:
-                return LinearSearchWithFields.findBetween(list, fields, name, (Comparable) value, (Comparable) criterion.getValues()[1]);
-
-            case LESS_THAN_EQUAL:
-                return LinearSearchWithFields.findLessThanEqual(list, fields, name, (Comparable) value);
-
-            case NOT_EQUAL:
-                return LinearSearchWithFields.findEquals(list, fields, name, value);
-
-            case NOT_IN:
-                return LinearSearchWithFields.findNotIn(list, fields, name, criterion.getValues());
-
-            case IN:
-                return LinearSearchWithFields.findIn(list, fields, name, criterion.getValues());
-
-        }
-
-        return Collections.EMPTY_LIST;
-
-    }
-
 
     @Override
     public void setSearchableCollection(SearchableCollection searchableCollection) {

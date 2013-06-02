@@ -1,11 +1,50 @@
 package org.datarepo.utils;
 
+import org.datarepo.query.Criterion;
 import org.datarepo.reflection.FieldAccess;
 
 import java.util.*;
 
 public class LinearSearchWithFields {
 
+
+    public static <T> List<T> findWithFiltersAnd(Collection<T> items, Map<String, FieldAccess> fields, Criterion... filters) {
+        if (items.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+
+        List<T> results = new ArrayList<>();
+        for (T item : items) {
+            boolean add = true;
+            for (Criterion c : filters) {
+                if (!c.resolve(fields, item)) {
+                    add = false;
+                    break;
+                }
+            }
+            if (add) {
+                results.add(item);
+            }
+        }
+        return results;
+    }
+
+    public static <T> List<T> findWithFiltersOr(Collection<T> items, Map<String, FieldAccess> fields, Criterion... filters) {
+        if (items.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+
+        List<T> results = new ArrayList<>();
+        for (T item : items) {
+            for (Criterion c : filters) {
+                if (c.resolve(fields, item)) {
+                    results.add(item);
+                    break;
+                }
+            }
+        }
+        return results;
+    }
 
     public static <T> List<T> findBetween(Collection<T> items, Map<String, FieldAccess> fields, String propertyName, Comparable a, Comparable b) {
         if (items.size() == 0) {

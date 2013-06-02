@@ -1,8 +1,12 @@
 package org.datarepo.query;
 
-import org.datarepo.reflection.Types;
+import org.datarepo.reflection.FieldAccess;
+
+import java.util.HashSet;
+import java.util.Map;
 
 public class Criteria {
+
 
     public static Group and(Expression... expressions) {
         return new Group(Grouping.AND, expressions);
@@ -12,63 +16,307 @@ public class Criteria {
         return new Group(Grouping.OR, expressions);
     }
 
-    public static Expression eq(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.EQUAL, value);
+    public static Expression eq(final Object name, Object value) {
+        return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+                return value.equals(field.getValue(owner));
+            }
+        };
     }
 
     public static Expression notEq(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.NOT_EQUAL, value);
+        return new Criterion<Object>(name.toString(), Operator.NOT_EQUAL, value) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+
+                return !value.equals(field.getValue(owner));
+            }
+        };
     }
 
-    public static Expression notIn(Object name, Object... values) {
-        return new Criterion<Object>(name.toString(), Operator.NOT_IN, values);
+    public static Expression notIn(Object name, final Object... values) {
+        return new Criterion<Object>(name.toString(), Operator.NOT_IN, values) {
+
+            HashSet set = new HashSet<>();
+
+            {
+                for (Object value : values) {
+                    set.add(value);
+                }
+            }
+
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+
+                Object value = field.getValue(owner);
+                if (value == null) {
+                    return false;
+                }
+                return !set.contains(value);
+            }
+        };
     }
 
     public static Expression in(Object name, Object... values) {
-        return new Criterion<Object>(name.toString(), Operator.IN, values);
+        return new Criterion<Object>(name.toString(), Operator.IN, values) {
+            HashSet set = new HashSet<>();
+
+            {
+                for (Object value : values) {
+                    set.add(value);
+                }
+            }
+
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+
+                return set.contains(field.getValue(owner));
+            }
+        };
     }
 
 
-    public static Expression lt(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.LESS_THAN, value);
+    public static Expression lt(Object name, final Object value) {
+        return new Criterion<Object>(name.toString(), Operator.LESS_THAN, value) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+
+                return ((Comparable) value).compareTo(field.getValue(owner)) > 0;
+            }
+        };
     }
 
     public static Expression lte(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.LESS_THAN_EQUAL, value);
+        return new Criterion<Object>(name.toString(), Operator.LESS_THAN_EQUAL, value) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+
+                return ((Comparable) value).compareTo(field.getValue(owner)) >= 0;
+
+            }
+        };
     }
 
     public static Expression gt(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, value);
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, value) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+
+                return ((Comparable) value).compareTo(field.getValue(owner)) < 0;
+            }
+        };
     }
 
     public static Expression gte(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN_EQUAL, value);
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, value) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+
+                return ((Comparable) value).compareTo(field.getValue(owner)) <= 0;
+            }
+        };
     }
 
-    public static Expression between(Object name, Object value, Object value2) {
-        return new Criterion<Object>(name.toString(), Operator.BETWEEN, value, value2);
+    public static Expression between(Object name, final Object value, final Object value2) {
+        return new Criterion<Object>(name.toString(), Operator.BETWEEN, value, value2) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+
+                return ((Comparable) value).compareTo(field.getValue(owner)) <= 0 &&
+                        ((Comparable) value2).compareTo(field.getValue(owner)) >= 0;
+            }
+        };
     }
 
+//    I am going to add date handling, but not now. TODO
+//
+//    public static Expression betweenYears(Object name, int year1, int year2) {
+//
+//        return new Criterion<Object>(name.toString(), Operator.EQUAL, year1) {
+//            @Override
+//            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+//                return value.equals(field.getValue(owner)) ;
+//            }
+//        };
+//    }
 
-    public static Expression betweenYears(Object name, int year1, int year2) {
+    public static Expression startsWith(Object name, final Object value) {
+        return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
+            String sValue = value instanceof String ? (String) value : value.toString();
 
-        return new Criterion<Object>(name.toString(), Operator.BETWEEN, Types.year(year1), Types.year(year2));
-    }
-
-    public static Expression startsWith(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.STARTS_WITH, value);
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+                Object itemValue = field.getValue(owner);
+                String sItemvalue = itemValue instanceof String ? (String) itemValue : itemValue.toString();
+                return sItemvalue.startsWith(sValue);
+            }
+        };
     }
 
     public static Expression endsWith(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.ENDS_WITH, value);
+        return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
+            String sValue = value instanceof String ? (String) value : value.toString();
+
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+                Object itemValue = field.getValue(owner);
+                String sItemvalue = itemValue instanceof String ? (String) itemValue : itemValue.toString();
+                return sItemvalue.endsWith(sValue);
+            }
+        };
     }
 
     public static Expression contains(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.CONTAINS, value);
+        return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
+            String sValue = value instanceof String ? (String) value : value.toString();
+
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+                Object itemValue = field.getValue(owner);
+                String sItemvalue = itemValue instanceof String ? (String) itemValue : itemValue.toString();
+                return sItemvalue.contains(sValue);
+            }
+        };
     }
 
-    public static Expression matches(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.MATCHES, value);
+    // TODO regex suppot
+//    public static Expression matches(Object name, Object value) {
+//        return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
+//            @Override
+//            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+//                return value.equals(field.getValue(owner)) ;
+//            }
+//        };
+//    }
+
+
+    //
+    //
+    //
+    //
+    public static Expression eq(final Object name, final int compareValue) {
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                int value = field.getInt(owner);
+                return value == compareValue;
+            }
+        };
+    }
+
+    public static Expression notEq(final Object name, final int compareValue) {
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                int value = field.getInt(owner);
+                return value != compareValue;
+            }
+        };
+    }
+
+    public static Expression notIn(final Object name, final int... compareValues) {
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                int value = field.getInt(owner);
+
+                for (int compareValue : compareValues) {
+                    if (value == compareValue) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+    }
+
+    public static Expression in(final Object name, final int... compareValues) {
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                int value = field.getInt(owner);
+
+                for (int compareValue : compareValues) {
+                    if (value == compareValue) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Expression lt(final Object name, int compareValue) {
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                int value = field.getInt(owner);
+                return value < compareValue;
+            }
+        };
+    }
+
+
+    public static Expression lte(final Object name, int compareValue) {
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                int value = field.getInt(owner);
+                return value <= compareValue;
+            }
+        };
+    }
+
+    public static Expression gt(final Object name, int compareValue) {
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                int value = field.getInt(owner);
+                return value > compareValue;
+            }
+        };
+    }
+
+    public static Expression gte(final Object name, final int compareValue) {
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                int value = field.getInt(owner);
+                return value >= compareValue;
+            }
+        };
+    }
+
+    public static Expression between(final Object name, final int start, final int stop) {
+        return new Criterion<Object>(name.toString(), Operator.BETWEEN, start, stop) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                int value = field.getInt(owner);
+                return value >= start && value <= stop;
+            }
+        };
     }
 
 

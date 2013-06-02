@@ -1,8 +1,13 @@
 package org.datarepo.query;
 
-import java.util.Arrays;
+import org.datarepo.reflection.FieldAccess;
 
-public class Criterion<VALUE> extends Expression {
+import java.util.Arrays;
+import java.util.Map;
+
+import static org.datarepo.utils.Utils.notNull;
+
+public abstract class Criterion<VALUE> extends Expression {
     private String name;
     private Operator operator;
     private VALUE value;
@@ -11,6 +16,7 @@ public class Criterion<VALUE> extends Expression {
     private final String toString;
 
     public Criterion(String name, Operator operator, VALUE... values) {
+        notNull(name, operator, values);
         this.name = name;
         this.operator = operator;
         this.setValues(values);
@@ -18,6 +24,7 @@ public class Criterion<VALUE> extends Expression {
         toString = doToString();
     }
 
+    public abstract boolean resolve(Map<String, FieldAccess> fields, Object owner);
 
     public String getName() {
         return name;
@@ -62,9 +69,10 @@ public class Criterion<VALUE> extends Expression {
 
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return hashCode;
     }
+
     public int doHashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (operator != null ? operator.hashCode() : 0);
