@@ -67,26 +67,26 @@ public class CriteriaTest {
 
     @Test
     public void testBetween() throws Exception {
-        List<TestClass> results = findWithFiltersAnd(items, fields, between("i", 5, 10));
+        List<TestClass> results = findWithFiltersAnd(items, fields, betweenInt("i", 5, 10));
         assertEquals(5, results.size());
     }
 
     @Test
     public void testNotEqual() throws Exception {
-        List<TestClass> results = findWithFiltersAnd(items, fields, notEq("i", 5));
+        List<TestClass> results = findWithFiltersAnd(items, fields, notEqInt("i", 5));
         assertEquals(9, results.size());
     }
 
     @Test
     public void testEqual() throws Exception {
-        List<TestClass> results = findWithFiltersAnd(items, fields, eq("i", 5));
+        List<TestClass> results = findWithFiltersAnd(items, fields, eqInt("i", 5));
         assertEquals(1, results.size());
         assertEquals(5, results.get(0).i);
     }
 
     @Test
     public void testGTE() throws Exception {
-        List<TestClass> results = findWithFiltersAnd(items, fields, gte("i", 5));
+        List<TestClass> results = findWithFiltersAnd(items, fields, gteInt("i", 5));
         assertEquals(5, results.size());
         assertEquals(5, results.get(0).i);
         assertEquals(6, results.get(1).i);
@@ -97,7 +97,7 @@ public class CriteriaTest {
 
     @Test
     public void testGT() throws Exception {
-        List<TestClass> results = findWithFiltersAnd(items, fields, gt("i", 5));
+        List<TestClass> results = findWithFiltersAnd(items, fields, gtInt("i", 5));
         assertEquals(4, results.size());
         assertEquals(6, results.get(0).i);
         assertEquals(7, results.get(1).i);
@@ -107,7 +107,7 @@ public class CriteriaTest {
 
     @Test
     public void testLT() throws Exception {
-        List<TestClass> results = findWithFiltersAnd(items, fields, lt("i", 5));
+        List<TestClass> results = findWithFiltersAnd(items, fields, ltInt("i", 5));
         assertEquals(5, results.size());
         assertEquals(0, results.get(0).i);
         assertEquals(4, results.get(4).i);
@@ -115,7 +115,7 @@ public class CriteriaTest {
 
     @Test
     public void testLTE() throws Exception {
-        List<TestClass> results = findWithFiltersAnd(items, fields, lte("i", 5));
+        List<TestClass> results = findWithFiltersAnd(items, fields, lteInt("i", 5));
         assertEquals(6, results.size());
         assertEquals(0, results.get(0).i);
         assertEquals(5, results.get(5).i);
