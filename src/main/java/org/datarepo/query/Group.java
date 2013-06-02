@@ -1,10 +1,13 @@
 package org.datarepo.query;
 
-import java.util.Arrays;
+import org.datarepo.reflection.FieldAccess;
 
-public class Group extends Expression {
-    
-    private Expression[] expressions;
+import java.util.Arrays;
+import java.util.Map;
+
+public abstract class Group extends Expression {
+
+    protected Expression[] expressions;
 
     private final int hashCode;
     private final String toString;
@@ -70,4 +73,39 @@ public class Group extends Expression {
     public String toString() {
         return toString;
     }
+
+    public static class And extends Group {
+
+        public And(Expression... expressions) {
+            super(Grouping.AND, expressions);
+        }
+
+        @Override
+        public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+            for (Expression c : expressions) {
+                if (!c.resolve(fields, owner)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    public static class Or extends Group {
+
+        public Or(Expression... expressions) {
+            super(Grouping.OR, expressions);
+        }
+
+        @Override
+        public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+            for (Expression c : expressions) {
+                if (c.resolve(fields, owner)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
 }

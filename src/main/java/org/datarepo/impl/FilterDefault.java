@@ -31,16 +31,22 @@ public class FilterDefault implements Filter, FilterComposer {
 
     @Override
     public List filter(Expression... expressions) {
+        try {
+            Expression.fields(this.fields);
 
-        checkCache();
+            checkCache();
 
-        if (expressions.length == 1 && expressions[0] instanceof Criterion) {
+            if (expressions.length == 1 && expressions[0] instanceof Criterion) {
 
-            return simpleQueryPlanOneCriterion((Criterion) expressions[0]);
+                return simpleQueryPlanOneCriterion((Criterion) expressions[0]);
+            }
+
+            return mainQueryPlan(expressions);
+        } finally {
+
+            Expression.clearFields();
+
         }
-
-        return mainQueryPlan(expressions);
-
     }
 
     private void checkCache() {

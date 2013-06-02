@@ -1,9 +1,6 @@
 package org.datarepo.query;
 
-import org.datarepo.reflection.FieldAccess;
-
 import java.util.Arrays;
-import java.util.Map;
 
 import static org.datarepo.utils.Utils.notNull;
 
@@ -24,7 +21,6 @@ public abstract class Criterion<VALUE> extends Expression {
         toString = doToString();
     }
 
-    public abstract boolean resolve(Map<String, FieldAccess> fields, Object owner);
 
     public String getName() {
         return name;

@@ -2,18 +2,44 @@ package org.datarepo.query;
 
 import org.datarepo.reflection.FieldAccess;
 
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class Criteria {
 
+    public static boolean test(Object obj, Expression exp) {
+        return exp.test(obj);
+    }
+
+    public static boolean andTest(Object obj, Expression... exp) {
+        return and(exp).test(obj);
+    }
+
+    public static boolean orTest(Object obj, Expression... exp) {
+        return or(exp).test(obj);
+    }
+
+    public static <T> List<T> filter(Collection<T> items, Map<String, FieldAccess> fields, Expression exp) {
+        if (items.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+
+        List<T> results = new ArrayList<>();
+        for (T item : items) {
+
+            if (exp.test(item)) {
+                results.add(item);
+            }
+        }
+        return results;
+    }
+
 
     public static Group and(Expression... expressions) {
-        return new Group(Grouping.AND, expressions);
+        return new Group.And(expressions);
     }
 
     public static Group or(Expression... expressions) {
-        return new Group(Grouping.OR, expressions);
+        return new Group.Or(expressions);
     }
 
     public static Criterion eq(final Object name, Object value) {
