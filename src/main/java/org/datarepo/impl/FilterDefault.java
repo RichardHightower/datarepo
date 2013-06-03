@@ -185,17 +185,50 @@ public class FilterDefault implements Filter, FilterComposer {
         Set<Expression> expressionSet = Utils.set(expressions);
 
 
-        List results = applyIndexedFilters(expressions, fields, expressionSet);
+        List results = applyIndexedFiltersForAnd(expressions, fields, expressionSet);
 
-        results = applyLinearSearch(results, expressionSet);
-
+        if (results.size() > 200) {
+            applyGroupsWithIndexesForAnd(results, expressionSet);
+        }
 
         results = applyGroups(results, expressionSet);
+
+        results = applyLinearSearch(results, expressionSet);
 
 
         return results;
 
     }
+
+    private List applyGroupsWithIndexesForAnd(List items, Set<Expression> expressionSet) {
+        List<HashSet> listOfSets = new ArrayList();
+        listOfSets.add(new HashSet(items));
+
+        foo:
+        for (Expression expression : expressionSet) {
+
+            if (expression instanceof Group) {
+                Group group = (Group) expression;
+                for (Expression innerExpression : group.getExpressions()) {
+                    if (innerExpression instanceof Criterion) {
+                        Criterion c = (Criterion) innerExpression;
+                        if (!this.isIndexed(c.getName())) {
+                            continue foo;
+                        }
+                    }
+                }
+
+
+                List list = doFilterGroup((Group) expression);
+                if (list.size() > 0) {
+                    listOfSets.add(new HashSet(list));
+                }
+            }
+        }
+        List results = reduceToResults(listOfSets);
+        return results;
+    }
+
 
     private List applyGroups(List items, Set<Expression> expressionSet) {
         List<HashSet> listOfSets = new ArrayList();
@@ -213,6 +246,7 @@ public class FilterDefault implements Filter, FilterComposer {
         List results = reduceToResults(listOfSets);
         return results;
     }
+
 
     private List applyLinearSearch(List items, Set<Expression> expressionSet) {
         HashSet set = new HashSet(expressionSet);
@@ -246,7 +280,7 @@ public class FilterDefault implements Filter, FilterComposer {
         return results;
     }
 
-    private List applyIndexedFilters(Expression[] expressions, Map<String, FieldAccess> fields, Set<Expression> expressionSet) {
+    private List applyIndexedFiltersForAnd(Expression[] expressions, Map<String, FieldAccess> fields, Set<Expression> expressionSet) {
         List<HashSet> listOfSets = new ArrayList();
 
         for (Expression expression : expressions) {
