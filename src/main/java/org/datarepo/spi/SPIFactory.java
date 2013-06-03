@@ -5,6 +5,7 @@ import org.datarepo.LookupIndex;
 import org.datarepo.RepoBuilder;
 import org.datarepo.SearchIndex;
 import org.datarepo.impl.*;
+import org.datarepo.utils.Utils;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -37,7 +38,7 @@ public class SPIFactory {
         return repoBuilderFactory;
     }
 
-    public static Function<Class,SearchIndex> getSearchIndexFactory() {
+    public static Function<Class, SearchIndex> getSearchIndexFactory() {
         return searchIndexFactory;
     }
 
@@ -49,7 +50,7 @@ public class SPIFactory {
         return lookupIndexFactory;
     }
 
-    public static Function<Class, LookupIndex>  getUniqueLookupIndexFactory() {
+    public static Function<Class, LookupIndex> getUniqueLookupIndexFactory() {
         return uniqueLookupIndexFactory;
     }
 
@@ -64,7 +65,9 @@ public class SPIFactory {
     public static void init() {
 
         if (mapCreatorFactory == null) {
-            mapCreatorFactory = () -> {return new MapCreatorImpl();};
+            mapCreatorFactory = () -> {
+                return new MapCreatorImpl();
+            };
         }
         if (repoBuilderFactory == null) {
             repoBuilderFactory = new Supplier<RepoBuilder>() {
@@ -76,20 +79,34 @@ public class SPIFactory {
         }
         if (searchIndexFactory == null) {
             searchIndexFactory =
-                    (Class keyType) -> {return new SearchIndexDefault(keyType);};
+                    (Class keyType) -> {
+
+                        if (keyType == Utils.string) {
+                            return new StringSearchIndexDefault(keyType);
+                        } else {
+                            return new SearchIndexDefault(keyType);
+                        }
+
+                    };
         }
         if (lookupIndexFactory == null) {
             lookupIndexFactory =
-                    (Class keyType) -> {return new LookupIndexDefault(keyType);};
+                    (Class keyType) -> {
+                        return new LookupIndexDefault(keyType);
+                    };
         }
         if (uniqueLookupIndexFactory == null) {
-            uniqueLookupIndexFactory = (Class keyType) -> {return new UniqueLookupIndex(keyType);};
+            uniqueLookupIndexFactory = (Class keyType) -> {
+                return new UniqueLookupIndex(keyType);
+            };
 
 
         }
         if (uniqueSearchIndexFactory == null) {
             uniqueSearchIndexFactory =
-                    (Class keyType) -> {return new UniqueSearchIndex(keyType);};
+                    (Class keyType) -> {
+                        return new UniqueSearchIndex(keyType);
+                    };
         }
 
         if (repoFactory == null) {

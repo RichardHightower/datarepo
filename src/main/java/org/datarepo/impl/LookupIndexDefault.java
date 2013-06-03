@@ -67,7 +67,7 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     }
 
-    private MultiValue mvCreateOrAddToMV(MultiValue mv, Object obj) {
+    protected static MultiValue mvCreateOrAddToMV(MultiValue mv, Object obj) {
         if (mv == null) {
             mv = new MultiValue(obj);
         } else {
