@@ -10,7 +10,6 @@ import org.datarepo.spi.FilterComposer;
 import org.datarepo.utils.Utils;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 public class FilterDefault implements Filter, FilterComposer {
@@ -19,9 +18,6 @@ public class FilterDefault implements Filter, FilterComposer {
             Operator.GREATER_THAN, Operator.GREATER_THAN_EQUAL,
             Operator.LESS_THAN, Operator.LESS_THAN_EQUAL);
 
-    Map<Expression, List> queryCache = new ConcurrentHashMap<>();
-    int flushCount = 0;
-    boolean cache = true;
     private Map<String, FieldAccess> fields;
     private SearchableCollection searchableCollection;
     private Map<String, SearchIndex> searchIndexMap;
@@ -32,29 +28,9 @@ public class FilterDefault implements Filter, FilterComposer {
     public List filter(Expression... expressions) {
         try {
             Expression.fields(this.fields);
-
-            checkCache();
-
-            if (expressions.length == 1 && expressions[0] instanceof Criterion) {
-
-                return simpleQueryPlanOneCriterion((Criterion) expressions[0]);
-            }
-
             return mainQueryPlan(expressions);
         } finally {
-
             Expression.clearFields();
-
-        }
-    }
-
-    private void checkCache() {
-        if (cache) {
-            if (flushCount > 10_000 && queryCache.size() > 10_000) {
-                queryCache.clear();
-            } else {
-                flushCount = 0;
-            }
         }
     }
 
@@ -62,63 +38,18 @@ public class FilterDefault implements Filter, FilterComposer {
     private List mainQueryPlan(Expression[] expressions) {
         List results = null;
 
-        Group group = Criteria.and(expressions);
+        Group group = expressions.length == 1 && expressions[0] instanceof Group
+                ? (Group) expressions[0] : Criteria.and(expressions);
 
-        if (cache) {
-            results = queryCache.get(group);
-
-            if (results != null) {
-                return results;
-            }
-        }
 
         results = doFilterGroup(group);
 
-        if (cache) {
-            flushCount++;
-            queryCache.put(group, results == null ? Collections.EMPTY_LIST : results);
-        }
         return results;
     }
 
-    private List simpleQueryPlanOneCriterion(Criterion criterion) {
-        List results = null;
-
-        if (cache) {
-            results = queryCache.get(criterion);
-
-            if (results != null) {
-                return results;
-            }
-        }
-
-
-        Operator operator = criterion.getOperator();
-        if (operator == Operator.EQUAL && lookupIndexMap.containsKey(criterion.getName())) {
-            results = lookupIndexMap.get(criterion.getName()).getAll(criterion.getValue());
-        } else if (this.isIndexed(criterion.getName()) && Utils.isIn(operator, indexedOperators)) {
-            results = doFilterWithIndex(criterion, fields);
-        } else {
-            results = Criteria.filter(searchableCollection.all(), criterion);
-        }
-
-        if (cache) {
-            flushCount++;
-            queryCache.put(criterion, results == null ? Collections.EMPTY_LIST : results);
-        }
-        return results;
-    }
 
     private List orPlanWithIndex(Criterion criterion) {
         List results = null;
-
-        if (cache) {
-            results = queryCache.get(criterion);
-
-            if (results != null) {
-                return results;
-            }
-        }
 
 
         Operator operator = criterion.getOperator();
@@ -131,16 +62,11 @@ public class FilterDefault implements Filter, FilterComposer {
         }
 
 
-        if (cache) {
-            flushCount++;
-            queryCache.put(criterion, results == null ? Collections.EMPTY_LIST : results);
-        }
         return results;
     }
 
     @Override
     public void invalidate() {
-        queryCache.clear();
 
     }
 
@@ -305,11 +231,11 @@ public class FilterDefault implements Filter, FilterComposer {
                 Object value = criteria.getValue();
                 if (operator == Operator.EQUAL && lookupIndexMap.get(name) != null) {
                     List list = lookupIndexMap.get(name).getAll(value);
-                    if (list.size() > 0) {
+                    if (list != null && list.size() > 0) {
                         listOfSets.add(new HashSet(list));
                     }
                     expressionSet.remove(criteria);
-                    if (list.size() < 20) {
+                    if (list != null && list.size() < 20) {
                         break;
                     }
                 } else if (isIndexed(name) && Utils.isIn(operator, indexedOperators)) {
@@ -394,11 +320,6 @@ public class FilterDefault implements Filter, FilterComposer {
     @Override
     public void setFields(Map<String, FieldAccess> fields) {
         this.fields = fields;
-    }
-
-    @Override
-    public void setUseCache(boolean cache) {
-        this.cache = cache;
     }
 
     @Override

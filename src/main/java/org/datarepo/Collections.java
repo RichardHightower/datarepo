@@ -1,5 +1,6 @@
 package org.datarepo;
 
+import org.datarepo.impl.decorators.FilterWithSimpleCache;
 import org.datarepo.query.Expression;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;
@@ -45,29 +46,8 @@ public class Collections {
 
         Class<?> clazz = list.get(0).getClass();
 
-        SearchableCollectionComposer query = SPIFactory.getSearchableCollectionFactory().get();
-        Map<String, FieldAccess> fields = Reflection.getPropertyFieldAccessMap(clazz, useField, useUnSafe);
-        String primaryKey = findPrimaryKey(fields);
-        FieldAccess field = fields.get(primaryKey);
-        Function keyGetter = createKeyGetter(field);
+        SearchableCollectionComposer query = getSearchableCollectionComposer(list, useField, useUnSafe, clazz);
 
-        query.setFields(fields);
-        query.setPrimaryKeyGetter(keyGetter);
-        query.setPrimaryKeyName(primaryKey);
-        query.setFilter(SPIFactory.getFilterFactory().get());
-
-        for (FieldAccess f : fields.values()) {
-            if (f.getName().equals(primaryKey)) {
-                continue;
-            }
-            if (Types.isBasicType(f.getType())) {
-                configIndexes((SearchableCollection) query, f.getName(), fields);
-            }
-        }
-
-        query.init();
-
-        ((SearchableCollection) query).addAll(list);
 
         return new QList<T>(list, (SearchableCollection) query);
     }
@@ -99,6 +79,12 @@ public class Collections {
 
         Class<?> clazz = set.iterator().next().getClass();
 
+        SearchableCollectionComposer query = getSearchableCollectionComposer(set, useField, useUnSafe, clazz);
+
+        return new QSet<T>(set, (SearchableCollection) query);
+    }
+
+    private static <T> SearchableCollectionComposer getSearchableCollectionComposer(Collection set, boolean useField, boolean useUnSafe, Class<?> clazz) {
         SearchableCollectionComposer query = SPIFactory.getSearchableCollectionFactory().get();
         Map<String, FieldAccess> fields = Reflection.getPropertyFieldAccessMap(clazz, useField, useUnSafe);
         String primaryKey = findPrimaryKey(fields);
@@ -108,7 +94,14 @@ public class Collections {
         query.setFields(fields);
         query.setPrimaryKeyGetter(keyGetter);
         query.setPrimaryKeyName(primaryKey);
-        query.setFilter(SPIFactory.getFilterFactory().get());
+        Filter filter = SPIFactory.getFilterFactory().get();
+        query.setFilter(filter);
+
+
+        LookupIndex index = SPIFactory.getUniqueLookupIndexFactory().apply(fields.get(primaryKey).getType());
+        index.setKeyGetter(keyGetter);
+        ((SearchableCollection) query).addLookupIndex(primaryKey, index);
+
 
         for (FieldAccess f : fields.values()) {
             if (f.getName().equals(primaryKey)) {
@@ -121,9 +114,10 @@ public class Collections {
 
         query.init();
 
-        ((SearchableCollection) query).addAll(set);
+        query.setFilter(new FilterWithSimpleCache(filter));
 
-        return new QSet<T>(set, (SearchableCollection) query);
+        ((SearchableCollection) query).addAll(set);
+        return query;
     }
 
 

@@ -17,7 +17,7 @@ public class BenchMark {
     public static void main(String[] args) {
 
 
-        Set<Employee> employees1 = new HashSet<>(TestHelper.createMetricTonOfEmployees(200_000));
+        Set<Employee> employees1 = new HashSet<>(TestHelper.createMetricTonOfEmployees(100_000));
         Set<Employee> employees2 = copy(employees1);
 
         employees1 = $q(employees1);
@@ -29,8 +29,8 @@ public class BenchMark {
 
         List<String> firstNames = ls("Rick", "Vipin", "Diana", "Alex");
 
-        for (int index = 0; index < 10; index++) {
-
+        for (int index = 0; index < 5; index++) {
+            print(index);
             for (String firstName : firstNames) {
                 List<Employee> list = query(employees1, eq("firstName", firstName));
                 if (list != null && index == 0) {
@@ -43,7 +43,7 @@ public class BenchMark {
                 eq("firstName", "Vipin"), eq("firstName", "Diana"), eq("firstName", "Alex"));
 
         long startTime = System.nanoTime();
-        for (int index = 0; index < 10_000_000; index++) {
+        for (int index = 0; index < 100_000; index++) {
 
             for (Expression firstNameExp : firstNamesExp) {
                 List<Employee> list = query(employees1, firstNameExp);
@@ -53,7 +53,7 @@ public class BenchMark {
             }
         }
 
-        long endTime = (System.nanoTime() - startTime) / 10_000_000;
+        long endTime = (System.nanoTime() - startTime) / 100_000;
         print("index time", endTime);
 
         for (int index = 0; index < 10; index++) {

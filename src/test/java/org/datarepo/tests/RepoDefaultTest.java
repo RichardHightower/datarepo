@@ -190,8 +190,9 @@ public class RepoDefaultTest {
 
         List<Map<String, Object>> list = repo.query(selects(select("firstName")), eq("lastName", "Hightower"));
 
-        assertEquals("Diana", list.get(0).get("firstName"));
-        assertEquals("Bob", list.get(1).get("firstName"));
+        assertEquals(2, list.size());
+        assertEquals("Diana", list.get(1).get("firstName"));
+        assertEquals("Bob", list.get(0).get("firstName"));
 
     }
 

@@ -14,8 +14,6 @@ public interface FilterComposer {
 
     public void setFields(Map<String, FieldAccess> fields);
 
-    public void setUseCache(boolean cache);
-
     public void setSearchIndexMap(Map<String, SearchIndex> searchIndexMap);
 
     public void setLookupIndexMap(Map<String, LookupIndex> lookupIndexMap);

@@ -1,13 +1,17 @@
 package org.datarepo.impl;
 
 import org.datarepo.*;
+import org.datarepo.impl.decorators.FilterWithSimpleCache;
 import org.datarepo.impl.decorators.ObjectEditorCloneDecorator;
 import org.datarepo.impl.decorators.ObjectEditorEventDecorator;
 import org.datarepo.impl.decorators.ObjectEditorLogNullCheckDecorator;
 import org.datarepo.modification.ModificationListener;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;
-import org.datarepo.spi.*;
+import org.datarepo.spi.ObjectEditorComposer;
+import org.datarepo.spi.RepoComposer;
+import org.datarepo.spi.SPIFactory;
+import org.datarepo.spi.SearchableCollectionComposer;
 import org.datarepo.utils.Utils;
 
 import java.util.HashMap;
@@ -255,7 +259,7 @@ public class RepoBuilderDefault implements RepoBuilder {
         query = searchableCollectionFactory.get();
 
         Filter filter = this.filterFactory.get();
-        ((FilterComposer) filter).setUseCache(this.cache);
+
 
         configPrimaryKey(primitiveKey == null ? itemClazz : primitiveKey, fields);
         configIndexes(repo, fields);
@@ -267,6 +271,12 @@ public class RepoBuilderDefault implements RepoBuilder {
         query.setFields(fields);
 
         query.init();
+
+        if (this.cache) {
+            filter = new FilterWithSimpleCache(filter);
+        }
+
+        query.setFilter(filter);
 
         return query;
     }
