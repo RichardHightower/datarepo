@@ -1,6 +1,9 @@
 package org.datarepo.impl;
 
 import org.datarepo.*;
+import org.datarepo.impl.decorators.ObjectEditorCloneDecorator;
+import org.datarepo.impl.decorators.ObjectEditorEventDecorator;
+import org.datarepo.impl.decorators.ObjectEditorLogNullCheckDecorator;
 import org.datarepo.modification.ModificationListener;
 import org.datarepo.reflection.FieldAccess;
 import org.datarepo.reflection.Reflection;

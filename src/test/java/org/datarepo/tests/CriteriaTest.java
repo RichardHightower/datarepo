@@ -86,7 +86,7 @@ public class CriteriaTest {
     @Test
     public void testGTE() throws Exception {
         List<TestClass> results = filter(items, gte("i", 5));
-        //assertEquals(5, results.size());
+        assertEquals(5, results.size());
         assertEquals(5, results.get(0).i);
         assertEquals(6, results.get(1).i);
         assertEquals(7, results.get(2).i);

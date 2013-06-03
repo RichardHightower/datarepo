@@ -1,4 +1,4 @@
-package org.datarepo.impl;
+package org.datarepo.impl.decorators;
 
 import org.datarepo.ObjectEditor;
 
@@ -39,7 +39,7 @@ public class ObjectEditorCloneDecorator<KEY, ITEM> extends ObjectEditorDecorator
         return item;
     }
 
-    ObjectEditorCloneDecorator(ObjectEditor oe) {
+    public ObjectEditorCloneDecorator(ObjectEditor oe) {
         super(oe);
 
     }

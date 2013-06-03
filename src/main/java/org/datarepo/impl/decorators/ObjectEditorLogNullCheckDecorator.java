@@ -1,4 +1,4 @@
-package org.datarepo.impl;
+package org.datarepo.impl.decorators;
 
 
 import org.datarepo.ObjectEditor;
@@ -43,7 +43,7 @@ public class ObjectEditorLogNullCheckDecorator<KEY, ITEM> extends ObjectEditorDe
 
     }
 
-    ObjectEditorLogNullCheckDecorator(ObjectEditor oe) {
+    public ObjectEditorLogNullCheckDecorator(ObjectEditor oe) {
         super(oe);
 
     }

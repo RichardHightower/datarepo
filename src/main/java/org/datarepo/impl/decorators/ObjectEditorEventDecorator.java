@@ -1,32 +1,33 @@
-package org.datarepo.impl;
+package org.datarepo.impl.decorators;
 
 
 import org.datarepo.ObjectEditor;
 import org.datarepo.modification.ModificationEvent;
 import org.datarepo.modification.ModificationListener;
-
-import static org.datarepo.modification.ModificationEvent.createModification;
-import static  org.datarepo.modification.ModificationType.*;
 import org.datarepo.query.ValueSetter;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import static org.datarepo.modification.ModificationEvent.createModification;
+import static org.datarepo.modification.ModificationType.*;
 import static org.datarepo.utils.Utils.ls;
 
-public class ObjectEditorEventDecorator<KEY, ITEM> extends ObjectEditorDecoratorBase<KEY, ITEM>{
+public class ObjectEditorEventDecorator<KEY, ITEM> extends ObjectEditorDecoratorBase<KEY, ITEM> {
 
     List<ModificationListener<KEY, ITEM>> listeners = new CopyOnWriteArrayList<>();
 
-    public void add(ModificationListener l)  {
+    public void add(ModificationListener l) {
         listeners.add(l);
 
 
     }
-    public void remove(ModificationListener l)  {
+
+    public void remove(ModificationListener l) {
         listeners.add(l);
     }
 
-    public ObjectEditorEventDecorator () {
+    public ObjectEditorEventDecorator() {
 
     }
 
@@ -43,9 +44,12 @@ public class ObjectEditorEventDecorator<KEY, ITEM> extends ObjectEditorDecorator
     }
 
     private void fire(ModificationEvent<KEY, ITEM> event) {
-        listeners.forEach((l)->{ l.modification(event);});
+        listeners.forEach((l) -> {
+            l.modification(event);
+        });
 
     }
+
     public void modify(ITEM item, String property, Object value) {
         fire(createModification(BEFORE_MODIFY, super.getKey(item), item, property, value));
         super.modify(item, property, value);
@@ -170,73 +174,73 @@ public class ObjectEditorEventDecorator<KEY, ITEM> extends ObjectEditorDecorator
     }
 
     public boolean compareAndUpdate(KEY key, String property, Object compare, Object value) {
-        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare,value)));
+        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare, value)));
         boolean updated = super.compareAndUpdate(key, property, compare, value);
         if (updated) {
-            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare,value)));
+            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare, value)));
         }
         return updated;
     }
 
     public boolean compareAndUpdate(KEY key, String property, int compare, int value) {
-        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare,value)));
+        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare, value)));
         boolean updated = super.compareAndUpdate(key, property, compare, value);
         if (updated) {
-            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare,value)));
+            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare, value)));
         }
         return updated;
     }
 
     public boolean compareAndUpdate(KEY key, String property, long compare, long value) {
-        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare,value)));
+        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare, value)));
         boolean updated = super.compareAndUpdate(key, property, compare, value);
         if (updated) {
-            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare,value)));
+            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare, value)));
         }
         return updated;
     }
 
     public boolean compareAndUpdate(KEY key, String property, char compare, char value) {
-        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare,value)));
+        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare, value)));
         boolean updated = super.compareAndUpdate(key, property, compare, value);
         if (updated) {
-            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare,value)));
+            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare, value)));
         }
         return updated;
     }
 
     public boolean compareAndUpdate(KEY key, String property, short compare, short value) {
-        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare,value)));
+        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare, value)));
         boolean updated = super.compareAndUpdate(key, property, compare, value);
         if (updated) {
-            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare,value)));
+            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare, value)));
         }
         return updated;
     }
 
     public boolean compareAndUpdate(KEY key, String property, byte compare, byte value) {
-        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare,value)));
+        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare, value)));
         boolean updated = super.compareAndUpdate(key, property, compare, value);
         if (updated) {
-            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare,value)));
+            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare, value)));
         }
         return updated;
     }
 
     public boolean compareAndUpdate(KEY key, String property, float compare, float value) {
-        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare,value)));
+        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare, value)));
         boolean updated = super.compareAndUpdate(key, property, compare, value);
         if (updated) {
-            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare,value)));
+            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare, value)));
         }
         return updated;
     }
 
     public boolean compareAndUpdate(KEY key, String property, double compare, double value) {
-        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare,value)));
+        fire(createModification(BEFORE_UPDATE, key, null, property, ls(compare, value)));
         boolean updated = super.compareAndUpdate(key, property, compare, value);
         if (updated) {
-            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare,value)));
+            fire(createModification(AFTER_UPDATE, key, null, property, ls(compare, value)));
         }
         return updated;
     }
@@ -268,7 +272,6 @@ public class ObjectEditorEventDecorator<KEY, ITEM> extends ObjectEditorDecorator
         fire(createModification(AFTER_INCREMENT, key, null, property, compare));
         return updated;
     }
-
 
 
 }
