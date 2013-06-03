@@ -25,7 +25,6 @@ public class Criteria {
 
         List<T> results = new ArrayList<>();
         for (T item : items) {
-
             if (exp.test(item)) {
                 results.add(item);
             }
@@ -142,7 +141,7 @@ public class Criteria {
     }
 
     public static Criterion gte(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, value) {
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN_EQUAL, value) {
             @Override
             public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
                 FieldAccess field = fields.get(name);
@@ -233,8 +232,8 @@ public class Criteria {
     //
     //
     //
-    public static Criterion eqInt(final Object name, final int compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion eqInt(final Object name, final int compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -245,8 +244,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion notEqInt(final Object name, final int compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion notEqInt(final Object name, final int compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -256,8 +255,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion notInInts(final Object name, final int... compareValues) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+    static Criterion notInInts(final Object name, final int... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -273,8 +272,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion inInts(final Object name, final int... compareValues) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+    static Criterion inInts(final Object name, final int... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -290,8 +289,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion ltInt(final Object name, int compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion ltInt(final Object name, int compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -302,8 +301,8 @@ public class Criteria {
     }
 
 
-    public static Criterion lteInt(final Object name, int compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion lteInt(final Object name, int compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -313,8 +312,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion gtInt(final Object name, int compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion gtInt(final Object name, int compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -324,8 +323,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion gteInt(final Object name, final int compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion gteInt(final Object name, final int compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -335,8 +334,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion betweenInt(final Object name, final int start, final int stop) {
-        return new Criterion<Object>(name.toString(), Operator.BETWEEN, start, stop) {
+    static Criterion betweenInt(final Object name, final int start, final int stop) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.BETWEEN, start, stop) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -351,8 +350,8 @@ public class Criteria {
     //
     //
     //
-    public static Criterion eqFloat(final Object name, final float compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion eqFloat(final Object name, final float compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -363,8 +362,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion notEqFloat(final Object name, final float compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion notEqFloat(final Object name, final float compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -374,8 +373,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion notInFloats(final Object name, final float... compareValues) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+    static Criterion notInFloats(final Object name, final float... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -391,8 +390,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion inFloats(final Object name, final float... compareValues) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+    static Criterion inFloats(final Object name, final float... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -408,8 +407,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion ltFloat(final Object name, float compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion ltFloat(final Object name, float compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -420,8 +419,8 @@ public class Criteria {
     }
 
 
-    public static Criterion lteFloat(final Object name, float compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion lteFloat(final Object name, float compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -431,8 +430,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion gtFloat(final Object name, float compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion gtFloat(final Object name, float compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -442,8 +441,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion gteFloat(final Object name, final float compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion gteFloat(final Object name, final float compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -453,8 +452,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion betweenFloat(final Object name, final float start, final float stop) {
-        return new Criterion<Object>(name.toString(), Operator.BETWEEN, start, stop) {
+    static Criterion betweenFloat(final Object name, final float start, final float stop) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.BETWEEN, start, stop) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -464,12 +463,47 @@ public class Criteria {
         };
     }
 
+    //
+    //Boolean
+
+    static Criterion isTrue(final Object name) {
+        return eqBoolean(name, true);
+    }
+
+    static Criterion isFalse(final Object name) {
+        return eqBoolean(name, false);
+    }
+
+    static Criterion eqBoolean(final Object name, final boolean compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                boolean value = field.getBoolean(owner);
+                return value == compareValue;
+            }
+
+        };
+    }
+
+    static Criterion notEqBoolean(final Object name, final boolean compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                boolean value = field.getBoolean(owner);
+                return value != compareValue;
+            }
+        };
+    }
+
+
     //Double
     //
     //
     //
-    public static Criterion eqDouble(final Object name, final double compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion eqDouble(final Object name, final double compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -480,8 +514,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion notEqDouble(final Object name, final double compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion notEqDouble(final Object name, final double compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -491,8 +525,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion notInDoubles(final Object name, final double... compareValues) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+    static Criterion notInDoubles(final Object name, final double... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -508,8 +542,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion inDoubles(final Object name, final double... compareValues) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+    static Criterion inDoubles(final Object name, final double... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -525,8 +559,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion ltDouble(final Object name, double compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion ltDouble(final Object name, double compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -537,8 +571,8 @@ public class Criteria {
     }
 
 
-    public static Criterion lteDouble(final Object name, double compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion lteDouble(final Object name, double compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -548,8 +582,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion gtDouble(final Object name, double compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion gtDouble(final Object name, double compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -559,8 +593,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion gteDouble(final Object name, final double compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion gteDouble(final Object name, final double compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -570,8 +604,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion betweenDouble(final Object name, final double start, final double stop) {
-        return new Criterion<Object>(name.toString(), Operator.BETWEEN, start, stop) {
+    static Criterion betweenDouble(final Object name, final double start, final double stop) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.BETWEEN, start, stop) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -586,8 +620,8 @@ public class Criteria {
     //
     //
     //
-    public static Criterion eqShort(final Object name, final short compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion eqShort(final Object name, final short compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -598,8 +632,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion notEqShort(final Object name, final short compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion notEqShort(final Object name, final short compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -609,8 +643,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion notInShorts(final Object name, final short... compareValues) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+    static Criterion notInShorts(final Object name, final short... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -626,8 +660,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion inShorts(final Object name, final short... compareValues) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+    static Criterion inShorts(final Object name, final short... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -643,8 +677,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion ltShort(final Object name, short compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion ltShort(final Object name, short compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -655,8 +689,8 @@ public class Criteria {
     }
 
 
-    public static Criterion lteShort(final Object name, short compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion lteShort(final Object name, short compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -666,8 +700,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion gtShort(final Object name, short compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion gtShort(final Object name, short compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -677,8 +711,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion gteShort(final Object name, final short compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion gteShort(final Object name, final short compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -688,8 +722,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion betweenShort(final Object name, final short start, final short stop) {
-        return new Criterion<Object>(name.toString(), Operator.BETWEEN, start, stop) {
+    static Criterion betweenShort(final Object name, final short start, final short stop) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.BETWEEN, start, stop) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -704,8 +738,8 @@ public class Criteria {
     //
     //
     //
-    public static Criterion eqByte(final Object name, final byte compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion eqByte(final Object name, final byte compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -716,8 +750,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion notEqByte(final Object name, final byte compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion notEqByte(final Object name, final byte compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -727,8 +761,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion notInBytes(final Object name, final byte... compareValues) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+    static Criterion notInBytes(final Object name, final byte... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -744,8 +778,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion inBytes(final Object name, final byte... compareValues) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValues) {
+    static Criterion inBytes(final Object name, final byte... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -761,8 +795,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion ltByte(final Object name, byte compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion ltByte(final Object name, byte compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -773,8 +807,8 @@ public class Criteria {
     }
 
 
-    public static Criterion lteByte(final Object name, byte compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion lteByte(final Object name, byte compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -784,8 +818,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion gtByte(final Object name, byte compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion gtByte(final Object name, byte compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -795,8 +829,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion gteByte(final Object name, final byte compareValue) {
-        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, compareValue) {
+    static Criterion gteByte(final Object name, final byte compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -806,8 +840,8 @@ public class Criteria {
         };
     }
 
-    public static Criterion betweenByte(final Object name, final byte start, final byte stop) {
-        return new Criterion<Object>(name.toString(), Operator.BETWEEN, start, stop) {
+    static Criterion betweenByte(final Object name, final byte start, final byte stop) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.BETWEEN, start, stop) {
             @Override
             public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
                 FieldAccess field = fields.get(name);
@@ -816,5 +850,253 @@ public class Criteria {
             }
         };
     }
+
+
+    //
+    //
+    //
+    // LONG
+
+
+    //Long
+    //
+    //
+    //
+    static Criterion eqLong(final Object name, final long compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                long value = field.getLong(owner);
+                return value == compareValue;
+            }
+
+        };
+    }
+
+    static Criterion notEqLong(final Object name, final long compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                long value = field.getLong(owner);
+                return value != compareValue;
+            }
+        };
+    }
+
+    static Criterion notInLongs(final Object name, final long... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                long value = field.getLong(owner);
+
+                for (long compareValue : compareValues) {
+                    if (value == compareValue) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+    }
+
+    static Criterion inLongs(final Object name, final long... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                long value = field.getLong(owner);
+
+                for (long compareValue : compareValues) {
+                    if (value == compareValue) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
+    }
+
+    static Criterion ltLong(final Object name, long compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                long value = field.getLong(owner);
+                return value < compareValue;
+            }
+        };
+    }
+
+
+    static Criterion lteLong(final Object name, long compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                long value = field.getLong(owner);
+                return value <= compareValue;
+            }
+        };
+    }
+
+    static Criterion gtLong(final Object name, long compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                long value = field.getLong(owner);
+                return value > compareValue;
+            }
+        };
+    }
+
+    static Criterion gteLong(final Object name, final long compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                long value = field.getLong(owner);
+                return value >= compareValue;
+            }
+        };
+    }
+
+    static Criterion betweenLong(final Object name, final long start, final long stop) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.BETWEEN, start, stop) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                long value = field.getLong(owner);
+                return value >= start && value < stop;
+            }
+        };
+    }
+
+
+    //Char
+    //
+    //
+    //
+
+    //
+    //
+    //
+    //
+    static Criterion eqChar(final Object name, final char compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                char value = field.getChar(owner);
+                return value == compareValue;
+            }
+
+        };
+    }
+
+    static Criterion notEqChar(final Object name, final char compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                char value = field.getChar(owner);
+                return value != compareValue;
+            }
+        };
+    }
+
+    static Criterion notInChars(final Object name, final char... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                char value = field.getChar(owner);
+
+                for (char compareValue : compareValues) {
+                    if (value == compareValue) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+    }
+
+    static Criterion inChars(final Object name, final char... compareValues) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValues) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                char value = field.getChar(owner);
+
+                for (char compareValue : compareValues) {
+                    if (value == compareValue) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
+    }
+
+    static Criterion ltChar(final Object name, char compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                char value = field.getChar(owner);
+                return value < compareValue;
+            }
+        };
+    }
+
+
+    static Criterion lteChar(final Object name, char compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                char value = field.getChar(owner);
+                return value <= compareValue;
+            }
+        };
+    }
+
+    static Criterion gtChar(final Object name, char compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                char value = field.getChar(owner);
+                return value > compareValue;
+            }
+        };
+    }
+
+    static Criterion gteChar(final Object name, final char compareValue) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.GREATER_THAN, compareValue) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                char value = field.getChar(owner);
+                return value >= compareValue;
+            }
+        };
+    }
+
+    static Criterion betweenChar(final Object name, final char start, final char stop) {
+        return new Criterion.PrimitiveCriterion(name.toString(), Operator.BETWEEN, start, stop) {
+            @Override
+            public boolean resolve(final Map<String, FieldAccess> fields, final Object owner) {
+                FieldAccess field = fields.get(name);
+                char value = field.getChar(owner);
+                return value >= start && value < stop;
+            }
+        };
+    }
+
 
 }

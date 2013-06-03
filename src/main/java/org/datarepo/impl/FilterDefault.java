@@ -94,7 +94,7 @@ public class FilterDefault implements Filter, FilterComposer {
 
 
         Operator operator = criterion.getOperator();
-        if (operator == Operator.EQUAL && lookupIndexMap.get(criterion.getName()) != null) {
+        if (operator == Operator.EQUAL && lookupIndexMap.containsKey(criterion.getName())) {
             results = lookupIndexMap.get(criterion.getName()).getAll(criterion.getValue());
         } else if (this.isIndexed(criterion.getName()) && Utils.isIn(operator, indexedOperators)) {
             results = doFilterWithIndex(criterion, fields);
@@ -187,14 +187,14 @@ public class FilterDefault implements Filter, FilterComposer {
 
         List results = applyIndexedFiltersForAnd(expressions, fields, expressionSet);
 
-        if (results.size() > 200) {
-            applyGroupsWithIndexesForAnd(results, expressionSet);
+        if (results.size() > 2_000) {
+            results = applyGroupsWithIndexesForAnd(results, expressionSet);
         }
 
-        results = applyGroups(results, expressionSet);
 
         results = applyLinearSearch(results, expressionSet);
 
+        results = applyGroups(results, expressionSet);
 
         return results;
 
@@ -204,28 +204,42 @@ public class FilterDefault implements Filter, FilterComposer {
         List<HashSet> listOfSets = new ArrayList();
         listOfSets.add(new HashSet(items));
 
-        foo:
+        List<Expression> expressionsWeEvaluated = new ArrayList<>();
+
+        outer:
         for (Expression expression : expressionSet) {
 
             if (expression instanceof Group) {
                 Group group = (Group) expression;
                 for (Expression innerExpression : group.getExpressions()) {
+                    //Don't allow non-index Criterion to avoid too many scans
                     if (innerExpression instanceof Criterion) {
                         Criterion c = (Criterion) innerExpression;
                         if (!this.isIndexed(c.getName())) {
-                            continue foo;
+                            continue outer;
                         }
+                    }
+                    //Don't allow any ors to avoid long scans, at this point
+                    //This is simple for now, it does not recusively look for indexes, future one should.
+                    else if (innerExpression instanceof Group) {
+                        continue;
                     }
                 }
 
 
+                /*
+                At this point, this group should be indexed only
+                 */
                 List list = doFilterGroup((Group) expression);
                 if (list.size() > 0) {
                     listOfSets.add(new HashSet(list));
+                    expressionsWeEvaluated.add(expression);
                 }
             }
         }
         List results = reduceToResults(listOfSets);
+        expressionSet.removeAll(expressionsWeEvaluated);
+
         return results;
     }
 

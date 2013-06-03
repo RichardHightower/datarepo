@@ -36,10 +36,17 @@ public abstract class Expression implements Predicate {
 
     @Override
     public boolean test(Object o) {
+        Map<String, FieldAccess> fields = getFieldsInternal(o);
+        return resolve(fields, o);
+    }
+
+    protected Map<String, FieldAccess> getFieldsInternal(Object o) {
         Map<String, FieldAccess> fields = fieldsLocal == null ? null : fieldsLocal.get();
         if (fields == null) {
             fields = Reflection.getPropertyFieldAccessMap(o.getClass());
         }
-        return resolve(fields, o);
+        return fields;
     }
+
+
 }
