@@ -18,6 +18,7 @@ public class BenchMark {
 
 
         Set<Employee> employees1 = new HashSet<>(TestHelper.createMetricTonOfEmployees(100_000));
+
         Set<Employee> employees2 = copy(employees1);
 
         employees1 = $q(employees1);
