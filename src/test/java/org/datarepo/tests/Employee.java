@@ -1,7 +1,7 @@
 package org.datarepo.tests;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.datarepo.reflection.Types;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +14,7 @@ public class Employee {
     private int salary;
     Department department = new Department();
     long empNum;
-    private int _hashCode=-1;
+    private int _hashCode = -1;
 
     public String getId() {
         return id;
@@ -24,13 +24,15 @@ public class Employee {
         this.id = id;
     }
 
-    List <Tag> tags = new ArrayList<>();
+    List<Tag> tags = new ArrayList<>();
+
     {
         tags.add(new Tag("tag1"));
         tags.add(new Tag("tag2"));
         tags.add(new Tag("tag3"));
 
     }
+
     public static long num = System.currentTimeMillis();
 
     {
@@ -38,23 +40,19 @@ public class Employee {
         num++;
     }
 
-    static SimpleDateFormat dateParse = new SimpleDateFormat("dd.MM.yy");
 
     public static Employee employee(String f, String l, String s, String d, int salary) {
         Employee e = new Employee();
-        try {
-            e.birthDate = dateParse.parse(d);
-        } catch (ParseException e1) {
-            throw new RuntimeException(e1);
-        }
+        e.birthDate = Types.toDate(d);
         e.lastName = l;
         e.firstName = f;
         e.id = s;
         e.salary = salary;
         return e;
     }
+
     public static List<Employee> employees(Employee... _employees) {
-        List <Employee> employees = new ArrayList<Employee>(_employees.length);
+        List<Employee> employees = new ArrayList<Employee>(_employees.length);
         for (Employee emp : _employees) {
             employees.add(emp);
         }
@@ -111,7 +109,7 @@ public class Employee {
 
     @Override
     public int hashCode() {
-        if (_hashCode!=-1) {
+        if (_hashCode != -1) {
             return _hashCode;
         }
         int result = firstName != null ? firstName.hashCode() : 0;

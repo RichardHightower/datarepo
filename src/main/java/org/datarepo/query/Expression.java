@@ -41,12 +41,15 @@ public abstract class Expression implements Predicate {
     }
 
     protected Map<String, FieldAccess> getFieldsInternal(Object o) {
+        return getFieldsInternal(o.getClass());
+    }
+
+    protected Map<String, FieldAccess> getFieldsInternal(Class clazz) {
         Map<String, FieldAccess> fields = fieldsLocal == null ? null : fieldsLocal.get();
         if (fields == null) {
-            fields = Reflection.getPropertyFieldAccessMap(o.getClass());
+            fields = Reflection.getPropertyFieldAccessMap(clazz);
         }
         return fields;
     }
-
 
 }

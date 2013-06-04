@@ -188,11 +188,11 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List<Map<String, Object>> list = repo.query(selects(select("firstName")), eq("lastName", "Hightower"));
+        List<Map<String, Object>> list = repo.sortedQuery("firstName", selects(select("firstName")), eq("lastName", "Hightower"));
 
         assertEquals(2, list.size());
-        assertEquals("Diana", list.get(1).get("firstName"));
         assertEquals("Bob", list.get(0).get("firstName"));
+        assertEquals("Diana", list.get(1).get("firstName"));
 
     }
 

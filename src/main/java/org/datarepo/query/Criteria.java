@@ -163,6 +163,12 @@ public class Criteria {
         };
     }
 
+    public static Criterion between(Class clazz, Object name, final String svalue, final String svalue2) {
+        Criterion c = between(name, svalue, svalue2);
+        c.init(clazz);
+        return c;
+    }
+
     public static Criterion between(Object name, final String svalue, final String svalue2) {
         return new Criterion<Object>(name.toString(), Operator.BETWEEN, svalue, svalue2) {
             @Override

@@ -116,9 +116,14 @@ public abstract class Criterion<VALUE> extends Expression {
     }
 
     public void init(Object o) {
-        Map<String, FieldAccess> fields = getFieldsInternal(o);
+        init(o.getClass());
+    }
+
+    public void init(Class clazz) {
+        Map<String, FieldAccess> fields = getFieldsInternal(clazz);
         initIfNeeded(this, fields);
     }
+
 
     private static void initIfNeeded(Criterion criterion, Map<String, FieldAccess> fields) {
         if (!criterion.initialized) {

@@ -375,10 +375,10 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     @Override
     public List<ITEM> sortedQuery(final String sortBy, Expression... expressions) {
         List<ITEM> results = this.query(expressions);
-        Function<ITEM, KEY> func = new Function<ITEM, KEY>() {
+        Function<ITEM, Object> func = new Function<ITEM, Object>() {
             @Override
-            public KEY apply(ITEM item) {
-                return (KEY) ((Map) item).get(sortBy);
+            public Object apply(ITEM item) {
+                return fields.get(sortBy).getValue(item);
             }
         };
         return new SearchIndexDefault(null, results, func).all();
