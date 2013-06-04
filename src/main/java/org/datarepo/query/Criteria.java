@@ -163,6 +163,18 @@ public class Criteria {
         };
     }
 
+    public static Criterion between(Object name, final String svalue, final String svalue2) {
+        return new Criterion<Object>(name.toString(), Operator.BETWEEN, svalue, svalue2) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+
+                return ((Comparable) value).compareTo(field.getValue(owner)) <= 0 &&
+                        ((Comparable) values[1]).compareTo(field.getValue(owner)) >= 0;
+            }
+        };
+    }
+
 //    I am going to add date handling, but not now. TODO
 //
 //    public static Expression betweenYears(Object name, int year1, int year2) {

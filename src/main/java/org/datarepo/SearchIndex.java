@@ -9,6 +9,15 @@ import java.util.List;
  * @param <ITEM> The item that we are indexing.
  */
 public interface SearchIndex<KEY, ITEM> extends LookupIndex<KEY, ITEM> {
+
+    ITEM findFirst();
+
+    ITEM findLast();
+
+    KEY findFirstKey();
+
+    KEY findLastKey();
+
     List<ITEM> findEquals(KEY key);
 
     List<ITEM> findStartsWith(KEY keyFrag);

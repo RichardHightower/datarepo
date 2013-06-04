@@ -295,7 +295,11 @@ public class FilterDefault implements Filter, FilterComposer {
                 return searchIndex.findLessThanEqual(value);
 
             case BETWEEN:
-                return searchIndex.findBetween(value, criterion.getValues()[1]);
+                if (!criterion.isInitialized()) {
+                    Object o = searchIndex.findFirst();
+                    criterion.init(o);
+                }
+                return searchIndex.findBetween(criterion.getValue(), criterion.getValues()[1]);
 
         }
 

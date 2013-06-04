@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -853,6 +855,7 @@ public class Types {
 
     }
 
+
     public static Date year(int year) {
         Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -898,5 +901,42 @@ public class Types {
 
         print(year(2013));
 
+    }
+
+    public static Date toDate(long value) {
+        return new Date(value);
+    }
+
+    public static Date toDate(Long value) {
+        return new Date(value);
+    }
+
+    public static Date toDate(String value) {
+        try {
+            return toDateUS(value);
+        } catch (Exception ex) {
+            try {
+                return DateFormat.getDateInstance(DateFormat.SHORT).parse(value);
+            } catch (ParseException e) {
+                complain("Unable to parse date");
+                return null;
+            }
+
+        }
+    }
+
+    public static Date toDate(Object value) {
+        if (value instanceof Long) {
+            return toDate((Long) value);
+        } else if (value instanceof String) {
+            return toDate((String) value);
+        } else {
+            if (value != null) {
+                return toDate(value.toString());
+            } else {
+                complain("Unable to convert value to date");
+                return null;
+            }
+        }
     }
 }

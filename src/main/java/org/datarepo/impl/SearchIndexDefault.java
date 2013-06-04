@@ -38,6 +38,26 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
 
 
     @Override
+    public ITEM findFirst() {
+        return (ITEM) this.navigableMap.firstEntry().getValue().getValue();
+    }
+
+    @Override
+    public ITEM findLast() {
+        return (ITEM) this.navigableMap.lastEntry().getValue().getValue();
+    }
+
+    @Override
+    public KEY findFirstKey() {
+        return this.navigableMap.firstEntry().getKey();
+    }
+
+    @Override
+    public KEY findLastKey() {
+        return this.navigableMap.lastEntry().getKey();
+    }
+
+    @Override
     public List<ITEM> findEquals(KEY key) {
 
         MultiValue<ITEM> items = navigableMap.get(key);
@@ -123,8 +143,20 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
     }
 
 
+    boolean init;
+
+    void initIfNeeded() {
+        if (!init) {
+            init = true;
+            ITEM item = (ITEM) ((MultiValue) this.navigableMap.firstEntry()).getValue();
+
+        }
+    }
+
     @Override
     public List<ITEM> findBetween(KEY start, KEY end) {
+
+
         SortedMap<KEY, MultiValue> keyMultiValueSortedMap = this.navigableMap.subMap(start, end);
 
         return getResults(keyMultiValueSortedMap);

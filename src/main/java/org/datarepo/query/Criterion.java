@@ -5,6 +5,7 @@ import org.datarepo.reflection.Types;
 import org.datarepo.utils.Utils;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -15,8 +16,8 @@ public abstract class Criterion<VALUE> extends Expression {
     private Logger log = Utils.log(Criterion.class);
     private String name;
     private Operator operator;
-    private VALUE value;
-    private VALUE[] values;
+    protected VALUE value;
+    protected VALUE[] values;
     private final int hashCode;
     private final String toString;
 
@@ -110,6 +111,14 @@ public abstract class Criterion<VALUE> extends Expression {
         return builder.toString();
     }
 
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public void init(Object o) {
+        Map<String, FieldAccess> fields = getFieldsInternal(o);
+        initIfNeeded(this, fields);
+    }
 
     private static void initIfNeeded(Criterion criterion, Map<String, FieldAccess> fields) {
         if (!criterion.initialized) {
@@ -117,10 +126,25 @@ public abstract class Criterion<VALUE> extends Expression {
             FieldAccess field = fields.get(criterion.name);
             Class type = field.getType();
 
-            if (!type.isPrimitive()) {
+
+            if (!type.isPrimitive() && type != Utils.date) {
                 return;
             }
+
+
+            if (type == Utils.date && !(criterion.value instanceof Date)) {
+                criterion.value = Types.toDate(criterion.value);
+                if (criterion.operator == Operator.BETWEEN) {
+                    criterion.values[0] = Types.toDate(criterion.values[0]);
+
+                    criterion.values[1] = Types.toDate(criterion.values[1]);
+
+                }
+                return;
+            }
+
             criterion.useDelegate = true;
+
             if (type == Utils.pint) {
                 switch (criterion.operator) {
                     case EQUAL:

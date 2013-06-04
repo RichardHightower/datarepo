@@ -41,6 +41,26 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
 
 
     @Override
+    public ITEM findFirst() {
+        return this.navigableMap.firstEntry().getValue();
+    }
+
+    @Override
+    public ITEM findLast() {
+        return this.navigableMap.lastEntry().getValue();
+    }
+
+    @Override
+    public KEY findFirstKey() {
+        return this.navigableMap.firstEntry().getKey();
+    }
+
+    @Override
+    public KEY findLastKey() {
+        return this.navigableMap.lastEntry().getKey();
+    }
+
+    @Override
     public List<ITEM> findEquals(KEY key) {
         return Collections.singletonList(navigableMap.get(key));
     }
