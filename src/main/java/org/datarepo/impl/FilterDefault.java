@@ -110,6 +110,7 @@ public class FilterDefault implements Filter, FilterComposer {
 
         Set<Expression> expressionSet = Utils.set(expressions);
 
+        int startSize = this.searchableCollection.size();
 
         List results = applyIndexedFiltersForAnd(expressions, fields, expressionSet);
 
@@ -117,6 +118,9 @@ public class FilterDefault implements Filter, FilterComposer {
             results = applyGroupsWithIndexesForAnd(results, expressionSet);
         }
 
+        if (!(results.size() <= startSize)) {
+            results = this.searchableCollection.all();
+        }
 
         results = applyLinearSearch(results, expressionSet);
 
@@ -215,7 +219,7 @@ public class FilterDefault implements Filter, FilterComposer {
 
             results = new ArrayList(mainSet);
         } else {
-            results = new ArrayList(this.searchableCollection.all());
+            results = Collections.EMPTY_LIST;
         }
         return results;
     }

@@ -25,17 +25,51 @@ public class MoreTests {
 
     }
 
-    //@Test Broken
+    @Test
+    public void testBetweenSalary() throws Exception {
+
+        List<Employee> queryableList = $q(list);
+        List<Employee> results = sortedQuery(queryableList, "firstName", between("salary", 100, 200));
+
+        assertEquals(1, results.size());
+        assertEquals("firstA", results.get(0).getFirstName());
+
+    }
+
+    @Test
+    public void testBetweenSalaryExact() throws Exception {
+
+        List<Employee> queryableList = $q(list);
+        List<Employee> results = sortedQuery(queryableList, "firstName", between("salary", 100, 201));
+
+        assertEquals(2, results.size());
+        assertEquals("firstA", results.get(0).getFirstName());
+        assertEquals("firstB", results.get(1).getFirstName());
+
+    }
+
+
+    @Test
+    public void testBetweenSalaryExactOutOfRange() throws Exception {
+        print(list);
+        List<Employee> queryableList = $q(list);
+        List<Employee> results = sortedQuery(queryableList, "firstName", between("salary", 400, 500));
+
+        assertEquals(0, results.size());
+
+    }
+
+    //@Test  //Java data handling SUCKS! I don't think it is an issue with index lib.
     public void testBetweenDateExact() throws Exception {
 
         print(list);
 
         List<Employee> queryableList = $q(list);
-        List<Employee> results = sortedQuery(queryableList, "firstName", between("birthDate", "5/29/1960:00:00:00", "5/29/1970:00:00:00"));
+        List<Employee> results = sortedQuery(queryableList, "firstName", between("birthDate", "5/29/1960:00:00:01", "5/29/1970:00:00:00"));
 
-        assertEquals(1, results.size());
-        assertEquals("b", results.get(0).getFirstName());
-        //assertEquals("a", results.get(1).getFirstName());
+        assertEquals(2, results.size());
+        assertEquals("firstA", results.get(0).getFirstName());
+        assertEquals("firstB", results.get(1).getFirstName());
 
     }
 
