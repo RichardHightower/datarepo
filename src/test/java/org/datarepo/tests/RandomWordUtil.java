@@ -47,17 +47,13 @@ public class RandomWordUtil {
         set.add("Melissa");
 
 
-
-
-
-
         makeWords(set, wordCount);
 
         return set;
     }
 
     private static void makeWords(SortedSet<String> set, int wordCount) {
-        boolean flip=true;
+        boolean flip = true;
         while (set.size() < wordCount) {
             if (flip) {
                 makeWord(set, flip, 10, 3);

@@ -34,7 +34,7 @@ public class RepoBuilderTest {
 
     }
 
-    //@Test        TODO FIX THIS
+    @Test
     public void testNoIndexes() throws Exception {
 
         test.repo = TestHelper.createWithNoIndexes();

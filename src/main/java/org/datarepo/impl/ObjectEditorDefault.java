@@ -94,11 +94,11 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
 
     private void optimizeHash(ITEM item) {
         FieldAccess hashCode = fields.get("_hashCode");
-        if (hashCode==null) {
+        if (hashCode == null) {
             return;
         } else {
-          hashCode.setInt(item, -1);
-          hashCode.setInt(item, item.hashCode());
+            hashCode.setInt(item, -1);
+            hashCode.setInt(item, item.hashCode());
         }
     }
 

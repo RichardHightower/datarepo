@@ -1,9 +1,6 @@
 package org.datarepo.modification;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.die;
 
 public abstract class ModificationEvent<KEY, ITEM> {
 

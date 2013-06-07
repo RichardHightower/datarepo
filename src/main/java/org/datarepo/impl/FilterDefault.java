@@ -58,7 +58,7 @@ public class FilterDefault implements Filter, FilterComposer {
         } else if (this.isIndexed(criterion.getName()) && Utils.isIn(operator, indexedOperators)) {
             results = doFilterWithIndex(criterion, fields);
         } else {
-            return null;
+            results = Criteria.filter(this.searchableCollection.all(), criterion);
         }
 
 
@@ -74,15 +74,13 @@ public class FilterDefault implements Filter, FilterComposer {
         if (group.getGrouping() == Grouping.OR) {
             return or(group.getExpressions(), fields);
         } else {
-            return and(group.getExpressions(), fields);
+            return new ArrayList(and(group.getExpressions(), fields));
 
         }
     }
 
     private List or(Expression[] expressions,
                     Map<String, FieldAccess> fields) {
-
-        Set<Expression> expressionSet = Utils.set(expressions);
 
 
         HashSet set = new HashSet();
@@ -91,42 +89,40 @@ public class FilterDefault implements Filter, FilterComposer {
                 List list = orPlanWithIndex((Criterion) expression);
                 if (list != null) {
                     set.addAll(list);
-                    expressionSet.remove(expression);
                 }
-            }
-            if (expression instanceof Group) {
+            } else if (expression instanceof Group) {
                 List list = doFilterGroup((Group) expression);
                 set.addAll(list);
-                expressionSet.remove(expression);
             }
         }
 
-        Criterion[] criteria = (Criterion[]) expressionSet.toArray(new Criterion[set.size()]);
-        return Criteria.filter(new ArrayList(set), Criteria.or(criteria));
+        return new ArrayList(set);
     }
 
 
-    private List and(Expression[] expressions, Map<String, FieldAccess> fields) {
+    private Set and(Expression[] expressions, Map<String, FieldAccess> fields) {
 
         Set<Expression> expressionSet = Utils.set(expressions);
 
-        int startSize = this.searchableCollection.size();
 
-        List results = applyIndexedFiltersForAnd(expressions, fields, expressionSet);
+        ResultInternal results = applyIndexedFiltersForAnd(expressions, fields, expressionSet);
 
-        if (results.size() > 2_000) {
-            results = applyGroupsWithIndexesForAnd(results, expressionSet);
+        //This is a second level optimization.
+//        if (results.results.size() > 2_000) {
+//            results.results = applyGroupsWithIndexesForAnd(results.results, expressionSet);
+//        }
+
+
+        /* If we did not find an index, then we have to load the whole collection. */
+        if (!results.foundIndex) {
+            results.results = this.searchableCollection.all();
         }
 
-        if (!(results.size() <= startSize)) {
-            results = this.searchableCollection.all();
-        }
+        results.results = applyLinearSearch(results.results, expressionSet);
 
-        results = applyLinearSearch(results, expressionSet);
+        results.results = applyGroups(results.results, expressionSet);
 
-        results = applyGroups(results, expressionSet);
-
-        return results;
+        return new HashSet(results.results);
 
     }
 
@@ -175,6 +171,11 @@ public class FilterDefault implements Filter, FilterComposer {
 
 
     private List applyGroups(List items, Set<Expression> expressionSet) {
+
+        if (expressionSet.size() == 0) {
+            return items;
+        }
+
         List<HashSet> listOfSets = new ArrayList();
         listOfSets.add(new HashSet(items));
 
@@ -201,6 +202,10 @@ public class FilterDefault implements Filter, FilterComposer {
         Criterion[] criteria = (Criterion[]) set.toArray(new Criterion[set.size()]);
         items = Criteria.filter(items, Criteria.and(criteria));
 
+        expressionSet.removeIf((e) -> {
+            return !(e instanceof Group);
+        });
+
         return items;
     }
 
@@ -224,39 +229,80 @@ public class FilterDefault implements Filter, FilterComposer {
         return results;
     }
 
-    private List applyIndexedFiltersForAnd(Expression[] expressions, Map<String, FieldAccess> fields, Set<Expression> expressionSet) {
+
+    private class ResultInternal {
+        List results;
+        boolean foundIndex;
+
+    }
+
+    private ResultInternal applyIndexedFiltersForAnd(Expression[] expressions, Map<String, FieldAccess> fields, Set<Expression> expressionSet) {
         List<HashSet> listOfSets = new ArrayList();
 
+        ResultInternal results = new ResultInternal();
+
         for (Expression expression : expressions) {
+
+            /*
+             * See if the criteria has an index
+             */
             if (expression instanceof Criterion) {
                 Criterion criteria = (Criterion) expression;
                 Operator operator = criteria.getOperator();
                 String name = criteria.getName();
                 Object value = criteria.getValue();
                 if (operator == Operator.EQUAL && lookupIndexMap.get(name) != null) {
-                    List list = lookupIndexMap.get(name).getAll(value);
-                    if (list != null && list.size() > 0) {
-                        listOfSets.add(new HashSet(list));
-                    }
+
+
+                    results.results = lookupIndexMap.get(name).getAll(value);
+
+                                        /* Keep track that we found the index. */
+                    results.foundIndex = true;
+
                     expressionSet.remove(criteria);
-                    if (list != null && list.size() < 20) {
-                        break;
+
+                    if (results.results == null) {
+                        results.results = Collections.EMPTY_LIST;
+                        return results;
                     }
+                    /* if it is less than 20, just linear search the rest. */
+                    else if (results.results.size() < 20) {
+                        return results;
+                    } else if (results.results.size() == 0) {
+                        return results;
+                    } else if (results.results.size() > 0) {
+                        listOfSets.add(new HashSet(results.results));
+                    }
+
+
                 } else if (isIndexed(name) && Utils.isIn(operator, indexedOperators)) {
-                    List list = doFilterWithIndex((Criterion) expression, fields);
-                    if (list.size() > 0) {
-                        listOfSets.add(new HashSet(list));
-                    }
+
+
+                    results.results = doFilterWithIndex((Criterion) expression, fields);
+
+                                        /* Keep track that we found the index. */
+                    results.foundIndex = true;
+
                     expressionSet.remove(criteria);
-                    if (list.size() < 20) {
-                        break;
+
+                    if (results.results == null) {
+                        results.results = Collections.EMPTY_LIST;
+                        return results;
+                    }
+                    /* if it is less than 20, just linear search the rest. */
+                    else if (results.results.size() < 20) {
+                        return results;
+                    } else if (results.results.size() == 0) {
+                        return results;
+                    } else if (results.results.size() > 0) {
+                        listOfSets.add(new HashSet(results.results));
                     }
 
                 }
 
             }
         }
-        List results = reduceToResults(listOfSets);
+        results.results = reduceToResults(listOfSets);
         return results;
     }
 

@@ -12,29 +12,29 @@ import java.util.logging.Level;
 
 import static org.datarepo.tests.Employee.employee;
 import static org.datarepo.tests.Employee.employees;
-
-import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.list;
+import static org.datarepo.utils.Utils.print;
 
 public class TestHelper {
 
-    final static String  getTestSSN = "777-222-2222";
-    final static String  getTestFirstName = "AAA";
+    final static String getTestSSN = "777-222-2222";
+    final static String getTestFirstName = "AAA";
 
 
-    static List<Employee> employees =  employees(
+    static List<Employee> employees = employees(
             employee("AAA", "Foo", "777-222-2222", "05.29.70", 10_000),
             employee("Boa", "Smith", "666-222-2222", "05.29.70", 10_000),
-            employee("Bobbie","Smith", "322-222-2222", "05.29.70", 100_000),
+            employee("Bobbie", "Smith", "322-222-2222", "05.29.70", 100_000),
             employee("Bob", "Smith", "122-222-2222", "05.29.70", 99_000),
             employee("Bob", "Smith", "222-222-2222", "05.29.70", 199_000),
-            employee("Bobbzie","Smith", "422-222-2222", "05.29.70", 666_000),
+            employee("Bobbzie", "Smith", "422-222-2222", "05.29.70", 666_000),
             employee("Boc", "Smith", "1010-222-2222", "05.29.70", 10_000),
             employee("Darth", "Sith", "1111-222-2222", "05.29.70", 10_000),
-            employee("ZZZ", "Zmm", "777-333-3333", "05.29.70", 10_000) );
+            employee("ZZZ", "Zmm", "777-333-3333", "05.29.70", 10_000));
 
 
     static Repo<String, Employee> createBuilderNoReflection() {
-        Repo <String, Employee> repo;
+        Repo<String, Employee> repo;
 
         RepoBuilder repoBuilder = RepoBuilder.getInstance();
         repoBuilder.primaryKey("id")
@@ -69,7 +69,7 @@ public class TestHelper {
             }
         });
 
-        repo  = repoBuilder.build(String.class, Employee.class);
+        repo = repoBuilder.build(String.class, Employee.class);
 
         for (Employee employee : employees) {
             repo.add(employee);
@@ -77,7 +77,7 @@ public class TestHelper {
         return repo;
     }
 
-    static Repo <String, Employee>  createFromBuilder() {
+    static Repo<String, Employee> createFromBuilder() {
 
         /* Create a repo, and decide what to index. */
         RepoBuilder repoBuilder = RepoBuilder.getInstance();
@@ -88,8 +88,8 @@ public class TestHelper {
                 .searchIndex("salary").searchIndex("empNum", true);
 
         /* Create the repo with the builder. */
-        Repo <String, Employee> repo
-             = repoBuilder.build(String.class, Employee.class);
+        Repo<String, Employee> repo
+                = repoBuilder.build(String.class, Employee.class);
 
         for (Employee employee : employees) {
             repo.add(employee);
@@ -97,7 +97,7 @@ public class TestHelper {
         return repo;
     }
 
-    public static Repo<String,Employee> createFromBuilderLogAndClone() {
+    public static Repo<String, Employee> createFromBuilderLogAndClone() {
         /* Create a repo, and decide what to index. */
         RepoBuilder repoBuilder = RepoBuilder.getInstance();
 
@@ -105,10 +105,12 @@ public class TestHelper {
         repoBuilder.primaryKey("id")
                 .searchIndex("firstName").searchIndex("lastName")
                 .searchIndex("salary").searchIndex("empNum", true)
-        .debug().level(Level.INFO).cloneEdits(true).events((ModificationEvent event)->{print (event);});
+                .debug().level(Level.INFO).cloneEdits(true).events((ModificationEvent event) -> {
+            print(event);
+        });
 
         /* Create the repo with the builder. */
-        Repo <String, Employee> repo
+        Repo<String, Employee> repo
                 = repoBuilder.build(String.class, Employee.class);
 
         for (Employee employee : employees) {
@@ -119,8 +121,7 @@ public class TestHelper {
     }
 
 
-
-    public static Repo<String,Employee> createWithNoIndexes() {
+    public static Repo<String, Employee> createWithNoIndexes() {
         /* Create a repo, and decide what to index. */
         RepoBuilder repoBuilder = RepoBuilder.getInstance();
 
@@ -129,7 +130,7 @@ public class TestHelper {
 
 
         /* Create the repo with the builder. */
-        Repo <String, Employee> repo
+        Repo<String, Employee> repo
                 = repoBuilder.build(String.class, Employee.class);
 
         for (Employee employee : employees) {
@@ -140,7 +141,7 @@ public class TestHelper {
     }
 
 
-    static Repo <String, Employee>  createFromBuilderUsingPropertyAccess() {
+    static Repo<String, Employee> createFromBuilderUsingPropertyAccess() {
 
         /* Create a repo, and decide what to index. */
         RepoBuilder repoBuilder = RepoBuilder.getInstance();
@@ -152,7 +153,7 @@ public class TestHelper {
                 .usePropertyForAccess(true);
 
         /* Create the repo with the builder. */
-        Repo <String, Employee> repo
+        Repo<String, Employee> repo
                 = repoBuilder.build(String.class, Employee.class);
 
         for (Employee employee : employees) {
@@ -168,7 +169,7 @@ public class TestHelper {
         Random random = new Random(System.nanoTime());
 
 
-        for (int index =0 ; index < numEmps; index++) {
+        for (int index = 0; index < numEmps; index++) {
             Employee employee = new Employee();
             employees.add(employee);
             int firstNameIdx = Math.abs(random.nextInt() % numEmps);

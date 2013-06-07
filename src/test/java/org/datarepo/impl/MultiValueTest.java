@@ -69,7 +69,7 @@ public class MultiValueTest {
 
         results.forEach((item) -> {
             assertNotNull(item);
-            print(item);
+            //print(item);
         });
 
 
@@ -87,17 +87,17 @@ public class MultiValueTest {
 
         results.forEach((item) -> {
             assertNotNull(item);
-            print(item);
+            //print(item);
         });
 
         mv.getValues().forEach((item) -> {
             assertNotNull(item);
-            print(item);
+            //print(item);
         });
 
         results.forEach((item) -> {
             assertNotNull(item);
-            print(item);
+            //print(item);
         });
 
     }

@@ -8,7 +8,6 @@ public class Meta3 {
     private static long total = 5;
 
 
-
     public Meta3(String name) {
         this.name3 = name;
         num = total++;

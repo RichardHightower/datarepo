@@ -29,6 +29,7 @@ public class Tag {
     }
 
     List<Meta> metas = new ArrayList<>();
+
     {
         metas.add(new Meta("mtag1"));
         metas.add(new Meta("mtag2"));

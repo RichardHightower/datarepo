@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.datarepo.utils.Utils.print;
+
 /**
  * Internal class
  *
@@ -110,11 +112,19 @@ class MultiValue<T> {
     }
 
     void addTo(List<T> results) {
-        if (index < 10) {
+        if (index < 10 || values == null) {
             for (int i = 0; i < index; i++) {
                 results.add(array[i]);
             }
         } else {
+
+            if (values == null) {
+                print("index", index);
+                print("array", array);
+                print("values", values);
+                print("results", array);
+
+            }
             results.addAll(values);
         }
 

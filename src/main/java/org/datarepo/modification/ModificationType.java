@@ -1,8 +1,6 @@
 package org.datarepo.modification;
 
-import org.junit.After;
-
-public enum  ModificationType {
+public enum ModificationType {
 
     BEFORE_INCREMENT,  //update a single property
     AFTER_INCREMENT,  //update a single property

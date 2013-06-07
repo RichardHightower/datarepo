@@ -140,6 +140,7 @@ public class Criteria {
         };
     }
 
+
     public static Criterion gte(Object name, Object value) {
         return new Criterion<Object>(name.toString(), Operator.GREATER_THAN_EQUAL, value) {
             @Override
@@ -181,6 +182,20 @@ public class Criteria {
         };
     }
 
+    public static Criterion gt(Object name, String svalue) {
+        return new Criterion<Object>(name.toString(), Operator.GREATER_THAN, svalue) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                FieldAccess field = fields.get(name);
+
+                Object fieldValue = field.getValue(owner);
+
+                return ((Comparable) value).compareTo(fieldValue) < 0;
+            }
+        };
+    }
+
+
 //    I am going to add date handling, but not now. TODO
 //
 //    public static Expression betweenYears(Object name, int year1, int year2) {
@@ -194,7 +209,7 @@ public class Criteria {
 //    }
 
     public static Criterion startsWith(Object name, final Object value) {
-        return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
+        return new Criterion<Object>(name.toString(), Operator.STARTS_WITH, value) {
             String sValue = value instanceof String ? (String) value : value.toString();
 
             @Override
@@ -208,7 +223,7 @@ public class Criteria {
     }
 
     public static Criterion endsWith(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
+        return new Criterion<Object>(name.toString(), Operator.ENDS_WITH, value) {
             String sValue = value instanceof String ? (String) value : value.toString();
 
             @Override
@@ -222,7 +237,7 @@ public class Criteria {
     }
 
     public static Criterion contains(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
+        return new Criterion<Object>(name.toString(), Operator.CONTAINS, value) {
             String sValue = value instanceof String ? (String) value : value.toString();
 
             @Override
