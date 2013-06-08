@@ -1,7 +1,7 @@
 package org.datarepo.tests;
 
-import org.datarepo.reflection.FieldAccess;
-import org.datarepo.reflection.Reflection;
+import org.datarepo.fields.FieldAccess;
+import org.datarepo.utils.Reflection;
 import org.junit.Before;
 import org.junit.Test;
 

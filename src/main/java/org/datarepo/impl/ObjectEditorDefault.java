@@ -2,8 +2,8 @@ package org.datarepo.impl;
 
 import org.datarepo.ObjectEditor;
 import org.datarepo.SearchableCollection;
+import org.datarepo.fields.FieldAccess;
 import org.datarepo.query.ValueSetter;
-import org.datarepo.reflection.FieldAccess;
 import org.datarepo.spi.ObjectEditorComposer;
 
 import java.util.Collection;

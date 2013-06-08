@@ -1,7 +1,7 @@
 package org.datarepo.spi;
 
 import org.datarepo.Filter;
-import org.datarepo.reflection.FieldAccess;
+import org.datarepo.fields.FieldAccess;
 
 import java.util.Map;
 import java.util.function.Function;

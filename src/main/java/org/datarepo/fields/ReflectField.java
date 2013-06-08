@@ -1,10 +1,12 @@
-package org.datarepo.reflection;
+package org.datarepo.fields;
 
+
+import org.datarepo.utils.Types;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import static org.datarepo.reflection.Types.*;
+import static org.datarepo.utils.Types.*;
 import static org.datarepo.utils.Utils.*;
 
 public class ReflectField implements FieldAccess {
@@ -115,45 +117,37 @@ public class ReflectField implements FieldAccess {
         return getValue(obj);
     }
 
-    @Override
     public boolean getStaticBoolean() {
         return getBoolean(null);
     }
 
-    @Override
     public int getStaticInt() {
         return getInt(null);
 
     }
 
-    @Override
     public short getStaticShort() {
         return getShort(null);
     }
 
 
-    @Override
     public long getStaticLong() {
         return getLong(null);
     }
 
 
-    @Override
     public double getStaticDouble() {
         return getDouble(null);
     }
 
-    @Override
     public float getStaticFloat() {
         return getFloat(null);
     }
 
-    @Override
     public byte getStaticByte() {
         return getByte(null);
     }
 
-    @Override
     public Object getObject() {
         return getObject(null);
     }

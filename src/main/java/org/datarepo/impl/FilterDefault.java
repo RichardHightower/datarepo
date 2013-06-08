@@ -4,8 +4,8 @@ import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.SearchIndex;
 import org.datarepo.SearchableCollection;
+import org.datarepo.fields.FieldAccess;
 import org.datarepo.query.*;
-import org.datarepo.reflection.FieldAccess;
 import org.datarepo.spi.FilterComposer;
 import org.datarepo.utils.Utils;
 

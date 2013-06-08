@@ -1,7 +1,7 @@
 package org.datarepo.spi;
 
 import org.datarepo.SearchableCollection;
-import org.datarepo.reflection.FieldAccess;
+import org.datarepo.fields.FieldAccess;
 
 import java.util.Map;
 

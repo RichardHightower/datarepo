@@ -1,7 +1,7 @@
 package org.datarepo.query;
 
-import org.datarepo.reflection.FieldAccess;
-import org.datarepo.reflection.Reflection;
+import org.datarepo.fields.FieldAccess;
+import org.datarepo.utils.Reflection;
 
 import java.util.Map;
 import java.util.function.Predicate;

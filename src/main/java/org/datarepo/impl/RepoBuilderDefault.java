@@ -1,17 +1,17 @@
 package org.datarepo.impl;
 
 import org.datarepo.*;
+import org.datarepo.fields.FieldAccess;
 import org.datarepo.impl.decorators.FilterWithSimpleCache;
 import org.datarepo.impl.decorators.ObjectEditorCloneDecorator;
 import org.datarepo.impl.decorators.ObjectEditorEventDecorator;
 import org.datarepo.impl.decorators.ObjectEditorLogNullCheckDecorator;
 import org.datarepo.modification.ModificationListener;
-import org.datarepo.reflection.FieldAccess;
-import org.datarepo.reflection.Reflection;
 import org.datarepo.spi.ObjectEditorComposer;
 import org.datarepo.spi.RepoComposer;
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.SearchableCollectionComposer;
+import org.datarepo.utils.Reflection;
 import org.datarepo.utils.Utils;
 
 import java.util.HashMap;

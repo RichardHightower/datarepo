@@ -1,7 +1,7 @@
 package org.datarepo.query;
 
-import org.datarepo.reflection.FieldAccess;
-import org.datarepo.reflection.Types;
+import org.datarepo.fields.FieldAccess;
+import org.datarepo.utils.Types;
 import org.datarepo.utils.Utils;
 
 import java.util.Arrays;

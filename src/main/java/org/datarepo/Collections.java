@@ -1,12 +1,12 @@
 package org.datarepo;
 
+import org.datarepo.fields.FieldAccess;
 import org.datarepo.impl.decorators.FilterWithSimpleCache;
 import org.datarepo.query.Expression;
-import org.datarepo.reflection.FieldAccess;
-import org.datarepo.reflection.Reflection;
-import org.datarepo.reflection.Types;
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.SearchableCollectionComposer;
+import org.datarepo.utils.Reflection;
+import org.datarepo.utils.Types;
 import org.datarepo.utils.Utils;
 
 import java.util.*;

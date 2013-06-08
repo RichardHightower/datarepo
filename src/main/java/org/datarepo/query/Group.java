@@ -1,6 +1,6 @@
 package org.datarepo.query;
 
-import org.datarepo.reflection.FieldAccess;
+import org.datarepo.fields.FieldAccess;
 
 import java.util.Arrays;
 import java.util.Map;

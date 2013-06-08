@@ -14,8 +14,8 @@ import static org.datarepo.query.ProjectedSelector.max;
 import static org.datarepo.query.Selector.*;
 import static org.datarepo.query.ValueSetter.value;
 import static org.datarepo.query.ValueSetter.values;
-import static org.datarepo.reflection.Reflection.idx;
 import static org.datarepo.tests.Employee.employee;
+import static org.datarepo.utils.Reflection.idx;
 import static org.datarepo.utils.Utils.printf;
 
 public class RepoDefaultTest {

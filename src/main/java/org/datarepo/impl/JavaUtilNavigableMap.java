@@ -4,7 +4,7 @@ import org.datarepo.spi.TypedMap;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import static org.datarepo.reflection.Types.wrapAsObject;
+import static org.datarepo.utils.Types.wrapAsObject;
 
 
 public class JavaUtilNavigableMap<K, V> extends ConcurrentSkipListMap<K, V> implements TypedMap<K, V> {

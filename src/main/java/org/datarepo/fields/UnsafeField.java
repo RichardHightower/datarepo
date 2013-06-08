@@ -1,11 +1,12 @@
-package org.datarepo.reflection;
+package org.datarepo.fields;
 
+import org.datarepo.utils.Types;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import static org.datarepo.reflection.Types.*;
+import static org.datarepo.utils.Types.*;
 import static org.datarepo.utils.Utils.*;
 
 
@@ -225,48 +226,40 @@ public abstract class UnsafeField implements FieldAccess {
     }
 
 
-    @Override
     public boolean getStaticBoolean() {
         return getBoolean(base);
     }
 
 
-    @Override
     public int getStaticInt() {
         return getInt(base);
     }
 
 
-    @Override
     public short getStaticShort() {
         return getShort(base);
     }
 
 
-    @Override
     public long getStaticLong() {
         return getLong(base);
     }
 
-    @Override
     public double getStaticDouble() {
         return getDouble(base);
     }
 
 
-    @Override
     public float getStaticFloat() {
         return getFloat(base);
     }
 
 
-    @Override
     public byte getStaticByte() {
         return getByte(base);
     }
 
 
-    @Override
     public Object getObject() {
         return getObject(base);
     }

@@ -1,6 +1,9 @@
-package org.datarepo.reflection;
+package org.datarepo.utils;
 
-import org.datarepo.utils.Utils;
+import org.datarepo.fields.FieldAccess;
+import org.datarepo.fields.PropertyField;
+import org.datarepo.fields.ReflectField;
+import org.datarepo.fields.UnsafeField;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -639,8 +642,8 @@ public class Reflection {
     public static <T> T copy(T item) {
         if (item instanceof Cloneable) {
             try {
-                Method method = item.getClass().getMethod("clone", null);
-                return (T) method.invoke(item, null);
+                Method method = item.getClass().getMethod("clone", (Class[]) null);
+                return (T) method.invoke(item, (Object[]) null);
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {
                 return fieldByFieldCopy(item);
             }

@@ -1,8 +1,5 @@
 package org.datarepo.utils;
 
-import org.datarepo.reflection.Reflection;
-import org.datarepo.reflection.Types;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -1568,7 +1565,7 @@ public class Utils {
     }
 
     public static String string(Object obj) {
-        return org.datarepo.reflection.Types.toString(obj);
+        return Types.toString(obj);
     }
 
     public static <T> boolean isIn(T t1, Collection<T> collection) {
@@ -1724,11 +1721,11 @@ public class Utils {
     }
 
     public static int arrayLength(Object obj) {
-        return org.datarepo.reflection.Reflection.arrayLength(obj);
+        return Reflection.arrayLength(obj);
     }
 
     public static boolean isArray(Object obj) {
-        return org.datarepo.reflection.Reflection.isArray(obj);
+        return Reflection.isArray(obj);
     }
 
 

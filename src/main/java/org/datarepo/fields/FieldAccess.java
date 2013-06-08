@@ -1,4 +1,4 @@
-package org.datarepo.reflection;
+package org.datarepo.fields;
 
 import java.lang.reflect.Field;
 
@@ -47,30 +47,12 @@ public interface FieldAccess {
 
     byte getByte(Object obj);
 
-    void setByte(Object obj, byte vaue);
+    void setByte(Object obj, byte value);
 
     Object getObject(Object obj);
 
     void setObject(Object obj, Object value);
 
-
-    boolean getStaticBoolean();
-
-    int getStaticInt();
-
-    short getStaticShort();
-
-    long getStaticLong();
-
-    double getStaticDouble();
-
-    float getStaticFloat();
-
-    byte getStaticByte();
-
-    Object getObject();
-
-    Field getField();
 
     boolean isFinal();
 
@@ -84,4 +66,5 @@ public interface FieldAccess {
 
     Class<?> getType();
 
+    Field getField();
 }
