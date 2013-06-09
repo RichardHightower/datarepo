@@ -44,6 +44,7 @@ public class Criteria {
         return new Group.Or(expressions);
     }
 
+    //TODO You need more of these
     public static Criterion eqNested(final Object value, final Object... path) {
         return new Criterion<Object>(joinBy('.', path), Operator.EQUAL, value) {
             @Override
@@ -55,7 +56,6 @@ public class Criteria {
                         if (i.equals(value)) {
                             return false;
                         }
-
                     }
                     return true;
                 } else {
@@ -64,6 +64,16 @@ public class Criteria {
 
             }
 
+        };
+    }
+
+    //TODO needs testing
+    public static Criterion type(final Class cls) {
+        return new Criterion<Object>("_type", Operator.EQUAL, cls) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                return cls.isAssignableFrom(owner.getClass());
+            }
         };
     }
 

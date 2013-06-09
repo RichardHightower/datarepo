@@ -1,21 +1,14 @@
 package org.datarepo.impl.indexes;
 
-import org.datarepo.utils.Reflection;
+import org.datarepo.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.datarepo.utils.Types.toList;
-
-public class NestedKeySearchIndex extends BaseIndexWrapper {
-
-    public NestedKeySearchIndex(String... path) {
-        super(path);
-
-    }
+public class TypeHierarchyIndex extends BaseIndexWrapper {
 
     @Override
     public boolean add(Object o) {
-
         List keys = getKeys(o);
         index.addManyKeys(o, keys);
         return true;
@@ -23,16 +16,21 @@ public class NestedKeySearchIndex extends BaseIndexWrapper {
 
     @Override
     protected List getKeys(Object o) {
-        Object list = Reflection.getPropByPath(o, this.path);
-        return toList(list);
+        List<Class> list = new ArrayList();
+        Class cls = o.getClass();
+
+        while (cls != null && cls != Utils.object) {
+            list.add(cls);
+            cls = cls.getSuperclass();
+        }
+        return list;
     }
 
     @Override
     public boolean delete(Object o) {
         List keys = getKeys(o);
         index.removeManyKeys(o, keys);
-
         return true;
-    }
 
+    }
 }

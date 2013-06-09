@@ -7,6 +7,7 @@ import org.datarepo.impl.decorators.ObjectEditorCloneDecorator;
 import org.datarepo.impl.decorators.ObjectEditorEventDecorator;
 import org.datarepo.impl.decorators.ObjectEditorLogNullCheckDecorator;
 import org.datarepo.impl.indexes.NestedKeySearchIndex;
+import org.datarepo.impl.indexes.TypeHierarchyIndex;
 import org.datarepo.modification.ModificationListener;
 import org.datarepo.spi.*;
 import org.datarepo.utils.Reflection;
@@ -58,6 +59,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     private Map<String, Comparator> collators = new HashMap<String, Comparator>();
     private Map<String, Function> keyTransformers = new HashMap<>();
     private Map<String, String[]> nestedIndexes = new HashMap<>();
+    private boolean indexHierarchy;
 
 
     public RepoBuilder usePropertyForAccess(boolean useProperty) {
@@ -388,6 +390,12 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     }
 
+    @Override
+    public RepoBuilder indexHierarchy() {
+        this.indexHierarchy = true;
+        return this;
+    }
+
     private Function createKeyGetter(final FieldAccess field) {
         Utils.notNull(field);
         return new Function() {
@@ -400,6 +408,14 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     private void configIndexes(RepoComposer repo,
                                Map<String, FieldAccess> fields) {
+
+        if (this.indexHierarchy) {
+            TypeHierarchyIndex index = new TypeHierarchyIndex();
+            index.setComparator(this.collators.get("_type"));
+            index.setInputKeyTransformer(this.keyTransformers.get("_type"));
+            index.init();
+            ((SearchableCollection) query).addSearchIndex("_type", index);
+        }
 
         for (String prop : nestedIndexes.keySet()) {
             NestedKeySearchIndex index = new NestedKeySearchIndex(this.nestedIndexes.get(prop));

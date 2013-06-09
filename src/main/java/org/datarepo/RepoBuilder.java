@@ -116,5 +116,7 @@ public interface RepoBuilder {
 
     RepoBuilder nestedIndex(String... propertyPath);
 
+    RepoBuilder indexHierarchy();
+
 
 }
