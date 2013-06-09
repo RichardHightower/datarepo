@@ -10,7 +10,7 @@ public class Sort {
 
     private String name = "this";
     private SortType type;
-    private List<Sort> sorts = Collections.EMPTY_LIST;
+    private List<Sort> sorts = new ArrayList<>();
     private String toString;
     private int hashCode;
 
@@ -42,6 +42,21 @@ public class Sort {
                 ", type=" + type +
                 '}';
 
+    }
+
+    public Sort then(String name) {
+        this.sorts.add(new Sort(name, SortType.ASCENDING));
+        return this;
+    }
+
+    public Sort thenAsc(String name) {
+        this.sorts.add(new Sort(name, SortType.ASCENDING));
+        return this;
+    }
+
+    public Sort thenDesc(String name) {
+        this.sorts.add(new Sort(name, SortType.DESCENDING));
+        return this;
     }
 
     @Override

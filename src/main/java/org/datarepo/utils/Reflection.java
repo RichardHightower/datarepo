@@ -270,6 +270,9 @@ public class Reflection {
         return unifyList(o);
     }
 
+    public static <T> List<T> getListOfProps(Class<T> cls, Collection items, String... path) {
+        return (List<T>) getPropByPath(items, path);
+    }
 
     public static Object getProp(Object object, final String key) {
         if (object == null) {
