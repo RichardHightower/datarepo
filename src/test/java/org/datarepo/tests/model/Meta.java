@@ -7,6 +7,13 @@ public class Meta {
 
     private String name0 = "bar";
 
+    @Override
+    public String toString() {
+        return "Meta{" +
+                "name0='" + name0 + '\'' +
+                ", metas2=" + metas2 +
+                '}';
+    }
 
     public Meta(String name) {
         this.name0 = name;

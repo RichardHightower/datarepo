@@ -1,6 +1,4 @@
-package org.datarepo.tests;
-
-import org.datarepo.tests.model.Meta;
+package org.datarepo.tests.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,4 +30,11 @@ public class Tag {
 
     }
 
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "name='" + name + '\'' +
+                ", metas=" + metas +
+                '}';
+    }
 }

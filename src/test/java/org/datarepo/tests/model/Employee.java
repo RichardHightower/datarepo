@@ -1,6 +1,5 @@
 package org.datarepo.tests.model;
 
-import org.datarepo.tests.Tag;
 import org.datarepo.utils.Types;
 
 import java.util.ArrayList;

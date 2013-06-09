@@ -17,6 +17,7 @@ import static org.datarepo.query.ValueSetter.value;
 import static org.datarepo.query.ValueSetter.values;
 import static org.datarepo.tests.model.Employee.employee;
 import static org.datarepo.utils.Reflection.idx;
+import static org.datarepo.utils.Utils.print;
 import static org.datarepo.utils.Utils.printf;
 
 public class RepoDefaultTest {
@@ -242,6 +243,7 @@ public class RepoDefaultTest {
                 selects(select("tags", "name")),
                 eq("lastName", "Hightower"));
 
+        print(list.get(0));
         assertEquals("tag1", idx(list.get(0).get("tags.name"), 0));
 
     }

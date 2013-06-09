@@ -2,13 +2,12 @@ package org.datarepo.query;
 
 import org.datarepo.fields.FieldAccess;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static org.datarepo.utils.Reflection.*;
-import static org.datarepo.utils.Reflection.isArray;
-import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Reflection.getPropByPath;
+import static org.datarepo.utils.Utils.joinBy;
+import static org.datarepo.utils.Utils.list;
 
 public abstract class Selector {
     protected String name;
@@ -53,35 +52,10 @@ public abstract class Selector {
             public void handleRow(int rowNum, Map<String, Object> row,
                                   Object item, Map<String, FieldAccess> fields) {
 
-                Object o = item;
-                for (index = 0; index < path.length; index++) {
-                    String propName = path[index];
-                    o = getFieldValues(o, propName);
-                    if (o == null) {
-                        break;
-                    } else if (isArray(o) || o instanceof Collection) {
-                        o = getCollecitonProp(o);
-                        row.put(this.name, unifyList(o));
-                        return;
-                    }
-                }
+                Object o = getPropByPath(item, path);
+
 
                 row.put(this.name, o);
-            }
-
-            private Object getCollecitonProp(Object o) {
-                index++;
-                if (index == path.length) {
-                    return o;
-                }
-                String propName = path[index];
-                o = getFieldValues(o, propName);
-
-                if (index + 1 == path.length) {
-                    return o;
-                } else {
-                    return getCollecitonProp(o);
-                }
             }
 
 
@@ -101,14 +75,7 @@ public abstract class Selector {
             public void handleRow(int rowNum, Map<String, Object> row,
                                   Object item, Map<String, FieldAccess> fields) {
 
-                Object o = item;
-                for (int index = 0; index < path.length; index++) {
-                    String propName = path[index];
-                    if (o == null) {
-                        break;
-                    }
-                    o = getProp(o, propName);
-                }
+                Object o = getPropByPath(item, path);
 
                 row.put(this.name, o);
             }

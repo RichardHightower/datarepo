@@ -39,6 +39,12 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     }
 
 
+    protected void addManyKeys(ITEM item, KEY... keys) {
+        for (KEY key : keys) {
+            this.put(item, key);
+        }
+    }
+
     @Override
     public boolean add(ITEM item) {
         if (isDebug(log)) {
@@ -50,6 +56,12 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
             return false;
         }
 
+        put(item, key);
+        return true;
+
+    }
+
+    private void put(ITEM item, KEY key) {
         key = getKey(key);
 
 
@@ -66,18 +78,29 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         }
 
         map.put(key, mv);
-        return true;
-
     }
 
     protected static MultiValue mvCreateOrAddToMV(MultiValue mv, Object obj) {
         return MultiValue.add(mv, obj);
     }
 
+
+    protected final void removeManyKeys(ITEM item, KEY[] keys) {
+        for (KEY key : keys) {
+            removeKey(item, key);
+        }
+    }
+
     @Override
     public boolean delete(ITEM item) {
         KEY key = keyGetter.apply(item);
 
+
+        return removeKey(item, key);
+
+    }
+
+    private boolean removeKey(ITEM item, KEY key) {
         key = getKey(key);
 
         MultiValue mv = map.get(key);
@@ -91,9 +114,7 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         if (mv == null) {
             map.remove(key);
         }
-
         return true;
-
     }
 
 

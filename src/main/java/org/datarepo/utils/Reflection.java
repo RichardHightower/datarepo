@@ -86,6 +86,7 @@ public class Reflection {
     }
 
     public static boolean isArray(Object obj) {
+
         return obj.getClass().isArray();
     }
 
@@ -141,6 +142,36 @@ public class Reflection {
         return (T) getProp(object, key);
     }
 
+
+    public static Object getCollecitonProp(Object o, String propName, int index, String[] path) {
+        o = getFieldValues(o, propName);
+
+        if (index + 1 == path.length) {
+            return o;
+        } else {
+            index++;
+            return getCollecitonProp(o, path[index], index, path);
+        }
+    }
+
+
+    public static Object getPropByPath(Object item, String... path) {
+        Object o = item;
+        for (int index = 0; index < path.length; index++) {
+            String propName = path[index];
+            if (o == null) {
+                return null;
+            } else if (isArray(o) || o instanceof Collection) {
+                o = getCollecitonProp(o, propName, index, path);
+                break;
+            } else {
+                o = getProp(o, propName);
+            }
+        }
+        return unifyList(o);
+    }
+
+
     public static Object getProp(Object object, final String key) {
         if (object == null) {
             return null;
@@ -175,6 +206,9 @@ public class Reflection {
     }
 
     public static Object getFieldValues(Object object, final String key) {
+        if (object == null) {
+            return null;
+        }
         if (isArray(object) || object instanceof Collection) {
             Iterator iter = iterator(object);
             List list = new ArrayList(len(object));

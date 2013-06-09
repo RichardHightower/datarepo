@@ -4,7 +4,10 @@ import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.RepoBuilder;
 import org.datarepo.impl.*;
-import org.datarepo.impl.indexes.*;
+import org.datarepo.impl.indexes.LookupIndexDefault;
+import org.datarepo.impl.indexes.SearchIndexDefault;
+import org.datarepo.impl.indexes.UniqueLookupIndex;
+import org.datarepo.impl.indexes.UniqueSearchIndex;
 import org.datarepo.impl.maps.MapCreatorImpl;
 import org.datarepo.utils.Utils;
 
@@ -83,7 +86,7 @@ public class SPIFactory {
                     (Class keyType) -> {
 
                         if (keyType == Utils.string) {
-                            return new StringSearchIndexDefault(keyType);
+                            return new SearchIndexDefault(keyType);
                         } else {
                             return new SearchIndexDefault(keyType);
                         }

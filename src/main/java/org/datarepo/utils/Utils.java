@@ -1726,6 +1726,9 @@ public class Utils {
     }
 
     public static boolean isArray(Object obj) {
+        if (obj == null) {
+            return false;
+        }
         return Reflection.isArray(obj);
     }
 
@@ -1927,6 +1930,11 @@ public class Utils {
     }
 
     public static Object unifyList(Object o, List list) {
+
+        if (list == null && !isArray(o) && !(o instanceof Iterable)) {
+            return o;
+        }
+
         if (list == null) {
             list = new ArrayList(400);
         }
@@ -1938,12 +1946,14 @@ public class Utils {
         } else if (o instanceof Iterable) {
             Iterable i = ((Iterable) o);
             for (Object item : i) {
-                unifyList(item, list);
+                list = (List) unifyList(item, list);
             }
         } else {
             list.add(o);
         }
+
         return list;
+
 
     }
 

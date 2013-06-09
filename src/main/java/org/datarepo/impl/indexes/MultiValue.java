@@ -25,7 +25,9 @@ class MultiValue<T> {
             return null;
         }
 
-        org.remove(removeItem);
+        if (removeItem != null) {
+            org.remove(removeItem);
+        }
 
         return org.size() == 0 ? null : org;
     }
