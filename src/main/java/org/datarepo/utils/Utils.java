@@ -175,6 +175,9 @@ public class Utils {
         Object o = list.get(0);
         if (sortBy.equals("this") && o instanceof Comparable) {
             Collections.sort(list);
+            if (!ascending) {
+                Collections.reverse(list);
+            }
             return;
         }
 
@@ -185,14 +188,8 @@ public class Utils {
             Collections.sort(list, Utils.universalComparator(field, ascending));
 
         }
-
-
     }
 
-    //TODO left off here
-    public static void sortManySorts(List list, Map<String, FieldAccess> fields) {
-
-    }
 
     public static Comparator universalComparator(final FieldAccess field, boolean ascending) {
         return new Comparator() {
@@ -214,6 +211,56 @@ public class Utils {
         };
     }
 
+
+    public static Comparator universalComparator(final String sortBy, final Map<String, FieldAccess> fields,
+                                                 boolean ascending, List<Comparator> comparators) {
+        return new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+
+                Object value1 = null;
+                Object value2 = null;
+
+                if (sortBy.equals("this") && o1 instanceof Comparable) {
+                    value1 = o1;
+                    value2 = o2;
+                    if (ascending) {
+                        value1 = o1;
+                        value2 = o2;
+                    } else {
+                        value1 = o2;
+                        value2 = o1;
+                    }
+                } else {
+                    FieldAccess field = fields.get(sortBy);
+                    if (field == null) {
+                        complain("The fields was null for sortBy " + sortBy);
+                    }
+                    if (ascending) {
+                        value1 = field.getValue(o1);
+                        value2 = field.getValue(o2);
+                    } else {
+                        value1 = field.getValue(o2);
+                        value2 = field.getValue(o1);
+                    }
+                }
+
+
+                int compare = Utils.compare(value1, value2);
+                if (compare == 0) {
+                    for (Comparator comparator : comparators) {
+                        compare = comparator.compare(value1, value2);
+                        if (compare != 0) {
+                            break;
+                        }
+                    }
+                }
+                return compare;
+            }
+        };
+    }
+
+
     public static int compare(Object value1, Object value2) {
 
         if (value1 == null && value2 == null) {
@@ -225,29 +272,21 @@ public class Utils {
         }
 
 
-        if (isComparable(value1)) {
-            return Utils.compare(value1, value2);
+        if (value1 instanceof CharSequence) {
+            String str1 = str(value1);
+            String str2 = str(value2);
+            Collator collator = Collator.getInstance();
+            return collator.compare(str1, str2);
+        } else if (isComparable(value1)) {
+            Comparable c1 = comparable(value1);
+            Comparable c2 = comparable(value2);
+            return c1.compareTo(c2);
         } else {
+            String name = Reflection.getSortableField(value1);
+            String sv1 = (String) Reflection.getPropByPath(value1, name);
+            String sv2 = (String) Reflection.getPropByPath(value2, name);
+            return Utils.compare(sv1, sv2);
 
-
-            if (value1 instanceof CharSequence) {
-                String str1 = str(value1);
-                String str2 = str(value2);
-                Collator collator = Collator.getInstance();
-                return collator.compare(str1, str2);
-            } else if (value1 instanceof Comparable) {
-                Comparable c1 = comparable(value1);
-                Comparable c2 = comparable(value2);
-                return c1.compareTo(c2);
-            } else {
-
-
-                String name = Reflection.getSortableField(value1);
-                String sv1 = (String) Reflection.getPropByPath(value1, name);
-                String sv2 = (String) Reflection.getPropByPath(value2, name);
-                return Utils.compare(sv1, sv2);
-
-            }
         }
 
     }
