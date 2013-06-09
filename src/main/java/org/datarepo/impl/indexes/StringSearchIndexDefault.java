@@ -1,4 +1,4 @@
-package org.datarepo.impl;
+package org.datarepo.impl.indexes;
 
 import java.util.*;
 

@@ -1,5 +1,6 @@
-package org.datarepo.tests;
+package org.datarepo.tests.model;
 
+import org.datarepo.tests.Tag;
 import org.datarepo.utils.Types;
 
 import java.util.ArrayList;
@@ -12,8 +13,8 @@ public class Employee {
     private String id;
     private Date birthDate;
     private int salary;
-    Department department = new Department();
-    long empNum;
+    private Department department = new Department();
+    private long empNum;
     private int _hashCode = -1;
 
     public String getId() {
@@ -36,7 +37,7 @@ public class Employee {
     public static long num = System.currentTimeMillis();
 
     {
-        empNum = num;
+        setEmpNum(num);
         num++;
     }
 
@@ -136,9 +137,25 @@ public class Employee {
                 ", id='" + id + '\'' +
                 ", birthDate=" + birthDate +
                 ", salary=" + salary +
-                ", department=" + department +
-                ", empNum=" + empNum +
+                ", department=" + getDepartment() +
+                ", empNum=" + getEmpNum() +
                 ", tags=" + tags +
                 '}';
+    }
+
+    public long getEmpNum() {
+        return empNum;
+    }
+
+    public void setEmpNum(long empNum) {
+        this.empNum = empNum;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

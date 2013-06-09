@@ -3,6 +3,8 @@ package org.datarepo.tests;
 import org.datarepo.Repo;
 import org.datarepo.RepoBuilder;
 import org.datarepo.modification.ModificationEvent;
+import org.datarepo.tests.model.Department;
+import org.datarepo.tests.model.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +12,8 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.logging.Level;
 
-import static org.datarepo.tests.Employee.employee;
-import static org.datarepo.tests.Employee.employees;
+import static org.datarepo.tests.model.Employee.employee;
+import static org.datarepo.tests.model.Employee.employees;
 import static org.datarepo.utils.Utils.list;
 import static org.datarepo.utils.Utils.print;
 
@@ -39,7 +41,7 @@ public class TestHelper {
         RepoBuilder repoBuilder = RepoBuilder.getInstance();
         repoBuilder.primaryKey("id")
                 .searchIndex("firstName").searchIndex("lastName")
-                .searchIndex("salary").searchIndex("empNum", true);
+                .searchIndex("salary").uniqueSearchIndex("empNum");
 
         repoBuilder.keyGetter("id", new Function<Employee, String>() {
             @Override
@@ -85,7 +87,7 @@ public class TestHelper {
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("id")
                 .searchIndex("firstName").searchIndex("lastName")
-                .searchIndex("salary").searchIndex("empNum", true);
+                .searchIndex("salary").uniqueSearchIndex("empNum");
 
         /* Create the repo with the builder. */
         Repo<String, Employee> repo
@@ -97,6 +99,29 @@ public class TestHelper {
         return repo;
     }
 
+
+    static Repo<String, Employee> createFromBuilderWithTransformAndCollation() {
+
+        /* Create a repo, and decide what to index. */
+        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+
+        /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
+        repoBuilder.primaryKey("id")
+                .searchIndex("firstName").searchIndex("lastName")
+                .upperCaseIndex("firstName").collateIndex("lastName")
+                .searchIndex("salary").uniqueSearchIndex("empNum");
+
+        /* Create the repo with the builder. */
+        Repo<String, Employee> repo
+                = repoBuilder.build(String.class, Employee.class);
+
+        for (Employee employee : employees) {
+            repo.add(employee);
+        }
+        return repo;
+    }
+
+
     public static Repo<String, Employee> createFromBuilderLogAndClone() {
         /* Create a repo, and decide what to index. */
         RepoBuilder repoBuilder = RepoBuilder.getInstance();
@@ -104,7 +129,7 @@ public class TestHelper {
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("id")
                 .searchIndex("firstName").searchIndex("lastName")
-                .searchIndex("salary").searchIndex("empNum", true)
+                .searchIndex("salary").uniqueSearchIndex("empNum")
                 .debug().level(Level.INFO).cloneEdits(true).events((ModificationEvent event) -> {
             print(event);
         });
@@ -149,7 +174,7 @@ public class TestHelper {
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("id")
                 .searchIndex("firstName").searchIndex("lastName")
-                .searchIndex("salary").searchIndex("empNum", true)
+                .searchIndex("salary").uniqueSearchIndex("empNum")
                 .usePropertyForAccess(true);
 
         /* Create the repo with the builder. */
@@ -176,41 +201,41 @@ public class TestHelper {
             int lastNameIdx = Math.abs(random.nextInt() % numEmps);
             employee.setFirstName(firstNames.get(firstNameIdx));
             employee.setLastName(lastNames.get(lastNameIdx));
-            employee.empNum = index;
+            employee.setEmpNum(index);
             employee.setSsn("" + index * 33 + "1234567-" + index);
-            employee.department = new Department();
+            employee.setDepartment(new Department());
             int dept = index % 7;
             switch (dept) {
                 case 0:
-                    employee.department.setName("engineering");
+                    employee.getDepartment().setName("engineering");
                     employee.setSalary(100_000);
                     break;
                 case 1:
-                    employee.department.setName("finance");
+                    employee.getDepartment().setName("finance");
                     employee.setSalary(300_000);
                     break;
                 case 2:
-                    employee.department.setName("accounting");
+                    employee.getDepartment().setName("accounting");
                     employee.setSalary(90_000);
                     break;
                 case 3:
-                    employee.department.setName("sales");
+                    employee.getDepartment().setName("sales");
                     employee.setSalary(1_300_000);
                     break;
                 case 4:
-                    employee.department.setName("manufacturing");
+                    employee.getDepartment().setName("manufacturing");
                     employee.setSalary(30_000);
                     break;
                 case 5:
-                    employee.department.setName("marketing");
+                    employee.getDepartment().setName("marketing");
                     employee.setSalary(200_000);
                     break;
                 case 6:
-                    employee.department.setName("IT");
+                    employee.getDepartment().setName("IT");
                     employee.setSalary(150_000);
                     break;
                 default:
-                    employee.department.setName("project mgmt");
+                    employee.getDepartment().setName("project mgmt");
                     employee.setSalary(100_000);
                     break;
 

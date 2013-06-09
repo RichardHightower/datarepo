@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -1539,7 +1540,7 @@ public class Utils {
 
 
     public static char[] chars(char... chars) {
-        return str(chars).toCharArray();
+        return chars;
     }
 
     public static String string(char... chars) {
@@ -1733,12 +1734,16 @@ public class Utils {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            handle(e);
+            handleUnexpectedException(e);
         }
     }
 
-    private static void handle(Exception ex) {
+    public static void handleUnexpectedException(Exception ex) {
         throw new AssertionException(ex);
+    }
+
+    public static void handleUnexpectedException(String msg, Exception ex) {
+        throw new AssertionException(msg, ex);
     }
 
 
@@ -1797,7 +1802,7 @@ public class Utils {
                 buf.append(c);
             }
         } catch (IOException e) {
-            handle(e);
+            handleUnexpectedException(e);
         }
     }
 
@@ -1805,7 +1810,7 @@ public class Utils {
         try {
             buf.append(c);
         } catch (IOException e) {
-            handle(e);
+            handleUnexpectedException(e);
         }
     }
 
@@ -1949,4 +1954,144 @@ public class Utils {
     public static Date euroDate(String string) {
         return Types.toEuroDate(string);
     }
+
+    public static String camelCaseUpper(String in) {
+        return camelCase(in, true);
+    }
+
+
+    public static String camelCaseLower(String in) {
+        return camelCase(in, false);
+    }
+
+    public static String camelCase(String in) {
+        return camelCase(in, false);
+    }
+
+    public static Function<String, String> underBarCase = (in) -> {
+        return underBarCase(in);
+    };
+    public static Function<String, String> camelCase = (in) -> {
+        return camelCase(in);
+    };
+    public static Function<String, String> camelCaseUpper = (in) -> {
+        return camelCaseUpper(in);
+    };
+    public static Function<String, String> camelCaseLower = (in) -> {
+        return camelCaseLower(in);
+    };
+
+    public static Function<String, String> upperCase = (in) -> {
+        return in.toUpperCase();
+    };
+
+    public static Function<String, String> lowerCase = (in) -> {
+        return in.toLowerCase();
+    };
+
+    public static String camelCase(String inStr, boolean upper) {
+        char[] in = chars(inStr);
+        char[] out = camelCase(in, upper);
+        return str(out);
+    }
+
+    public static char[] camelCase(char[] in, boolean upper) {
+
+        if (in == null || in.length == 0 || in.length == 1) {
+            return in;
+        }
+
+        char[] out = null;
+        int count = 0;
+        for (int index = 0; index < in.length; index++) {
+            char ch = in[index];
+            if (ch == '_' || ch == ' ' || ch == '\t') {
+                count++;
+            }
+        }
+
+        out = new char[in.length - count];
+
+
+        boolean upperNext = false;
+
+        for (int index = 0, secondIndex = 0; index < in.length; index++) {
+            char ch = in[index];
+            if (ch == '_' || ch == ' ' || ch == '\t') {
+                upperNext = true;
+            } else {
+                out[secondIndex] = upperNext ? Character.toUpperCase(ch) : Character.toLowerCase(ch);
+                upperNext = false;
+                secondIndex++;
+            }
+        }
+
+        if (upper) {
+            out[0] = Character.toUpperCase(out[0]);
+        } else {
+            out[0] = Character.toLowerCase(out[0]);
+        }
+
+        return out;
+    }
+
+
+    public static String underBarCase(String inStr) {
+        char[] in = chars(inStr);
+        char[] out = underBarCase(in);
+        return str(out);
+    }
+
+    public static char[] underBarCase(char[] in) {
+
+        if (in == null || in.length == 0 || in.length == 1) {
+            return in;
+        }
+
+        char[] out = null;
+        int count = 0;
+
+        boolean wasLower = false;
+
+        for (int index = 0; index < in.length; index++) {
+            char ch = in[index];
+            boolean isUpper;
+
+            isUpper = Character.isUpperCase(ch);
+
+            if (wasLower && isUpper) {
+                count++;
+            }
+
+            wasLower = Character.isLowerCase(ch);
+
+        }
+
+        out = new char[in.length + count];
+
+        wasLower = false;
+
+        for (int index = 0, secondIndex = 0; index < in.length; index++, secondIndex++) {
+            char ch = in[index];
+            boolean isUpper;
+
+            isUpper = Character.isUpperCase(ch);
+
+            if (wasLower && isUpper) {
+                out[secondIndex] = '_';
+                secondIndex++;
+            }
+
+            if (ch == ' ' || ch == '-' || ch == '\t') {
+                out[secondIndex] = '_';
+            } else {
+                out[secondIndex] = Character.toUpperCase(ch);
+            }
+            wasLower = Character.isLowerCase(ch);
+
+        }
+
+        return out;
+    }
+
 }

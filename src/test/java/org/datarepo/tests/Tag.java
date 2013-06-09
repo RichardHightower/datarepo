@@ -1,5 +1,7 @@
 package org.datarepo.tests;
 
+import org.datarepo.tests.model.Meta;
+
 import java.util.ArrayList;
 import java.util.List;
 

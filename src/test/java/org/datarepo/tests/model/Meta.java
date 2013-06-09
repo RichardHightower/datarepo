@@ -1,4 +1,4 @@
-package org.datarepo.tests;
+package org.datarepo.tests.model;
 
 import java.util.ArrayList;
 import java.util.List;

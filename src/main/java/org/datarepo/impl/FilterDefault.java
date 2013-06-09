@@ -2,11 +2,11 @@ package org.datarepo.impl;
 
 import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
-import org.datarepo.SearchIndex;
 import org.datarepo.SearchableCollection;
 import org.datarepo.fields.FieldAccess;
 import org.datarepo.query.*;
 import org.datarepo.spi.FilterComposer;
+import org.datarepo.spi.SearchIndex;
 import org.datarepo.utils.Utils;
 
 import java.util.*;
@@ -325,6 +325,11 @@ public class FilterDefault implements Filter, FilterComposer {
             Utils.complain("Trying to do a indexed search without an index!");
         }
 
+        if (!criterion.isInitialized()) {
+            Object o = searchIndex.findFirst();
+            criterion.init(o);
+        }
+
         switch (operator) {
             case EQUAL:
                 return processResultsFromIndex(searchIndex, searchIndex.findEquals(value));
@@ -345,10 +350,6 @@ public class FilterDefault implements Filter, FilterComposer {
                 return searchIndex.findLessThanEqual(value);
 
             case BETWEEN:
-                if (!criterion.isInitialized()) {
-                    Object o = searchIndex.findFirst();
-                    criterion.init(o);
-                }
                 return searchIndex.findBetween(criterion.getValue(), criterion.getValues()[1]);
 
         }

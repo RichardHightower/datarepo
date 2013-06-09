@@ -3,6 +3,7 @@ package org.datarepo;
 import org.datarepo.query.Expression;
 import org.datarepo.query.Selector;
 import org.datarepo.query.Visitor;
+import org.datarepo.spi.SearchIndex;
 
 import java.util.Collection;
 import java.util.List;

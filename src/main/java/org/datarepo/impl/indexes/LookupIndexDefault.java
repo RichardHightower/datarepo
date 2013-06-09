@@ -1,4 +1,4 @@
-package org.datarepo.impl;
+package org.datarepo.impl.indexes;
 
 import org.datarepo.LookupIndex;
 import org.datarepo.spi.SPIFactory;
@@ -27,6 +27,7 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     protected Map<KEY, MultiValue> map;
     private Logger log = log(LookupIndexDefault.class);
     protected boolean storeKeyInIndexOnly;
+    private Function<Object, KEY> keyTransformer;
 
 
     public LookupIndexDefault(Class<?> keyType) {
@@ -48,6 +49,8 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         if (key == null) {
             return false;
         }
+
+        key = getKey(key);
 
 
         MultiValue mv = null;
@@ -79,6 +82,9 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     @Override
     public boolean delete(ITEM item) {
         KEY key = keyGetter.apply(item);
+
+        key = getKey(key);
+
         MultiValue mv = map.get(key);
 
         if (mv == null) {
@@ -129,6 +135,8 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     @Override
     public ITEM get(KEY key) {
 
+        key = getKey(key);
+
         if (isDebug(log)) {
             debug(log, "key = %s", key);
         }
@@ -140,8 +148,17 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         }
     }
 
+    protected KEY getKey(KEY key) {
+        if (keyTransformer != null) {
+            key = this.keyTransformer.apply(key);
+        }
+        return key;
+    }
+
 
     public List<ITEM> getAll(KEY key) {
+        key = getKey(key);
+
         if (isDebug(log)) {
             debug(log, "key = %s", key);
         }
@@ -155,6 +172,8 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public boolean deleteByKey(KEY key) {
+        key = getKey(key);
+
         this.map.remove(key);
         return true;
     }
@@ -165,6 +184,15 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     @Override
     public boolean isPrimaryKeyOnly() {
         return storeKeyInIndexOnly;
+    }
+
+    @Override
+    public void setInputKeyTransformer(Function<Object, KEY> func) {
+        this.keyTransformer = func;
+    }
+
+    @Override
+    public void init() {
     }
 
 

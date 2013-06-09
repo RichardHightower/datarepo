@@ -1,10 +1,12 @@
-package org.datarepo.impl;
+package org.datarepo.impl.indexes;
 
-import org.datarepo.SearchIndex;
 import org.datarepo.spi.SPIFactory;
+import org.datarepo.spi.SearchIndex;
 
 import java.util.*;
 import java.util.function.Function;
+
+import static org.datarepo.utils.Utils.complain;
 
 /**
  * Default Search Index which uses a TreeMap
@@ -13,19 +15,19 @@ import java.util.function.Function;
  * @param <ITEM> The items we are indexing.
  */
 public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> implements SearchIndex<KEY, ITEM> {
+    private Class<?> keyType;
+
     private NavigableMap<KEY, ITEM> navigableMap;
+    private Comparator collator;
 
     public UniqueSearchIndex(Class<?> keyType) {
-        super(null);
-        super.map
-                = SPIFactory.getMapCreatorFactory().get().createNavigableMap(keyType);
-
-        this.navigableMap = (NavigableMap<KEY, ITEM>) super.map;
+        super(keyType);
+        this.keyType = keyType;
 
     }
 
     public UniqueSearchIndex(Class<?> keyType, List<ITEM> items, Function<ITEM, KEY> keyGetter) {
-        super(null);
+        super(keyType);
         super.keyGetter = keyGetter;
         super.map
                 = SPIFactory.getMapCreatorFactory().get().createMap(keyType);
@@ -39,6 +41,19 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
 
     }
 
+    @Override
+    public void setComparator(Comparator collator) {
+        this.collator = collator;
+    }
+
+    @Override
+    public void init() {
+        super.map
+                = SPIFactory.getMapCreatorFactory().get().createNavigableMap(keyType, collator);
+
+        this.navigableMap = (NavigableMap<KEY, ITEM>) super.map;
+
+    }
 
     @Override
     public ITEM findFirst() {
@@ -62,11 +77,14 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
 
     @Override
     public List<ITEM> findEquals(KEY key) {
+        key = getKey(key);
         return Collections.singletonList(navigableMap.get(key));
     }
 
     @Override
     public List<ITEM> findStartsWith(KEY keyFrag) {
+        keyFrag = getKey(keyFrag);
+
         List<ITEM> results;
 
         if (keyFrag instanceof String) {
@@ -103,40 +121,21 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
 
     @Override
     public List<ITEM> findEndsWith(KEY keyFrag) {
-        List<ITEM> results = new ArrayList<>();
-
-        if (keyFrag instanceof String) {
-
-            Collection<ITEM> values = navigableMap.values();
-            for (ITEM value : values) {
-                String svalue = (String) this.keyGetter.apply(value);
-                if (svalue.endsWith((String) keyFrag)) {
-                    results.add(value);
-                }
-            }
-        }
-        return results;
+        complain("findEndsWith Not supported");
+        return null;
     }
 
     @Override
     public List<ITEM> findContains(KEY keyFrag) {
-        List<ITEM> results = new ArrayList<>();
-
-        if (keyFrag instanceof String) {
-
-            Collection<ITEM> values = navigableMap.values();
-            for (ITEM value : values) {
-                String svalue = (String) this.keyGetter.apply(value);
-                if (svalue.endsWith((String) keyFrag)) {
-                    results.add(value);
-                }
-            }
-        }
-        return results;
+        complain("findContains Not supported");
+        return null;
     }
 
     @Override
     public List<ITEM> findBetween(KEY start, KEY end) {
+        start = getKey(start);
+        end = getKey(end);
+
         SortedMap<KEY, ITEM> keyMultiValueSortedMap = this.navigableMap.subMap(start, end);
 
         return new ArrayList<>(keyMultiValueSortedMap.values());
@@ -146,24 +145,29 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
 
     @Override
     public List<ITEM> findGreaterThan(KEY key) {
+        key = getKey(key);
+
         SortedMap<KEY, ITEM> keyMultiValueSortedMap = this.navigableMap.tailMap(key, false);
         return new ArrayList<>(keyMultiValueSortedMap.values());
     }
 
     @Override
     public List<ITEM> findLessThan(KEY key) {
+        key = getKey(key);
         SortedMap<KEY, ITEM> keyMultiValueSortedMap = this.navigableMap.headMap(key, false);
         return new ArrayList<>(keyMultiValueSortedMap.values());
     }
 
     @Override
     public List<ITEM> findGreaterThanEqual(KEY key) {
+        key = getKey(key);
         SortedMap<KEY, ITEM> keyMultiValueSortedMap = this.navigableMap.tailMap(key);
         return new ArrayList<>(keyMultiValueSortedMap.values());
     }
 
     @Override
     public List<ITEM> findLessThanEqual(KEY key) {
+        key = getKey(key);
         SortedMap<KEY, ITEM> keyMultiValueSortedMap = this.navigableMap.headMap(key);
         return new ArrayList<>(keyMultiValueSortedMap.values());
     }
@@ -193,5 +197,6 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
     public int count(KEY key) {
         return this.navigableMap.containsKey(key) ? 1 : 0;
     }
+
 
 }

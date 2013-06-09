@@ -1,11 +1,15 @@
 package org.datarepo.impl;
 
-import org.datarepo.*;
+import org.datarepo.LookupIndex;
+import org.datarepo.ObjectEditor;
+import org.datarepo.Repo;
+import org.datarepo.SearchableCollection;
 import org.datarepo.query.Expression;
 import org.datarepo.query.Selector;
 import org.datarepo.query.ValueSetter;
 import org.datarepo.query.Visitor;
 import org.datarepo.spi.RepoComposer;
+import org.datarepo.spi.SearchIndex;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -15,7 +19,7 @@ import java.util.Map;
 /**
  * Default Repo implementation.
  *
- * @param <KEY>  primary key or handle of object.
+ * @param <KEY>  primary key or handleUnexpectedException of object.
  * @param <ITEM> item that this repo holds.
  */
 public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY, ITEM> {

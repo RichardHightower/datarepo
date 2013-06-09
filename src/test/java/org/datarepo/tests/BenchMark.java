@@ -3,6 +3,7 @@ package org.datarepo.tests;
 
 import org.datarepo.query.Criterion;
 import org.datarepo.query.Expression;
+import org.datarepo.tests.model.Employee;
 
 import java.util.HashSet;
 import java.util.List;

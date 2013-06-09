@@ -425,7 +425,7 @@ public class Types {
 
 
     public static double[] darray(Object value) {
-        //You could handle shorts, bytes, longs and chars more efficiently
+        //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
         if (value.getClass() == shortA) {
             return (double[]) value;
         }
@@ -440,7 +440,7 @@ public class Types {
     }
 
     public static float[] farray(Object value) {
-        //You could handle shorts, bytes, longs and chars more efficiently
+        //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
         if (value.getClass() == floatA) {
             return (float[]) value;
         }
@@ -455,7 +455,7 @@ public class Types {
     }
 
     public static long[] larray(Object value) {
-        //You could handle shorts, bytes, longs and chars more efficiently
+        //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
         if (value.getClass() == shortA) {
             return (long[]) value;
         }
@@ -470,7 +470,7 @@ public class Types {
     }
 
     public static short[] sarray(Object value) {
-        //You could handle shorts, bytes, longs and chars more efficiently
+        //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
         if (value.getClass() == shortA) {
             return (short[]) value;
         }
@@ -485,7 +485,7 @@ public class Types {
     }
 
     public static int[] iarray(Object value) {
-        //You could handle shorts, bytes, longs and chars more efficiently
+        //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
         if (value.getClass() == intA) {
             return (int[]) value;
         }
@@ -500,7 +500,7 @@ public class Types {
     }
 
     public static byte[] barray(Object value) {
-        //You could handle shorts, ints, longs and chars more efficiently
+        //You could handleUnexpectedException shorts, ints, longs and chars more efficiently
         if (value.getClass() == byteA) {
             return (byte[]) value;
         }
@@ -515,7 +515,7 @@ public class Types {
     }
 
     public static char[] carray(Object value) {
-        //You could handle shorts, ints, longs and chars more efficiently
+        //You could handleUnexpectedException shorts, ints, longs and chars more efficiently
         if (value.getClass() == charA) {
             return (char[]) value;
         }

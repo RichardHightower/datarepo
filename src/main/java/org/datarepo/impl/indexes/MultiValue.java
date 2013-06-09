@@ -1,11 +1,13 @@
-package org.datarepo.impl;
+package org.datarepo.impl.indexes;
+
+import org.datarepo.utils.Utils;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.datarepo.utils.Utils.print;
+import static org.datarepo.utils.Utils.*;
 
 /**
  * Internal class
@@ -54,10 +56,22 @@ class MultiValue<T> {
 
     T getValue() {
 
-        if (index < 10) {
-            return array[0];
-        } else {
-            return values.get(0);
+        try {
+            if (index < 10) {
+                return array[0];
+            } else {
+                return values.get(0);
+            }
+
+        } catch (Exception ex) {
+            Utils.handleUnexpectedException(lines(
+                    "PROBLEM GETTING A VALUE FROM MULTI-VALUE",
+                    sprintf("index %s, array %s, values %s", index, array, values),
+                    array != null ? sprintf("array[0] %s, array[9] %s", array[0], array[9]) : "array null",
+
+                    "PROBLEM GETTING A VALUE FROM MULTI-VALUE"
+            ), ex);
+            return null;
         }
 
     }

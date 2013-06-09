@@ -2,6 +2,7 @@ package org.datarepo.tests;
 
 import org.datarepo.Repo;
 import org.datarepo.query.Visitor;
+import org.datarepo.tests.model.Employee;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ import static org.datarepo.query.ProjectedSelector.max;
 import static org.datarepo.query.Selector.*;
 import static org.datarepo.query.ValueSetter.value;
 import static org.datarepo.query.ValueSetter.values;
-import static org.datarepo.tests.Employee.employee;
+import static org.datarepo.tests.model.Employee.employee;
 import static org.datarepo.utils.Reflection.idx;
 import static org.datarepo.utils.Utils.printf;
 

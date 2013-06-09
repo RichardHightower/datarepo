@@ -4,6 +4,7 @@ import org.datarepo.fields.FieldAccess;
 import org.datarepo.impl.decorators.FilterWithSimpleCache;
 import org.datarepo.query.Expression;
 import org.datarepo.spi.SPIFactory;
+import org.datarepo.spi.SearchIndex;
 import org.datarepo.spi.SearchableCollectionComposer;
 import org.datarepo.utils.Reflection;
 import org.datarepo.utils.Types;
@@ -322,6 +323,7 @@ public class Collections {
                                       Map<String, FieldAccess> fields) {
 
         SearchIndex searchIndex = SPIFactory.getSearchIndexFactory().apply(fields.get(prop).getType());
+        searchIndex.init();
         Function kg = createKeyGetter(fields.get(prop));
         searchIndex.setKeyGetter(kg);
         query.addSearchIndex(prop, searchIndex);

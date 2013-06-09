@@ -1,5 +1,6 @@
 package org.datarepo.tests;
 
+import org.datarepo.tests.model.Employee;
 import org.junit.Before;
 import org.junit.Test;
 

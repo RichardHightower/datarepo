@@ -1,4 +1,4 @@
-package org.datarepo.impl;
+package org.datarepo.impl.indexes;
 
 import org.datarepo.LookupIndex;
 import org.datarepo.spi.SPIFactory;
@@ -16,6 +16,7 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     protected List<ITEM> items = new LinkedList();
 
     private Logger log = log(UniqueLookupIndex.class);
+    private Function<Object, KEY> keyTransformer;
 
     public UniqueLookupIndex(Class<?> keyType) {
         if (keyType == null) {
@@ -27,6 +28,7 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public ITEM get(KEY key) {
+        key = getKey(key);
         return map.get(key);
     }
 
@@ -43,6 +45,9 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         }
 
         KEY key = keyGetter.apply(item);
+
+        key = getKey(key);
+
 
         if (key == null) {
             return false;
@@ -61,7 +66,9 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public boolean delete(ITEM item) {
-        map.remove(keyGetter.apply(item));
+        KEY key = keyGetter.apply(item);
+        key = getKey(key);
+        map.remove(key);
         return items.remove(item);
     }
 
@@ -92,6 +99,7 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public boolean deleteByKey(KEY key) {
+        key = getKey(key);
         this.map.remove(key);
         return true;
     }
@@ -99,6 +107,24 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     @Override
     public boolean isPrimaryKeyOnly() {
         return false;
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+
+    @Override
+    public void setInputKeyTransformer(Function<Object, KEY> func) {
+        this.keyTransformer = func;
+    }
+
+    protected KEY getKey(KEY key) {
+        if (keyTransformer != null) {
+            key = this.keyTransformer.apply(key);
+        }
+        return key;
     }
 
 

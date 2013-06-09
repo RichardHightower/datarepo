@@ -3,7 +3,10 @@ package org.datarepo;
 import org.datarepo.modification.ModificationListener;
 import org.datarepo.spi.RepoComposer;
 import org.datarepo.spi.SPIFactory;
+import org.datarepo.spi.SearchIndex;
 
+import java.util.Comparator;
+import java.util.Locale;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Level;
@@ -56,11 +59,17 @@ public interface RepoBuilder {
 
     public RepoBuilder lookupIndex(String propertyName);
 
-    public RepoBuilder lookupIndex(String propertyName, boolean unique);
+    public RepoBuilder uniqueLookupIndex(String propertyName);
 
     public RepoBuilder searchIndex(String propertyName);
 
-    public RepoBuilder searchIndex(String propertyName, boolean unique);
+    public RepoBuilder uniqueSearchIndex(String propertyName);
+
+    public RepoBuilder collateIndex(String propertyName, Comparator collator);
+
+    public RepoBuilder collateIndex(String propertyName);
+
+    public RepoBuilder collateIndex(String propertyName, Locale locale);
 
     public RepoBuilder keyGetter(String propertyName, Function<?, ?> key);
 
@@ -96,4 +105,13 @@ public interface RepoBuilder {
     }
 
     RepoBuilder level(Level info);
+
+    RepoBuilder upperCaseIndex(String property);
+
+    RepoBuilder lowerCaseIndex(String property);
+
+    RepoBuilder camelCaseIndex(String property);
+
+    RepoBuilder underBarCaseIndex(String property);
+
 }

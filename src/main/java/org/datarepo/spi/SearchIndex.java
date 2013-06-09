@@ -1,5 +1,8 @@
-package org.datarepo;
+package org.datarepo.spi;
 
+import org.datarepo.LookupIndex;
+
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -41,6 +44,8 @@ public interface SearchIndex<KEY, ITEM> extends LookupIndex<KEY, ITEM> {
     ITEM max();
 
     int count(KEY key);
+
+    void setComparator(Comparator<KEY> collator);
 
 
 //      List <ITEM> findEquals (KEY key, int start, int length);

@@ -26,6 +26,15 @@ public class RepoBuilderTest {
 
     }
 
+
+    @Test
+    public void testWithTransformAndCollation() throws Exception {
+
+        test.repo = TestHelper.createFromBuilderWithTransformAndCollation();
+        runAll();
+
+    }
+
     @Test
     public void testNormal() throws Exception {
 

@@ -2,13 +2,15 @@ package org.datarepo.impl;
 
 import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
-import org.datarepo.SearchIndex;
 import org.datarepo.SearchableCollection;
 import org.datarepo.fields.FieldAccess;
+import org.datarepo.impl.indexes.SearchIndexDefault;
+import org.datarepo.impl.indexes.UniqueLookupIndex;
 import org.datarepo.query.Expression;
 import org.datarepo.query.Selector;
 import org.datarepo.query.Visitor;
 import org.datarepo.spi.FilterComposer;
+import org.datarepo.spi.SearchIndex;
 import org.datarepo.spi.SearchableCollectionComposer;
 import org.datarepo.utils.Reflection;
 import org.datarepo.utils.Utils;

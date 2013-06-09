@@ -1,14 +1,12 @@
-package org.datarepo.impl;
+package org.datarepo.impl.maps;
 
 import org.datarepo.spi.TypedMap;
 
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.datarepo.utils.Types.wrapAsObject;
 
-
-public class JavaUtilNavigableMap<K, V> extends ConcurrentSkipListMap<K, V> implements TypedMap<K, V> {
-
+public class JavaUtilMap<K, V> extends ConcurrentHashMap<K, V> implements TypedMap<K, V> {
 
     @Override
     public final boolean put(K key, boolean i) {
@@ -124,5 +122,4 @@ public class JavaUtilNavigableMap<K, V> extends ConcurrentSkipListMap<K, V> impl
     public final char getChar(K key) {
         return (Character) super.get(key);
     }
-
 }

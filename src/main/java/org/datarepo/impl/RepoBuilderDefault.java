@@ -7,17 +7,12 @@ import org.datarepo.impl.decorators.ObjectEditorCloneDecorator;
 import org.datarepo.impl.decorators.ObjectEditorEventDecorator;
 import org.datarepo.impl.decorators.ObjectEditorLogNullCheckDecorator;
 import org.datarepo.modification.ModificationListener;
-import org.datarepo.spi.ObjectEditorComposer;
-import org.datarepo.spi.RepoComposer;
-import org.datarepo.spi.SPIFactory;
-import org.datarepo.spi.SearchableCollectionComposer;
+import org.datarepo.spi.*;
 import org.datarepo.utils.Reflection;
 import org.datarepo.utils.Utils;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.text.Collator;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Level;
@@ -57,6 +52,8 @@ public class RepoBuilderDefault implements RepoBuilder {
     private ObjectEditor editor;
     private SearchableCollectionComposer query;
     private boolean cache = true;
+    private Map<String, Comparator> collators = new HashMap<String, Comparator>();
+    private Map<String, Function> keyTransformers = new HashMap<>();
 
 
     public RepoBuilder usePropertyForAccess(boolean useProperty) {
@@ -171,6 +168,11 @@ public class RepoBuilderDefault implements RepoBuilder {
         return this;
     }
 
+    @Override
+    public RepoBuilder uniqueLookupIndex(String propertyName) {
+        return this.lookupIndex(propertyName, true);
+    }
+
     public RepoBuilder lookupIndex(String propertyName, boolean unique) {
         if (unique) {
             this.lookupIndexes.add(propertyName);
@@ -183,6 +185,30 @@ public class RepoBuilderDefault implements RepoBuilder {
     @Override
     public RepoBuilder searchIndex(String propertyName) {
         this.searchIndexes.add(propertyName);
+        return this;
+    }
+
+    @Override
+    public RepoBuilder uniqueSearchIndex(String propertyName) {
+        return searchIndex(propertyName, true);
+    }
+
+
+    @Override
+    public RepoBuilder collateIndex(String propertyName) {
+        collators.put(propertyName, Collator.getInstance());
+        return this;
+    }
+
+    @Override
+    public RepoBuilder collateIndex(String propertyName, Locale locale) {
+        collators.put(propertyName, Collator.getInstance(locale));
+        return this;
+    }
+
+    @Override
+    public RepoBuilder collateIndex(String propertyName, Comparator collator) {
+        collators.put(propertyName, collator);
         return this;
     }
 
@@ -323,6 +349,32 @@ public class RepoBuilderDefault implements RepoBuilder {
         return this;
     }
 
+    @Override
+    public RepoBuilder upperCaseIndex(String property) {
+        this.keyTransformers.put(property, Utils.upperCase);
+        return this;
+    }
+
+    @Override
+    public RepoBuilder lowerCaseIndex(String property) {
+        this.keyTransformers.put(property, Utils.lowerCase);
+        return this;
+
+    }
+
+    @Override
+    public RepoBuilder camelCaseIndex(String property) {
+        this.keyTransformers.put(property, Utils.camelCase);
+        return this;
+
+    }
+
+    @Override
+    public RepoBuilder underBarCaseIndex(String property) {
+        this.keyTransformers.put(property, Utils.underBarCase);
+        return this;
+    }
+
     private Function createKeyGetter(final FieldAccess field) {
         Utils.notNull(field);
         return new Function() {
@@ -335,15 +387,22 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     private void configIndexes(RepoComposer repo,
                                Map<String, FieldAccess> fields) {
-        query = this.query;
+
+
         for (String prop : searchIndexes) {
             SearchIndex searchIndex = this.searchIndexFactory.apply(fields.get(prop).getType());
+            searchIndex.setComparator(this.collators.get(prop));
+            searchIndex.setInputKeyTransformer(this.keyTransformers.get(prop));
             Function kg = getKeyGetterOrCreate(fields, prop);
             searchIndex.setKeyGetter(kg);
+            searchIndex.init();
             ((SearchableCollection) query).addSearchIndex(prop, searchIndex);
         }
         for (String prop : uniqueSearchIndexes) {
             SearchIndex searchIndex = this.uniqueSearchIndexFactory.apply(fields.get(prop).getType());
+            searchIndex.setComparator(this.collators.get(prop));
+            searchIndex.setInputKeyTransformer(this.keyTransformers.get(prop));
+            searchIndex.init();
             Function kg = getKeyGetterOrCreate(fields, prop);
             searchIndex.setKeyGetter(kg);
             ((SearchableCollection) query).addSearchIndex(prop, searchIndex);
@@ -352,13 +411,17 @@ public class RepoBuilderDefault implements RepoBuilder {
         for (String prop : lookupIndexes) {
             LookupIndex index = this.lookupIndexFactory.apply(fields.get(prop).getType());
             Function kg = getKeyGetterOrCreate(fields, prop);
+            index.setInputKeyTransformer(this.keyTransformers.get(prop));
             index.setKeyGetter(kg);
+            index.init();
             ((SearchableCollection) query).addLookupIndex(prop, index);
         }
         for (String prop : uniqueLookupIndexes) {
             LookupIndex index = this.uniqueLookupIndexFactory.apply(fields.get(prop).getType());
             Function kg = getKeyGetterOrCreate(fields, prop);
+            index.setInputKeyTransformer(this.keyTransformers.get(prop));
             index.setKeyGetter(kg);
+            index.init();
             ((SearchableCollection) query).addLookupIndex(prop, index);
         }
 
@@ -382,6 +445,7 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     private void configPrimaryKey(Class<?> type, Map<String, FieldAccess> fields) {
         LookupIndex primaryKeyIndex = this.uniqueLookupIndexFactory.apply(type);
+
 
         Utils.notNull(primaryKey);
 

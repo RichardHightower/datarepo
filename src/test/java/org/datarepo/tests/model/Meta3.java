@@ -1,4 +1,4 @@
-package org.datarepo.tests;
+package org.datarepo.tests.model;
 
 
 public class Meta3 {
