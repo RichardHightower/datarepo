@@ -56,7 +56,7 @@ public abstract class Selector {
                 Object o = item;
                 for (index = 0; index < path.length; index++) {
                     String propName = path[index];
-                    o = getFields(o, propName);
+                    o = getFieldValues(o, propName);
                     if (o == null) {
                         break;
                     } else if (isArray(o) || o instanceof Collection) {
@@ -75,7 +75,7 @@ public abstract class Selector {
                     return o;
                 }
                 String propName = path[index];
-                o = getFields(o, propName);
+                o = getFieldValues(o, propName);
 
                 if (index + 1 == path.length) {
                     return o;

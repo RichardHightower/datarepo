@@ -1,13 +1,7 @@
 package org.datarepo.impl.indexes;
 
-import org.datarepo.utils.Utils;
-
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import static org.datarepo.utils.Utils.*;
 
 /**
  * Internal class
@@ -15,133 +9,61 @@ import static org.datarepo.utils.Utils.*;
  * @param <T>
  */
 class MultiValue<T> {
-    T[] array = (T[]) new Object[10];
-    List<T> values;
-    int index = 0;
+    List<T> values = new ArrayList<>(10);
 
-    MultiValue() {
-
-    }
-
-    MultiValue(T item) {
-        array[index] = item;
-        index++;
-    }
-
-    void add(T item) {
-        if (index < 10) {
-            array[index] = item;
-            index++;
+    public static <T> MultiValue<T> add(MultiValue<T> org, T newItem) {
+        if (org == null) {
+            return new MultiValue<T>(newItem);
         } else {
-            createList();
-            values.add(item);
+            org.add(newItem);
         }
+        return org;
     }
 
-    private final void createList() {
-        if (values == null) {
-            values = new ArrayList(index);
-            for (int i = 0; i < index; i++) {
-                values.add(array[i]);
-            }
-            array = null;
-            index = Integer.MAX_VALUE;
+    public static <T> MultiValue<T> remove(MultiValue<T> org, T removeItem) {
+        if (org == null) {
+            return null;
         }
+
+        org.remove(removeItem);
+
+        return org.size() == 0 ? null : org;
     }
 
-    void remove(T item) {
-        createList();
+    private MultiValue() {
+
+    }
+
+    private MultiValue(T item) {
+        values.add(item);
+
+    }
+
+    private void add(T item) {
+
+        values.add(item);
+    }
+
+    private void remove(T item) {
         values.remove(item);
     }
 
     T getValue() {
 
-        try {
-            if (index < 10) {
-                return array[0];
-            } else {
-                return values.get(0);
-            }
-
-        } catch (Exception ex) {
-            Utils.handleUnexpectedException(lines(
-                    "PROBLEM GETTING A VALUE FROM MULTI-VALUE",
-                    sprintf("index %s, array %s, values %s", index, array, values),
-                    array != null ? sprintf("array[0] %s, array[9] %s", array[0], array[9]) : "array null",
-
-                    "PROBLEM GETTING A VALUE FROM MULTI-VALUE"
-            ), ex);
-            return null;
-        }
-
+        return (values.size() > 0) ? values.get(0) : null;
     }
 
     final List<T> getValues() {
-
-        if (index < 10) {
-            return new AbstractList<T>() {
-                @Override
-                public T get(int i) {
-                    return array[i];
-                }
-
-                @Override
-                public int size() {
-                    return index;  //To change body of implemented methods use File | Settings | File Templates.
-                }
-
-                @Override
-                public Iterator<T> iterator() {
-                    return new Iterator<T>() {
-                        int size = index;
-                        int i = 0;
-
-                        @Override
-                        public boolean hasNext() {
-                            return i < index;
-                        }
-
-                        @Override
-                        public T next() {
-                            T v = array[i];
-                            i++;
-                            return v;
-                        }
-                    };
-                }
-            };
-        } else {
-            return values;
-        }
-
+        return values;
     }
 
 
     int size() {
-        if (index < 10) {
-            return index;
-        } else {
-            return values.size();
-        }
+        return values.size();
     }
 
     void addTo(List<T> results) {
-        if (index < 10 || values == null) {
-            for (int i = 0; i < index; i++) {
-                results.add(array[i]);
-            }
-        } else {
-
-            if (values == null) {
-                print("index", index);
-                print("array", array);
-                print("values", values);
-                print("results", array);
-
-            }
-            results.addAll(values);
-        }
-
+        results.addAll(values);
     }
 
 

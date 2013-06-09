@@ -71,12 +71,7 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     }
 
     protected static MultiValue mvCreateOrAddToMV(MultiValue mv, Object obj) {
-        if (mv == null) {
-            mv = new MultiValue(obj);
-        } else {
-            mv.add(obj);
-        }
-        return mv;
+        return MultiValue.add(mv, obj);
     }
 
     @Override
@@ -90,9 +85,10 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         if (mv == null) {
             return false;
         }
-        mv.remove(item);
 
-        if (mv.size() == 0) {
+        mv = MultiValue.remove(mv, item);
+
+        if (mv == null) {
             map.remove(key);
         }
 

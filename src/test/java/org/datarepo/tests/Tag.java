@@ -5,13 +5,6 @@ import org.datarepo.tests.model.Meta;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: rick
- * Date: 5/22/13
- * Time: 11:30 PM
- * To change this template use File | Settings | File Templates.
- */
 public class Tag {
     private String name = "bar";
 

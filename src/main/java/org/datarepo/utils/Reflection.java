@@ -169,25 +169,26 @@ public class Reflection {
                 col.add(iter.next());
             }
         } else {
-            col.add(getField(object, key));
+            col.add(getFieldValue(object, key));
         }
 
     }
 
-    public static Object getFields(Object object, final String key) {
+    public static Object getFieldValues(Object object, final String key) {
         if (isArray(object) || object instanceof Collection) {
             Iterator iter = iterator(object);
             List list = new ArrayList(len(object));
             while (iter.hasNext()) {
-                list.add(getFields(iter.next(), key));
+                list.add(getFieldValues(iter.next(), key));
             }
             return list;
         } else {
-            return getField(object, key);
+            return getFieldValue(object, key);
         }
     }
 
-    public static Object getField(Object object, final String key) {
+
+    public static Object getFieldValue(Object object, final String key) {
         if (object == null) {
             return null;
         }

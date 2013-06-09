@@ -375,6 +375,12 @@ public class RepoBuilderDefault implements RepoBuilder {
         return this;
     }
 
+    @Override
+    public RepoBuilder nestedIndex(String... property) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        //11
+    }
+
     private Function createKeyGetter(final FieldAccess field) {
         Utils.notNull(field);
         return new Function() {

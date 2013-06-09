@@ -17,7 +17,6 @@ public class MultiValueTest {
 
     @Before
     public void setUp() throws Exception {
-        mv = new MultiValue();
 
     }
 
@@ -29,7 +28,7 @@ public class MultiValueTest {
     @Test
     public void testAdd() throws Exception {
 
-        mv.add("Rick");
+        MultiValue mv = MultiValue.add(null, "Rick");
         assertEquals("Rick", mv.getValue());
 
     }
@@ -39,7 +38,7 @@ public class MultiValueTest {
 
         ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13")
                 .forEach((item) -> {
-                    mv.add(item);
+                    mv = MultiValue.add(mv, item)
                     ;
                 });
 
@@ -59,7 +58,7 @@ public class MultiValueTest {
 
         ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13")
                 .forEach((item) -> {
-                    mv.add(item);
+                    mv = MultiValue.add(mv, item)
                     ;
                 });
 
@@ -78,7 +77,8 @@ public class MultiValueTest {
     @Test
     public void testManyUseAddTo() throws Exception {
 
-        mv.add("Rick");
+        MultiValue mv = MultiValue.add(null, "Rick");
+
         assertEquals("Rick", mv.getValue());
 
         List<String> results = ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");

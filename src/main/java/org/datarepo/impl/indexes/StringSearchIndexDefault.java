@@ -57,10 +57,12 @@ public class StringSearchIndexDefault<KEY, ITEM> extends SearchIndexDefault<KEY,
         if (mv == null) {
             return false;
         }
-        mv.remove(item);
+        mv = MultiValue.remove(mv, item);
 
-        if (mv.size() == 0) {
+        if (mv == null) {
             navigableMap.remove(sKey);
+        } else {
+            navigableMap.put(sKey, mv);
         }
 
         return super.delete(item);
