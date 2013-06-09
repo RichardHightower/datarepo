@@ -1,10 +1,14 @@
 package org.datarepo.query;
 
+import org.datarepo.fields.FieldAccess;
+import org.datarepo.utils.Utils;
+
 import java.util.List;
+import java.util.Map;
 
 public class Sort {
 
-    private String name;
+    private String name = "this";
     private SortType type;
     private List<Sort> sorts;
     private String toString;
@@ -65,4 +69,9 @@ public class Sort {
     public int hashCode() {
         return hashCode;
     }
+
+    public void sort(List list, Map<String, FieldAccess> fields) {
+        Utils.sort(list, name, fields, type == SortType.ASCENDING);
+    }
+
 }

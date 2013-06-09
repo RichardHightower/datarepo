@@ -1,8 +1,11 @@
 package org.datarepo.utils;
 
+import org.datarepo.fields.FieldAccess;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.Collator;
 import java.util.*;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -12,6 +15,7 @@ public class Utils {
     static Class<Utils> utils = Utils.class;
 
     private static final Logger log = log(utils);
+    private static Class<Comparable> comparable = Comparable.class;
 
     public static Logger log(Class<?> clzz) {
         return Logger.getLogger(clzz.getName());
@@ -123,6 +127,157 @@ public class Utils {
 
     public static void fprint(Appendable appendable, Object... items) {
         add(appendable, sprint(items) + "\n");
+    }
+
+    public static Comparable comparable(Object comparable) {
+        return (Comparable) comparable;
+    }
+
+
+    public static void sortAsc(List list) {
+        sortAsc(list, "this");
+    }
+
+    public static void sortDesc(List list) {
+        sortDesc(list, "this");
+    }
+
+    public static void sortAsc(List list, String sortBy) {
+        if (list == null || list.size() == 0) {
+            return;
+        }
+        Map<String, FieldAccess> fields = Reflection.getPropertyFieldAccessMap(list.iterator().next().getClass());
+
+        sortAsc(list, sortBy, fields);
+    }
+
+    public static void sortDesc(List list, String sortBy) {
+        if (list == null || list.size() == 0) {
+            return;
+        }
+        Map<String, FieldAccess> fields = Reflection.getPropertyFieldAccessMap(list.iterator().next().getClass());
+
+        sortDesc(list, sortBy, fields);
+    }
+
+    public static void sortAsc(List list, String sortBy, Map<String, FieldAccess> fields) {
+        sort(list, sortBy, fields, true);
+    }
+
+    public static void sortDesc(List list, String sortBy, Map<String, FieldAccess> fields) {
+        sort(list, sortBy, fields, false);
+    }
+
+    public static void sort(List list, String sortBy, Map<String, FieldAccess> fields, boolean ascending) {
+        if (list == null || list.size() == 0) {
+            return;
+        }
+        Object o = list.get(0);
+        if (sortBy.equals("this") && o instanceof Comparable) {
+            Collections.sort(list);
+            return;
+        }
+
+        final FieldAccess field = fields.get(sortBy);
+
+        if (field != null) {
+
+            Collections.sort(list, Utils.universalComparator(field, ascending));
+
+        }
+
+
+    }
+
+    //TODO left off here
+    public static void sortManySorts(List list, Map<String, FieldAccess> fields) {
+
+    }
+
+    public static Comparator universalComparator(final FieldAccess field, boolean ascending) {
+        return new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                Object value1 = null;
+                Object value2 = null;
+
+                if (ascending) {
+                    value1 = field.getValue(o1);
+                    value2 = field.getValue(o2);
+                } else {
+                    value1 = field.getValue(o2);
+                    value2 = field.getValue(o1);
+                }
+                return Utils.compare(value1, value2);
+
+            }
+        };
+    }
+
+    public static int compare(Object value1, Object value2) {
+
+        if (value1 == null && value2 == null) {
+            return 0;
+        } else if (value1 == null && value2 != null) {
+            return -1;
+        } else if (value1 != null && value2 == null) {
+            return 1;
+        }
+
+
+        if (isComparable(value1)) {
+            return Utils.compare(value1, value2);
+        } else {
+
+
+            if (value1 instanceof CharSequence) {
+                String str1 = str(value1);
+                String str2 = str(value2);
+                Collator collator = Collator.getInstance();
+                return collator.compare(str1, str2);
+            } else if (value1 instanceof Comparable) {
+                Comparable c1 = comparable(value1);
+                Comparable c2 = comparable(value2);
+                return c1.compareTo(c2);
+            } else {
+
+
+                String name = Reflection.getSortableField(value1);
+                String sv1 = (String) Reflection.getPropByPath(value1, name);
+                String sv2 = (String) Reflection.getPropByPath(value2, name);
+                return Utils.compare(sv1, sv2);
+
+            }
+        }
+
+    }
+
+    public static boolean isComparable(Object o) {
+        return o instanceof Comparable;
+    }
+
+    public static boolean isComparable(Class<?> type) {
+        return implementsInterface(type, comparable);
+    }
+
+    public static boolean isSuperClass(Class<?> type, Class<?> possibleSuperType) {
+        if (possibleSuperType.isInterface()) {
+            complain("That is not an class type, bad second argument");
+            return false;
+        } else {
+            return possibleSuperType.isAssignableFrom(type);
+        }
+
+    }
+
+    public static boolean implementsInterface(Class<?> type, Class<?> interfaceType) {
+        if (!interfaceType.isInterface()) {
+            complain("That is not an interface type, bad second argument");
+            return false;
+        } else {
+            return interfaceType.isAssignableFrom(type);
+        }
+
     }
 
 
@@ -2102,6 +2257,12 @@ public class Utils {
         }
 
         return out;
+    }
+
+
+    public static void main(String[] args) {
+        print(isComparable(String.class));
+
     }
 
 }

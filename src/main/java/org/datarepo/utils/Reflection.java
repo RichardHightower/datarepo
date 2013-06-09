@@ -65,6 +65,105 @@ public class Reflection {
     }
 
 
+    public static String getFirstStringFieldName(Object value1, String name) {
+        List<Field> fields = getAllFields(value1.getClass());
+        for (Field field : fields) {
+            if (field.getName().equals(name) || field.getType().equals(string) && !Modifier.isStatic(field.getModifiers())
+                    && field.getDeclaringClass() == value1.getClass()) {
+                return field.getName();
+            }
+        }
+        for (Field field : fields) {
+            if (field.getName().equals(name) || field.getType().equals(string) && !Modifier.isStatic(field.getModifiers())
+                    ) {
+                return field.getName();
+            }
+        }
+
+        return null;
+    }
+
+    public static String getFirstComparableOrPrimitive(Object value1) {
+        List<Field> fields = getAllFields(value1.getClass());
+        for (Field field : fields) {
+
+            if ((field.getType().isPrimitive() || Utils.isComparable(field.getType())
+                    && !Modifier.isStatic(field.getModifiers())
+                    && field.getDeclaringClass() == value1.getClass())
+                    ) {
+                return field.getName();
+            }
+        }
+        for (Field field : fields) {
+
+            if ((field.getType().isPrimitive() || Utils.isComparable(field.getType())
+                    && !Modifier.isStatic(field.getModifiers())
+            )
+                    ) {
+                return field.getName();
+            }
+        }
+
+        return null;
+    }
+
+    public static String getFirstStringFieldNameEndsWith(Object value1, String name) {
+        List<Field> fields = getAllFields(value1.getClass());
+        for (Field field : fields) {
+            if (field.getName().endsWith(name) || field.getType().equals(string) && !Modifier.isStatic(field.getModifiers())
+                    && field.getDeclaringClass() == value1.getClass()) {
+                return field.getName();
+            }
+        }
+        for (Field field : fields) {
+            if (field.getName().endsWith(name) || field.getType().equals(string) && !Modifier.isStatic(field.getModifiers())
+                    ) {
+                return field.getName();
+            }
+        }
+
+        return null;
+    }
+
+
+    static ConcurrentHashMap<Class, String> sortableFields = new ConcurrentHashMap<>();
+
+    static Set<String> fieldSortNames = set("name", "orderBy", "title", "key");
+    static Set<String> fieldSortNamesPrefixes = set("Name", "Title", "Key");
+
+    public static String getSortableField(Object value1) {
+
+        String fieldName = sortableFields.get(value1.getClass());
+        if (fieldName == null) {
+            for (String name : fieldSortNames) {
+                fieldName = getFirstStringFieldName(value1, name);
+                if (fieldName != null) {
+                    break;
+                }
+            }
+            if (fieldName == null) {
+                for (String name : fieldSortNamesPrefixes) {
+                    fieldName = getFirstStringFieldNameEndsWith(value1, name);
+                    if (fieldName != null) {
+                        break;
+                    }
+                }
+            }
+
+            if (fieldName == null) {
+                fieldName = getFirstComparableOrPrimitive(value1);
+            }
+
+            if (fieldName == null) {
+                complain("Could not find a sortable field for type " + value1.getClass());
+            }
+            sortableFields.put(object.getClass(), fieldName);
+        }
+        return fieldName;
+
+    }
+
+
     @SuppressWarnings("serial")
     public static class ReflectionException extends RuntimeException {
 
