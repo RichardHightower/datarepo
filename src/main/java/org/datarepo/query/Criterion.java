@@ -129,6 +129,11 @@ public abstract class Criterion<VALUE> extends Expression {
         if (!criterion.initialized) {
             criterion.initialized = true;
             FieldAccess field = fields.get(criterion.name);
+
+            if (field == null) {
+                return;
+            }
+
             Class type = field.getType();
 
 

@@ -1,11 +1,14 @@
 package org.datarepo.impl.indexes;
 
 import org.datarepo.spi.SearchIndex;
+import org.datarepo.utils.Reflection;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
+
+import static org.datarepo.utils.Types.toList;
 
 public class NestedKeySearchIndex implements SearchIndex {
 
@@ -141,18 +144,19 @@ public class NestedKeySearchIndex implements SearchIndex {
     @Override
     public boolean add(Object o) {
 
-        Object[] keys = getKeys(o);
+        List keys = getKeys(o);
         index.addManyKeys(o, keys);
         return true;
     }
 
-    private Object[] getKeys(Object o) {
-        return new Object[0];
+    private List getKeys(Object o) {
+        Object list = Reflection.getPropByPath(o, this.path);
+        return toList(list);
     }
 
     @Override
     public boolean delete(Object o) {
-        Object[] keys = getKeys(o);
+        List keys = getKeys(o);
         index.removeManyKeys(o, keys);
 
         return true;

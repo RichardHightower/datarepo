@@ -23,9 +23,18 @@ public class RepoBuilderTest {
         test.testModify();
         test.testFilterLogicalOperators2();
         test.testUpdateByKeyUsingValues();
+        test.testIndexedLookup();
 
     }
 
+
+    @Test
+    public void testCreateFromBuilderNestedIndex() throws Exception {
+
+        test.repo = TestHelper.createFromBuilderNestedIndex();
+        runAll();
+
+    }
 
     @Test
     public void testWithTransformAndCollation() throws Exception {

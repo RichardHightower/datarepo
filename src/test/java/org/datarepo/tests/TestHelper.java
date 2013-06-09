@@ -79,6 +79,29 @@ public class TestHelper {
         return repo;
     }
 
+
+    //"tags", "metas", "metas2", "name2"
+
+    static Repo<String, Employee> createFromBuilderNestedIndex() {
+
+        /* Create a repo, and decide what to index. */
+        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+
+        /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
+        repoBuilder.primaryKey("id")
+                .searchIndex("firstName").searchIndex("lastName")
+                .searchIndex("salary").uniqueSearchIndex("empNum").nestedIndex("tags", "metas", "metas2", "name2");
+
+        /* Create the repo with the builder. */
+        Repo<String, Employee> repo
+                = repoBuilder.build(String.class, Employee.class);
+
+        for (Employee employee : employees) {
+            repo.add(employee);
+        }
+        return repo;
+    }
+
     static Repo<String, Employee> createFromBuilder() {
 
         /* Create a repo, and decide what to index. */

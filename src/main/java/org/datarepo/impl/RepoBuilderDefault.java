@@ -6,6 +6,7 @@ import org.datarepo.impl.decorators.FilterWithSimpleCache;
 import org.datarepo.impl.decorators.ObjectEditorCloneDecorator;
 import org.datarepo.impl.decorators.ObjectEditorEventDecorator;
 import org.datarepo.impl.decorators.ObjectEditorLogNullCheckDecorator;
+import org.datarepo.impl.indexes.NestedKeySearchIndex;
 import org.datarepo.modification.ModificationListener;
 import org.datarepo.spi.*;
 import org.datarepo.utils.Reflection;
@@ -16,6 +17,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Level;
+
+import static org.datarepo.utils.Utils.joinBy;
 
 
 public class RepoBuilderDefault implements RepoBuilder {
@@ -54,6 +57,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     private boolean cache = true;
     private Map<String, Comparator> collators = new HashMap<String, Comparator>();
     private Map<String, Function> keyTransformers = new HashMap<>();
+    private Map<String, String[]> nestedIndexes = new HashMap<>();
 
 
     public RepoBuilder usePropertyForAccess(boolean useProperty) {
@@ -376,9 +380,12 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     @Override
-    public RepoBuilder nestedIndex(String... property) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-        //11
+    public RepoBuilder nestedIndex(String... propertyPath) {
+
+        this.nestedIndexes.put(joinBy('.', propertyPath), propertyPath);
+
+        return this;
+
     }
 
     private Function createKeyGetter(final FieldAccess field) {
@@ -394,7 +401,13 @@ public class RepoBuilderDefault implements RepoBuilder {
     private void configIndexes(RepoComposer repo,
                                Map<String, FieldAccess> fields) {
 
-
+        for (String prop : nestedIndexes.keySet()) {
+            NestedKeySearchIndex index = new NestedKeySearchIndex(this.nestedIndexes.get(prop));
+            index.setComparator(this.collators.get(prop));
+            index.setInputKeyTransformer(this.keyTransformers.get(prop));
+            index.init();
+            ((SearchableCollection) query).addSearchIndex(prop, index);
+        }
         for (String prop : searchIndexes) {
             SearchIndex searchIndex = this.searchIndexFactory.apply(fields.get(prop).getType());
             searchIndex.setComparator(this.collators.get(prop));

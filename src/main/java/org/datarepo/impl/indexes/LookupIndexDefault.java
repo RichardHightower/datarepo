@@ -39,9 +39,11 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     }
 
 
-    protected void addManyKeys(ITEM item, KEY... keys) {
+    protected void addManyKeys(ITEM item, List<KEY> keys) {
         for (KEY key : keys) {
-            this.put(item, key);
+            if (key != null) {
+                this.put(item, key);
+            }
         }
     }
 
@@ -85,9 +87,11 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     }
 
 
-    protected final void removeManyKeys(ITEM item, KEY[] keys) {
+    protected final void removeManyKeys(ITEM item, List<KEY> keys) {
         for (KEY key : keys) {
-            removeKey(item, key);
+            if (key != null) {
+                removeKey(item, key);
+            }
         }
     }
 

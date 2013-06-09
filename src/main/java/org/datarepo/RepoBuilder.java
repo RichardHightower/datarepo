@@ -114,7 +114,7 @@ public interface RepoBuilder {
 
     RepoBuilder underBarCaseIndex(String property);
 
-    RepoBuilder nestedIndex(String... property);
+    RepoBuilder nestedIndex(String... propertyPath);
 
 
 }

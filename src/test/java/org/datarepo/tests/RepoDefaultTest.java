@@ -284,6 +284,24 @@ public class RepoDefaultTest {
     }
 
     @Test
+    public void testIndexedLookup() throws Exception {
+        Employee emp = employee("Diana", "Hightower", "2178599966", "08.15.82", 100_000);
+        Employee emp2 = employee("Bob", "Hightower", "21785990", "08.15.82", 100_000);
+
+        repo.add(emp);
+        repo.add(emp2);
+
+        List<Map<String, Object>> list = repo.query(
+                selects(select("tags", "metas", "metas2", "name2")),
+                eqNested("2tag1", "tags", "metas", "metas2", "name2"));
+
+
+        assertEquals("2tag1", idx(list.get(0).get("tags.metas.metas2.name2"), 0));
+
+
+    }
+
+    @Test
     public void testPropertyPathSelect() throws Exception {
         Employee emp = employee("Diana", "Hightower", "2178599966", "08.15.82", 100_000);
         Employee emp2 = employee("Bob", "Hightower", "21785990", "08.15.82", 100_000);

@@ -1,8 +1,11 @@
 package org.datarepo.query;
 
 import org.datarepo.fields.FieldAccess;
+import org.datarepo.utils.Reflection;
 
 import java.util.*;
+
+import static org.datarepo.utils.Utils.joinBy;
 
 public class Criteria {
 
@@ -39,6 +42,29 @@ public class Criteria {
 
     public static Group or(Expression... expressions) {
         return new Group.Or(expressions);
+    }
+
+    public static Criterion eqNested(final Object value, final Object... path) {
+        return new Criterion<Object>(joinBy('.', path), Operator.EQUAL, value) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                Object v = Reflection.getPropByPath(path);
+                if (v instanceof List) {
+                    List list = (List) v;
+                    for (Object i : list) {
+                        if (i.equals(value)) {
+                            return false;
+                        }
+
+                    }
+                    return true;
+                } else {
+                    return value.equals(v);
+                }
+
+            }
+
+        };
     }
 
     public static Criterion eq(final Object name, Object value) {

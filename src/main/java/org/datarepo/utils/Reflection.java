@@ -205,7 +205,7 @@ public class Reflection {
 
     }
 
-    public static Object getFieldValues(Object object, final String key) {
+    private static Object getFieldValues(Object object, final String key) {
         if (object == null) {
             return null;
         }
@@ -222,14 +222,14 @@ public class Reflection {
     }
 
 
-    public static Object getFieldValue(Object object, final String key) {
+    private static Object getFieldValue(Object object, final String key) {
         if (object == null) {
             return null;
         }
 
         Class<?> cls = object.getClass();
 
-        Map<String, FieldAccess> fields = getAllAccessorFields(cls);
+        Map<String, FieldAccess> fields = getPropertyFieldAccessMap(cls);
 
         if (!fields.containsKey(key)) {
             return null;
