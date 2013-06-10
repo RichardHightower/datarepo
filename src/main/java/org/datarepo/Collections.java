@@ -20,8 +20,8 @@ import java.util.stream.Stream;
 
 public class Collections {
 
-    public static <T> List<T> $q(final List<T> list) {
-        return listQuery(list, true, true);
+    public static <T> List<T> $q(final List<T> list, Class<?>... classes) {
+        return listQuery(list, true, true, classes);
     }
 
     public static <T> List<T> $c(final List<T> list) {
@@ -40,15 +40,22 @@ public class Collections {
         return listQuery(list, true, true);
     }
 
-    public static <T> List<T> listQuery(final List<T> list, boolean useField, boolean useUnSafe) {
+    public static <T> List<T> listQuery(final List<T> list, boolean useField, boolean useUnSafe, Class<?>... classes) {
         if (list == null || list.size() == 0) {
             return list;
         }
 
-        Class<?> clazz = list.get(0).getClass();
+        SearchableCollectionComposer query = null;
 
-        SearchableCollectionComposer query = getSearchableCollectionComposer(list, useField, useUnSafe, clazz);
+        if (classes == null || classes.length == 0) {
+            Class<?> clazz = list.get(0).getClass();
 
+            query = getSearchableCollectionComposer(list, useField, useUnSafe, clazz);
+
+        } else {
+            query = getSearchableCollectionComposer(list, useField, useUnSafe, classes);
+
+        }
 
         return new QList<T>(list, (SearchableCollection) query);
     }
@@ -85,9 +92,24 @@ public class Collections {
         return new QSet<T>(set, (SearchableCollection) query);
     }
 
-    private static <T> SearchableCollectionComposer getSearchableCollectionComposer(Collection set, boolean useField, boolean useUnSafe, Class<?> clazz) {
+    private static <T> SearchableCollectionComposer getSearchableCollectionComposer(Collection set, boolean useField, boolean useUnSafe, Class<?>... classes) {
         SearchableCollectionComposer query = SPIFactory.getSearchableCollectionFactory().get();
-        Map<String, FieldAccess> fields = Reflection.getPropertyFieldAccessMap(clazz, useField, useUnSafe);
+
+
+        Map<String, FieldAccess> fields = new HashMap<>();
+
+        for (Class<?> cls : classes) {
+
+            Map<String, FieldAccess> fieldsSubType
+                    = Reflection.getPropertyFieldAccessMap(cls, useField, useUnSafe);
+
+            for (String sKey : fieldsSubType.keySet()) {
+                if (!fields.containsKey(sKey)) {
+                    fields.put(sKey, fieldsSubType.get(sKey));
+                }
+            }
+        }
+
         String primaryKey = findPrimaryKey(fields);
         FieldAccess field = fields.get(primaryKey);
         Function keyGetter = createKeyGetter(field);

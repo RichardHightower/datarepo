@@ -1,9 +1,9 @@
 package org.datarepo.tests.model;
 
 public class SalesEmployee extends Employee implements Comparable<SalesEmployee> {
-    private float commissionRate = 1.0f;
+    private int commissionRate = 1;
 
-    public SalesEmployee(float commissionRate) {
+    public SalesEmployee(int commissionRate) {
         this.commissionRate = commissionRate;
     }
 
@@ -12,7 +12,7 @@ public class SalesEmployee extends Employee implements Comparable<SalesEmployee>
         return commissionRate;
     }
 
-    public void setCommissionRate(float commissionRate) {
+    public void setCommissionRate(int commissionRate) {
         this.commissionRate = commissionRate;
     }
 

@@ -1,6 +1,7 @@
 package org.datarepo.tests;
 
 import org.datarepo.tests.model.Employee;
+import org.datarepo.tests.model.HourlyEmployee;
 import org.datarepo.tests.model.SalesEmployee;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,8 @@ public class MoreTests {
         h_list = ls(
                 Employee.employee("firstA", "LastA", "123", "5.29.1970:00:00:01", 100),
                 Employee.employee("firstB", "LastB", "124", "5.29.1960:00:00:00", 200),
-                Employee.employee("firstZ", "LastB", "125", "5.29.1960:00:00:00", 200, true)
+                Employee.employee("firstZ", "LastB", "125", "5.29.1960:00:00:00", 200, true),
+                new HourlyEmployee()
 
         );
 
@@ -55,16 +57,48 @@ public class MoreTests {
 
     }
 
-    //@Test
-    //Need subclasses to $q TODO
-    public void fieldOnlyInSuperClass() throws Exception {
-        List<Employee> queryableList = $q(h_list);
-        List<Employee> results = sortedQuery(queryableList, "firstName", eq("commissionRate", 1.0f));
+    @Test
+    public void fieldOnlyInSubClass() throws Exception {
+        List<Employee> queryableList = $q(h_list, SalesEmployee.class);
+        List<Employee> results = sortedQuery(queryableList, "firstName", eq("commissionRate", 1));
         assertEquals(1, results.size());
         assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
 
     }
 
+    @Test
+    public void fieldOnlyInSubClass2() throws Exception {
+        List<Employee> queryableList = $q(h_list, Employee.class, SalesEmployee.class);
+        List<Employee> results = sortedQuery(queryableList, "firstName", eq("commissionRate", 1));
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+
+    }
+
+    @Test
+    public void fieldOnlyInSubClass3() throws Exception {
+        List<Employee> queryableList = $q(h_list, Employee.class, SalesEmployee.class, HourlyEmployee.class);
+        List<Employee> results = sortedQuery(queryableList, "firstName", eq("commissionRate", 1));
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+
+        results = sortedQuery(queryableList, "firstName", eq("weeklyHours", 40));
+        assertEquals(1, results.size());
+        assertEquals("HourlyEmployee", results.get(0).getClass().getSimpleName());
+
+    }
+
+    @Test(expected = NullPointerException.class)   //TODO add better error messages
+    public void fieldOnlyInSubClass4() throws Exception {
+        List<Employee> queryableList = $q(h_list, Employee.class, SalesEmployee.class);
+        List<Employee> results = sortedQuery(queryableList, "firstName", eq("commissionRate", 1));
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+
+        results = sortedQuery(queryableList, "firstName", eq("weeklyHours", 40));
+        assertEquals(0, results.size());
+
+    }
 
     @Test
     public void typeOfTestLongName() throws Exception {

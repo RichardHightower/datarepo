@@ -44,7 +44,7 @@ public class Employee {
         Employee e = null;
 
         if (sales) {
-            e = new SalesEmployee(5.0f);
+            e = new SalesEmployee(1);
         } else {
             new Employee();
         }
