@@ -97,7 +97,7 @@ public interface RepoBuilder {
     RepoBuilder debug();
 
 
-    public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz);
+    public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz, Class<?>... all);
 
     public static RepoBuilder getInstance() {
         SPIFactory.init();

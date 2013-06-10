@@ -5,6 +5,7 @@ import org.datarepo.RepoBuilder;
 import org.datarepo.modification.ModificationEvent;
 import org.datarepo.tests.model.Department;
 import org.datarepo.tests.model.Employee;
+import org.datarepo.tests.model.SalesEmployee;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +95,7 @@ public class TestHelper {
 
         /* Create the repo with the builder. */
         Repo<String, Employee> repo
-                = repoBuilder.build(String.class, Employee.class);
+                = repoBuilder.build(String.class, Employee.class, SalesEmployee.class);
 
         for (Employee employee : employees) {
             repo.add(employee);
@@ -114,7 +115,7 @@ public class TestHelper {
 
         /* Create the repo with the builder. */
         Repo<String, Employee> repo
-                = repoBuilder.build(String.class, Employee.class);
+                = repoBuilder.build(String.class, Employee.class, SalesEmployee.class);
 
         for (Employee employee : employees) {
             repo.add(employee);
@@ -136,7 +137,7 @@ public class TestHelper {
 
         /* Create the repo with the builder. */
         Repo<String, Employee> repo
-                = repoBuilder.build(String.class, Employee.class);
+                = repoBuilder.build(String.class, Employee.class, SalesEmployee.class);
 
         for (Employee employee : employees) {
             repo.add(employee);
@@ -159,7 +160,7 @@ public class TestHelper {
 
         /* Create the repo with the builder. */
         Repo<String, Employee> repo
-                = repoBuilder.build(String.class, Employee.class);
+                = repoBuilder.build(String.class, Employee.class, SalesEmployee.class);
 
         for (Employee employee : employees) {
             repo.add(employee);
@@ -179,7 +180,7 @@ public class TestHelper {
 
         /* Create the repo with the builder. */
         Repo<String, Employee> repo
-                = repoBuilder.build(String.class, Employee.class);
+                = repoBuilder.build(String.class, Employee.class, SalesEmployee.class);
 
         for (Employee employee : employees) {
             repo.add(employee);
@@ -202,7 +203,7 @@ public class TestHelper {
 
         /* Create the repo with the builder. */
         Repo<String, Employee> repo
-                = repoBuilder.build(String.class, Employee.class);
+                = repoBuilder.build(String.class, Employee.class, SalesEmployee.class);
 
         for (Employee employee : employees) {
             repo.add(employee);

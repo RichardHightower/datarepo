@@ -262,15 +262,25 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     @Override
-    public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz) {
-        return build(null, key, clazz);
+    public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz, Class<?>... classes) {
+        return build(null, key, clazz, classes);
     }
 
-    public <KEY, ITEM> Repo<KEY, ITEM> build(Class<?> primitiveKey, Class<KEY> key, Class<ITEM> clazz) {
+    public <KEY, ITEM> Repo<KEY, ITEM> build(Class<?> primitiveKey, Class<KEY> key, Class<ITEM> clazz, Class<?>... classes) {
         init();
 
         this.fields = Reflection.getPropertyFieldAccessMap(clazz, useField, useUnSafe);
 
+        for (Class<?> cls : classes) {
+            Map<String, FieldAccess> fieldsSubType
+                    = Reflection.getPropertyFieldAccessMap(cls, useField, useUnSafe);
+
+            for (String sKey : fieldsSubType.keySet()) {
+                if (!fields.containsKey(sKey)) {
+                    fields.put(sKey, fieldsSubType.get(sKey));
+                }
+            }
+        }
 
         /* Construct */
         this.repo = (RepoComposer) this.repoComposerFactory.get();

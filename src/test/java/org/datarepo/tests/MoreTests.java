@@ -55,6 +55,17 @@ public class MoreTests {
 
     }
 
+    //@Test
+    //Need subclasses to $q TODO
+    public void fieldOnlyInSuperClass() throws Exception {
+        List<Employee> queryableList = $q(h_list);
+        List<Employee> results = sortedQuery(queryableList, "firstName", eq("commissionRate", 1.0f));
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+
+    }
+
+
     @Test
     public void typeOfTestLongName() throws Exception {
         List<Employee> queryableList = $q(h_list);
