@@ -39,6 +39,10 @@ public class Criteria {
         return results;
     }
 
+    public static Not not(Expression expression) {
+        return new Not(expression);
+    }
+
 
     public static Group and(Expression... expressions) {
         return new Group.And(expressions);

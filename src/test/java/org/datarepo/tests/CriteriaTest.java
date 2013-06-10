@@ -133,6 +133,12 @@ public class CriteriaTest {
     }
 
     @Test
+    public void testNotInUsingNot() throws Exception {
+        List<TestClass> results = filter(items, not(in("i", 5, 6, 7)));
+        assertEquals(7, results.size());
+    }
+
+    @Test
     public void testBetween() throws Exception {
         List<TestClass> results = filter(items, between("i", 5, 10));
         assertEquals(5, results.size());
