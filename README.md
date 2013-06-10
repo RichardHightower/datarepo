@@ -448,3 +448,41 @@ public class Meta3 {
 ...
 
 ```
+
+You can also search by type:
+
+```
+        List<Employee> results = sortedQuery(queryableList, "firstName", typeOf("SalesEmployee"));
+
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+```
+
+The above finds all employees with the simple classname of SalesEmployee. It also works with full class name as in:
+
+```
+        List<Employee> results = sortedQuery(queryableList, "firstName", typeOf("org.datarepo.tests.model.SalesEmployee"));
+
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+```
+
+You can search by the actual class too:
+
+```
+        List<Employee> results = sortedQuery(queryableList, "firstName", instanceOf(SalesEmployee.class));
+
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+
+```
+
+You can also query classes that implement certain interfaces:
+
+```
+        List<Employee> results = sortedQuery(queryableList, "firstName", implementsInterface(Comparable.class));
+
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+
+```

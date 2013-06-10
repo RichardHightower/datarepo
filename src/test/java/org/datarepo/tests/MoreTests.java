@@ -56,6 +56,15 @@ public class MoreTests {
     }
 
     @Test
+    public void typeOfTestLongName() throws Exception {
+        List<Employee> queryableList = $q(h_list);
+        List<Employee> results = sortedQuery(queryableList, "firstName", typeOf("org.datarepo.tests.model.SalesEmployee"));
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+
+    }
+
+    @Test
     public void typeOfTest() throws Exception {
         List<Employee> queryableList = $q(h_list);
         List<Employee> results = sortedQuery(queryableList, "firstName", typeOf("SalesEmployee"));
@@ -68,6 +77,14 @@ public class MoreTests {
     public void instanceOfTest() throws Exception {
         List<Employee> queryableList = $q(h_list);
         List<Employee> results = sortedQuery(queryableList, "firstName", instanceOf(SalesEmployee.class));
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+    }
+
+    @Test
+    public void implementsTest() throws Exception {
+        List<Employee> queryableList = $q(h_list);
+        List<Employee> results = sortedQuery(queryableList, "firstName", implementsInterface(Comparable.class));
         assertEquals(1, results.size());
         assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
     }

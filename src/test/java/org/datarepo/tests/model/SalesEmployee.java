@@ -1,6 +1,6 @@
 package org.datarepo.tests.model;
 
-public class SalesEmployee extends Employee {
+public class SalesEmployee extends Employee implements Comparable<SalesEmployee> {
     private float commissionRate = 1;
 
     public SalesEmployee(float commissionRate) {
@@ -16,4 +16,8 @@ public class SalesEmployee extends Employee {
         this.commissionRate = commissionRate;
     }
 
+    @Override
+    public int compareTo(SalesEmployee o) {
+        return 0;
+    }
 }
