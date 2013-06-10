@@ -522,3 +522,24 @@ The safe way to use the nestedIndex is to use eqNested. You can use eq, gt, gte,
 ```
 
 
+You can also add support for subclasses
+
+```
+        List<Employee> queryableList = $q(h_list, Employee.class, SalesEmployee.class, HourlyEmployee.class);
+        List<Employee> results = sortedQuery(queryableList, "firstName", eq("commissionRate", 1));
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+
+        results = sortedQuery(queryableList, "firstName", eq("weeklyHours", 40));
+        assertEquals(1, results.size());
+        assertEquals("HourlyEmployee", results.get(0).getClass().getSimpleName());
+
+```
+
+The data repo has a similar feature in its DataRepoBuilder.build(...) method for specifying subclasses.
+This allows you to seemlessly query fields form subclasses and classes in the same repo or searchable collection.
+
+I have toyed with the idea for making the subclass support automatic. I have not yet as it might impact the performance.
+I have some ideas how to do this that will failover to a more expensive thing once the fast use case does not work.
+It is an extension by exception which is sort of a design no-no, but might make sense in the performance critical space.
+
