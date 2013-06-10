@@ -48,15 +48,15 @@ public class SortTest {
     public void compoundSort() throws Exception {
         Sort sort = new Sort("firstName", SortType.ASCENDING);
         sort.then("lastName");
-//        sort.sort(list);
-//        List<String> firstNames = Reflection.getListOfProps(string, list, "firstName");
-//        List<String> lastNames = Reflection.getListOfProps(string, list, "lastName");
+        sort.sort(list);
+        List<String> firstNames = Reflection.getListOfProps(string, list, "firstName");
+        List<String> lastNames = Reflection.getListOfProps(string, list, "lastName");
 
-//        assertEquals("bababa", firstNames.get(0));
-//        assertEquals("BAbaba", firstNames.get(1));
-//        assertEquals("zaaa", firstNames.get(2));
-//        assertEquals("zaaa", firstNames.get(3));
-//        assertEquals("zzz", firstNames.get(4));
+        assertEquals("bababa", firstNames.get(0));
+        assertEquals("BAbaba", firstNames.get(1));
+        assertEquals("zaaa", firstNames.get(2));
+        assertEquals("zaaa", firstNames.get(3));
+        assertEquals("zzz", firstNames.get(4));
 
     }
 

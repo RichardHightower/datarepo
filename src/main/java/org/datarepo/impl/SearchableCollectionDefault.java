@@ -4,10 +4,10 @@ import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.SearchableCollection;
 import org.datarepo.fields.FieldAccess;
-import org.datarepo.impl.indexes.SearchIndexDefault;
 import org.datarepo.impl.indexes.UniqueLookupIndex;
 import org.datarepo.query.Expression;
 import org.datarepo.query.Selector;
+import org.datarepo.query.Sort;
 import org.datarepo.query.Visitor;
 import org.datarepo.spi.FilterComposer;
 import org.datarepo.spi.SearchIndex;
@@ -376,14 +376,15 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
     @Override
     public List<ITEM> sortedQuery(final String sortBy, Expression... expressions) {
+        Sort asc = Sort.asc(sortBy);
+        return sortedQuery(asc, expressions);
+    }
+
+    @Override
+    public List<ITEM> sortedQuery(Sort sortBy, Expression... expressions) {
         List<ITEM> results = this.query(expressions);
-        Function<ITEM, Object> func = new Function<ITEM, Object>() {
-            @Override
-            public Object apply(ITEM item) {
-                return fields.get(sortBy).getValue(item);
-            }
-        };
-        return new SearchIndexDefault(null, results, func).all();
+        sortBy.sort(results);
+        return results;
     }
 
     @Override
@@ -399,14 +400,15 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     @Override
     public List<Map<String, Object>> sortedQuery(final String sortBy, List<Selector> selectors, Expression... expressions) {
 
+        Sort asc = Sort.asc(sortBy);
+        return sortedQuery(asc, selectors, expressions);
+    }
+
+    @Override
+    public List<Map<String, Object>> sortedQuery(Sort sortBy, List<Selector> selectors, Expression... expressions) {
         final List<Map<String, Object>> results = query(selectors, expressions);
-        Function<ITEM, KEY> func = new Function<ITEM, KEY>() {
-            @Override
-            public KEY apply(ITEM item) {
-                return (KEY) ((Map) item).get(sortBy);
-            }
-        };
-        return new SearchIndexDefault(null, results, func).all();
+        sortBy.sort(results);
+        return results;
     }
 
     private void visit(KEY key, ITEM item, Visitor<KEY, ITEM> visitor, Object o, List<String> path, int levels) {
@@ -472,14 +474,18 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
     @Override
     public void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Expression... expressions) {
+        Sort asc = Sort.asc(sortBy);
+        sortedQuery(visitor, asc, expressions);
+    }
 
+    @Override
+    public void sortedQuery(Visitor<KEY, ITEM> visitor, Sort sortBy, Expression... expressions) {
         List<ITEM> items = this.sortedQuery(sortBy, expressions);
         for (ITEM item : items) {
             KEY key = (KEY) this.primaryKeyGetter.apply(item);
             int levels = 0;
             visit(key, item, visitor, item, list("root"), levels);
         }
-
     }
 
     @Override

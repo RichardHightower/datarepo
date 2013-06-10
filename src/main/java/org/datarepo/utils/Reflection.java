@@ -1,9 +1,6 @@
 package org.datarepo.utils;
 
-import org.datarepo.fields.FieldAccess;
-import org.datarepo.fields.PropertyField;
-import org.datarepo.fields.ReflectField;
-import org.datarepo.fields.UnsafeField;
+import org.datarepo.fields.*;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -87,7 +84,7 @@ public class Reflection {
         List<Field> fields = getAllFields(value1.getClass());
         for (Field field : fields) {
 
-            if ((field.getType().isPrimitive() || Utils.isComparable(field.getType())
+            if ((field.getType().isPrimitive() || Types.isComparable(field.getType())
                     && !Modifier.isStatic(field.getModifiers())
                     && field.getDeclaringClass() == value1.getClass())
                     ) {
@@ -96,7 +93,7 @@ public class Reflection {
         }
         for (Field field : fields) {
 
-            if ((field.getType().isPrimitive() || Utils.isComparable(field.getType())
+            if ((field.getType().isPrimitive() || Types.isComparable(field.getType())
                     && !Modifier.isStatic(field.getModifiers())
             )
                     ) {
@@ -160,6 +157,27 @@ public class Reflection {
             sortableFields.put(object.getClass(), fieldName);
         }
         return fieldName;
+
+    }
+
+    public static Map<String, FieldAccess> getFieldsFromObject(Object item) {
+        Map<String, FieldAccess> fields = null;
+
+        fields = Reflection.getPropertyFieldAccessMap(item.getClass());
+
+        if (item instanceof Map) {
+            fields = Reflection.getFieldsFromMap(fields, (Map<String, Object>) item);
+        }
+        return fields;
+
+    }
+
+    private static Map<String, FieldAccess> getFieldsFromMap(Map<String, FieldAccess> fields, Map<String, Object> map) {
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            fields.put(entry.getKey(), new MapField(entry.getKey()));
+        }
+        return fields;
 
     }
 
@@ -352,6 +370,7 @@ public class Reflection {
         }
 
         _useUnsafe = _useUnsafe && !Utils.sbprop("com.datarepo.noUnsafe");
+        //_useUnsafe = false;
     }
 
     private static final boolean useUnsafe = _useUnsafe;

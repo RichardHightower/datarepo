@@ -4,10 +4,7 @@ import org.datarepo.LookupIndex;
 import org.datarepo.ObjectEditor;
 import org.datarepo.Repo;
 import org.datarepo.SearchableCollection;
-import org.datarepo.query.Expression;
-import org.datarepo.query.Selector;
-import org.datarepo.query.ValueSetter;
-import org.datarepo.query.Visitor;
+import org.datarepo.query.*;
 import org.datarepo.spi.RepoComposer;
 import org.datarepo.spi.SearchIndex;
 
@@ -289,6 +286,11 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
+    public List<ITEM> sortedQuery(Sort sortBy, Expression... expressions) {
+        return query.sortedQuery(sortBy, expressions);
+    }
+
+    @Override
     public List<Map<String, Object>> queryAsMaps(Expression... expressions) {
         return query.queryAsMaps(expressions);
     }
@@ -304,6 +306,11 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
+    public List<Map<String, Object>> sortedQuery(Sort sortBy, List<Selector> selectors, Expression... expressions) {
+        return query.sortedQuery(sortBy, selectors, expressions);
+    }
+
+    @Override
     public void query(Visitor<KEY, ITEM> visitor, Expression... expressions) {
         query.query(visitor, expressions);
     }
@@ -311,6 +318,11 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     @Override
     public void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Expression... expressions) {
         query.query(visitor, expressions);
+    }
+
+    @Override
+    public void sortedQuery(Visitor<KEY, ITEM> visitor, Sort sortBy, Expression... expressions) {
+        query.sortedQuery(visitor, sortBy, expressions);
     }
 
     @Override

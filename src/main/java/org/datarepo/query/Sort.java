@@ -18,6 +18,27 @@ public class Sort {
     private List<Comparator> comparators;
     private Comparator comparator;
 
+    public static Sort sorts(Sort... sorts) {
+        if (sorts == null || sorts.length == 0) {
+            return null;
+        }
+
+        Sort main = sorts[0];
+        for (int index = 1; index < sorts.length; index++) {
+            main.then(sorts[index]);
+        }
+        return main;
+    }
+
+    public static Sort asc(String name) {
+        return new Sort(name, SortType.ASCENDING);
+    }
+
+
+    public static Sort desc(String name) {
+        return new Sort(name, SortType.DESCENDING);
+    }
+
     public Sort() {
     }
 
@@ -42,6 +63,11 @@ public class Sort {
                 ", type=" + type +
                 '}';
 
+    }
+
+    public Sort then(Sort sort) {
+        this.sorts.add(sort);
+        return this;
     }
 
     public Sort then(String name) {
@@ -98,7 +124,10 @@ public class Sort {
         if (list == null || list.size() == 0) {
             return;
         }
-        Map<String, FieldAccess> fields = Reflection.getPropertyFieldAccessMap(list.iterator().next().getClass());
+
+        Object item = list.iterator().next();
+
+        Map<String, FieldAccess> fields = Reflection.getFieldsFromObject(item);
         Collections.sort(list, this.comparator(fields));
     }
 

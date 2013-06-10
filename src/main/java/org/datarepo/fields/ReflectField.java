@@ -35,15 +35,27 @@ public class ReflectField implements FieldAccess {
         try {
             return field.get(obj);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            analyzeError(e, obj);
+            return null;
         }
+    }
+
+    private void analyzeError(Exception e, Object obj) {
+        die(lines(
+                e.getClass().getName(),
+                sprintf("cause %s", e.getCause()),
+                sprintf("Field info name %s, type %s, class that declared field %s", this.getName(), this.getType(), this.getField().getDeclaringClass()),
+                sprintf("Type of object passed %s", obj.getClass().getName())
+        ), e);
+
     }
 
     public boolean getBoolean(Object obj) {
         try {
             return field.getBoolean(obj);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            analyzeError(e, obj);
+            return false;
         }
 
     }
@@ -53,7 +65,8 @@ public class ReflectField implements FieldAccess {
         try {
             return field.getInt(obj);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            analyzeError(e, obj);
+            return 0;
         }
     }
 
@@ -62,7 +75,8 @@ public class ReflectField implements FieldAccess {
         try {
             return field.getShort(obj);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            analyzeError(e, obj);
+            return 0;
         }
     }
 
@@ -71,7 +85,8 @@ public class ReflectField implements FieldAccess {
         try {
             return field.getChar(obj);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            analyzeError(e, obj);
+            return 0;
         }
     }
 
@@ -80,7 +95,8 @@ public class ReflectField implements FieldAccess {
         try {
             return field.getLong(obj);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            analyzeError(e, obj);
+            return 0;
         }
     }
 
@@ -89,7 +105,8 @@ public class ReflectField implements FieldAccess {
         try {
             return field.getDouble(obj);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            analyzeError(e, obj);
+            return 0;
         }
 
     }
@@ -99,7 +116,8 @@ public class ReflectField implements FieldAccess {
         try {
             return field.getFloat(obj);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            analyzeError(e, obj);
+            return 0;
         }
     }
 
@@ -108,7 +126,8 @@ public class ReflectField implements FieldAccess {
         try {
             return field.getByte(obj);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            analyzeError(e, obj);
+            return 0;
         }
     }
 
@@ -232,8 +251,7 @@ public class ReflectField implements FieldAccess {
         try {
             field.setBoolean(obj, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-
+            analyzeError(e, obj);
         }
 
     }
@@ -243,8 +261,7 @@ public class ReflectField implements FieldAccess {
         try {
             field.setInt(obj, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-
+            analyzeError(e, obj);
         }
 
     }
@@ -254,8 +271,7 @@ public class ReflectField implements FieldAccess {
         try {
             field.setShort(obj, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-
+            analyzeError(e, obj);
         }
 
     }
@@ -265,8 +281,7 @@ public class ReflectField implements FieldAccess {
         try {
             field.setChar(obj, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-
+            analyzeError(e, obj);
         }
 
     }
@@ -276,8 +291,7 @@ public class ReflectField implements FieldAccess {
         try {
             field.setLong(obj, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-
+            analyzeError(e, obj);
         }
 
     }
@@ -287,8 +301,7 @@ public class ReflectField implements FieldAccess {
         try {
             field.setDouble(obj, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-
+            analyzeError(e, obj);
         }
 
     }
@@ -298,8 +311,7 @@ public class ReflectField implements FieldAccess {
         try {
             field.setFloat(obj, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-
+            analyzeError(e, obj);
         }
 
     }
@@ -309,8 +321,7 @@ public class ReflectField implements FieldAccess {
         try {
             field.setByte(obj, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-
+            analyzeError(e, obj);
         }
 
     }
@@ -320,8 +331,7 @@ public class ReflectField implements FieldAccess {
         try {
             field.set(obj, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-
+            analyzeError(e, obj);
         }
 
     }

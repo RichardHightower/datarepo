@@ -2,6 +2,7 @@ package org.datarepo;
 
 import org.datarepo.query.Expression;
 import org.datarepo.query.Selector;
+import org.datarepo.query.Sort;
 import org.datarepo.query.Visitor;
 import org.datarepo.spi.SearchIndex;
 
@@ -83,15 +84,21 @@ public interface SearchableCollection<KEY, ITEM> extends Collection<ITEM> {
 
     List<ITEM> sortedQuery(String sortBy, Expression... expressions);
 
+    List<ITEM> sortedQuery(Sort sortBy, Expression... expressions);
+
     List<Map<String, Object>> queryAsMaps(Expression... expressions);
 
     List<Map<String, Object>> query(List<Selector> selectors, Expression... expressions);
 
     List<Map<String, Object>> sortedQuery(String sortBy, List<Selector> selectors, Expression... expressions);
 
+    List<Map<String, Object>> sortedQuery(Sort sortBy, List<Selector> selectors, Expression... expressions);
+
     void query(Visitor<KEY, ITEM> visitor, Expression... expressions);
 
     void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Expression... expressions);
+
+    void sortedQuery(Visitor<KEY, ITEM> visitor, Sort sortBy, Expression... expressions);
 
 
     boolean delete(ITEM item);

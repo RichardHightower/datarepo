@@ -15,7 +15,7 @@ public class Utils {
     static Class<Utils> utils = Utils.class;
 
     private static final Logger log = log(utils);
-    private static Class<Comparable> comparable = Comparable.class;
+    public static Class<Comparable> comparable = Comparable.class;
 
     public static Logger log(Class<?> clzz) {
         return Logger.getLogger(clzz.getName());
@@ -234,7 +234,12 @@ public class Utils {
                 } else {
                     FieldAccess field = fields.get(sortBy);
                     if (field == null) {
-                        complain("The fields was null for sortBy " + sortBy);
+                        complain(lines(
+                                "The fields was null for sortBy " + sortBy,
+                                sprintf("fields = %s", fields),
+                                sprintf("Outer object type = %s", o1.getClass().getName()),
+                                sprintf("Outer object is %s", o1)
+                        ));
                     }
                     if (ascending) {
                         value1 = field.getValue(o1);
@@ -249,7 +254,7 @@ public class Utils {
                 int compare = Utils.compare(value1, value2);
                 if (compare == 0) {
                     for (Comparator comparator : comparators) {
-                        compare = comparator.compare(value1, value2);
+                        compare = comparator.compare(o1, o2);
                         if (compare != 0) {
                             break;
                         }
@@ -277,7 +282,7 @@ public class Utils {
             String str2 = str(value2);
             Collator collator = Collator.getInstance();
             return collator.compare(str1, str2);
-        } else if (isComparable(value1)) {
+        } else if (Types.isComparable(value1)) {
             Comparable c1 = comparable(value1);
             Comparable c2 = comparable(value2);
             return c1.compareTo(c2);
@@ -287,34 +292,6 @@ public class Utils {
             String sv2 = (String) Reflection.getPropByPath(value2, name);
             return Utils.compare(sv1, sv2);
 
-        }
-
-    }
-
-    public static boolean isComparable(Object o) {
-        return o instanceof Comparable;
-    }
-
-    public static boolean isComparable(Class<?> type) {
-        return implementsInterface(type, comparable);
-    }
-
-    public static boolean isSuperClass(Class<?> type, Class<?> possibleSuperType) {
-        if (possibleSuperType.isInterface()) {
-            complain("That is not an class type, bad second argument");
-            return false;
-        } else {
-            return possibleSuperType.isAssignableFrom(type);
-        }
-
-    }
-
-    public static boolean implementsInterface(Class<?> type, Class<?> interfaceType) {
-        if (!interfaceType.isInterface()) {
-            complain("That is not an interface type, bad second argument");
-            return false;
-        } else {
-            return interfaceType.isAssignableFrom(type);
         }
 
     }
@@ -2300,8 +2277,6 @@ public class Utils {
 
 
     public static void main(String[] args) {
-        print(isComparable(String.class));
-
     }
 
 }

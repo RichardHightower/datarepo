@@ -939,4 +939,33 @@ public class Types {
             }
         }
     }
+
+    public static boolean isComparable(Object o) {
+        return o instanceof Comparable;
+    }
+
+    public static boolean isComparable(Class<?> type) {
+        return implementsInterface(type, Utils.comparable);
+    }
+
+    public static boolean isSuperClass(Class<?> type, Class<?> possibleSuperType) {
+        if (possibleSuperType.isInterface()) {
+            complain("That is not an class type, bad second argument");
+            return false;
+        } else {
+            return possibleSuperType.isAssignableFrom(type);
+        }
+
+    }
+
+    public static boolean implementsInterface(Class<?> type, Class<?> interfaceType) {
+        if (!interfaceType.isInterface()) {
+            complain("That is not an interface type, bad second argument");
+            return false;
+        } else {
+            return interfaceType.isAssignableFrom(type);
+        }
+
+    }
+
 }
