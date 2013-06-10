@@ -24,14 +24,14 @@ public class TestHelper {
 
 
     static List<Employee> employees = employees(
-            employee("AAA", "Foo", "777-222-2222", "05.29.70", 10_000),
+            employee("AAA", "Foo", "777-222-2222", "05.29.70", 10_000, true),
             employee("Boa", "Smith", "666-222-2222", "05.29.70", 10_000),
             employee("Bobbie", "Smith", "322-222-2222", "05.29.70", 100_000),
-            employee("Bob", "Smith", "122-222-2222", "05.29.70", 99_000),
+            employee("Bob", "Smith", "122-222-2222", "05.29.70", 99_000, true),
             employee("Bob", "Smith", "222-222-2222", "05.29.70", 199_000),
-            employee("Bobbzie", "Smith", "422-222-2222", "05.29.70", 666_000),
+            employee("Bobbzie", "Smith", "422-222-2222", "05.29.70", 666_000, true),
             employee("Boc", "Smith", "1010-222-2222", "05.29.70", 10_000),
-            employee("Darth", "Sith", "1111-222-2222", "05.29.70", 10_000),
+            employee("Darth", "Sith", "1111-222-2222", "05.29.70", 10_000, true),
             employee("ZZZ", "Zmm", "777-333-3333", "05.29.70", 10_000));
 
 

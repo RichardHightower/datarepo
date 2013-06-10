@@ -40,6 +40,22 @@ public class Employee {
         num++;
     }
 
+    public static Employee employee(String f, String l, String s, String d, int salary, boolean sales) {
+        Employee e = null;
+
+        if (sales) {
+            e = new SalesEmployee(5.0f);
+        } else {
+            new Employee();
+        }
+        e.birthDate = Types.toDate(d);
+        e.lastName = l;
+        e.firstName = f;
+        e.id = s;
+        e.salary = salary;
+        return e;
+
+    }
 
     public static Employee employee(String f, String l, String s, String d, int salary) {
         Employee e = new Employee();

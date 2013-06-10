@@ -2,6 +2,8 @@ package org.datarepo.query;
 
 import org.datarepo.fields.FieldAccess;
 import org.datarepo.utils.Reflection;
+import org.datarepo.utils.Types;
+import org.datarepo.utils.Utils;
 
 import java.util.*;
 
@@ -67,15 +69,6 @@ public class Criteria {
         };
     }
 
-    //TODO needs testing
-    public static Criterion type(final Class cls) {
-        return new Criterion<Object>("_type", Operator.EQUAL, cls) {
-            @Override
-            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
-                return cls.isAssignableFrom(owner.getClass());
-            }
-        };
-    }
 
     public static Criterion eq(final Object name, Object value) {
         return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
@@ -86,6 +79,55 @@ public class Criteria {
             }
         };
     }
+
+    public static Criterion typeOf(final String className) {
+        return new Criterion<Object>("_type", Operator.EQUAL, className) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+
+                Class cls = owner.getClass();
+                while (cls != Utils.object) {
+                    String simpleName = cls.getSimpleName();
+                    String name = cls.getName();
+                    if (simpleName.equals(className) || name.equals(className)) {
+                        return true;
+                    }
+
+
+                    Class[] interfaces = cls.getInterfaces();
+                    for (Class<?> i : interfaces) {
+                        simpleName = i.getSimpleName();
+                        name = i.getName();
+
+                        if (simpleName.equals(className) || name.equals(className)) {
+                            return true;
+                        }
+                    }
+                    cls = cls.getSuperclass();
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Criterion instanceOf(final Class<?> cls) {
+        return new Criterion<Object>("_type", Operator.EQUAL, cls.getName()) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                return Types.isSuperClass(owner.getClass(), cls);
+            }
+        };
+    }
+
+    public static Criterion implementsInterface(final Class<?> cls) {
+        return new Criterion<Object>("_type", Operator.EQUAL, cls.getName()) {
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+                return Types.implementsInterface(owner.getClass(), cls);
+            }
+        };
+    }
+
 
     public static Criterion notEq(Object name, Object value) {
         return new Criterion<Object>(name.toString(), Operator.NOT_EQUAL, value) {

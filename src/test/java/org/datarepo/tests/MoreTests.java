@@ -1,6 +1,7 @@
 package org.datarepo.tests;
 
 import org.datarepo.tests.model.Employee;
+import org.datarepo.tests.model.SalesEmployee;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,12 +21,21 @@ public class MoreTests {
     List<Employee> list;
     List<Employee> bigList;
 
+    List<Employee> h_list;
+
 
     @Before
     public void setUp() throws Exception {
         list = ls(
                 Employee.employee("firstA", "LastA", "123", "5.29.1970:00:00:01", 100),
                 Employee.employee("firstB", "LastB", "124", "5.29.1960:00:00:00", 200)
+        );
+
+        h_list = ls(
+                Employee.employee("firstA", "LastA", "123", "5.29.1970:00:00:01", 100),
+                Employee.employee("firstB", "LastB", "124", "5.29.1960:00:00:00", 200),
+                Employee.employee("firstZ", "LastB", "125", "5.29.1960:00:00:00", 200, true)
+
         );
 
         bigList = copy(list);
@@ -42,6 +52,31 @@ public class MoreTests {
             }
             bigList.add(Employee.employee("firstC" + index, "last" + index, "ssn" + index, dateString, 1000 + index));
         }
+
+    }
+
+    @Test
+    public void typeOfTest() throws Exception {
+        List<Employee> queryableList = $q(h_list);
+        List<Employee> results = sortedQuery(queryableList, "firstName", typeOf("SalesEmployee"));
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+
+    }
+
+    @Test
+    public void instanceOfTest() throws Exception {
+        List<Employee> queryableList = $q(h_list);
+        List<Employee> results = sortedQuery(queryableList, "firstName", instanceOf(SalesEmployee.class));
+        assertEquals(1, results.size());
+        assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
+    }
+
+    @Test
+    public void superClassTest() throws Exception {
+        List<Employee> queryableList = $q(h_list);
+        List<Employee> results = sortedQuery(queryableList, "firstName", typeOf("ZSalaryEmployee"));
+        assertEquals(0, results.size());
 
     }
 
