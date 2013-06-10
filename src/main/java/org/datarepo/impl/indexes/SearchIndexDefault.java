@@ -20,6 +20,7 @@ public class SearchIndexDefault<KEY, ITEM> extends LookupIndexDefault<KEY, ITEM>
 
     private Class<?> keyType;
 
+
     public SearchIndexDefault(Class<?> keyType) {
         super(keyType);
         this.keyType = keyType;

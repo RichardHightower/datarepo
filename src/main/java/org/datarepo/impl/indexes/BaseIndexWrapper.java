@@ -164,4 +164,8 @@ public abstract class BaseIndexWrapper implements SearchIndex {
     public void clear() {
         index.clear();
     }
+
+    public void setBucketSize(int size) {
+        index.setBucketSize(size);
+    }
 }

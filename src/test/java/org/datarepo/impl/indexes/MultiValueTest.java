@@ -8,7 +8,6 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.datarepo.utils.Utils.ls;
-import static org.datarepo.utils.Utils.print;
 import static org.junit.Assert.assertEquals;
 
 public class MultiValueTest {
@@ -28,7 +27,7 @@ public class MultiValueTest {
     @Test
     public void testAdd() throws Exception {
 
-        MultiValue mv = MultiValue.add(null, "Rick");
+        MultiValue mv = MultiValue.add(null, "Rick", 3);
         assertEquals("Rick", mv.getValue());
 
     }
@@ -38,7 +37,7 @@ public class MultiValueTest {
 
         ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13")
                 .forEach((item) -> {
-                    mv = MultiValue.add(mv, item)
+                    mv = MultiValue.add(mv, item, 3)
                     ;
                 });
 
@@ -47,7 +46,6 @@ public class MultiValueTest {
 
         mv.getValues().forEach((item) -> {
             assertNotNull(item);
-            print(item);
         });
 
 
@@ -58,7 +56,7 @@ public class MultiValueTest {
 
         ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13")
                 .forEach((item) -> {
-                    mv = MultiValue.add(mv, item)
+                    mv = MultiValue.add(mv, item, 3)
                     ;
                 });
 
@@ -77,7 +75,7 @@ public class MultiValueTest {
     @Test
     public void testManyUseAddTo() throws Exception {
 
-        MultiValue mv = MultiValue.add(null, "Rick");
+        MultiValue mv = MultiValue.add(null, "Rick", 3);
 
         assertEquals("Rick", mv.getValue());
 

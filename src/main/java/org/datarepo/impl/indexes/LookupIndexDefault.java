@@ -29,6 +29,8 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     protected boolean storeKeyInIndexOnly;
     private Function<Object, KEY> keyTransformer;
 
+    protected int keyBucketSize = 3;
+
 
     public LookupIndexDefault(Class<?> keyType) {
         if (keyType == null) {
@@ -82,8 +84,8 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         map.put(key, mv);
     }
 
-    protected static MultiValue mvCreateOrAddToMV(MultiValue mv, Object obj) {
-        return MultiValue.add(mv, obj);
+    private MultiValue mvCreateOrAddToMV(MultiValue mv, Object obj) {
+        return MultiValue.add(mv, obj, keyBucketSize);
     }
 
 
@@ -210,6 +212,11 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     @Override
     public void setInputKeyTransformer(Function<Object, KEY> func) {
         this.keyTransformer = func;
+    }
+
+    @Override
+    public void setBucketSize(int size) {
+        this.keyBucketSize = size;
     }
 
     @Override

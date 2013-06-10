@@ -9,11 +9,11 @@ import java.util.List;
  * @param <T>
  */
 class MultiValue<T> {
-    List<T> values = new ArrayList<>(10);
+    List<T> values = null;
 
-    public static <T> MultiValue<T> add(MultiValue<T> org, T newItem) {
+    public static <T> MultiValue<T> add(MultiValue<T> org, T newItem, int bucketSize) {
         if (org == null) {
-            return new MultiValue<T>(newItem);
+            return new MultiValue<T>(newItem, bucketSize);
         } else {
             org.add(newItem);
         }
@@ -36,7 +36,8 @@ class MultiValue<T> {
 
     }
 
-    private MultiValue(T item) {
+    private MultiValue(T item, int bucketSize) {
+        values = new ArrayList(bucketSize);
         values.add(item);
 
     }

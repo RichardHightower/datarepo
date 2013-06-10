@@ -118,5 +118,7 @@ public interface RepoBuilder {
 
     RepoBuilder indexHierarchy();
 
+    RepoBuilder indexBucketSize(String propertyName, int size);
+
 
 }

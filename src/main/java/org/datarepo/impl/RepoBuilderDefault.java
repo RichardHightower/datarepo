@@ -60,6 +60,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     private Map<String, Function> keyTransformers = new HashMap<>();
     private Map<String, String[]> nestedIndexes = new HashMap<>();
     private boolean indexHierarchy;
+    private Map<String, Integer> indexBucketSize = new HashMap<>();
 
 
     public RepoBuilder usePropertyForAccess(boolean useProperty) {
@@ -396,6 +397,12 @@ public class RepoBuilderDefault implements RepoBuilder {
         return this;
     }
 
+    @Override
+    public RepoBuilder indexBucketSize(String propertyName, int size) {
+        this.indexBucketSize.put(propertyName, size);
+        return this;
+    }
+
     private Function createKeyGetter(final FieldAccess field) {
         Utils.notNull(field);
         return new Function() {
@@ -419,47 +426,54 @@ public class RepoBuilderDefault implements RepoBuilder {
 
         for (String prop : nestedIndexes.keySet()) {
             NestedKeySearchIndex index = new NestedKeySearchIndex(this.nestedIndexes.get(prop));
-            index.setComparator(this.collators.get(prop));
-            index.setInputKeyTransformer(this.keyTransformers.get(prop));
-            index.init();
-            ((SearchableCollection) query).addSearchIndex(prop, index);
+            configIndex(prop, index);
         }
         for (String prop : searchIndexes) {
             SearchIndex searchIndex = this.searchIndexFactory.apply(fields.get(prop).getType());
-            searchIndex.setComparator(this.collators.get(prop));
-            searchIndex.setInputKeyTransformer(this.keyTransformers.get(prop));
-            Function kg = getKeyGetterOrCreate(fields, prop);
-            searchIndex.setKeyGetter(kg);
-            searchIndex.init();
-            ((SearchableCollection) query).addSearchIndex(prop, searchIndex);
+            configSearchIndex(fields, prop, searchIndex);
         }
         for (String prop : uniqueSearchIndexes) {
             SearchIndex searchIndex = this.uniqueSearchIndexFactory.apply(fields.get(prop).getType());
-            searchIndex.setComparator(this.collators.get(prop));
-            searchIndex.setInputKeyTransformer(this.keyTransformers.get(prop));
-            searchIndex.init();
-            Function kg = getKeyGetterOrCreate(fields, prop);
-            searchIndex.setKeyGetter(kg);
-            ((SearchableCollection) query).addSearchIndex(prop, searchIndex);
+            configSearchIndex(fields, prop, searchIndex);
         }
 
         for (String prop : lookupIndexes) {
             LookupIndex index = this.lookupIndexFactory.apply(fields.get(prop).getType());
-            Function kg = getKeyGetterOrCreate(fields, prop);
-            index.setInputKeyTransformer(this.keyTransformers.get(prop));
-            index.setKeyGetter(kg);
-            index.init();
-            ((SearchableCollection) query).addLookupIndex(prop, index);
+            configLookupIndex(fields, prop, index);
         }
         for (String prop : uniqueLookupIndexes) {
             LookupIndex index = this.uniqueLookupIndexFactory.apply(fields.get(prop).getType());
-            Function kg = getKeyGetterOrCreate(fields, prop);
-            index.setInputKeyTransformer(this.keyTransformers.get(prop));
-            index.setKeyGetter(kg);
-            index.init();
-            ((SearchableCollection) query).addLookupIndex(prop, index);
+            configLookupIndex(fields, prop, index);
         }
 
+    }
+
+    private void configLookupIndex(Map<String, FieldAccess> fields, String prop, LookupIndex index) {
+        Function kg = getKeyGetterOrCreate(fields, prop);
+        index.setInputKeyTransformer(this.keyTransformers.get(prop));
+        index.setKeyGetter(kg);
+        index.setBucketSize(this.indexBucketSize.get(prop) == null ? 3 : this.indexBucketSize.get(prop));
+
+        index.init();
+        ((SearchableCollection) query).addLookupIndex(prop, index);
+    }
+
+    private void configSearchIndex(Map<String, FieldAccess> fields, String prop, SearchIndex searchIndex) {
+        searchIndex.setComparator(this.collators.get(prop));
+        searchIndex.setInputKeyTransformer(this.keyTransformers.get(prop));
+        Function kg = getKeyGetterOrCreate(fields, prop);
+        searchIndex.setKeyGetter(kg);
+        searchIndex.setBucketSize(this.indexBucketSize.get(prop) == null ? 3 : this.indexBucketSize.get(prop));
+        searchIndex.init();
+        ((SearchableCollection) query).addSearchIndex(prop, searchIndex);
+    }
+
+    private void configIndex(String prop, NestedKeySearchIndex index) {
+        index.setComparator(this.collators.get(prop));
+        index.setInputKeyTransformer(this.keyTransformers.get(prop));
+        index.setBucketSize(this.indexBucketSize.get(prop) == null ? 3 : this.indexBucketSize.get(prop));
+        index.init();
+        ((SearchableCollection) query).addSearchIndex(prop, index);
     }
 
     private Function getKeyGetterOrCreate(Map<String, FieldAccess> fields, String prop) {

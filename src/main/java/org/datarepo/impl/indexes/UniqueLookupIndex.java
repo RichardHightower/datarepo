@@ -120,6 +120,11 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
         this.keyTransformer = func;
     }
 
+    @Override
+    public void setBucketSize(int size) {
+
+    }
+
     protected KEY getKey(KEY key) {
         if (keyTransformer != null) {
             key = this.keyTransformer.apply(key);
