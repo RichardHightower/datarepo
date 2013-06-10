@@ -7,6 +7,7 @@ import org.datarepo.utils.Utils;
 
 import java.util.*;
 
+import static org.datarepo.utils.Utils.iterator;
 import static org.datarepo.utils.Utils.joinBy;
 
 public class Criteria {
@@ -22,6 +23,7 @@ public class Criteria {
     public static boolean orTest(Object obj, Expression... exp) {
         return or(exp).test(obj);
     }
+
 
     public static <T> List<T> filter(Collection<T> items, Expression exp) {
         if (items.size() == 0) {
@@ -313,16 +315,98 @@ public class Criteria {
         };
     }
 
-    public static Criterion contains(Object name, Object value) {
-        return new Criterion<Object>(name.toString(), Operator.CONTAINS, value) {
+    public static Criterion notContains(final Object name, final Object value) {
+        return doContains(name, value, true);
+    }
+
+    public static Criterion contains(final Object name, final Object value) {
+        return doContains(name, value, false);
+    }
+
+    private static Criterion doContains(final Object name, final Object value, boolean not) {
+        return new Criterion<Object>(name.toString(), not ? Operator.NOT_CONTAINS : Operator.CONTAINS, value) {
             String sValue = value instanceof String ? (String) value : value.toString();
 
             @Override
             public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+
+                boolean returnVal;
                 FieldAccess field = fields.get(name);
-                Object itemValue = field.getValue(owner);
-                String sItemvalue = itemValue instanceof String ? (String) itemValue : itemValue.toString();
-                return sItemvalue.contains(sValue);
+                if (Types.implementsInterface(field.getType(), Utils.collection)) {
+                    Collection collection = (Collection) field.getValue(owner);
+                    returnVal = collection.contains(value);
+                } else if (field.getType().isArray()) {
+                    returnVal = false;
+                    Object array = (Object) field.getValue(owner);
+                    Iterator iter = iterator(array);
+                    while (iter.hasNext()) {
+                        Object i = iter.next();
+                        if (i.equals(value)) {
+                            returnVal = true;
+                        }
+                    }
+                } else {
+                    Object itemValue = field.getValue(owner);
+                    String sItemvalue = itemValue instanceof String ? (String) itemValue : itemValue.toString();
+                    returnVal = sItemvalue.contains(sValue);
+                }
+                return not ? !returnVal : returnVal;
+            }
+        };
+    }
+
+
+    public static Criterion notEmpty(final Object name) {
+        return doEmpty(name, true);
+    }
+
+    public static Criterion empty(final Object name) {
+        return doEmpty(name, false);
+    }
+
+    private static Criterion doEmpty(final Object name, boolean not) {
+        return new Criterion<Object>(name.toString(), not ? Operator.NOT_EMPTY : Operator.IS_EMPTY, "") {
+            String sValue = value instanceof String ? (String) value : value.toString();
+
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+
+                boolean returnVal;
+                FieldAccess field = fields.get(name);
+                if (Types.implementsInterface(field.getType(), Utils.collection)) {
+                    Collection collection = (Collection) field.getValue(owner);
+                    returnVal = collection == null || collection.isEmpty();
+                } else if (field.getType().isArray()) {
+                    Object array = (Object) field.getValue(owner);
+                    returnVal = array == null || Utils.len(array) == 0;
+                } else {
+                    Object obj = (Object) field.getValue(owner);
+                    returnVal = obj == null || Utils.len(obj) == 0;
+                }
+                return not ? !returnVal : returnVal;
+            }
+        };
+    }
+
+
+    public static Criterion notNull(final Object name) {
+        return doIsNull(name, true);
+    }
+
+    public static Criterion isNull(final Object name) {
+        return doIsNull(name, false);
+    }
+
+    private static Criterion doIsNull(final Object name, boolean not) {
+        return new Criterion<Object>(name.toString(), not ? Operator.NOT_NULL : Operator.IS_NULL, "") {
+            String sValue = value instanceof String ? (String) value : value.toString();
+
+            @Override
+            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
+
+                FieldAccess field = fields.get(name);
+                boolean isNull = field.getValue(owner) == null;
+                return not ? !isNull : isNull;
             }
         };
     }

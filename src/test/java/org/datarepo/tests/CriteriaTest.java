@@ -8,9 +8,11 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Map;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.datarepo.query.Criteria.*;
 import static org.datarepo.utils.Utils.ls;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CriteriaTest {
 
@@ -22,12 +24,14 @@ public class CriteriaTest {
         float f;
         String s;
         short st;
+        List items;
 
-        TestClass(int i, float f, String s, short st) {
+        TestClass(int i, float f, String s, short st, String... items) {
             this.i = i;
             this.f = f;
             this.s = s;
             this.st = st;
+            this.items = ls(items);
         }
 
     }
@@ -37,9 +41,9 @@ public class CriteriaTest {
         fields = Reflection.getPropertyFieldAccessMap(TestClass.class, true, true);
 
         items = ls(
-                new TestClass(0, 0.1f, "a", (short) 1),
-                new TestClass(1, 1.1f, "a", (short) 2),
-                new TestClass(2, 2.1f, "a", (short) 3),
+                new TestClass(0, 0.1f, "a", (short) 1, "dog", "cat", "girl"),
+                new TestClass(1, 1.1f, "a dog chased a cat today", (short) 2),
+                new TestClass(2, 2.1f, null, (short) 3),
                 new TestClass(3, 3.1f, "a", (short) 4),
                 new TestClass(4, 4.1f, "a", (short) 5),
                 new TestClass(5, 5.1f, "a", (short) 6),
@@ -50,6 +54,70 @@ public class CriteriaTest {
         );
 
 
+    }
+
+    @Test
+    public void testIsNull() throws Exception {
+        TestClass tc = items.get(2);
+        assertTrue(test(tc, isNull("s")));
+        assertFalse(test(tc, notNull("s")));
+
+    }
+
+
+    @Test
+    public void tesNotNull() throws Exception {
+        TestClass tc = items.get(3);
+        assertTrue(test(tc, notNull("s")));
+        assertFalse(test(tc, isNull("s")));
+
+    }
+
+
+    @Test
+    public void testContains() throws Exception {
+        TestClass tc = items.get(0);
+        assertTrue(test(tc, contains("items", "cat")));
+        assertFalse(test(tc, contains("items", "Mountain Lion")));
+
+    }
+
+    @Test
+    public void testContainsStr() throws Exception {
+        TestClass tc = items.get(1);
+        assertTrue(test(tc, contains("s", "cat")));
+        assertFalse(test(tc, contains("s", "Mountain Lion")));
+    }
+
+    @Test
+    public void testNotContains() throws Exception {
+        TestClass tc = items.get(0);
+        assertFalse(test(tc, notContains("items", "cat")));
+        assertTrue(test(tc, notContains("items", "Mountain Lion")));
+
+    }
+
+
+    @Test
+    public void testNotEmpty() throws Exception {
+        TestClass tc = items.get(0);
+        assertTrue(test(tc, notEmpty("items")));
+
+    }
+
+
+    @Test
+    public void testEmpty() throws Exception {
+        TestClass tc = items.get(9);
+        assertTrue(test(tc, empty("items")));
+
+    }
+
+    @Test
+    public void testNotContainsStr() throws Exception {
+        TestClass tc = items.get(1);
+        assertFalse(test(tc, notContains("s", "cat")));
+        assertTrue(test(tc, notContains("s", "Mountain Lion")));
     }
 
     @Test

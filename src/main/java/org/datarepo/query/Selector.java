@@ -44,6 +44,41 @@ public abstract class Selector {
         };
     }
 
+    public static Selector toStr(final String name) {
+        return new Selector(name + ".toString()") {
+            @Override
+            public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
+                Object selected = fields.get(this.name).getValue(item);
+                row.put(this.name, selected == null ? "" : selected.toString());
+            }
+
+            @Override
+            public void handleStart(List<? extends Object> results) {
+            }
+
+            @Override
+            public void handleComplete(List<Map<String, Object>> rows) {
+            }
+        };
+    }
+
+    public static Selector toStr() {
+        return new Selector("toString()") {
+            @Override
+            public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
+                row.put(this.name, item.toString());
+            }
+
+            @Override
+            public void handleStart(List<? extends Object> results) {
+            }
+
+            @Override
+            public void handleComplete(List<Map<String, Object>> rows) {
+            }
+        };
+    }
+
     public static Selector select(final String... path) {
         return new Selector(joinBy('.', path)) {
             int index = 0;
@@ -56,6 +91,31 @@ public abstract class Selector {
 
 
                 row.put(this.name, o);
+            }
+
+
+            @Override
+            public void handleStart(List<? extends Object> results) {
+            }
+
+            @Override
+            public void handleComplete(List<Map<String, Object>> rows) {
+            }
+        };
+    }
+
+    public static Selector toStr(final String... path) {
+        return new Selector(joinBy('.', path) + ".toString()") {
+            int index = 0;
+
+            @Override
+            public void handleRow(int rowNum, Map<String, Object> row,
+                                  Object item, Map<String, FieldAccess> fields) {
+
+                Object o = getPropByPath(item, path);
+
+
+                row.put(this.name, o == null ? "" : o.toString());
             }
 
 

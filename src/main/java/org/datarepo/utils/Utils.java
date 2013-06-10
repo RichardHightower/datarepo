@@ -16,6 +16,7 @@ public class Utils {
 
     private static final Logger log = log(utils);
     public static Class<Comparable> comparable = Comparable.class;
+    public static Class<Collection> collection = Collection.class;
 
     public static Logger log(Class<?> clzz) {
         return Logger.getLogger(clzz.getName());
