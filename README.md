@@ -486,3 +486,39 @@ You can also query classes that implement certain interfaces:
         assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
 
 ```
+
+You can also index nested fields/properties and they can be collection fields or property non collection fields as deeply nested as you would like:
+
+
+```
+        /* Create a repo, and decide what to index. */
+        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+
+        /* Look at the nestedIndex. */
+        repoBuilder.primaryKey("id")
+                .searchIndex("firstName").searchIndex("lastName")
+                .searchIndex("salary").uniqueSearchIndex("empNum")
+                .nestedIndex("tags", "metas", "metas2", "name2");
+
+
+```
+
+Later you can use the nestedIndex to search.
+
+```
+        List<Map<String, Object>> list = repo.query(
+                selects(select("tags", "metas", "metas2", "name2")),
+                eqNested("2tag1", "tags", "metas", "metas2", "name2"));
+
+```
+
+The safe way to use the nestedIndex is to use eqNested. You can use eq, gt, gte, etc. if you have the index like so:
+
+```
+        List<Map<String, Object>> list = repo.query(
+                selects(select("tags", "metas", "metas2", "name2")),
+                eq("tags.metas.metas2.name2", "2tag1"));
+
+```
+
+

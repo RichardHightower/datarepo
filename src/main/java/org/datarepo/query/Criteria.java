@@ -46,7 +46,6 @@ public class Criteria {
         return new Group.Or(expressions);
     }
 
-    //TODO You need more of these
     public static Criterion eqNested(final Object value, final Object... path) {
         return new Criterion<Object>(joinBy('.', path), Operator.EQUAL, value) {
             @Override
