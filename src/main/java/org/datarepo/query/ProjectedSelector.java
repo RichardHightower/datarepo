@@ -1,10 +1,13 @@
 package org.datarepo.query;
 
 import org.datarepo.fields.FieldAccess;
+import org.datarepo.utils.Utils;
 
 import java.util.List;
 import java.util.Map;
 
+import static org.datarepo.utils.Types.toFloat;
+import static org.datarepo.utils.Types.toInt;
 import static org.datarepo.utils.Utils.joinBy;
 import static org.datarepo.utils.Utils.list;
 
@@ -34,7 +37,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleStart(List<? extends Object> results) {
-
+                max = null;
             }
 
             @Override
@@ -66,7 +69,7 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleStart(List<? extends Object> results) {
-
+                min = null;
             }
 
             @Override
@@ -79,16 +82,94 @@ public abstract class ProjectedSelector extends Selector {
     }
 
 
+    public static Selector sum(final String name) {
+        return new Selector(name) {
+            long sum = 0;
+
+            @Override
+            public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
+
+                FieldAccess field = fields.get(this.name);
+                if (field.getType() == Utils.pint) {
+                    int value = field.getInt(item);
+                    sum += value;
+                } else {
+                    Integer ovalue = toInt(field.getValue(item));
+                    sum += ovalue;
+
+                }
+
+            }
+
+            @Override
+            public void handleStart(List<? extends Object> results) {
+                sum = Integer.MIN_VALUE;
+            }
+
+            @Override
+            public void handleComplete(List<Map<String, Object>> rows) {
+                if (rows.size() > 0) {
+                    rows.get(0).put(joinBy('.', "sum", name), sum);
+                }
+            }
+        };
+    }
+
+    public static Selector sumFloat(final String name) {
+        return new Selector(name) {
+            double sum = 0;
+
+            @Override
+            public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
+
+                FieldAccess field = fields.get(this.name);
+                if (field.getType() == Utils.pfloat) {
+                    float value = field.getFloat(item);
+                    sum += value;
+                } else {
+                    Float ovalue = toFloat(field.getValue(item));
+                    sum += ovalue;
+
+                }
+
+            }
+
+            @Override
+            public void handleStart(List<? extends Object> results) {
+                sum = Integer.MIN_VALUE;
+            }
+
+            @Override
+            public void handleComplete(List<Map<String, Object>> rows) {
+                if (rows.size() > 0) {
+                    rows.get(0).put(joinBy('.', "sum", name), sum);
+                }
+            }
+        };
+    }
+
+
     public static Selector maxInt(final String name) {
         return new Selector(name) {
             int max = Integer.MIN_VALUE;
 
             @Override
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
-                int value = fields.get(this.name).getInt(item);
-                if (value > max) {
-                    max = value;
+                FieldAccess field = fields.get(this.name);
+                if (field.getType() == Utils.pint) {
+                    int value = field.getInt(item);
+                    if (value > max) {
+                        max = value;
+                    }
+                } else {
+                    Integer ovalue = toInt(field.getValue(item));
+                    if (ovalue > max) {
+                        max = ovalue;
+                    }
+
                 }
+
+
             }
 
             @Override
@@ -111,9 +192,18 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
-                int value = fields.get(this.name).getInt(item);
-                if (value < min) {
-                    min = value;
+                FieldAccess field = fields.get(this.name);
+                if (field.getType() == Utils.pint) {
+                    int value = field.getInt(item);
+                    if (value < min) {
+                        min = value;
+                    }
+                } else {
+                    Integer ovalue = toInt(field.getValue(item));
+                    if (ovalue < min) {
+                        min = ovalue;
+                    }
+
                 }
             }
 
@@ -138,9 +228,18 @@ public abstract class ProjectedSelector extends Selector {
 
             @Override
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
-                float value = fields.get(this.name).getFloat(item);
-                if (value > max) {
-                    max = value;
+                FieldAccess field = fields.get(this.name);
+                if (field.getType() == Utils.pfloat) {
+                    float value = field.getFloat(item);
+                    if (value > max) {
+                        max = value;
+                    }
+                } else {
+                    Float ovalue = toFloat(field.getValue(item));
+                    if (ovalue > max) {
+                        max = ovalue;
+                    }
+
                 }
             }
 
@@ -160,13 +259,24 @@ public abstract class ProjectedSelector extends Selector {
 
     public static Selector minFloat(final String name) {
         return new Selector(name) {
+
             float min = Float.MAX_VALUE;
 
             @Override
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
-                float value = fields.get(this.name).getFloat(item);
-                if (value < min) {
-                    min = value;
+                FieldAccess field = fields.get(this.name);
+
+                if (field.getType() == Utils.pfloat) {
+                    float value = field.getFloat(item);
+                    if (value > min) {
+                        min = value;
+                    }
+                } else {
+                    Float ovalue = toFloat(field.getValue(item));
+                    if (ovalue > min) {
+                        min = ovalue;
+                    }
+
                 }
             }
 
