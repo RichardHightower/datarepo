@@ -1,10 +1,10 @@
 package org.datarepo.query;
 
 import org.datarepo.fields.FieldAccess;
+import org.datarepo.utils.Predicate;
 import org.datarepo.utils.Reflection;
 
 import java.util.Map;
-import java.util.function.Predicate;
 
 import static org.datarepo.utils.Utils.log;
 import static org.datarepo.utils.Utils.warning;

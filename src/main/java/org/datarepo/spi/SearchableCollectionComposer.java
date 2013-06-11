@@ -2,9 +2,9 @@ package org.datarepo.spi;
 
 import org.datarepo.Filter;
 import org.datarepo.fields.FieldAccess;
+import org.datarepo.utils.Function;
 
 import java.util.Map;
-import java.util.function.Function;
 
 public interface SearchableCollectionComposer {
     void setPrimaryKeyName(String primaryKey);

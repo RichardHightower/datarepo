@@ -1,11 +1,11 @@
 package org.datarepo.impl.indexes;
 
 import org.datarepo.spi.SearchIndex;
+import org.datarepo.utils.Function;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 
 
 public abstract class BaseIndexWrapper implements SearchIndex {

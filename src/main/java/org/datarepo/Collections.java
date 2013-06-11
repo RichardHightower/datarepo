@@ -6,16 +6,12 @@ import org.datarepo.query.Expression;
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.SearchIndex;
 import org.datarepo.spi.SearchableCollectionComposer;
+import org.datarepo.utils.Function;
 import org.datarepo.utils.Reflection;
 import org.datarepo.utils.Types;
 import org.datarepo.utils.Utils;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
 
 public class Collections {
@@ -222,31 +218,6 @@ public class Collections {
         }
 
         @Override
-        public void forEach(Consumer<? super T> action) {
-            searchCollection.forEach(action);
-        }
-
-        @Override
-        public boolean removeIf(Predicate<? super T> filter) {
-            return searchCollection.removeIf(filter);
-        }
-
-        @Override
-        public Spliterator<T> spliterator() {
-            return set.spliterator();
-        }
-
-        @Override
-        public Stream<T> stream() {
-            return set.stream();
-        }
-
-        @Override
-        public Stream<T> parallelStream() {
-            return set.parallelStream();
-        }
-
-        @Override
         public int size() {
             return set.size();
         }
@@ -289,45 +260,12 @@ public class Collections {
             return list.get(index);
         }
 
-        @Override
-        public Spliterator<T> spliterator() {
-            return list.spliterator();
-        }
-
-        @Override
-        public Stream<T> stream() {
-            return list.stream();
-        }
-
-        @Override
-        public Stream<T> parallelStream() {
-            return list.parallelStream();
-        }
 
         @Override
         public int size() {
             return list.size();
         }
 
-        @Override
-        public boolean removeIf(Predicate<? super T> filter) {
-            return list.removeIf(filter);
-        }
-
-        @Override
-        public void replaceAll(UnaryOperator<T> operator) {
-            list.replaceAll(operator);
-        }
-
-        @Override
-        public void sort(Comparator<? super T> c) {
-            list.sort(c);
-        }
-
-        @Override
-        public void forEach(Consumer<? super T> action) {
-            list.forEach(action);
-        }
 
         @Override
         public SearchableCollection searchCollection() {

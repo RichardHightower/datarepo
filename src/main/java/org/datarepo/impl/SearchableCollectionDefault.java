@@ -12,15 +12,12 @@ import org.datarepo.query.Visitor;
 import org.datarepo.spi.FilterComposer;
 import org.datarepo.spi.SearchIndex;
 import org.datarepo.spi.SearchableCollectionComposer;
+import org.datarepo.utils.Function;
 import org.datarepo.utils.Reflection;
 import org.datarepo.utils.Utils;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 import static org.datarepo.utils.Reflection.toMap;
 import static org.datarepo.utils.Utils.*;
@@ -577,19 +574,6 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     }
 
 
-    public Spliterator<ITEM> spliterator() {
-        return this.primaryIndex.toCollection().spliterator();
-    }
-
-    public Stream<ITEM> stream() {
-        return this.primaryIndex.toCollection().stream();
-    }
-
-    public Stream<ITEM> parallelStream() {
-        return this.primaryIndex.toCollection().parallelStream();
-    }
-
-
     public void setPrimaryKeyName(String primaryKey) {
         this.primaryKeyName = primaryKey;
     }
@@ -607,9 +591,6 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         return primaryIndex.toCollection().iterator();
     }
 
-    public void forEach(Consumer<? super ITEM> action) {
-        primaryIndex.toCollection().forEach(action);
-    }
 
     public Object[] toArray() {
         return primaryIndex.toCollection().toArray();
@@ -703,17 +684,6 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         return true;
     }
 
-    public boolean removeIf(Predicate<? super ITEM> filter) {
-        List<ITEM> all = this.all();
-        boolean removedSum = false;
-        for (ITEM item : all) {
-            boolean test = filter.test(item);
-            if (test) {
-                this.delete(item);
-            }
-        }
-        return removedSum;
-    }
 
     public boolean retainAll(Collection<?> c) {
         for (Object object : c) {

@@ -18,7 +18,7 @@ public abstract class ValueSetter implements Serializable {
 
     public abstract void doSet(ObjectEditor repo, Object item);
 
-    public static ValueSetter value(String name, final int value) {
+    public static ValueSetter value(final String name, final int value) {
         return new ValueSetter() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
@@ -27,7 +27,7 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(String name, final long value) {
+    public static ValueSetter value(final String name, final long value) {
         return new ValueSetter() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
@@ -36,7 +36,7 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(String name, final Object value) {
+    public static ValueSetter value(final String name, final Object value) {
         return new ValueSetter() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
@@ -45,7 +45,7 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(String name, final byte value) {
+    public static ValueSetter value(final String name, final byte value) {
         return new ValueSetter() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
@@ -54,7 +54,7 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(String name, final float value) {
+    public static ValueSetter value(final String name, final float value) {
         return new ValueSetter() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
@@ -63,7 +63,7 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(String name, final char value) {
+    public static ValueSetter value(final String name, final char value) {
         return new ValueSetter() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
@@ -72,7 +72,7 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(String name, final String value) {
+    public static ValueSetter value(final String name, final String value) {
         return new ValueSetter() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {

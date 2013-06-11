@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.text.Collator;
 import java.util.*;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -192,7 +191,7 @@ public class Utils {
     }
 
 
-    public static Comparator universalComparator(final FieldAccess field, boolean ascending) {
+    public static Comparator universalComparator(final FieldAccess field, final boolean ascending) {
         return new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -207,14 +206,13 @@ public class Utils {
                     value2 = field.getValue(o1);
                 }
                 return Utils.compare(value1, value2);
-
             }
         };
     }
 
 
     public static Comparator universalComparator(final String sortBy, final Map<String, FieldAccess> fields,
-                                                 boolean ascending, List<Comparator> comparators) {
+                                                 final boolean ascending, final List<Comparator> comparators) {
         return new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -774,6 +772,10 @@ public class Utils {
     @SafeVarargs
     public static <V> V[] array(final V... array) {
         return array;
+    }
+
+    public static <V> V[] array(Class<V> type, final Collection<V> array) {
+        return (V[]) Types.toArray(type, array);
     }
 
     public static Object[] oarray(final Object... array) {
@@ -1768,13 +1770,10 @@ public class Utils {
 
     }
 
-    public static List<Character> list(char... chars) {
-        return ls(chars);
-    }
 
     public static char[] add(char[] chars, char... chars2) {
-        List<Character> list = ls(chars);
-        list.addAll(ls(chars2));
+        List<Character> list = charList(chars);
+        list.addAll(charList(chars2));
         char[] chars3 = new char[chars.length + chars2.length];
         int index = 0;
         for (char c : list) {
@@ -1788,8 +1787,8 @@ public class Utils {
         return new ArrayList<T>();
     }
 
-    public static List<Character> ls(char... chars) {
-        List<Character> ls = new ArrayList<Character>();
+    public static List<Character> charList(char... chars) {
+        List<Character> ls = new ArrayList<Character>(chars.length);
         for (char c : chars) {
             ls.add(c);
         }
@@ -2150,25 +2149,47 @@ public class Utils {
         return camelCase(in, false);
     }
 
-    public static Function<String, String> underBarCase = (in) -> {
-        return underBarCase(in);
+    public static Function<String, String> underBarCase = new Function<String, String>() {
+        @Override
+        public String apply(String in) {
+            return Utils.underBarCase(in);
+        }
     };
-    public static Function<String, String> camelCase = (in) -> {
-        return camelCase(in);
-    };
-    public static Function<String, String> camelCaseUpper = (in) -> {
-        return camelCaseUpper(in);
-    };
-    public static Function<String, String> camelCaseLower = (in) -> {
-        return camelCaseLower(in);
-    };
-
-    public static Function<String, String> upperCase = (in) -> {
-        return in.toUpperCase();
+    public static Function<String, String> camelCase = new Function<String, String>() {
+        @Override
+        public String apply(String in) {
+            return Utils.camelCase(in);
+        }
     };
 
-    public static Function<String, String> lowerCase = (in) -> {
-        return in.toLowerCase();
+
+    public static Function<String, String> camelCaseUpper = new Function<String, String>() {
+        @Override
+        public String apply(String in) {
+            return Utils.camelCaseUpper(in);
+        }
+    };
+
+
+    public static Function<String, String> camelCaseLower = new Function<String, String>() {
+        @Override
+        public String apply(String in) {
+            return Utils.camelCaseLower(in);
+        }
+    };
+
+    public static Function<String, String> upperCase = new Function<String, String>() {
+        @Override
+        public String apply(String in) {
+            return in.toUpperCase();
+        }
+    };
+
+    public static Function<String, String> lowerCase = new Function<String, String>() {
+        @Override
+        public String apply(String in) {
+            return in.toLowerCase();
+        }
     };
 
     public static String camelCase(String inStr, boolean upper) {

@@ -2,15 +2,17 @@ package org.datarepo.tests;
 
 import org.datarepo.Repo;
 import org.datarepo.RepoBuilder;
+import org.datarepo.Repos;
 import org.datarepo.modification.ModificationEvent;
+import org.datarepo.modification.ModificationListener;
 import org.datarepo.tests.model.Department;
 import org.datarepo.tests.model.Employee;
 import org.datarepo.tests.model.SalesEmployee;
+import org.datarepo.utils.Function;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
 import java.util.logging.Level;
 
 import static org.datarepo.tests.model.Employee.employee;
@@ -39,7 +41,7 @@ public class TestHelper {
     static Repo<String, Employee> createBuilderNoReflection() {
         Repo<String, Employee> repo;
 
-        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+        RepoBuilder repoBuilder = Repos.builder();
         repoBuilder.primaryKey("id")
                 .searchIndex("firstName").searchIndex("lastName")
                 .searchIndex("salary").uniqueSearchIndex("empNum");
@@ -86,7 +88,7 @@ public class TestHelper {
     static Repo<String, Employee> createFromBuilderNestedIndex() {
 
         /* Create a repo, and decide what to index. */
-        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+        RepoBuilder repoBuilder = Repos.builder();
 
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("id")
@@ -106,7 +108,7 @@ public class TestHelper {
     static Repo<String, Employee> createFromBuilder() {
 
         /* Create a repo, and decide what to index. */
-        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+        RepoBuilder repoBuilder = Repos.builder();
 
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("id")
@@ -127,7 +129,7 @@ public class TestHelper {
     static Repo<String, Employee> createFromBuilderWithTransformAndCollation() {
 
         /* Create a repo, and decide what to index. */
-        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+        RepoBuilder repoBuilder = Repos.builder();
 
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("id")
@@ -148,14 +150,18 @@ public class TestHelper {
 
     public static Repo<String, Employee> createFromBuilderLogAndClone() {
         /* Create a repo, and decide what to index. */
-        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+        RepoBuilder repoBuilder = Repos.builder();
 
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("id")
                 .searchIndex("firstName").searchIndex("lastName")
                 .searchIndex("salary").uniqueSearchIndex("empNum")
-                .debug().level(Level.INFO).cloneEdits(true).events((ModificationEvent event) -> {
-            print(event);
+                .debug().level(Level.INFO).cloneEdits(true).events(new ModificationListener() {
+
+            @Override
+            public void modification(ModificationEvent event) {
+                print(event);
+            }
         });
 
         /* Create the repo with the builder. */
@@ -172,7 +178,7 @@ public class TestHelper {
 
     public static Repo<String, Employee> createWithNoIndexes() {
         /* Create a repo, and decide what to index. */
-        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+        RepoBuilder repoBuilder = Repos.builder();
 
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("id");
@@ -193,7 +199,7 @@ public class TestHelper {
     static Repo<String, Employee> createFromBuilderUsingPropertyAccess() {
 
         /* Create a repo, and decide what to index. */
-        RepoBuilder repoBuilder = RepoBuilder.getInstance();
+        RepoBuilder repoBuilder = Repos.builder();
 
         /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
         repoBuilder.primaryKey("id")

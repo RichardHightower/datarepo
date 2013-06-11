@@ -2,10 +2,10 @@ package org.datarepo.impl.indexes;
 
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.SearchIndex;
+import org.datarepo.utils.Function;
 
 import java.text.Collator;
 import java.util.*;
-import java.util.function.Function;
 
 /**
  * Default Search Index which uses a TreeMap

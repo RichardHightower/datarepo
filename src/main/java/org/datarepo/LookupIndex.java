@@ -1,7 +1,8 @@
 package org.datarepo;
 
+import org.datarepo.utils.Function;
+
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * Creates a simple lookup index (like a hash map).

@@ -2,12 +2,12 @@ package org.datarepo.impl.indexes;
 
 import org.datarepo.LookupIndex;
 import org.datarepo.spi.SPIFactory;
+import org.datarepo.utils.Function;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.logging.Logger;
 
 import static org.datarepo.utils.Utils.*;

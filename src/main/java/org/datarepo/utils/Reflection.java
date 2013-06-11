@@ -251,7 +251,21 @@ public class Reflection {
     }
 
     public static void idx(Object object, int index, Object value) {
-        Array.set(object, index, value);
+        try {
+            Array.set(object, index, value);
+        } catch (Exception notExpected) {
+            String msg = lines("An unexpected error has occurred",
+                    "This is likely a programming error!",
+                    sprintf("Object is %s, index is %s, and value is %s", object, index, value),
+                    sprintf("The object is an array? %s", object == null ? "null" : object.getClass().isArray()),
+                    sprintf("The object is of type %s", object == null ? "null" : object.getClass().getName()),
+                    sprintf("The value is of type %s", value == null ? "null" : value.getClass().getName()),
+
+                    ""
+
+            );
+            complain(msg, notExpected);
+        }
     }
 
     @SuppressWarnings("unchecked")

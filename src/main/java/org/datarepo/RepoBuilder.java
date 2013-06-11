@@ -2,13 +2,12 @@ package org.datarepo;
 
 import org.datarepo.modification.ModificationListener;
 import org.datarepo.spi.RepoComposer;
-import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.SearchIndex;
+import org.datarepo.utils.Function;
+import org.datarepo.utils.Supplier;
 
 import java.util.Comparator;
 import java.util.Locale;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 
 /**
@@ -16,34 +15,6 @@ import java.util.logging.Level;
  */
 public interface RepoBuilder {
 
-
-    public static void setRepoBuilder(Supplier<RepoBuilder> factory) {
-        SPIFactory.setRepoBuilderFactory(factory);
-    }
-
-    public static void setDefaultSearchIndexFactory(Function<Class, SearchIndex> factory) {
-        SPIFactory.setSearchIndexFactory(factory);
-    }
-
-    public static void setLookupIndexFactory(Function<Class, LookupIndex> factory) {
-        SPIFactory.setLookupIndexFactory(factory);
-    }
-
-    public static void setUniqueLookupIndexFactory(Function<Class, LookupIndex> factory) {
-        SPIFactory.setUniqueLookupIndexFactory(factory);
-    }
-
-    public static void setUniqueSearchIndexFactory(Function<Class, SearchIndex> factory) {
-        SPIFactory.setUniqueSearchIndexFactory(factory);
-    }
-
-    public static void setRepoFactory(Supplier<RepoComposer> factory) {
-        SPIFactory.setRepoFactory(factory);
-    }
-
-    public static void setFilterFactory(Supplier<Filter> factory) {
-        SPIFactory.setFilterFactory(factory);
-    }
 
     public RepoBuilder searchIndexFactory(Function<Class, SearchIndex> factory);
 
@@ -97,12 +68,8 @@ public interface RepoBuilder {
     RepoBuilder debug();
 
 
-    public <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz, Class<?>... all);
+    <KEY, ITEM> Repo<KEY, ITEM> build(Class<KEY> key, Class<ITEM> clazz, Class<?>... all);
 
-    public static RepoBuilder getInstance() {
-        SPIFactory.init();
-        return SPIFactory.getRepoBuilderFactory().get();
-    }
 
     RepoBuilder level(Level info);
 

@@ -58,24 +58,24 @@ public class BenchMark {
         long endTime = (System.nanoTime() - startTime) / 100_000;
         print("index time", endTime);
 
-        for (int index = 0; index < 10; index++) {
-            for (String firstName : firstNames) {
-                Object[] results = employees2.stream().filter(emp -> emp.getFirstName().equals(firstName)).toArray();
-                if (results != null && results.length > 0) {
-                    found = true;
-                }
-            }
-        }
-
-        startTime = System.nanoTime();
-        for (int index = 0; index < 50; index++) {
-            for (String firstName : firstNames) {
-                Object[] results = employees2.stream().filter(emp -> emp.getFirstName().equals(firstName)).toArray();
-                if (results != null && results.length > 0) {
-                    found = true;
-                }
-            }
-        }
+//        for (int index = 0; index < 10; index++) {
+//            for (String firstName : firstNames) {
+//                Object[] results = employees2.stream().filter(emp -> emp.getFirstName().equals(firstName)).toArray();
+//                if (results != null && results.length > 0) {
+//                    found = true;
+//                }
+//            }
+//        }
+//
+//        startTime = System.nanoTime();
+//        for (int index = 0; index < 50; index++) {
+//            for (String firstName : firstNames) {
+//                Object[] results = employees2.stream().filter(emp -> emp.getFirstName().equals(firstName)).toArray();
+//                if (results != null && results.length > 0) {
+//                    found = true;
+//                }
+//            }
+//        }
         endTime = (System.nanoTime() - startTime) / 50;
         print("stream time", endTime);
 

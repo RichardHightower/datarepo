@@ -139,7 +139,9 @@ public abstract class ModificationEvent<KEY, ITEM> {
     }
 
 
-    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(ModificationType type, KEY key, ITEM item, String property, boolean value) {
+    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(
+            final ModificationType type, final KEY key, final ITEM item,
+            final String property, final boolean value) {
         return new ModficationEventImpl(key, item, type, property) {
             boolean v = value;
 
@@ -149,7 +151,8 @@ public abstract class ModificationEvent<KEY, ITEM> {
         };
     }
 
-    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(ModificationType type, KEY key, ITEM item, String property, Object value) {
+    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(
+            final ModificationType type, final KEY key, final ITEM item, final String property, final Object value) {
         return new ModficationEventImpl(key, item, type, property) {
             Object v = value;
 
@@ -159,7 +162,8 @@ public abstract class ModificationEvent<KEY, ITEM> {
         };
     }
 
-    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(ModificationType type, KEY key, ITEM item, String property, String value) {
+    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(
+            final ModificationType type, final KEY key, final ITEM item, final String property, final String value) {
         return new ModficationEventImpl(key, item, type, property) {
             String v = value;
 
@@ -169,7 +173,8 @@ public abstract class ModificationEvent<KEY, ITEM> {
         };
     }
 
-    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(ModificationType type, KEY key, ITEM item, String property, byte value) {
+    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(final ModificationType type,
+                                                                              final KEY key, final ITEM item, final String property, final byte value) {
         return new ModficationEventImpl(key, item, type, property) {
             byte v = value;
 
@@ -179,7 +184,8 @@ public abstract class ModificationEvent<KEY, ITEM> {
         };
     }
 
-    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(ModificationType type, KEY key, ITEM item, String property, short value) {
+    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(
+            final ModificationType type, final KEY key, final ITEM item, final String property, final short value) {
         return new ModficationEventImpl(key, item, type, property) {
             short v = value;
 
@@ -189,7 +195,8 @@ public abstract class ModificationEvent<KEY, ITEM> {
         };
     }
 
-    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(ModificationType type, KEY key, ITEM item, String property, int value) {
+    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(
+            final ModificationType type, final KEY key, final ITEM item, final String property, final int value) {
         return new ModficationEventImpl(key, item, type, property) {
             int v = value;
 
@@ -199,7 +206,8 @@ public abstract class ModificationEvent<KEY, ITEM> {
         };
     }
 
-    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(ModificationType type, KEY key, ITEM item, String property, long value) {
+    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(
+            final ModificationType type, final KEY key, final ITEM item, final String property, final long value) {
         return new ModficationEventImpl(key, item, type, property) {
             long v = value;
 
@@ -209,7 +217,8 @@ public abstract class ModificationEvent<KEY, ITEM> {
         };
     }
 
-    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(ModificationType type, KEY key, ITEM item, String property, float value) {
+    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(
+            final ModificationType type, final KEY key, final ITEM item, final String property, final float value) {
         return new ModficationEventImpl(key, item, type, property) {
             float v = value;
 
@@ -219,7 +228,8 @@ public abstract class ModificationEvent<KEY, ITEM> {
         };
     }
 
-    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(ModificationType type, KEY key, ITEM item, String property, double value) {
+    public static <KEY, ITEM> ModificationEvent<KEY, ITEM> createModification(
+            final ModificationType type, final KEY key, final ITEM item, final String property, final double value) {
         return new ModficationEventImpl(key, item, type, property) {
             double v = value;
 

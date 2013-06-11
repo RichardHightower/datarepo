@@ -10,13 +10,13 @@ import org.datarepo.impl.indexes.NestedKeySearchIndex;
 import org.datarepo.impl.indexes.TypeHierarchyIndex;
 import org.datarepo.modification.ModificationListener;
 import org.datarepo.spi.*;
+import org.datarepo.utils.Function;
 import org.datarepo.utils.Reflection;
+import org.datarepo.utils.Supplier;
 import org.datarepo.utils.Utils;
 
 import java.text.Collator;
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 
 import static org.datarepo.utils.Utils.joinBy;

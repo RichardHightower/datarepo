@@ -649,7 +649,7 @@ public class Types {
         if (value instanceof CharSequence) {
             String str = toString(value);
 
-            List<Character> delims = ls(new char[]{',', '\t', ' ', '|', ':', ';'});
+            List<Character> delims = charList(new char[]{',', '\t', ' ', '|', ':', ';'});
             char[] chars = chars(str);
             for (char c : delims) {
                 if (isIn(c, chars)) {
@@ -815,6 +815,20 @@ public class Types {
         }
         return array;
     }
+
+
+    public static Object toArray(Class<?> componentType, Collection<?> value) {
+        Object array = Array.newInstance(componentType, value.size());
+        @SuppressWarnings("unchecked")
+        Iterator<Object> iterator = (Iterator<Object>) value.iterator();
+        int index = 0;
+        while (iterator.hasNext()) {
+            idx(array, index, iterator.next());
+            index++;
+        }
+        return array;
+    }
+
 
     public static Date toDate(Calendar c) {
         return c.getTime();

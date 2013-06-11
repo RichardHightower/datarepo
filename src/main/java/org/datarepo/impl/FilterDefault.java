@@ -11,6 +11,10 @@ import org.datarepo.utils.Utils;
 
 import java.util.*;
 
+import static org.datarepo.query.Criteria.instanceOf;
+import static org.datarepo.query.Criteria.not;
+import static org.datarepo.utils.Utils.array;
+
 
 public class FilterDefault implements Filter, FilterComposer {
 
@@ -194,17 +198,19 @@ public class FilterDefault implements Filter, FilterComposer {
 
 
     private List applyLinearSearch(List items, Set<Expression> expressionSet) {
-        HashSet set = new HashSet(expressionSet);
-        set.removeIf((e) -> {
-            return e instanceof Group;
-        });
 
-        Criterion[] criteria = (Criterion[]) set.toArray(new Criterion[set.size()]);
-        items = Criteria.filter(items, Criteria.and(criteria));
+        if (expressionSet.size() == 0) {
+            return items;
+        }
 
-        expressionSet.removeIf((e) -> {
-            return !(e instanceof Group);
-        });
+        Expression[] expressions = array(Expression.class, Criteria.filter(expressionSet, not(instanceOf(Group.class))));
+
+        items = Criteria.filter(items, Criteria.and(expressions));
+
+
+        for (Expression expression : expressions) {
+            expressionSet.remove(expression);
+        }
 
         return items;
     }

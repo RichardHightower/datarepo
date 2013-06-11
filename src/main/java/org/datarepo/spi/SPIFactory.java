@@ -9,10 +9,10 @@ import org.datarepo.impl.indexes.SearchIndexDefault;
 import org.datarepo.impl.indexes.UniqueLookupIndex;
 import org.datarepo.impl.indexes.UniqueSearchIndex;
 import org.datarepo.impl.maps.MapCreatorImpl;
+import org.datarepo.utils.Function;
+import org.datarepo.utils.Supplier;
 import org.datarepo.utils.Utils;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * Helper class for SPIFactory interface.
@@ -69,8 +69,11 @@ public class SPIFactory {
     public static void init() {
 
         if (mapCreatorFactory == null) {
-            mapCreatorFactory = () -> {
-                return new MapCreatorImpl();
+            mapCreatorFactory = new Supplier<MapCreator>() {
+                @Override
+                public MapCreator get() {
+                    return new MapCreatorImpl();
+                }
             };
         }
         if (repoBuilderFactory == null) {
@@ -82,35 +85,39 @@ public class SPIFactory {
             };
         }
         if (searchIndexFactory == null) {
-            searchIndexFactory =
-                    (Class keyType) -> {
-
-                        if (keyType == Utils.string) {
-                            return new SearchIndexDefault(keyType);
-                        } else {
-                            return new SearchIndexDefault(keyType);
-                        }
-
-                    };
+            searchIndexFactory = new Function<Class, SearchIndex>() {
+                public SearchIndex apply(Class keyType) {
+                    if (keyType == Utils.string) {
+                        return new SearchIndexDefault(keyType);
+                    } else {
+                        return new SearchIndexDefault(keyType);
+                    }
+                }
+            };
         }
         if (lookupIndexFactory == null) {
-            lookupIndexFactory =
-                    (Class keyType) -> {
-                        return new LookupIndexDefault(keyType);
-                    };
+            lookupIndexFactory = new Function<Class, LookupIndex>() {
+                @Override
+                public LookupIndex apply(Class keyType) {
+                    return new LookupIndexDefault(keyType);
+                }
+            };
         }
         if (uniqueLookupIndexFactory == null) {
-            uniqueLookupIndexFactory = (Class keyType) -> {
-                return new UniqueLookupIndex(keyType);
+            uniqueLookupIndexFactory = new Function<Class, LookupIndex>() {
+                @Override
+                public LookupIndex apply(Class keyType) {
+                    return new UniqueLookupIndex(keyType);
+                }
             };
-
-
         }
         if (uniqueSearchIndexFactory == null) {
-            uniqueSearchIndexFactory =
-                    (Class keyType) -> {
-                        return new UniqueSearchIndex(keyType);
-                    };
+            uniqueSearchIndexFactory = new Function<Class, SearchIndex>() {
+                @Override
+                public SearchIndex apply(Class keyType) {
+                    return new UniqueSearchIndex(keyType);
+                }
+            };
         }
 
         if (repoFactory == null) {

@@ -35,39 +35,42 @@ public class MultiValueTest {
     @Test
     public void testMany() throws Exception {
 
-        ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13")
-                .forEach((item) -> {
-                    mv = MultiValue.add(mv, item, 3)
-                    ;
-                });
+        List<String> strings = ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
+
+
+        for (String item : strings) {
+            mv = MultiValue.add(mv, item, 3);
+
+        }
 
         assertEquals("Rick", mv.getValue());
         assertEquals(13, mv.size());
 
-        mv.getValues().forEach((item) -> {
-            assertNotNull(item);
-        });
 
+        for (Object item : mv.getValues()) {
+            assertNotNull(item);
+        }
 
     }
 
     @Test
     public void testManyThenAddTo() throws Exception {
 
-        ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13")
-                .forEach((item) -> {
-                    mv = MultiValue.add(mv, item, 3)
-                    ;
-                });
+        List<String> strings = ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
+
+
+        for (String item : strings) {
+            mv = MultiValue.add(mv, item, 3);
+
+        }
 
         List<String> results = ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
 
         mv.addTo(results);
 
-        results.forEach((item) -> {
+        for (Object item : mv.getValues()) {
             assertNotNull(item);
-            //print(item);
-        });
+        }
 
 
     }
@@ -83,20 +86,20 @@ public class MultiValueTest {
 
         mv.addTo(results);
 
-        results.forEach((item) -> {
-            assertNotNull(item);
-            //print(item);
-        });
-
-        mv.getValues().forEach((item) -> {
-            assertNotNull(item);
-            //print(item);
-        });
-
-        results.forEach((item) -> {
-            assertNotNull(item);
-            //print(item);
-        });
+//        results.forEach((item) -> {
+//            assertNotNull(item);
+//            //print(item);
+//        });
+//
+//        mv.getValues().forEach((item) -> {
+//            assertNotNull(item);
+//            //print(item);
+//        });
+//
+//        results.forEach((item) -> {
+//            assertNotNull(item);
+//            //print(item);
+//        });
 
     }
 
