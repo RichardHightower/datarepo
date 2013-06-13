@@ -22,10 +22,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="DataRepo" />
+        <module name="benchmarks" />
+        <module name="datarepo" />
+        <module name="org.datarepo" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.7" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="benchmarks" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 

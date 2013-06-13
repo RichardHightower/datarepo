@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DataRepo.iml" filepath="$PROJECT_DIR$/DataRepo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/benchmarks/benchmarks.iml" filepath="$PROJECT_DIR$/benchmarks/benchmarks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/datarepo/datarepo.iml" filepath="$PROJECT_DIR$/datarepo/datarepo.iml" />
     </modules>
   </component>
 </project>

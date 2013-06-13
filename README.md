@@ -1,4 +1,4 @@
-datarepo
+org.org.datarepo
 ========
 
 Data Repo
@@ -127,7 +127,7 @@ The above would change the object without updating every index (if you had a lot
 The advantage of this over using just the stream API is that if the data set is large, this would be much faster because it would use the indexes (TreeMap).
 
 ```
-package org.datarepo;
+package org.org.org.datarepo;
 ...
 ...
 public class Employee {
@@ -213,7 +213,7 @@ Everything is configurable. You can swap out factories for Filtering, SearchInde
 
 Also considering writing a backup mode to make backing the data repo to a database or NoSQL database faster. 
 
-https://github.com/RichardHightower/datarepo
+https://github.com/RichardHightower/org.org.datarepo
 
 
 Updates:
@@ -362,7 +362,7 @@ Note that the object to map conversion goes deep as in:
 
 Yields:
 
-{class=org.datarepo.tests.model.Department, name=engineering}
+{class=Department, name=engineering}
 
 This can be useful for debugging and ad hoc queries for tooling.
 
@@ -461,7 +461,7 @@ You can also search by type:
 The above finds all employees with the simple classname of SalesEmployee. It also works with full class name as in:
 
 ```
-        List<Employee> results = sortedQuery(queryableList, "firstName", typeOf("org.datarepo.tests.model.SalesEmployee"));
+        List<Employee> results = sortedQuery(queryableList, "firstName", typeOf("SalesEmployee"));
 
         assertEquals(1, results.size());
         assertEquals("SalesEmployee", results.get(0).getClass().getSimpleName());
