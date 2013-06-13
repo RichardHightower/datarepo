@@ -10,7 +10,7 @@ public abstract class Group extends Expression {
     protected Expression[] expressions;
 
     private final int hashCode;
-    private final String toString;
+    private String toString;
 
     private Grouping grouping = Grouping.AND;
 
@@ -18,7 +18,6 @@ public abstract class Group extends Expression {
         this.grouping = grouping;
         this.expressions = expressions;
         hashCode = doHashCode();
-        toString = doToString();
 
     }
 
@@ -31,14 +30,20 @@ public abstract class Group extends Expression {
 
     private String doToString() {
 
-        StringBuilder builder = new StringBuilder(255);
-        builder.append("{");
-        builder.append("\"expressions\":");
-        builder.append(Arrays.toString(expressions));
-        builder.append(", \"grouping\":");
-        builder.append(grouping);
-        builder.append('}');
-        return builder.toString();
+        if (toString == null) {
+            toString = doToString();
+
+
+            StringBuilder builder = new StringBuilder(255);
+            builder.append("{");
+            builder.append("\"expressions\":");
+            builder.append(Arrays.toString(expressions));
+            builder.append(", \"grouping\":");
+            builder.append(grouping);
+            builder.append('}');
+            return builder.toString();
+        }
+        return toString;
 
     }
 
@@ -71,7 +76,7 @@ public abstract class Group extends Expression {
 
     @Override
     public String toString() {
-        return toString;
+        return doToString();
     }
 
     public static class And extends Group {

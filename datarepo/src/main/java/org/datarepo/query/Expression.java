@@ -6,29 +6,15 @@ import org.datarepo.utils.Reflection;
 
 import java.util.Map;
 
-import static org.datarepo.utils.Utils.log;
-import static org.datarepo.utils.Utils.warning;
-
 public abstract class Expression implements Predicate {
-    private static ThreadLocal<Map<String, FieldAccess>> fieldsLocal;
+    private static ThreadLocal<Map<String, FieldAccess>> fieldsLocal = new ThreadLocal<>();
 
     public static void fields(Map<String, FieldAccess> fields) {
-        if (fieldsLocal == null) {
-            fieldsLocal = new ThreadLocal<>();
-        } else {
-
-            warning(log(Expression.class), "Fields called but fields were there, odd");
-        }
         fieldsLocal.set(fields);
     }
 
     public static void clearFields() {
-        if (fieldsLocal != null) {
-            fieldsLocal.set(null);
-            fieldsLocal = null;
-        } else {
-            warning(log(Expression.class), "Clear fields called but fields were not there, odd");
-        }
+        fieldsLocal.set(null);
     }
 
     public abstract boolean resolve(Map<String, FieldAccess> fields, Object owner);
