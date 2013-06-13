@@ -190,6 +190,46 @@ public class ObjectEditorDecoratorBase<KEY, ITEM> implements ObjectEditor<KEY, I
         objectEditorDefault.addAll(items);
     }
 
+    @Override
+    public Object getValue(KEY key, String... properties) {
+        return objectEditorDefault.getValue(key, properties);
+    }
+
+    @Override
+    public int getInt(KEY key, String... properties) {
+        return objectEditorDefault.getInt(key, properties);
+    }
+
+    @Override
+    public short getShort(KEY key, String... properties) {
+        return objectEditorDefault.getShort(key, properties);
+    }
+
+    @Override
+    public char getChar(KEY key, String... properties) {
+        return objectEditorDefault.getChar(key, properties);
+    }
+
+    @Override
+    public byte getByte(KEY key, String... properties) {
+        return objectEditorDefault.getByte(key, properties);
+    }
+
+    @Override
+    public double getDouble(KEY key, String... properties) {
+        return objectEditorDefault.getDouble(key, properties);
+    }
+
+    @Override
+    public float getFloat(KEY key, String... properties) {
+        return objectEditorDefault.getFloat(key, properties);
+    }
+
+    @Override
+    public long getLong(KEY key, String... properties) {
+        return objectEditorDefault.getLong(key, properties);
+    }
+
     public boolean add(ITEM item) {
         return objectEditorDefault.add(item);
     }

@@ -7,7 +7,10 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import static org.datarepo.utils.Types.*;
 import static org.datarepo.utils.Utils.*;
+import static org.datarepo.utils.Utils.iterator;
+import static org.datarepo.utils.Utils.log;
 
 public class Reflection {
 
@@ -195,6 +198,117 @@ public class Reflection {
 
     }
 
+    public static Object getPropertyValue(Object object, String... properties) {
+        for (String property : properties) {
+            Map<String, FieldAccess> fields = Reflection.getPropertyFieldAccessMap(object.getClass());
+            object = fields.get(property);
+        }
+        return object;
+    }
+
+
+    public static int getPropertyInt(Object object, String... properties) {
+        Map<String, FieldAccess> fields = Reflection.getPropertyFieldAccessMap(object.getClass());
+        for (int index = 0; index < properties.length - 1; index++) {
+            fields = Reflection.getPropertyFieldAccessMap(object.getClass());
+            object = fields.get(properties[index]);
+        }
+        FieldAccess field = fields.get(properties[properties.length - 1]);
+        if (field.getType() == pint) {
+            return field.getInt(object);
+        } else {
+            return toInt(field.getValue(object));
+        }
+    }
+
+
+    public static byte getPropertyByte(Object object, String... properties) {
+        Map<String, FieldAccess> fields = null;
+        for (int index = 0; index < properties.length - 1; index++) {
+            fields = Reflection.getPropertyFieldAccessMap(object.getClass());
+            object = fields.get(properties[index]);
+        }
+        FieldAccess field = fields.get(properties[properties.length - 1]);
+        if (field.getType() == pbyte) {
+            return field.getByte(object);
+        } else {
+            return toByte(field.getValue(object));
+        }
+    }
+
+    public static float getPropertyFloat(Object object, String... properties) {
+        Map<String, FieldAccess> fields = null;
+        for (int index = 0; index < properties.length - 1; index++) {
+            fields = Reflection.getPropertyFieldAccessMap(object.getClass());
+            object = fields.get(properties[index]);
+        }
+        FieldAccess field = fields.get(properties[properties.length - 1]);
+        if (field.getType() == pfloat) {
+            return field.getFloat(object);
+        } else {
+            return toFloat(field.getValue(object));
+        }
+    }
+
+
+    public static short getPropertyShort(Object object, String... properties) {
+        Map<String, FieldAccess> fields = null;
+        for (int index = 0; index < properties.length - 1; index++) {
+            fields = Reflection.getPropertyFieldAccessMap(object.getClass());
+            object = fields.get(properties[index]);
+        }
+        FieldAccess field = fields.get(properties[properties.length - 1]);
+        if (field.getType() == pshort) {
+            return field.getShort(object);
+        } else {
+            return toShort(field.getValue(object));
+        }
+    }
+
+
+    public static char getPropertyChar(Object object, String... properties) {
+        Map<String, FieldAccess> fields = null;
+        for (int index = 0; index < properties.length - 1; index++) {
+            fields = Reflection.getPropertyFieldAccessMap(object.getClass());
+            object = fields.get(properties[index]);
+        }
+        FieldAccess field = fields.get(properties[properties.length - 1]);
+        if (field.getType() == pchar) {
+            return field.getChar(object);
+        } else {
+            return toChar(field.getValue(object));
+        }
+    }
+
+
+    public static double getPropertyDouble(Object object, String... properties) {
+        Map<String, FieldAccess> fields = null;
+        for (int index = 0; index < properties.length - 1; index++) {
+            fields = Reflection.getPropertyFieldAccessMap(object.getClass());
+            object = fields.get(properties[index]);
+        }
+        FieldAccess field = fields.get(properties[properties.length - 1]);
+        if (field.getType() == pdouble) {
+            return field.getDouble(object);
+        } else {
+            return toDouble(field.getValue(object));
+        }
+    }
+
+
+    public static long getPropertyLong(Object object, String... properties) {
+        Map<String, FieldAccess> fields = null;
+        for (int index = 0; index < properties.length - 1; index++) {
+            fields = Reflection.getPropertyFieldAccessMap(object.getClass());
+            object = fields.get(properties[index]);
+        }
+        FieldAccess field = fields.get(properties[properties.length - 1]);
+        if (field.getType() == plong) {
+            return field.getLong(object);
+        } else {
+            return toLong(field.getValue(object));
+        }
+    }
 
     @SuppressWarnings("serial")
     public static class ReflectionException extends RuntimeException {

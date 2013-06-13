@@ -103,4 +103,21 @@ public interface ObjectEditor<KEY, ITEM> extends Bag<ITEM> {
     void addAll(List<ITEM> items);
 
 
+    Object getValue(KEY key, String... properties);
+
+    int getInt(KEY key, String... properties);
+
+    short getShort(KEY key, String... properties);
+
+    char getChar(KEY key, String... properties);
+
+    byte getByte(KEY key, String... properties);
+
+    double getDouble(KEY key, String... properties);
+
+    float getFloat(KEY key, String... properties);
+
+    long getLong(KEY key, String... properties);
+
+
 }

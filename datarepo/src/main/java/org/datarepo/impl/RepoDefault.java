@@ -536,6 +536,46 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
+    public Object getValue(KEY key, String... properties) {
+        return editor.getValue(key, properties);
+    }
+
+    @Override
+    public int getInt(KEY key, String... properties) {
+        return editor.getInt(key, properties);
+    }
+
+    @Override
+    public short getShort(KEY key, String... properties) {
+        return editor.getShort(key, properties);
+    }
+
+    @Override
+    public char getChar(KEY key, String... properties) {
+        return editor.getChar(key, properties);
+    }
+
+    @Override
+    public byte getByte(KEY key, String... properties) {
+        return editor.getByte(key, properties);
+    }
+
+    @Override
+    public double getDouble(KEY key, String... properties) {
+        return editor.getDouble(key, properties);
+    }
+
+    @Override
+    public float getFloat(KEY key, String... properties) {
+        return editor.getFloat(key, properties);
+    }
+
+    @Override
+    public long getLong(KEY key, String... properties) {
+        return editor.getLong(key, properties);
+    }
+
+    @Override
     public boolean add(ITEM item) {
         return editor.add(item);
     }

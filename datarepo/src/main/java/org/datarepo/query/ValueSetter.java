@@ -27,6 +27,31 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
+    public static ValueSetter incInt(final String name) {
+        return new ValueSetter() {
+            @Override
+            public void doSet(ObjectEditor repo, Object item) {
+                int v = repo.getInt(item, name);
+                v++;
+                repo.modify(item, name, v);
+            }
+        };
+    }
+
+    public static ValueSetter incPercent(final String name, final int percent) {
+        return new ValueSetter() {
+            @Override
+            public void doSet(ObjectEditor repo, Object item) {
+                int value = repo.getInt(repo.getKey(item), name);
+                double dvalue = value;
+                double dprecent = percent / 100.0;
+                dvalue = dvalue + (dvalue * dprecent);
+                value = (int) dvalue;
+                repo.modify(item, name, value);
+            }
+        };
+    }
+
     public static ValueSetter value(final String name, final long value) {
         return new ValueSetter() {
             @Override

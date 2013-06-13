@@ -5,6 +5,7 @@ import org.datarepo.SearchableCollection;
 import org.datarepo.fields.FieldAccess;
 import org.datarepo.query.ValueSetter;
 import org.datarepo.spi.ObjectEditorComposer;
+import org.datarepo.utils.Reflection;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -523,6 +524,56 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
 
     public SearchableCollection<KEY, ITEM> query() {
         return query;
+    }
+
+
+    @Override
+    public Object getValue(KEY key, String... properties) {
+        ITEM item = this.get(key);
+        return Reflection.getPropertyValue(item, properties);
+    }
+
+
+    @Override
+    public int getInt(KEY key, String... properties) {
+        ITEM item = this.get(key);
+        return Reflection.getPropertyInt(item, properties);
+    }
+
+    @Override
+    public short getShort(KEY key, String... properties) {
+        ITEM item = this.get(key);
+        return Reflection.getPropertyShort(item, properties);
+    }
+
+    @Override
+    public char getChar(KEY key, String... properties) {
+        ITEM item = this.get(key);
+        return Reflection.getPropertyChar(item, properties);
+    }
+
+    @Override
+    public byte getByte(KEY key, String... properties) {
+        ITEM item = this.get(key);
+        return Reflection.getPropertyByte(item, properties);
+    }
+
+    @Override
+    public double getDouble(KEY key, String... properties) {
+        ITEM item = this.get(key);
+        return Reflection.getPropertyDouble(item, properties);
+    }
+
+    @Override
+    public float getFloat(KEY key, String... properties) {
+        ITEM item = this.get(key);
+        return Reflection.getPropertyFloat(item, properties);
+    }
+
+    @Override
+    public long getLong(KEY key, String... properties) {
+        ITEM item = this.get(key);
+        return Reflection.getPropertyLong(item, properties);
     }
 
 
