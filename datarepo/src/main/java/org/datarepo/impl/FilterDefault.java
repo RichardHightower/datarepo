@@ -11,8 +11,8 @@ import org.datarepo.utils.Utils;
 
 import java.util.*;
 
-import static org.datarepo.query.Criteria.instanceOf;
-import static org.datarepo.query.Criteria.not;
+import static org.datarepo.query.QueryFactory.instanceOf;
+import static org.datarepo.query.QueryFactory.not;
 import static org.datarepo.utils.Utils.array;
 
 
@@ -29,21 +29,21 @@ public class FilterDefault implements Filter, FilterComposer {
 
 
     @Override
-    public List filter(Expression... expressions) {
+    public List filter(Query... expressions) {
         try {
-            Expression.fields(this.fields);
+            Query.fields(this.fields);
             return mainQueryPlan(expressions);
         } finally {
-            Expression.clearFields();
+            Query.clearFields();
         }
     }
 
 
-    private List mainQueryPlan(Expression[] expressions) {
+    private List mainQueryPlan(Query[] expressions) {
         List results = null;
 
         Group group = expressions.length == 1 && expressions[0] instanceof Group
-                ? (Group) expressions[0] : Criteria.and(expressions);
+                ? (Group) expressions[0] : QueryFactory.and(expressions);
 
 
         results = doFilterGroup(group);
@@ -62,7 +62,7 @@ public class FilterDefault implements Filter, FilterComposer {
         } else if (this.isIndexed(criterion.getName()) && Utils.isIn(operator, indexedOperators)) {
             results = doFilterWithIndex(criterion, fields);
         } else {
-            results = Criteria.filter(this.searchableCollection.all(), criterion);
+            results = QueryFactory.filter(this.searchableCollection.all(), criterion);
         }
 
 
@@ -83,12 +83,12 @@ public class FilterDefault implements Filter, FilterComposer {
         }
     }
 
-    private List or(Expression[] expressions,
+    private List or(Query[] expressions,
                     Map<String, FieldAccess> fields) {
 
 
         HashSet set = new HashSet();
-        for (Expression expression : expressions) {
+        for (Query expression : expressions) {
             if (expression instanceof Criterion) {
                 List list = orPlanWithIndex((Criterion) expression);
                 if (list != null) {
@@ -104,9 +104,9 @@ public class FilterDefault implements Filter, FilterComposer {
     }
 
 
-    private List and(Expression[] expressions, Map<String, FieldAccess> fields) {
+    private List and(Query[] expressions, Map<String, FieldAccess> fields) {
 
-        Set<Expression> expressionSet = Utils.set(expressions);
+        Set<Query> expressionSet = Utils.set(expressions);
 
 
         ResultInternal results = applyIndexedFiltersForAnd(expressions, fields, expressionSet);
@@ -131,7 +131,7 @@ public class FilterDefault implements Filter, FilterComposer {
     }
 
 
-    private ResultInternal applyIndexedFiltersForAnd(Expression[] expressions, Map<String, FieldAccess> fields, Set<Expression> expressionSet) {
+    private ResultInternal applyIndexedFiltersForAnd(Query[] expressions, Map<String, FieldAccess> fields, Set<Query> expressionSet) {
         ResultInternal results = new ResultInternal();
         Criterion criteria = null;
         Operator operator = null;
@@ -180,7 +180,7 @@ public class FilterDefault implements Filter, FilterComposer {
         List<HashSet> listOfSets = new ArrayList();
 
 
-        for (Expression expression : expressions) {
+        for (Query expression : expressions) {
 
             /*
              * See if the criteria has an index
@@ -246,19 +246,19 @@ public class FilterDefault implements Filter, FilterComposer {
     }
 
 
-//    private List applyGroupsWithIndexesForAnd(List items, Set<Expression> expressionSet) {
+//    private List applyGroupsWithIndexesForAnd(List items, Set<Query> expressionSet) {
 //
 //        List<HashSet> listOfSets = new ArrayList();
 //        listOfSets.add(new HashSet(items));
 //
-//        List<Expression> expressionsWeEvaluated = new ArrayList<>();
+//        List<Query> expressionsWeEvaluated = new ArrayList<>();
 //
 //        outer:
-//        for (Expression expression : expressionSet) {
+//        for (Query expression : expressionSet) {
 //
 //            if (expression instanceof Group) {
 //                Group group = (Group) expression;
-//                for (Expression innerExpression : group.getExpressions()) {
+//                for (Query innerExpression : group.getExpressions()) {
 //                    //Don't allow non-index Criterion to avoid too many scans
 //                    if (innerExpression instanceof Criterion) {
 //                        Criterion c = (Criterion) innerExpression;
@@ -291,7 +291,7 @@ public class FilterDefault implements Filter, FilterComposer {
 //    }
 
 
-    private List applyGroups(List items, Set<Expression> expressionSet) {
+    private List applyGroups(List items, Set<Query> expressionSet) {
 
         if (expressionSet.size() == 0) {
             return items;
@@ -300,7 +300,7 @@ public class FilterDefault implements Filter, FilterComposer {
         List<HashSet> listOfSets = new ArrayList();
         listOfSets.add(new HashSet(items));
 
-        for (Expression expression : expressionSet) {
+        for (Query expression : expressionSet) {
 
             if (expression instanceof Group) {
                 List list = doFilterGroup((Group) expression);
@@ -314,18 +314,18 @@ public class FilterDefault implements Filter, FilterComposer {
     }
 
 
-    private List applyLinearSearch(List items, Set<Expression> expressionSet) {
+    private List applyLinearSearch(List items, Set<Query> expressionSet) {
 
         if (expressionSet.size() == 0) {
             return items;
         }
 
-        Expression[] expressions = array(Expression.class, Criteria.filter(expressionSet, not(instanceOf(Group.class))));
+        Query[] expressions = array(Query.class, QueryFactory.filter(expressionSet, not(instanceOf(Group.class))));
 
-        items = Criteria.filter(items, Criteria.and(expressions));
+        items = QueryFactory.filter(items, QueryFactory.and(expressions));
 
 
-        for (Expression expression : expressions) {
+        for (Query expression : expressions) {
             expressionSet.remove(expression);
         }
 

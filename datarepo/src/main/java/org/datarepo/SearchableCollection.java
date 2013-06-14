@@ -1,6 +1,6 @@
 package org.datarepo;
 
-import org.datarepo.query.Expression;
+import org.datarepo.query.Query;
 import org.datarepo.query.Selector;
 import org.datarepo.query.Sort;
 import org.datarepo.query.Visitor;
@@ -62,25 +62,25 @@ public interface SearchableCollection<KEY, ITEM> extends Collection<ITEM> {
     double minDouble(KEY key, String property);
 
 
-    List<ITEM> query(Expression... expressions);
+    List<ITEM> query(Query... expressions);
 
-    List<ITEM> sortedQuery(String sortBy, Expression... expressions);
+    List<ITEM> sortedQuery(String sortBy, Query... expressions);
 
-    List<ITEM> sortedQuery(Sort sortBy, Expression... expressions);
+    List<ITEM> sortedQuery(Sort sortBy, Query... expressions);
 
-    List<Map<String, Object>> queryAsMaps(Expression... expressions);
+    List<Map<String, Object>> queryAsMaps(Query... expressions);
 
-    List<Map<String, Object>> query(List<Selector> selectors, Expression... expressions);
+    List<Map<String, Object>> query(List<Selector> selectors, Query... expressions);
 
-    List<Map<String, Object>> sortedQuery(String sortBy, List<Selector> selectors, Expression... expressions);
+    List<Map<String, Object>> sortedQuery(String sortBy, List<Selector> selectors, Query... expressions);
 
-    List<Map<String, Object>> sortedQuery(Sort sortBy, List<Selector> selectors, Expression... expressions);
+    List<Map<String, Object>> sortedQuery(Sort sortBy, List<Selector> selectors, Query... expressions);
 
-    void query(Visitor<KEY, ITEM> visitor, Expression... expressions);
+    void query(Visitor<KEY, ITEM> visitor, Query... expressions);
 
-    void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Expression... expressions);
+    void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Query... expressions);
 
-    void sortedQuery(Visitor<KEY, ITEM> visitor, Sort sortBy, Expression... expressions);
+    void sortedQuery(Visitor<KEY, ITEM> visitor, Sort sortBy, Query... expressions);
 
 
     boolean delete(ITEM item);

@@ -1,6 +1,6 @@
 package org.datarepo;
 
-import org.datarepo.query.ValueSetter;
+import org.datarepo.query.Update;
 
 import java.util.Collection;
 import java.util.List;
@@ -51,7 +51,7 @@ public interface ObjectEditor<KEY, ITEM> extends Bag<ITEM> {
 
     void modify(ITEM item, String property, double value);
 
-    void modify(ITEM item, ValueSetter... values);
+    void modify(ITEM item, Update... values);
 
     void updateByValue(KEY key, String property, String value);
 
@@ -71,7 +71,7 @@ public interface ObjectEditor<KEY, ITEM> extends Bag<ITEM> {
 
     void update(KEY key, String property, double value);
 
-    void update(KEY key, ValueSetter... values);
+    void update(KEY key, Update... values);
 
 
     boolean compareAndUpdate(KEY key, String property, Object compare, Object value);

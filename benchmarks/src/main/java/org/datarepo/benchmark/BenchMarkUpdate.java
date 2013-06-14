@@ -4,14 +4,14 @@ import org.datarepo.Repo;
 import org.datarepo.Repos;
 import org.datarepo.benchmark.model.Employee;
 import org.datarepo.benchmark.utils.BenchmarkHelper;
-import org.datarepo.query.ValueSetter;
+import org.datarepo.query.Update;
 import org.datarepo.utils.Utils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.datarepo.query.Criteria.eqNested;
+import static org.datarepo.query.QueryFactory.eqNested;
 import static org.datarepo.utils.Utils.*;
 
 public class BenchMarkUpdate {
@@ -82,7 +82,7 @@ public class BenchMarkUpdate {
             @Override
             protected void test() {
                 repo.updateByFilter(
-                        ValueSetter.values(ValueSetter.incPercent("salary", 10)),
+                        Update.update(Update.incPercent("salary", 10)),
                         eqNested("engineering", "department", "name"));
             }
         };

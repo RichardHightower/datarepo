@@ -25,7 +25,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     private SearchableCollection<KEY, ITEM> query;
 
     @Override
-    public void updateByFilter(String property, Object value, Expression... expressions) {
+    public void updateByFilter(String property, Object value, Query... expressions) {
         List<ITEM> items = query.query(expressions);
         for (ITEM item : items) {
             modify(item, property, value);
@@ -33,7 +33,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void updateByFilterUsingValue(String property, String value, Expression... expressions) {
+    public void updateByFilterUsingValue(String property, String value, Query... expressions) {
         List<ITEM> items = query.query(expressions);
         for (ITEM item : items) {
             modifyByValue(item, property, value);
@@ -41,7 +41,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void updateByFilter(String property, int value, Expression... expressions) {
+    public void updateByFilter(String property, int value, Query... expressions) {
         List<ITEM> items = query.query(expressions);
         for (ITEM item : items) {
             modify(item, property, value);
@@ -49,7 +49,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void updateByFilter(String property, long value, Expression... expressions) {
+    public void updateByFilter(String property, long value, Query... expressions) {
         List<ITEM> items = query.query(expressions);
         for (ITEM item : items) {
             modify(item, property, value);
@@ -57,7 +57,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void updateByFilter(String property, char value, Expression... expressions) {
+    public void updateByFilter(String property, char value, Query... expressions) {
         List<ITEM> items = query.query(expressions);
         for (ITEM item : items) {
             modify(item, property, value);
@@ -65,7 +65,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void updateByFilter(String property, short value, Expression... expressions) {
+    public void updateByFilter(String property, short value, Query... expressions) {
         List<ITEM> items = query.query(expressions);
         for (ITEM item : items) {
             modify(item, property, value);
@@ -73,7 +73,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void updateByFilter(String property, byte value, Expression... expressions) {
+    public void updateByFilter(String property, byte value, Query... expressions) {
         List<ITEM> items = query.query(expressions);
         for (ITEM item : items) {
             modify(item, property, value);
@@ -81,7 +81,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void updateByFilter(String property, float value, Expression... expressions) {
+    public void updateByFilter(String property, float value, Query... expressions) {
         List<ITEM> items = query.query(expressions);
         for (ITEM item : items) {
             modify(item, property, value);
@@ -89,7 +89,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void updateByFilter(String property, double value, Expression... expressions) {
+    public void updateByFilter(String property, double value, Query... expressions) {
         List<ITEM> items = query.query(expressions);
         for (ITEM item : items) {
             modify(item, property, value);
@@ -97,11 +97,11 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void updateByFilter(List<ValueSetter> values, Expression... expressions) {
+    public void updateByFilter(List<Update> values, Query... expressions) {
         List<ITEM> items = query.query(expressions);
         for (ITEM item : items) {
 
-            for (ValueSetter value : values) {
+            for (Update value : values) {
                 query.invalidateIndex(value.getName(), item);
                 value.doSet(this, item);
                 query.validateIndex(value.getName(), item);
@@ -322,52 +322,52 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public List<ITEM> query(Expression... expressions) {
+    public List<ITEM> query(Query... expressions) {
         return query.query(expressions);
     }
 
     @Override
-    public List<ITEM> sortedQuery(String sortBy, Expression... expressions) {
+    public List<ITEM> sortedQuery(String sortBy, Query... expressions) {
         return query.sortedQuery(sortBy, expressions);
     }
 
     @Override
-    public List<ITEM> sortedQuery(Sort sortBy, Expression... expressions) {
+    public List<ITEM> sortedQuery(Sort sortBy, Query... expressions) {
         return query.sortedQuery(sortBy, expressions);
     }
 
     @Override
-    public List<Map<String, Object>> queryAsMaps(Expression... expressions) {
+    public List<Map<String, Object>> queryAsMaps(Query... expressions) {
         return query.queryAsMaps(expressions);
     }
 
     @Override
-    public List<Map<String, Object>> query(List<Selector> selectors, Expression... expressions) {
+    public List<Map<String, Object>> query(List<Selector> selectors, Query... expressions) {
         return query.query(selectors, expressions);
     }
 
     @Override
-    public List<Map<String, Object>> sortedQuery(String sortBy, List<Selector> selectors, Expression... expressions) {
+    public List<Map<String, Object>> sortedQuery(String sortBy, List<Selector> selectors, Query... expressions) {
         return query.sortedQuery(sortBy, selectors, expressions);
     }
 
     @Override
-    public List<Map<String, Object>> sortedQuery(Sort sortBy, List<Selector> selectors, Expression... expressions) {
+    public List<Map<String, Object>> sortedQuery(Sort sortBy, List<Selector> selectors, Query... expressions) {
         return query.sortedQuery(sortBy, selectors, expressions);
     }
 
     @Override
-    public void query(Visitor<KEY, ITEM> visitor, Expression... expressions) {
+    public void query(Visitor<KEY, ITEM> visitor, Query... expressions) {
         query.query(visitor, expressions);
     }
 
     @Override
-    public void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Expression... expressions) {
+    public void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Query... expressions) {
         query.query(visitor, expressions);
     }
 
     @Override
-    public void sortedQuery(Visitor<KEY, ITEM> visitor, Sort sortBy, Expression... expressions) {
+    public void sortedQuery(Visitor<KEY, ITEM> visitor, Sort sortBy, Query... expressions) {
         query.sortedQuery(visitor, sortBy, expressions);
     }
 
@@ -462,7 +462,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void modify(ITEM item, ValueSetter... values) {
+    public void modify(ITEM item, Update... values) {
         editor.modify(item, values);
     }
 
@@ -512,7 +512,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public void update(KEY key, ValueSetter... values) {
+    public void update(KEY key, Update... values) {
         editor.update(key, values);
     }
 

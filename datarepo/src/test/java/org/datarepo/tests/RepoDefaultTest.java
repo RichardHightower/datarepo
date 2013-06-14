@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 import static junit.framework.Assert.*;
-import static org.datarepo.query.Criteria.*;
 import static org.datarepo.query.ProjectedSelector.max;
+import static org.datarepo.query.QueryFactory.*;
 import static org.datarepo.query.Selector.*;
-import static org.datarepo.query.ValueSetter.value;
-import static org.datarepo.query.ValueSetter.values;
+import static org.datarepo.query.Update.set;
+import static org.datarepo.query.Update.update;
 import static org.datarepo.tests.model.Employee.employee;
 import static org.datarepo.utils.Reflection.idx;
 import static org.datarepo.utils.Utils.print;
@@ -96,7 +96,7 @@ public class RepoDefaultTest {
         Employee emp = employee("Diana", "Hightower", "217859991", "08.15.82", 100_000);
         repo.add(emp);
         assertNotNull(repo.get("217859991"));
-        repo.update(emp.getSsn(), value("firstName", "Di"));
+        repo.update(emp.getSsn(), set("firstName", "Di"));
 
         String firstName = repo.get("217859991").getFirstName();
         assertEquals("firstName equals", "Di", firstName);
@@ -134,7 +134,7 @@ public class RepoDefaultTest {
         assertNotNull(repo.get("2178599917788"));
 
 
-        repo.updateByFilter(values(value("firstName", "Di")),
+        repo.updateByFilter(update(set("firstName", "Di")),
                 eq("firstName", "Diana"),
                 eq("lastName", "Hightower"),
                 eq("id", "2178599917788"));

@@ -4,14 +4,14 @@ import org.datarepo.Repo;
 import org.datarepo.Repos;
 import org.datarepo.benchmark.model.Employee;
 import org.datarepo.benchmark.utils.BenchmarkHelper;
-import org.datarepo.query.Expression;
+import org.datarepo.query.Query;
 import org.datarepo.utils.Utils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.datarepo.query.Criteria.eq;
+import static org.datarepo.query.QueryFactory.eq;
 import static org.datarepo.utils.Utils.*;
 
 public class BenchMarkMainSimpleSearch {
@@ -91,7 +91,7 @@ public class BenchMarkMainSimpleSearch {
     private static MeasuredRun firstNameSearchNoIndexTest_DR(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
         return new MeasuredRun("A_no_index_DR", 1000, 10_000, results) {
             Repo repo;
-            Expression exp = eq("firstName", "Mike");
+            Query exp = eq("firstName", "Mike");
 
             @Override
             protected void init() {
@@ -125,7 +125,7 @@ public class BenchMarkMainSimpleSearch {
     private static MeasuredRun firstNameSearchNoIndexTestUnsafe_DR(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
         return new MeasuredRun("A_no_index_unsafe_DR", 1000, 10_000, results) {
             Repo repo;
-            Expression exp = eq("firstName", "Mike");
+            Query exp = eq("firstName", "Mike");
 
             @Override
             protected void init() {
@@ -159,7 +159,7 @@ public class BenchMarkMainSimpleSearch {
     private static MeasuredRun linearSearchWithCache_DR(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
         return new MeasuredRun("A_no_index_with_cache_DR", 1000, 10_000, results) {
             Repo repo;
-            Expression exp = eq("firstName", "Mike");
+            Query exp = eq("firstName", "Mike");
 
             @Override
             protected void init() {
@@ -193,7 +193,7 @@ public class BenchMarkMainSimpleSearch {
     private static MeasuredRun firstNameSearchIndexTest_DR(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
         return new MeasuredRun("A_with_search_index_DR", 1000, 10_000, results) {
             Repo repo;
-            Expression exp = eq("firstName", "Mike");
+            Query exp = eq("firstName", "Mike");
 
             @Override
             protected void init() {

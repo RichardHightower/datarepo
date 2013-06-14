@@ -4,7 +4,7 @@ package org.datarepo.impl.decorators;
 import org.datarepo.ObjectEditor;
 import org.datarepo.modification.ModificationEvent;
 import org.datarepo.modification.ModificationListener;
-import org.datarepo.query.ValueSetter;
+import org.datarepo.query.Update;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -106,7 +106,7 @@ public class ObjectEditorEventDecorator<KEY, ITEM> extends ObjectEditorDecorator
         fire(createModification(AFTER_MODIFY, super.getKey(item), item, property, value));
     }
 
-    public void modify(ITEM item, ValueSetter... values) {
+    public void modify(ITEM item, Update... values) {
         fire(createModification(BEFORE_MODIFY_BY_VALUE_SETTERS, super.getKey(item), item, null, values));
         super.modify(item, values);
         fire(createModification(AFTER_MODIFY_BY_VALUE_SETTERS, super.getKey(item), item, null, values));
@@ -166,7 +166,7 @@ public class ObjectEditorEventDecorator<KEY, ITEM> extends ObjectEditorDecorator
         fire(createModification(AFTER_UPDATE, key, (ITEM) null, property, value));
     }
 
-    public void update(KEY key, ValueSetter... values) {
+    public void update(KEY key, Update... values) {
         fire(createModification(BEFORE_UPDATE_BY_VALUE_SETTERS, key, (ITEM) null, null, values));
         super.update(key, values);
         fire(createModification(AFTER_UPDATE_BY_VALUE_SETTERS, key, (ITEM) null, null, values));

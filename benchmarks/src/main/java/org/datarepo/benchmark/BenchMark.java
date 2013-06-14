@@ -4,14 +4,14 @@ import org.datarepo.Repo;
 import org.datarepo.Repos;
 import org.datarepo.benchmark.model.Employee;
 import org.datarepo.benchmark.utils.BenchmarkHelper;
-import org.datarepo.query.Expression;
+import org.datarepo.query.Query;
 import org.datarepo.utils.Utils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.datarepo.query.Criteria.eq;
+import static org.datarepo.query.QueryFactory.eq;
 import static org.datarepo.utils.Utils.*;
 
 public class BenchMark {
@@ -64,7 +64,7 @@ public class BenchMark {
     private static MeasuredRun test(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
         return new MeasuredRun("test", 1000, 1_000_000, results) {
             Repo repo;
-            Expression exp = eq("firstName", "Mike");
+            Query exp = eq("firstName", "Mike");
 
             @Override
             protected void init() {

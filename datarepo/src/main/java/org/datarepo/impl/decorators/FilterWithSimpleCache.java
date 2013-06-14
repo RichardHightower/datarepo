@@ -1,9 +1,9 @@
 package org.datarepo.impl.decorators;
 
 import org.datarepo.Filter;
-import org.datarepo.query.Criteria;
-import org.datarepo.query.Expression;
 import org.datarepo.query.Group;
+import org.datarepo.query.Query;
+import org.datarepo.query.QueryFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,13 +13,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class FilterWithSimpleCache extends FilterDecoratorBase {
 
-    Map<Expression, List> queryCache = new ConcurrentHashMap<>();
+    Map<Query, List> queryCache = new ConcurrentHashMap<>();
     AtomicInteger flushCount = new AtomicInteger();
 
 
     @Override
-    public List filter(Expression... expressions) {
-        Group and = Criteria.and(expressions);
+    public List filter(Query... expressions) {
+        Group and = QueryFactory.and(expressions);
         checkCache();
 
         List results = queryCache.get(and);

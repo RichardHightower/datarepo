@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 import static org.datarepo.utils.Utils.notNull;
 
-public abstract class Criterion<VALUE> extends Expression {
+public abstract class Criterion<VALUE> extends Query {
 
     private Logger log = Utils.log(Criterion.class);
     private String name;
@@ -103,9 +103,9 @@ public abstract class Criterion<VALUE> extends Expression {
         builder.append(name);
         builder.append(", \"operator\":");
         builder.append(operator);
-        builder.append(", \"value\":");
+        builder.append(", \"set\":");
         builder.append(value);
-        builder.append(", \"values\":");
+        builder.append(", \"update\":");
         builder.append(Arrays.toString(values));
         builder.append("}");
         return builder.toString();
@@ -158,41 +158,41 @@ public abstract class Criterion<VALUE> extends Expression {
             if (type == Utils.pint) {
                 switch (criterion.operator) {
                     case EQUAL:
-                        criterion.nativeDelegate = Criteria.eqInt(criterion.name, Types.toInt(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.eqInt(criterion.name, Types.toInt(criterion.value));
                         break;
 
                     case NOT_EQUAL:
-                        criterion.nativeDelegate = Criteria.notEqInt(criterion.name, Types.toInt(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.notEqInt(criterion.name, Types.toInt(criterion.value));
                         break;
 
                     case LESS_THAN:
-                        criterion.nativeDelegate = Criteria.ltInt(criterion.name, Types.toInt(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.ltInt(criterion.name, Types.toInt(criterion.value));
                         break;
 
                     case LESS_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.lteInt(criterion.name, Types.toInt(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.lteInt(criterion.name, Types.toInt(criterion.value));
                         break;
 
                     case GREATER_THAN:
-                        criterion.nativeDelegate = Criteria.gtInt(criterion.name, Types.toInt(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gtInt(criterion.name, Types.toInt(criterion.value));
                         break;
 
                     case GREATER_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.gteInt(criterion.name, Types.toInt(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gteInt(criterion.name, Types.toInt(criterion.value));
                         break;
 
                     case BETWEEN:
-                        criterion.nativeDelegate = Criteria.betweenInt(criterion.name, Types.toInt(criterion.value),
+                        criterion.nativeDelegate = QueryFactory.betweenInt(criterion.name, Types.toInt(criterion.value),
                                 Types.toInt(criterion.values[1]));
                         break;
 
                     case IN:
-                        criterion.nativeDelegate = Criteria.inInts(criterion.name, Types.iarray(criterion.values));
+                        criterion.nativeDelegate = QueryFactory.inInts(criterion.name, Types.iarray(criterion.values));
                         break;
 
 
                     case NOT_IN:
-                        criterion.nativeDelegate = Criteria.notInInts(criterion.name, Types.iarray(criterion.values));
+                        criterion.nativeDelegate = QueryFactory.notInInts(criterion.name, Types.iarray(criterion.values));
 
                         break;
 
@@ -203,36 +203,36 @@ public abstract class Criterion<VALUE> extends Expression {
             } else if (type == Utils.pbyte) {
                 switch (criterion.operator) {
                     case EQUAL:
-                        criterion.nativeDelegate = Criteria.eqByte(criterion.name, Types.toByte(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.eqByte(criterion.name, Types.toByte(criterion.value));
                         break;
 
                     case NOT_EQUAL:
-                        criterion.nativeDelegate = Criteria.notEqByte(criterion.name, Types.toByte(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.notEqByte(criterion.name, Types.toByte(criterion.value));
                         break;
 
                     case LESS_THAN:
-                        criterion.nativeDelegate = Criteria.ltByte(criterion.name, Types.toByte(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.ltByte(criterion.name, Types.toByte(criterion.value));
                         break;
 
                     case LESS_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.lteByte(criterion.name, Types.toByte(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.lteByte(criterion.name, Types.toByte(criterion.value));
                         break;
 
                     case GREATER_THAN:
-                        criterion.nativeDelegate = Criteria.gtByte(criterion.name, Types.toByte(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gtByte(criterion.name, Types.toByte(criterion.value));
                         break;
 
                     case GREATER_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.gteByte(criterion.name, Types.toByte(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gteByte(criterion.name, Types.toByte(criterion.value));
                         break;
 
                     case IN:
-                        criterion.nativeDelegate = Criteria.inBytes(criterion.name, Types.barray(criterion.values));
+                        criterion.nativeDelegate = QueryFactory.inBytes(criterion.name, Types.barray(criterion.values));
                         break;
 
 
                     case NOT_IN:
-                        criterion.nativeDelegate = Criteria.notInBytes(criterion.name, Types.barray(criterion.values));
+                        criterion.nativeDelegate = QueryFactory.notInBytes(criterion.name, Types.barray(criterion.values));
 
                         break;
 
@@ -244,36 +244,36 @@ public abstract class Criterion<VALUE> extends Expression {
             } else if (type == Utils.pshort) {
                 switch (criterion.operator) {
                     case EQUAL:
-                        criterion.nativeDelegate = Criteria.eqShort(criterion.name, Types.toShort(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.eqShort(criterion.name, Types.toShort(criterion.value));
                         break;
 
                     case NOT_EQUAL:
-                        criterion.nativeDelegate = Criteria.notEqShort(criterion.name, Types.toShort(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.notEqShort(criterion.name, Types.toShort(criterion.value));
                         break;
 
                     case LESS_THAN:
-                        criterion.nativeDelegate = Criteria.ltShort(criterion.name, Types.toShort(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.ltShort(criterion.name, Types.toShort(criterion.value));
                         break;
 
                     case LESS_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.lteShort(criterion.name, Types.toShort(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.lteShort(criterion.name, Types.toShort(criterion.value));
                         break;
 
                     case GREATER_THAN:
-                        criterion.nativeDelegate = Criteria.gtShort(criterion.name, Types.toShort(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gtShort(criterion.name, Types.toShort(criterion.value));
                         break;
 
                     case GREATER_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.gteShort(criterion.name, Types.toShort(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gteShort(criterion.name, Types.toShort(criterion.value));
                         break;
 
                     case IN:
-                        criterion.nativeDelegate = Criteria.inShorts(criterion.name, Types.sarray(criterion.values));
+                        criterion.nativeDelegate = QueryFactory.inShorts(criterion.name, Types.sarray(criterion.values));
                         break;
 
 
                     case NOT_IN:
-                        criterion.nativeDelegate = Criteria.notInShorts(criterion.name, Types.sarray(criterion.values));
+                        criterion.nativeDelegate = QueryFactory.notInShorts(criterion.name, Types.sarray(criterion.values));
 
                         break;
 
@@ -285,36 +285,36 @@ public abstract class Criterion<VALUE> extends Expression {
             } else if (type == Utils.pfloat) {
                 switch (criterion.operator) {
                     case EQUAL:
-                        criterion.nativeDelegate = Criteria.eqLong(criterion.name, Types.toLong(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.eqLong(criterion.name, Types.toLong(criterion.value));
                         break;
 
                     case NOT_EQUAL:
-                        criterion.nativeDelegate = Criteria.notEqLong(criterion.name, Types.toLong(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.notEqLong(criterion.name, Types.toLong(criterion.value));
                         break;
 
                     case LESS_THAN:
-                        criterion.nativeDelegate = Criteria.ltLong(criterion.name, Types.toLong(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.ltLong(criterion.name, Types.toLong(criterion.value));
                         break;
 
                     case LESS_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.lteLong(criterion.name, Types.toLong(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.lteLong(criterion.name, Types.toLong(criterion.value));
                         break;
 
                     case GREATER_THAN:
-                        criterion.nativeDelegate = Criteria.gtLong(criterion.name, Types.toLong(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gtLong(criterion.name, Types.toLong(criterion.value));
                         break;
 
                     case GREATER_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.gteLong(criterion.name, Types.toLong(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gteLong(criterion.name, Types.toLong(criterion.value));
                         break;
 
                     case IN:
-                        criterion.nativeDelegate = Criteria.inLongs(criterion.name, Types.larray(criterion.values));
+                        criterion.nativeDelegate = QueryFactory.inLongs(criterion.name, Types.larray(criterion.values));
                         break;
 
 
                     case NOT_IN:
-                        criterion.nativeDelegate = Criteria.notInLongs(criterion.name, Types.larray(criterion.values));
+                        criterion.nativeDelegate = QueryFactory.notInLongs(criterion.name, Types.larray(criterion.values));
 
                         break;
 
@@ -329,36 +329,36 @@ public abstract class Criterion<VALUE> extends Expression {
 
                 switch (criterion.operator) {
                     case EQUAL:
-                        criterion.nativeDelegate = Criteria.eqFloat(criterion.name, Types.toFloat(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.eqFloat(criterion.name, Types.toFloat(criterion.value));
                         break;
 
                     case NOT_EQUAL:
-                        criterion.nativeDelegate = Criteria.notEqFloat(criterion.name, Types.toFloat(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.notEqFloat(criterion.name, Types.toFloat(criterion.value));
                         break;
 
                     case LESS_THAN:
-                        criterion.nativeDelegate = Criteria.ltFloat(criterion.name, Types.toFloat(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.ltFloat(criterion.name, Types.toFloat(criterion.value));
                         break;
 
                     case LESS_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.lteFloat(criterion.name, Types.toFloat(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.lteFloat(criterion.name, Types.toFloat(criterion.value));
                         break;
 
                     case GREATER_THAN:
-                        criterion.nativeDelegate = Criteria.gtFloat(criterion.name, Types.toFloat(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gtFloat(criterion.name, Types.toFloat(criterion.value));
                         break;
 
                     case GREATER_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.gteFloat(criterion.name, Types.toFloat(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gteFloat(criterion.name, Types.toFloat(criterion.value));
                         break;
 
                     case IN:
-                        criterion.nativeDelegate = Criteria.inFloats(criterion.name, Types.farray(criterion.values));
+                        criterion.nativeDelegate = QueryFactory.inFloats(criterion.name, Types.farray(criterion.values));
                         break;
 
 
                     case NOT_IN:
-                        criterion.nativeDelegate = Criteria.notInFloats(criterion.name, Types.farray(criterion.values));
+                        criterion.nativeDelegate = QueryFactory.notInFloats(criterion.name, Types.farray(criterion.values));
 
                         break;
 
@@ -371,42 +371,42 @@ public abstract class Criterion<VALUE> extends Expression {
 
                 switch (criterion.operator) {
                     case EQUAL:
-                        criterion.nativeDelegate = Criteria.eqDouble(criterion.name, Types.toDouble(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.eqDouble(criterion.name, Types.toDouble(criterion.value));
                         break;
 
                     case NOT_EQUAL:
-                        criterion.nativeDelegate = Criteria.notEqDouble(criterion.name, Types.toDouble(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.notEqDouble(criterion.name, Types.toDouble(criterion.value));
                         break;
 
                     case LESS_THAN:
-                        criterion.nativeDelegate = Criteria.ltDouble(criterion.name, Types.toDouble(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.ltDouble(criterion.name, Types.toDouble(criterion.value));
                         break;
 
                     case LESS_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.lteDouble(criterion.name, Types.toDouble(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.lteDouble(criterion.name, Types.toDouble(criterion.value));
                         break;
 
                     case GREATER_THAN:
-                        criterion.nativeDelegate = Criteria.gtDouble(criterion.name, Types.toDouble(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gtDouble(criterion.name, Types.toDouble(criterion.value));
                         break;
 
                     case GREATER_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.gteDouble(criterion.name, Types.toDouble(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gteDouble(criterion.name, Types.toDouble(criterion.value));
                         break;
 
                     case BETWEEN:
-                        criterion.nativeDelegate = Criteria.betweenDouble(criterion.name, Types.toDouble(criterion.value),
+                        criterion.nativeDelegate = QueryFactory.betweenDouble(criterion.name, Types.toDouble(criterion.value),
                                 Types.toDouble(criterion.values[1]));
                         break;
 
                     case IN:
-                        criterion.nativeDelegate = Criteria.inDoubles(criterion.name, Types.toDouble(criterion.value),
+                        criterion.nativeDelegate = QueryFactory.inDoubles(criterion.name, Types.toDouble(criterion.value),
                                 Types.toDouble(criterion.values[1]));
                         break;
 
 
                     case NOT_IN:
-                        criterion.nativeDelegate = Criteria.notInDoubles(criterion.name, Types.toDouble(criterion.value),
+                        criterion.nativeDelegate = QueryFactory.notInDoubles(criterion.name, Types.toDouble(criterion.value),
                                 Types.toDouble(criterion.values[1]));
                         break;
 
@@ -421,11 +421,11 @@ public abstract class Criterion<VALUE> extends Expression {
 
                 switch (criterion.operator) {
                     case EQUAL:
-                        criterion.nativeDelegate = Criteria.eqBoolean(criterion.name, Types.toBoolean(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.eqBoolean(criterion.name, Types.toBoolean(criterion.value));
                         break;
 
                     case NOT_EQUAL:
-                        criterion.nativeDelegate = Criteria.notEqBoolean(criterion.name, Types.toBoolean(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.notEqBoolean(criterion.name, Types.toBoolean(criterion.value));
                         break;
 
 
@@ -439,42 +439,42 @@ public abstract class Criterion<VALUE> extends Expression {
 
 
                     case EQUAL:
-                        criterion.nativeDelegate = Criteria.eqChar(criterion.name, Types.toChar(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.eqChar(criterion.name, Types.toChar(criterion.value));
                         break;
 
                     case NOT_EQUAL:
-                        criterion.nativeDelegate = Criteria.notEqChar(criterion.name, Types.toChar(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.notEqChar(criterion.name, Types.toChar(criterion.value));
                         break;
 
                     case LESS_THAN:
-                        criterion.nativeDelegate = Criteria.ltChar(criterion.name, Types.toChar(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.ltChar(criterion.name, Types.toChar(criterion.value));
                         break;
 
                     case LESS_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.lteChar(criterion.name, Types.toChar(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.lteChar(criterion.name, Types.toChar(criterion.value));
                         break;
 
                     case GREATER_THAN:
-                        criterion.nativeDelegate = Criteria.gtChar(criterion.name, Types.toChar(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gtChar(criterion.name, Types.toChar(criterion.value));
                         break;
 
                     case GREATER_THAN_EQUAL:
-                        criterion.nativeDelegate = Criteria.gteChar(criterion.name, Types.toChar(criterion.value));
+                        criterion.nativeDelegate = QueryFactory.gteChar(criterion.name, Types.toChar(criterion.value));
                         break;
 
                     case BETWEEN:
-                        criterion.nativeDelegate = Criteria.betweenChar(criterion.name, Types.toChar(criterion.value),
+                        criterion.nativeDelegate = QueryFactory.betweenChar(criterion.name, Types.toChar(criterion.value),
                                 Types.toChar(criterion.values[1]));
                         break;
 
                     case IN:
-                        criterion.nativeDelegate = Criteria.inChars(criterion.name, Types.toChar(criterion.value),
+                        criterion.nativeDelegate = QueryFactory.inChars(criterion.name, Types.toChar(criterion.value),
                                 Types.toChar(criterion.values[1]));
                         break;
 
 
                     case NOT_IN:
-                        criterion.nativeDelegate = Criteria.notInChars(criterion.name, Types.toChar(criterion.value),
+                        criterion.nativeDelegate = QueryFactory.notInChars(criterion.name, Types.toChar(criterion.value),
                                 Types.toChar(criterion.values[1]));
                         break;
 

@@ -1,7 +1,7 @@
 package org.datarepo.impl.decorators;
 
 import org.datarepo.ObjectEditor;
-import org.datarepo.query.ValueSetter;
+import org.datarepo.query.Update;
 
 import java.util.Collection;
 import java.util.List;
@@ -94,7 +94,7 @@ public class ObjectEditorDecoratorBase<KEY, ITEM> implements ObjectEditor<KEY, I
         objectEditorDefault.modify(item, property, value);
     }
 
-    public void modify(ITEM item, ValueSetter... values) {
+    public void modify(ITEM item, Update... values) {
         objectEditorDefault.modify(item, values);
     }
 
@@ -134,7 +134,7 @@ public class ObjectEditorDecoratorBase<KEY, ITEM> implements ObjectEditor<KEY, I
         objectEditorDefault.update(key, property, value);
     }
 
-    public void update(KEY key, ValueSetter... values) {
+    public void update(KEY key, Update... values) {
         objectEditorDefault.update(key, values);
     }
 

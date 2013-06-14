@@ -5,16 +5,16 @@ import org.datarepo.fields.FieldAccess;
 import java.util.Arrays;
 import java.util.Map;
 
-public abstract class Group extends Expression {
+public abstract class Group extends Query {
 
-    protected Expression[] expressions;
+    protected Query[] expressions;
 
     private final int hashCode;
     private String toString;
 
     private Grouping grouping = Grouping.AND;
 
-    public Group(Grouping grouping, Expression... expressions) {
+    public Group(Grouping grouping, Query... expressions) {
         this.grouping = grouping;
         this.expressions = expressions;
         hashCode = doHashCode();
@@ -52,7 +52,7 @@ public abstract class Group extends Expression {
     }
 
 
-    public Expression[] getExpressions() {
+    public Query[] getExpressions() {
         return expressions;
     }
 
@@ -81,13 +81,13 @@ public abstract class Group extends Expression {
 
     public static class And extends Group {
 
-        public And(Expression... expressions) {
+        public And(Query... expressions) {
             super(Grouping.AND, expressions);
         }
 
         @Override
         public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
-            for (Expression c : expressions) {
+            for (Query c : expressions) {
                 if (!c.resolve(fields, owner)) {
                     return false;
                 }
@@ -98,13 +98,13 @@ public abstract class Group extends Expression {
 
     public static class Or extends Group {
 
-        public Or(Expression... expressions) {
+        public Or(Query... expressions) {
             super(Grouping.OR, expressions);
         }
 
         @Override
         public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
-            for (Expression c : expressions) {
+            for (Query c : expressions) {
                 if (c.resolve(fields, owner)) {
                     return true;
                 }

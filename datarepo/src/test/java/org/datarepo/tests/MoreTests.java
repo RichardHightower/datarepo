@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.datarepo.Collections.$q;
 import static org.datarepo.Collections.sortedQuery;
-import static org.datarepo.query.Criteria.*;
+import static org.datarepo.query.QueryFactory.*;
 import static org.datarepo.utils.Reflection.copy;
 import static org.datarepo.utils.Types.toDate;
 import static org.datarepo.utils.Utils.ls;

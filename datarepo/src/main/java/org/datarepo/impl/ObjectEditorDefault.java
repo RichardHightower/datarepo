@@ -3,7 +3,7 @@ package org.datarepo.impl;
 import org.datarepo.ObjectEditor;
 import org.datarepo.SearchableCollection;
 import org.datarepo.fields.FieldAccess;
-import org.datarepo.query.ValueSetter;
+import org.datarepo.query.Update;
 import org.datarepo.spi.ObjectEditorComposer;
 import org.datarepo.utils.Reflection;
 
@@ -174,9 +174,9 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         query.validateIndex(property, item);
     }
 
-    public void modify(ITEM item, ValueSetter... values) {
+    public void modify(ITEM item, Update... values) {
         item = lookupAndExpect(item);
-        for (ValueSetter value : values) {
+        for (Update value : values) {
             query.invalidateIndex(value.getName(), item);
             value.doSet(this, item);
             optimizeHash(item);
@@ -257,10 +257,10 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         query.validateIndex(property, item);
     }
 
-    public void update(KEY key, ValueSetter... values) {
+    public void update(KEY key, Update... values) {
         ITEM item = lookupAndExpectByKey(key);
 
-        for (ValueSetter value : values) {
+        for (Update value : values) {
             query.invalidateIndex(value.getName(), item);
             value.doSet(this, item);
             optimizeHash(item);

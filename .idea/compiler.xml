@@ -23,12 +23,14 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="benchmarks" />
+        <module name="cqengine" />
         <module name="datarepo" />
         <module name="org.datarepo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
       <module name="benchmarks" target="1.7" />
+      <module name="cqengine" target="1.6" />
     </bytecodeTargetLevel>
   </component>
 </project>

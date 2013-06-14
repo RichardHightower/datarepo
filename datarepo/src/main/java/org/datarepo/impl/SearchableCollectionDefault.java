@@ -5,7 +5,7 @@ import org.datarepo.LookupIndex;
 import org.datarepo.SearchableCollection;
 import org.datarepo.fields.FieldAccess;
 import org.datarepo.impl.indexes.UniqueLookupIndex;
-import org.datarepo.query.Expression;
+import org.datarepo.query.Query;
 import org.datarepo.query.Selector;
 import org.datarepo.query.Sort;
 import org.datarepo.query.Visitor;
@@ -70,7 +70,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
         if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t value %s", key, property, value);
+                    "key %s \t property %s \t set %s", key, property, value);
         }
 
         return index.count(key);
@@ -83,7 +83,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
         if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t value %s", key, property, value);
+                    "key %s \t property %s \t set %s", key, property, value);
         }
 
         return index.count(key);
@@ -95,7 +95,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
         if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t value %s", key, property, value);
+                    "key %s \t property %s \t set %s", key, property, value);
         }
 
         return index.count(key);
@@ -107,7 +107,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
         if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t value %s", key, property, value);
+                    "key %s \t property %s \t set %s", key, property, value);
         }
 
         return index.count(key);
@@ -119,7 +119,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
         if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t value %s", key, property, value);
+                    "key %s \t property %s \t set %s", key, property, value);
         }
 
         return index.count(key);
@@ -131,7 +131,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
         if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t value %s", key, property, value);
+                    "key %s \t property %s \t set %s", key, property, value);
         }
 
         return index.count(key);
@@ -143,7 +143,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
         if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t value %s", key, property, value);
+                    "key %s \t property %s \t set %s", key, property, value);
         }
 
         return index.count(key);
@@ -155,7 +155,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
         if (index == null) {
             die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t value %s", key, property, value);
+                    "key %s \t property %s \t set %s", key, property, value);
         }
 
         return index.count(key);
@@ -314,7 +314,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     }
 
     @Override
-    public List<ITEM> query(Expression... expressions) {
+    public List<ITEM> query(Query... expressions) {
         if (expressions == null || expressions.length == 0) {
             return this.all();
         } else {
@@ -323,20 +323,20 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     }
 
     @Override
-    public List<ITEM> sortedQuery(final String sortBy, Expression... expressions) {
+    public List<ITEM> sortedQuery(final String sortBy, Query... expressions) {
         Sort asc = Sort.asc(sortBy);
         return sortedQuery(asc, expressions);
     }
 
     @Override
-    public List<ITEM> sortedQuery(Sort sortBy, Expression... expressions) {
+    public List<ITEM> sortedQuery(Sort sortBy, Query... expressions) {
         List<ITEM> results = this.query(expressions);
         sortBy.sort(results);
         return results;
     }
 
     @Override
-    public List<Map<String, Object>> queryAsMaps(Expression... expressions) {
+    public List<Map<String, Object>> queryAsMaps(Query... expressions) {
         List<ITEM> items = this.query(expressions);
         List<Map<String, Object>> results = new ArrayList<>(items.size());
         for (ITEM item : items) {
@@ -346,14 +346,14 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     }
 
     @Override
-    public List<Map<String, Object>> sortedQuery(final String sortBy, List<Selector> selectors, Expression... expressions) {
+    public List<Map<String, Object>> sortedQuery(final String sortBy, List<Selector> selectors, Query... expressions) {
 
         Sort asc = Sort.asc(sortBy);
         return sortedQuery(asc, selectors, expressions);
     }
 
     @Override
-    public List<Map<String, Object>> sortedQuery(Sort sortBy, List<Selector> selectors, Expression... expressions) {
+    public List<Map<String, Object>> sortedQuery(Sort sortBy, List<Selector> selectors, Query... expressions) {
         final List<Map<String, Object>> results = query(selectors, expressions);
         sortBy.sort(results);
         return results;
@@ -410,7 +410,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     }
 
     @Override
-    public void query(Visitor<KEY, ITEM> visitor, Expression... expressions) {
+    public void query(Visitor<KEY, ITEM> visitor, Query... expressions) {
         List<ITEM> items = this.query(expressions);
         for (ITEM item : items) {
             KEY key = (KEY) this.primaryKeyGetter.apply(item);
@@ -421,13 +421,13 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     }
 
     @Override
-    public void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Expression... expressions) {
+    public void sortedQuery(Visitor<KEY, ITEM> visitor, String sortBy, Query... expressions) {
         Sort asc = Sort.asc(sortBy);
         sortedQuery(visitor, asc, expressions);
     }
 
     @Override
-    public void sortedQuery(Visitor<KEY, ITEM> visitor, Sort sortBy, Expression... expressions) {
+    public void sortedQuery(Visitor<KEY, ITEM> visitor, Sort sortBy, Query... expressions) {
         List<ITEM> items = this.sortedQuery(sortBy, expressions);
         for (ITEM item : items) {
             KEY key = (KEY) this.primaryKeyGetter.apply(item);
@@ -437,7 +437,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     }
 
     @Override
-    public List<Map<String, Object>> query(List<Selector> selectors, Expression... expressions) {
+    public List<Map<String, Object>> query(List<Selector> selectors, Query... expressions) {
 
         List<ITEM> results = this.query(expressions);
         List<Map<String, Object>> rows = new ArrayList<>(results.size());

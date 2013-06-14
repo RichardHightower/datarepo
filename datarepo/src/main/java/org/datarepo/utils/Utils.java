@@ -1487,12 +1487,12 @@ public class Utils {
 
         if (ex == null && v != null) {
             throw new AssertionException(sprintf(
-                    "expected was null, but value was %s", v));
+                    "expected was null, but set was %s", v));
         }
 
         if (!ex.equals(v)) {
             throw new AssertionException(sprintf(
-                    "expected was %s, but value was %s", ex, v));
+                    "expected was %s, but set was %s", ex, v));
         }
 
     }
@@ -1510,11 +1510,11 @@ public class Utils {
         }
 
         if (ex == null && v != null) {
-            fprintf(out, "expected was null, but value was %s", v);
+            fprintf(out, "expected was null, but set was %s", v);
         }
 
         if (!ex.equals(v)) {
-            fprintf(out, "expected was %s, but value was %s", ex, v);
+            fprintf(out, "expected was %s, but set was %s", ex, v);
         }
 
     }
@@ -1527,12 +1527,12 @@ public class Utils {
 
         if (ex == null && v != null) {
             throw new AssertionException(sprintf(
-                    "%s | expected \n null, but value was \n #%s#", msg, v));
+                    "%s | expected \n null, but set was \n #%s#", msg, v));
         }
 
         if (!ex.equals(v)) {
             throw new AssertionException(sprintf(
-                    "%s | expected \n#%s#, but value was \n#%s#", msg, ex, v));
+                    "%s | expected \n#%s#, but set was \n#%s#", msg, ex, v));
         }
 
     }
@@ -1543,11 +1543,11 @@ public class Utils {
         }
 
         if (ex == null && v != null) {
-            fprintf(out, "%s | expected null, but value was #%s#", msg, v);
+            fprintf(out, "%s | expected null, but set was #%s#", msg, v);
         }
 
         if (!ex.equals(v)) {
-            fprintf(out, "%s | expected \n#%s#, but value was \n#%s#", msg, ex,
+            fprintf(out, "%s | expected \n#%s#, but set was \n#%s#", msg, ex,
                     v);
         }
 

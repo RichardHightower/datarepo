@@ -373,7 +373,7 @@ public class Types {
             Boolean b = toBoolean(value);
             return (T) b;
         } else if (clz == fileT) {
-            //return (T) toFile(value);
+            //return (T) toFile(set);
             complain("Need to fix this");
             return null;
         } else if (isMap(clz)) {
@@ -635,13 +635,13 @@ public class Types {
         return Reflection.toMap(value);
     }
 
-//    public static File toFile(Object value) {
-//        if (value instanceof File) {
-//            return (File) value;
-//        } else if (value instanceof CharSequence) {
-//            return file(str(value));
+//    public static File toFile(Object set) {
+//        if (set instanceof File) {
+//            return (File) set;
+//        } else if (set instanceof CharSequence) {
+//            return file(str(set));
 //        } else {
-//            return toFile(value.toString());
+//            return toFile(set.toString());
 //        }
 //    }
 
@@ -934,7 +934,7 @@ public class Types {
             if (value != null) {
                 return toDate(value.toString());
             } else {
-                complain("Unable to convert value to date");
+                complain("Unable to convert set to date");
                 return null;
             }
         }

@@ -2,7 +2,7 @@ package org.datarepo;
 
 import org.datarepo.fields.FieldAccess;
 import org.datarepo.impl.decorators.FilterWithSimpleCache;
-import org.datarepo.query.Expression;
+import org.datarepo.query.Query;
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.SearchIndex;
 import org.datarepo.spi.SearchableCollectionComposer;
@@ -140,7 +140,7 @@ public class Collections {
     }
 
 
-    public static <T> List<T> query(final List<T> list, Expression... expressions) {
+    public static <T> List<T> query(final List<T> list, Query... expressions) {
         if (list instanceof QList) {
             QList qlist = (QList) list;
             return qlist.searchCollection().query(expressions);
@@ -148,7 +148,7 @@ public class Collections {
         return null;
     }
 
-    public static <T> List<T> sortedQuery(final List<T> list, String sortBy, Expression... expressions) {
+    public static <T> List<T> sortedQuery(final List<T> list, String sortBy, Query... expressions) {
         if (list instanceof QList) {
             QList qlist = (QList) list;
             return qlist.searchCollection().sortedQuery(sortBy, expressions);
@@ -157,7 +157,7 @@ public class Collections {
     }
 
 
-    public static <T> List<T> query(final Set<T> set, Expression... expressions) {
+    public static <T> List<T> query(final Set<T> set, Query... expressions) {
         if (set instanceof QSet) {
             QSet qset = (QSet) set;
             return qset.searchCollection().query(expressions);
@@ -165,7 +165,7 @@ public class Collections {
         return null;
     }
 
-    public static <T> List<T> sortedQuery(final Set<T> set, String sortBy, Expression... expressions) {
+    public static <T> List<T> sortedQuery(final Set<T> set, String sortBy, Query... expressions) {
         if (set instanceof QSet) {
             QSet qset = (QSet) set;
             return qset.searchCollection().sortedQuery(sortBy, expressions);

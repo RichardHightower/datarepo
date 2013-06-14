@@ -10,22 +10,22 @@ import java.util.*;
 import static org.datarepo.utils.Utils.iterator;
 import static org.datarepo.utils.Utils.joinBy;
 
-public class Criteria {
+public class QueryFactory {
 
-    public static boolean test(Object obj, Expression exp) {
+    public static boolean test(Object obj, Query exp) {
         return exp.test(obj);
     }
 
-    public static boolean andTest(Object obj, Expression... exp) {
+    public static boolean andTest(Object obj, Query... exp) {
         return and(exp).test(obj);
     }
 
-    public static boolean orTest(Object obj, Expression... exp) {
+    public static boolean orTest(Object obj, Query... exp) {
         return or(exp).test(obj);
     }
 
 
-    public static <T> List<T> filter(Collection<T> items, Expression exp) {
+    public static <T> List<T> filter(Collection<T> items, Query exp) {
         if (items.size() == 0) {
             return Collections.EMPTY_LIST;
         }
@@ -39,16 +39,16 @@ public class Criteria {
         return results;
     }
 
-    public static Not not(Expression expression) {
+    public static Not not(Query expression) {
         return new Not(expression);
     }
 
 
-    public static Group and(Expression... expressions) {
+    public static Group and(Query... expressions) {
         return new Group.And(expressions);
     }
 
-    public static Group or(Expression... expressions) {
+    public static Group or(Query... expressions) {
         return new Group.Or(expressions);
     }
 
@@ -281,12 +281,12 @@ public class Criteria {
 
 //    I am going to add date handling, but not now. TODO
 //
-//    public static Expression betweenYears(Object name, int year1, int year2) {
+//    public static Query betweenYears(Object name, int year1, int year2) {
 //
 //        return new Criterion<Object>(name.toString(), Operator.EQUAL, year1) {
 //            @Override
 //            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
-//                return value.equals(field.readNestedValue(owner)) ;
+//                return set.equals(field.readNestedValue(owner)) ;
 //            }
 //        };
 //    }
@@ -416,11 +416,11 @@ public class Criteria {
     }
 
     // TODO regex suppot
-//    public static Expression matches(Object name, Object value) {
-//        return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
+//    public static Query matches(Object name, Object set) {
+//        return new Criterion<Object>(name.toString(), Operator.EQUAL, set) {
 //            @Override
 //            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
-//                return value.equals(field.readNestedValue(owner)) ;
+//                return set.equals(field.readNestedValue(owner)) ;
 //            }
 //        };
 //    }

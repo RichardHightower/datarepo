@@ -6,7 +6,7 @@ import org.datarepo.utils.Reflection;
 
 import java.util.Map;
 
-public abstract class Expression implements Predicate {
+public abstract class Query implements Predicate {
     private static ThreadLocal<Map<String, FieldAccess>> fieldsLocal = new ThreadLocal<>();
 
     public static void fields(Map<String, FieldAccess> fields) {

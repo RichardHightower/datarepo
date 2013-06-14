@@ -283,14 +283,14 @@ public class PropertyField implements FieldAccess {
     @Override
     public void setObject(Object obj, Object value) {
         if (readOnly) {
-            warning(log, "You tried to modify property %s of %s for instance %s with value %s",
+            warning(log, "You tried to modify property %s of %s for instance %s with set %s",
                     name, obj.getClass().getSimpleName(), obj, value);
             return;
         }
         try {
             setter.invoke(obj, value);
         } catch (Exception e) {
-            die(e, "You tried to modify property %s of %s for instance %s with value %s using %s",
+            die(e, "You tried to modify property %s of %s for instance %s with set %s using %s",
                     name, obj.getClass().getSimpleName(), obj, value, setter.getName());
 
         }

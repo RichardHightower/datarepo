@@ -390,10 +390,10 @@ public class Reflection {
         } catch (Exception notExpected) {
             String msg = lines("An unexpected error has occurred",
                     "This is likely a programming error!",
-                    sprintf("Object is %s, index is %s, and value is %s", object, index, value),
+                    sprintf("Object is %s, index is %s, and set is %s", object, index, value),
                     sprintf("The object is an array? %s", object == null ? "null" : object.getClass().isArray()),
                     sprintf("The object is of type %s", object == null ? "null" : object.getClass().getName()),
-                    sprintf("The value is of type %s", value == null ? "null" : value.getClass().getName()),
+                    sprintf("The set is of type %s", value == null ? "null" : value.getClass().getName()),
 
                     ""
 
@@ -683,7 +683,7 @@ public class Reflection {
 
 
         Collections.reverse(fields); // make super classes fields first that
-        // their values get overriden by
+        // their update get overriden by
         // subclass fields with the same name
 
         List<Entry<String, Object>> entries = mapFilterNulls(

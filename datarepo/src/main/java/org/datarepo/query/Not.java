@@ -4,11 +4,11 @@ import org.datarepo.fields.FieldAccess;
 
 import java.util.Map;
 
-public class Not extends Expression {
+public class Not extends Query {
 
-    private final Expression expression;
+    private final Query expression;
 
-    public Not(Expression expression) {
+    public Not(Query expression) {
         this.expression = expression;
     }
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.datarepo.utils.Utils.list;
 
-public abstract class ValueSetter implements Serializable {
+public abstract class Update implements Serializable {
 
     private String name;
 
@@ -18,8 +18,8 @@ public abstract class ValueSetter implements Serializable {
 
     public abstract void doSet(ObjectEditor repo, Object item);
 
-    public static ValueSetter value(final String name, final int value) {
-        return new ValueSetter() {
+    public static Update set(final String name, final int value) {
+        return new Update() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
@@ -27,8 +27,8 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter incInt(final String name) {
-        return new ValueSetter() {
+    public static Update incInt(final String name) {
+        return new Update() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
                 int v = repo.getInt(item, name);
@@ -38,8 +38,8 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter incPercent(final String name, final int percent) {
-        return new ValueSetter() {
+    public static Update incPercent(final String name, final int percent) {
+        return new Update() {
 
             //Avoid the lookup, pass the fields.
             @Override
@@ -54,8 +54,8 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(final String name, final long value) {
-        return new ValueSetter() {
+    public static Update set(final String name, final long value) {
+        return new Update() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
@@ -63,8 +63,8 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(final String name, final Object value) {
-        return new ValueSetter() {
+    public static Update set(final String name, final Object value) {
+        return new Update() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
@@ -72,8 +72,8 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(final String name, final byte value) {
-        return new ValueSetter() {
+    public static Update set(final String name, final byte value) {
+        return new Update() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
@@ -81,8 +81,8 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(final String name, final float value) {
-        return new ValueSetter() {
+    public static Update set(final String name, final float value) {
+        return new Update() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
@@ -90,8 +90,8 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(final String name, final char value) {
-        return new ValueSetter() {
+    public static Update set(final String name, final char value) {
+        return new Update() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
@@ -99,8 +99,8 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static ValueSetter value(final String name, final String value) {
-        return new ValueSetter() {
+    public static Update set(final String name, final String value) {
+        return new Update() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
                 repo.modify(item, name, value);
@@ -108,7 +108,7 @@ public abstract class ValueSetter implements Serializable {
         };
     }
 
-    public static List<ValueSetter> values(ValueSetter... values) {
+    public static List<Update> update(Update... values) {
         return list(values);
     }
 
