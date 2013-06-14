@@ -31,7 +31,7 @@ public abstract class ValueSetter implements Serializable {
         return new ValueSetter() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
-                int v = repo.readNestedInt(item, name);
+                int v = repo.getInt(item, name);
                 v++;
                 repo.modify(item, name, v);
             }

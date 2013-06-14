@@ -390,7 +390,7 @@ public abstract class UnsafeField implements FieldAccess {
     }
 
 
-    private static class IntUnsafeField extends UnsafeField {
+    private static final class IntUnsafeField extends UnsafeField {
 
         protected IntUnsafeField(Field f) {
             super(f);

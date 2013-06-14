@@ -46,7 +46,7 @@ public class BenchMarkUpdate {
         print("Start Now...");
         sleep(1_000);
 
-        for (int index = 0; index < 1; index++) {
+        for (int index = 0; index < 10; index++) {
 
             for (MeasuredRun run : runs) {
                 System.gc();
@@ -71,7 +71,7 @@ public class BenchMarkUpdate {
                                                     /* Create a repo, and decide what to index. */
                 repo = Repos.builder().primaryKey("id").searchIndex("firstName")
                         .lookupIndex("firstName").nestedIndex("department", "name")
-                        .useUnsafe(false)
+                        .useUnsafe(true)
                         .build(String.class, Employee.class);
 
                 repo.addAll(copy(employees));
