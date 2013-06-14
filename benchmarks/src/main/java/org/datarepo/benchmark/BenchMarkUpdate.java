@@ -71,7 +71,7 @@ public class BenchMarkUpdate {
                                                     /* Create a repo, and decide what to index. */
                 repo = Repos.builder().primaryKey("id").searchIndex("firstName")
                         .lookupIndex("firstName").nestedIndex("department", "name")
-
+                        .useUnsafe(false)
                         .build(String.class, Employee.class);
 
                 repo.addAll(copy(employees));
