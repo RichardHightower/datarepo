@@ -64,63 +64,6 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
 
     @Override
-    public Object readObject(KEY key, String property) {
-        ITEM item = this.get(key);
-        return this.fields.get(property).getObject(item);
-    }
-
-
-    @Override
-    public <T> T readValue(KEY key, String property, Class<T> type) {
-        ITEM item = this.get(key);
-        return (T) this.fields.get(property).getValue(item);
-    }
-
-    @Override
-    public int readInt(KEY key, String property) {
-        ITEM item = this.get(key);
-        return this.fields.get(property).getInt(item);
-    }
-
-    @Override
-    public long readLong(KEY key, String property) {
-        ITEM item = this.get(key);
-        return this.fields.get(property).getLong(item);
-    }
-
-    @Override
-    public char readChar(KEY key, String property) {
-        ITEM item = this.get(key);
-        return this.fields.get(property).getChar(item);
-    }
-
-    @Override
-    public short readShort(KEY key, String property) {
-        ITEM item = this.get(key);
-        return this.fields.get(property).getShort(item);
-    }
-
-    @Override
-    public byte readByte(KEY key, String property) {
-        ITEM item = this.get(key);
-        return this.fields.get(property).getByte(item);
-    }
-
-    @Override
-    public float readFloat(KEY key, String property) {
-        ITEM item = this.get(key);
-        return this.fields.get(property).getFloat(item);
-
-    }
-
-    @Override
-    public double readDouble(KEY key, String property) {
-        ITEM item = this.get(key);
-        return this.fields.get(property).getDouble(item);
-
-    }
-
-    @Override
     public int count(KEY key, String property, int value) {
 
         SearchIndex index = this.searchIndexMap.get(property);

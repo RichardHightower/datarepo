@@ -191,43 +191,138 @@ public class ObjectEditorDecoratorBase<KEY, ITEM> implements ObjectEditor<KEY, I
     }
 
     @Override
-    public Object getValue(KEY key, String... properties) {
-        return objectEditorDefault.getValue(key, properties);
+    public Object readNestedValue(KEY key, String... properties) {
+        return objectEditorDefault.readNestedValue(key, properties);
     }
 
     @Override
-    public int getInt(KEY key, String... properties) {
-        return objectEditorDefault.getInt(key, properties);
+    public int readNestedInt(KEY key, String... properties) {
+        return objectEditorDefault.readNestedInt(key, properties);
     }
 
     @Override
-    public short getShort(KEY key, String... properties) {
-        return objectEditorDefault.getShort(key, properties);
+    public short readNestedShort(KEY key, String... properties) {
+        return objectEditorDefault.readNestedShort(key, properties);
     }
 
     @Override
-    public char getChar(KEY key, String... properties) {
-        return objectEditorDefault.getChar(key, properties);
+    public char readNestedChar(KEY key, String... properties) {
+        return objectEditorDefault.readNestedChar(key, properties);
     }
 
     @Override
-    public byte getByte(KEY key, String... properties) {
-        return objectEditorDefault.getByte(key, properties);
+    public byte readNestedByte(KEY key, String... properties) {
+        return objectEditorDefault.readNestedByte(key, properties);
     }
 
     @Override
-    public double getDouble(KEY key, String... properties) {
-        return objectEditorDefault.getDouble(key, properties);
+    public double readNestedDouble(KEY key, String... properties) {
+        return objectEditorDefault.readNestedDouble(key, properties);
     }
 
     @Override
-    public float getFloat(KEY key, String... properties) {
-        return objectEditorDefault.getFloat(key, properties);
+    public float readNestedFloat(KEY key, String... properties) {
+        return objectEditorDefault.readNestedFloat(key, properties);
     }
 
     @Override
-    public long getLong(KEY key, String... properties) {
-        return objectEditorDefault.getLong(key, properties);
+    public long readNestedLong(KEY key, String... properties) {
+        return objectEditorDefault.readNestedLong(key, properties);
+    }
+
+    @Override
+    public Object readObject(KEY key, String property) {
+        return objectEditorDefault.readObject(key, property);
+    }
+
+    @Override
+    public <T> T readValue(KEY key, String property, Class<T> type) {
+        return objectEditorDefault.readValue(key, property, type);
+    }
+
+    @Override
+    public int readInt(KEY key, String property) {
+        return objectEditorDefault.readInt(key, property);
+    }
+
+    @Override
+    public long readLong(KEY key, String property) {
+        return objectEditorDefault.readLong(key, property);
+
+    }
+
+    @Override
+    public char readChar(KEY key, String property) {
+        return objectEditorDefault.readChar(key, property);
+
+    }
+
+    @Override
+    public short readShort(KEY key, String property) {
+        return objectEditorDefault.readShort(key, property);
+
+    }
+
+    @Override
+    public byte readByte(KEY key, String property) {
+        return objectEditorDefault.readByte(key, property);
+
+    }
+
+    @Override
+    public float readFloat(KEY key, String property) {
+        return objectEditorDefault.readFloat(key, property);
+    }
+
+    @Override
+    public double readDouble(KEY key, String property) {
+        return objectEditorDefault.readDouble(key, property);
+
+    }
+
+    @Override
+    public Object getObject(ITEM item, String property) {
+        return objectEditorDefault.getObject(item, property);
+    }
+
+    @Override
+    public <T> T getValue(ITEM item, String property, Class<T> type) {
+        return objectEditorDefault.getValue(item, property, type);
+    }
+
+    @Override
+    public int getInt(ITEM item, String property) {
+        return objectEditorDefault.getInt(item, property);
+    }
+
+    @Override
+    public long getLong(ITEM item, String property) {
+        return objectEditorDefault.getLong(item, property);
+    }
+
+    @Override
+    public char getChar(ITEM item, String property) {
+        return objectEditorDefault.getChar(item, property);
+    }
+
+    @Override
+    public short getShort(ITEM item, String property) {
+        return objectEditorDefault.getShort(item, property);
+    }
+
+    @Override
+    public byte getByte(ITEM item, String property) {
+        return objectEditorDefault.getByte(item, property);
+    }
+
+    @Override
+    public float getFloat(ITEM item, String property) {
+        return objectEditorDefault.getFloat(item, property);
+    }
+
+    @Override
+    public double getDouble(ITEM item, String property) {
+        return objectEditorDefault.getDouble(item, property);
     }
 
     public boolean add(ITEM item) {

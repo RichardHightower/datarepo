@@ -132,47 +132,93 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
 
     @Override
     public Object readObject(KEY key, String property) {
-        return query.readObject(key, property);
+        return editor.readObject(key, property);
     }
 
     @Override
     public <T> T readValue(KEY key, String property, Class<T> type) {
-        return query.readValue(key, property, type);
+        return editor.readValue(key, property, type);
     }
 
     @Override
     public int readInt(KEY key, String property) {
-        return query.readInt(key, property);
+        return editor.readInt(key, property);
     }
 
     @Override
     public long readLong(KEY key, String property) {
-        return query.readLong(key, property);
+        return editor.readLong(key, property);
     }
 
     @Override
     public char readChar(KEY key, String property) {
-        return query.readChar(key, property);
+        return editor.readChar(key, property);
     }
 
     @Override
     public short readShort(KEY key, String property) {
-        return query.readShort(key, property);
+        return editor.readShort(key, property);
     }
 
     @Override
     public byte readByte(KEY key, String property) {
-        return query.readByte(key, property);
+        return editor.readByte(key, property);
     }
 
     @Override
     public float readFloat(KEY key, String property) {
-        return query.readFloat(key, property);
+        return editor.readFloat(key, property);
     }
 
     @Override
     public double readDouble(KEY key, String property) {
-        return query.readDouble(key, property);
+        return editor.readDouble(key, property);
+    }
+
+    @Override
+    public Object getObject(ITEM item, String property) {
+        return editor.getObject(item, property);
+    }
+
+    @Override
+    public <T> T getValue(ITEM item, String property, Class<T> type) {
+        return editor.getValue(item, property, type);
+    }
+
+    @Override
+    public int getInt(ITEM item, String property) {
+        return editor.getInt(item, property);
+    }
+
+    @Override
+    public long getLong(ITEM item, String property) {
+        return editor.getLong(item, property);
+
+    }
+
+    @Override
+    public char getChar(ITEM item, String property) {
+        return editor.getChar(item, property);
+    }
+
+    @Override
+    public short getShort(ITEM item, String property) {
+        return editor.getShort(item, property);
+    }
+
+    @Override
+    public byte getByte(ITEM item, String property) {
+        return editor.getByte(item, property);
+    }
+
+    @Override
+    public float getFloat(ITEM item, String property) {
+        return editor.getFloat(item, property);
+    }
+
+    @Override
+    public double getDouble(ITEM item, String property) {
+        return editor.getDouble(item, property);
     }
 
     @Override
@@ -536,43 +582,43 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     }
 
     @Override
-    public Object getValue(KEY key, String... properties) {
-        return editor.getValue(key, properties);
+    public Object readNestedValue(KEY key, String... properties) {
+        return editor.readNestedValue(key, properties);
     }
 
     @Override
-    public int getInt(KEY key, String... properties) {
-        return editor.getInt(key, properties);
+    public int readNestedInt(KEY key, String... properties) {
+        return editor.readNestedInt(key, properties);
     }
 
     @Override
-    public short getShort(KEY key, String... properties) {
-        return editor.getShort(key, properties);
+    public short readNestedShort(KEY key, String... properties) {
+        return editor.readNestedShort(key, properties);
     }
 
     @Override
-    public char getChar(KEY key, String... properties) {
-        return editor.getChar(key, properties);
+    public char readNestedChar(KEY key, String... properties) {
+        return editor.readNestedChar(key, properties);
     }
 
     @Override
-    public byte getByte(KEY key, String... properties) {
-        return editor.getByte(key, properties);
+    public byte readNestedByte(KEY key, String... properties) {
+        return editor.readNestedByte(key, properties);
     }
 
     @Override
-    public double getDouble(KEY key, String... properties) {
-        return editor.getDouble(key, properties);
+    public double readNestedDouble(KEY key, String... properties) {
+        return editor.readNestedDouble(key, properties);
     }
 
     @Override
-    public float getFloat(KEY key, String... properties) {
-        return editor.getFloat(key, properties);
+    public float readNestedFloat(KEY key, String... properties) {
+        return editor.readNestedFloat(key, properties);
     }
 
     @Override
-    public long getLong(KEY key, String... properties) {
-        return editor.getLong(key, properties);
+    public long readNestedLong(KEY key, String... properties) {
+        return editor.readNestedLong(key, properties);
     }
 
     @Override

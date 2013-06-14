@@ -20,6 +20,9 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
     private Logger log = log(ObjectEditorDefault.class);
     protected SearchableCollection<KEY, ITEM> query;
     protected Map<String, FieldAccess> fields = new LinkedHashMap<>();
+    private boolean hashCodeOptimization;
+    //TODO make this configurable
+    private boolean lookupAndExcept;
 
 
     public void put(ITEM item) {
@@ -94,6 +97,9 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
     }
 
     private void optimizeHash(ITEM item) {
+        if (!hashCodeOptimization) {
+            return;
+        }
         FieldAccess hashCode = fields.get("_hashCode");
         if (hashCode == null) {
             return;
@@ -457,6 +463,11 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
     public void init() {
     }
 
+    @Override
+    public void hashCodeOptimizationOn() {
+        this.hashCodeOptimization = true;
+    }
+
 
     public ITEM get(KEY key) {
         return (ITEM) query.get(key);
@@ -472,6 +483,10 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
     }
 
     private ITEM lookupAndExpect(ITEM item) {
+        if (!lookupAndExcept) {
+            return item;
+        }
+
         KEY key = getKey(item);
         ITEM oldItem = this.doGet(key);
 
@@ -528,52 +543,155 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
 
 
     @Override
-    public Object getValue(KEY key, String... properties) {
+    public Object readNestedValue(KEY key, String... properties) {
         ITEM item = this.get(key);
         return Reflection.getPropertyValue(item, properties);
     }
 
 
     @Override
-    public int getInt(KEY key, String... properties) {
+    public int readNestedInt(KEY key, String... properties) {
         ITEM item = this.get(key);
         return Reflection.getPropertyInt(item, properties);
     }
 
     @Override
-    public short getShort(KEY key, String... properties) {
+    public short readNestedShort(KEY key, String... properties) {
         ITEM item = this.get(key);
         return Reflection.getPropertyShort(item, properties);
     }
 
     @Override
-    public char getChar(KEY key, String... properties) {
+    public char readNestedChar(KEY key, String... properties) {
         ITEM item = this.get(key);
         return Reflection.getPropertyChar(item, properties);
     }
 
     @Override
-    public byte getByte(KEY key, String... properties) {
+    public byte readNestedByte(KEY key, String... properties) {
         ITEM item = this.get(key);
         return Reflection.getPropertyByte(item, properties);
     }
 
     @Override
-    public double getDouble(KEY key, String... properties) {
+    public double readNestedDouble(KEY key, String... properties) {
         ITEM item = this.get(key);
         return Reflection.getPropertyDouble(item, properties);
     }
 
     @Override
-    public float getFloat(KEY key, String... properties) {
+    public float readNestedFloat(KEY key, String... properties) {
         ITEM item = this.get(key);
         return Reflection.getPropertyFloat(item, properties);
     }
 
     @Override
-    public long getLong(KEY key, String... properties) {
+    public long readNestedLong(KEY key, String... properties) {
         ITEM item = this.get(key);
         return Reflection.getPropertyLong(item, properties);
+    }
+
+
+    @Override
+    public Object readObject(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getObject(item);
+    }
+
+
+    @Override
+    public <T> T readValue(KEY key, String property, Class<T> type) {
+        ITEM item = this.get(key);
+        return (T) this.fields.get(property).getValue(item);
+    }
+
+    @Override
+    public int readInt(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getInt(item);
+    }
+
+    @Override
+    public long readLong(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getLong(item);
+    }
+
+    @Override
+    public char readChar(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getChar(item);
+    }
+
+    @Override
+    public short readShort(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getShort(item);
+    }
+
+    @Override
+    public byte readByte(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getByte(item);
+    }
+
+    @Override
+    public float readFloat(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getFloat(item);
+
+    }
+
+    @Override
+    public double readDouble(KEY key, String property) {
+        ITEM item = this.get(key);
+        return this.fields.get(property).getDouble(item);
+
+    }
+
+    @Override
+    public Object getObject(ITEM item, String property) {
+        return this.fields.get(property).getObject(item);
+    }
+
+    @Override
+    public <T> T getValue(ITEM item, String property, Class<T> type) {
+        return (T) this.fields.get(property).getValue(item);
+    }
+
+    @Override
+    public int getInt(ITEM item, String property) {
+        return this.fields.get(property).getInt(item);
+    }
+
+    @Override
+    public long getLong(ITEM item, String property) {
+        return this.fields.get(property).getLong(item);
+    }
+
+    @Override
+    public char getChar(ITEM item, String property) {
+        return this.fields.get(property).getChar(item);
+    }
+
+    @Override
+    public short getShort(ITEM item, String property) {
+        return this.fields.get(property).getShort(item);
+    }
+
+    @Override
+    public byte getByte(ITEM item, String property) {
+        return this.fields.get(property).getByte(item);
+    }
+
+    @Override
+    public float getFloat(ITEM item, String property) {
+        return this.fields.get(property).getFloat(item);
+    }
+
+    @Override
+    public double getDouble(ITEM item, String property) {
+        return this.fields.get(property).getDouble(item);
     }
 
 

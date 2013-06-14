@@ -8,6 +8,10 @@ import static org.datarepo.utils.Types.wrapAsObject;
 
 public class JavaUtilMap<K, V> extends ConcurrentHashMap<K, V> implements TypedMap<K, V> {
 
+    public JavaUtilMap() {
+        super();
+    }
+
     @Override
     public final boolean put(K key, boolean i) {
         return (Boolean) super.put(key, (V) wrapAsObject(i));

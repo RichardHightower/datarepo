@@ -78,7 +78,7 @@ public class FilterDefault implements Filter, FilterComposer {
         if (group.getGrouping() == Grouping.OR) {
             return or(group.getExpressions(), fields);
         } else {
-            return new ArrayList(and(group.getExpressions(), fields));
+            return and(group.getExpressions(), fields);
 
         }
     }
@@ -104,7 +104,7 @@ public class FilterDefault implements Filter, FilterComposer {
     }
 
 
-    private Set and(Expression[] expressions, Map<String, FieldAccess> fields) {
+    private List and(Expression[] expressions, Map<String, FieldAccess> fields) {
 
         Set<Expression> expressionSet = Utils.set(expressions);
 
@@ -126,52 +126,169 @@ public class FilterDefault implements Filter, FilterComposer {
 
         results.results = applyGroups(results.results, expressionSet);
 
-        return new HashSet(results.results);
+        return results.results;
 
     }
 
-    private List applyGroupsWithIndexesForAnd(List items, Set<Expression> expressionSet) {
-        List<HashSet> listOfSets = new ArrayList();
-        listOfSets.add(new HashSet(items));
 
-        List<Expression> expressionsWeEvaluated = new ArrayList<>();
+    private ResultInternal applyIndexedFiltersForAnd(Expression[] expressions, Map<String, FieldAccess> fields, Set<Expression> expressionSet) {
+        ResultInternal results = new ResultInternal();
+        Criterion criteria = null;
+        Operator operator = null;
+        String name = null;
+        Object value = null;
 
-        outer:
-        for (Expression expression : expressionSet) {
+        if (expressions.length == 1 && expressions[0] instanceof Criterion) {
+            criteria = (Criterion) expressions[0];
+            operator = criteria.getOperator();
+            name = criteria.getName();
+            value = criteria.getValue();
+            if (operator == Operator.EQUAL && lookupIndexMap.get(name) != null) {
 
-            if (expression instanceof Group) {
-                Group group = (Group) expression;
-                for (Expression innerExpression : group.getExpressions()) {
-                    //Don't allow non-index Criterion to avoid too many scans
-                    if (innerExpression instanceof Criterion) {
-                        Criterion c = (Criterion) innerExpression;
-                        if (!this.isIndexed(c.getName())) {
-                            continue outer;
-                        }
-                    }
-                    //Don't allow any ors to avoid long scans, at this point
-                    //This is simple for now, it does not recusively look for indexes, future one should.
-                    else if (innerExpression instanceof Group) {
-                        continue;
-                    }
+
+                results.results = lookupIndexMap.get(name).getAll(value);
+
+                                        /* Keep track that we found the index. */
+                results.foundIndex = true;
+
+                expressionSet.remove(criteria);
+
+                if (results.results == null) {
+                    results.results = Collections.EMPTY_LIST;
                 }
 
+                return results;
 
-                /*
-                At this point, this group should be indexed only
-                 */
-                List list = doFilterGroup((Group) expression);
-                if (list.size() > 0) {
-                    listOfSets.add(new HashSet(list));
-                    expressionsWeEvaluated.add(expression);
+            } else if (isIndexed(name) && Utils.isIn(operator, indexedOperators)) {
+                results.results = doFilterWithIndex(criteria, fields);
+
+                                        /* Keep track that we found the index. */
+                results.foundIndex = true;
+
+                expressionSet.remove(criteria);
+
+                if (results.results == null) {
+                    results.results = Collections.EMPTY_LIST;
                 }
+
+                return results;
+
             }
         }
-        List results = reduceToResults(listOfSets);
-        expressionSet.removeAll(expressionsWeEvaluated);
 
+
+        List<HashSet> listOfSets = new ArrayList();
+
+
+        for (Expression expression : expressions) {
+
+            /*
+             * See if the criteria has an index
+             */
+            if (expression instanceof Criterion) {
+                criteria = (Criterion) expression;
+                operator = criteria.getOperator();
+                name = criteria.getName();
+                value = criteria.getValue();
+                if (operator == Operator.EQUAL && lookupIndexMap.get(name) != null) {
+
+
+                    results.results = lookupIndexMap.get(name).getAll(value);
+
+                                        /* Keep track that we found the index. */
+                    results.foundIndex = true;
+
+                    expressionSet.remove(criteria);
+
+                    if (results.results == null) {
+                        results.results = Collections.EMPTY_LIST;
+                        return results;
+                    }
+                    /* if it is less than 20, just linear search the rest. */
+                    else if (results.results.size() < 20) {
+                        return results;
+                    } else if (results.results.size() == 0) {
+                        return results;
+                    } else if (results.results.size() > 0) {
+                        listOfSets.add(new HashSet(results.results));
+                    }
+
+
+                } else if (isIndexed(name) && Utils.isIn(operator, indexedOperators)) {
+
+
+                    results.results = doFilterWithIndex((Criterion) expression, fields);
+
+                                        /* Keep track that we found the index. */
+                    results.foundIndex = true;
+
+                    expressionSet.remove(criteria);
+
+                    if (results.results == null) {
+                        results.results = Collections.EMPTY_LIST;
+                        return results;
+                    }
+                    /* if it is less than 20, just linear search the rest. */
+                    else if (results.results.size() < 20) {
+                        return results;
+                    } else if (results.results.size() == 0) {
+                        return results;
+                    } else if (results.results.size() > 0) {
+                        listOfSets.add(new HashSet(results.results));
+                    }
+
+                }
+
+            }
+        }
+        results.results = reduceToResults(listOfSets);
         return results;
     }
+
+
+//    private List applyGroupsWithIndexesForAnd(List items, Set<Expression> expressionSet) {
+//
+//        List<HashSet> listOfSets = new ArrayList();
+//        listOfSets.add(new HashSet(items));
+//
+//        List<Expression> expressionsWeEvaluated = new ArrayList<>();
+//
+//        outer:
+//        for (Expression expression : expressionSet) {
+//
+//            if (expression instanceof Group) {
+//                Group group = (Group) expression;
+//                for (Expression innerExpression : group.getExpressions()) {
+//                    //Don't allow non-index Criterion to avoid too many scans
+//                    if (innerExpression instanceof Criterion) {
+//                        Criterion c = (Criterion) innerExpression;
+//                        if (!this.isIndexed(c.getName())) {
+//                            continue outer;
+//                        }
+//                    }
+//                    //Don't allow any ors to avoid long scans, at this point
+//                    //This is simple for now, it does not recusively look for indexes, future one should.
+//                    else if (innerExpression instanceof Group) {
+//                        continue;
+//                    }
+//                }
+//
+//
+//                /*
+//                At this point, this group should be indexed only
+//                 */
+//                List list = doFilterGroup((Group) expression);
+//                if (list.size() > 0) {
+//                    listOfSets.add(new HashSet(list));
+//                    expressionsWeEvaluated.add(expression);
+//                }
+//            }
+//        }
+//        List results = reduceToResults(listOfSets);
+//        expressionSet.removeAll(expressionsWeEvaluated);
+//
+//        return results;
+//    }
 
 
     private List applyGroups(List items, Set<Expression> expressionSet) {
@@ -242,75 +359,6 @@ public class FilterDefault implements Filter, FilterComposer {
 
     }
 
-    private ResultInternal applyIndexedFiltersForAnd(Expression[] expressions, Map<String, FieldAccess> fields, Set<Expression> expressionSet) {
-        List<HashSet> listOfSets = new ArrayList();
-
-        ResultInternal results = new ResultInternal();
-
-        for (Expression expression : expressions) {
-
-            /*
-             * See if the criteria has an index
-             */
-            if (expression instanceof Criterion) {
-                Criterion criteria = (Criterion) expression;
-                Operator operator = criteria.getOperator();
-                String name = criteria.getName();
-                Object value = criteria.getValue();
-                if (operator == Operator.EQUAL && lookupIndexMap.get(name) != null) {
-
-
-                    results.results = lookupIndexMap.get(name).getAll(value);
-
-                                        /* Keep track that we found the index. */
-                    results.foundIndex = true;
-
-                    expressionSet.remove(criteria);
-
-                    if (results.results == null) {
-                        results.results = Collections.EMPTY_LIST;
-                        return results;
-                    }
-                    /* if it is less than 20, just linear search the rest. */
-                    else if (results.results.size() < 20) {
-                        return results;
-                    } else if (results.results.size() == 0) {
-                        return results;
-                    } else if (results.results.size() > 0) {
-                        listOfSets.add(new HashSet(results.results));
-                    }
-
-
-                } else if (isIndexed(name) && Utils.isIn(operator, indexedOperators)) {
-
-
-                    results.results = doFilterWithIndex((Criterion) expression, fields);
-
-                                        /* Keep track that we found the index. */
-                    results.foundIndex = true;
-
-                    expressionSet.remove(criteria);
-
-                    if (results.results == null) {
-                        results.results = Collections.EMPTY_LIST;
-                        return results;
-                    }
-                    /* if it is less than 20, just linear search the rest. */
-                    else if (results.results.size() < 20) {
-                        return results;
-                    } else if (results.results.size() == 0) {
-                        return results;
-                    } else if (results.results.size() > 0) {
-                        listOfSets.add(new HashSet(results.results));
-                    }
-
-                }
-
-            }
-        }
-        results.results = reduceToResults(listOfSets);
-        return results;
-    }
 
     private boolean isIndexed(String name) {
         return searchIndexMap.containsKey(name);

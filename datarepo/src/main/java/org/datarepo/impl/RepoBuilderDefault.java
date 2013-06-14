@@ -61,6 +61,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     private Map<String, String[]> nestedIndexes = new HashMap<>();
     private boolean indexHierarchy;
     private Map<String, Integer> indexBucketSize = new HashMap<>();
+    private boolean hashCodeOptimizationOn;
 
 
     public RepoBuilder usePropertyForAccess(boolean useProperty) {
@@ -326,6 +327,9 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     private ObjectEditor constructObjectEditor(Map<String, FieldAccess> fields) {
         ObjectEditorComposer editorComposer = this.objectEditorFactory.get();
+        if (this.hashCodeOptimizationOn) {
+            editorComposer.hashCodeOptimizationOn();
+        }
 
         ObjectEditor editor = (ObjectEditor) editorComposer;
         editorComposer.init();
@@ -410,6 +414,12 @@ public class RepoBuilderDefault implements RepoBuilder {
     @Override
     public RepoBuilder indexBucketSize(String propertyName, int size) {
         this.indexBucketSize.put(propertyName, size);
+        return this;
+    }
+
+    @Override
+    public RepoBuilder hashCodeOptimizationOn() {
+        this.hashCodeOptimizationOn = true;
         return this;
     }
 

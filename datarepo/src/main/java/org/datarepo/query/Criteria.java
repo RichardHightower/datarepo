@@ -286,7 +286,7 @@ public class Criteria {
 //        return new Criterion<Object>(name.toString(), Operator.EQUAL, year1) {
 //            @Override
 //            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
-//                return value.equals(field.getValue(owner)) ;
+//                return value.equals(field.readNestedValue(owner)) ;
 //            }
 //        };
 //    }
@@ -420,7 +420,7 @@ public class Criteria {
 //        return new Criterion<Object>(name.toString(), Operator.EQUAL, value) {
 //            @Override
 //            public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
-//                return value.equals(field.getValue(owner)) ;
+//                return value.equals(field.readNestedValue(owner)) ;
 //            }
 //        };
 //    }

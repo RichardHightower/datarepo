@@ -87,5 +87,7 @@ public interface RepoBuilder {
 
     RepoBuilder indexBucketSize(String propertyName, int size);
 
+    RepoBuilder hashCodeOptimizationOn();
+
 
 }

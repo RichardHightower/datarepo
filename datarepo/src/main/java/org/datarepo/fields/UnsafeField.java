@@ -397,12 +397,12 @@ public abstract class UnsafeField implements FieldAccess {
         }
 
         @Override
-        public void setInt(Object obj, int value) {
+        public final void setInt(Object obj, int value) {
             unsafe.putInt(obj, offset, value);
         }
 
         @Override
-        public int getInt(Object obj) {
+        public final int getInt(Object obj) {
             return unsafe.getInt(obj, offset);
         }
     }

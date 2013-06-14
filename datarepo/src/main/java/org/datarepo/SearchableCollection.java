@@ -21,24 +21,6 @@ public interface SearchableCollection<KEY, ITEM> extends Collection<ITEM> {
     void validateIndex(String property, ITEM item);
 
 
-    Object readObject(KEY key, String property);
-
-    <T> T readValue(KEY key, String property, Class<T> type);
-
-    int readInt(KEY key, String property);
-
-    long readLong(KEY key, String property);
-
-    char readChar(KEY key, String property);
-
-    short readShort(KEY key, String property);
-
-    byte readByte(KEY key, String property);
-
-    float readFloat(KEY key, String property);
-
-    double readDouble(KEY key, String property);
-
     int count(KEY key, String property, int value);
 
     int count(KEY key, String property, short value);

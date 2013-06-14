@@ -736,45 +736,31 @@ public class Types {
     }
 
     public static boolean isMap(Class<?> thisType) {
-        return isType(thisType, Map.class);
+        return implementsInterface(thisType, Map.class);
     }
 
     public static boolean isCharSequence(Class<?> thisType) {
-        return isType(thisType, CharSequence.class);
+        return implementsInterface(thisType, CharSequence.class);
     }
 
     public static boolean isCollection(Class<?> thisType) {
-        return isType(thisType, Collection.class);
+        return implementsInterface(thisType, Collection.class);
     }
 
     public static boolean isList(Class<?> thisType) {
-        return isType(thisType, List.class);
+        return implementsInterface(thisType, List.class);
     }
 
     public static boolean isSet(Class<?> thisType) {
-        return isType(thisType, Set.class);
+        return implementsInterface(thisType, Set.class);
     }
 
     public static boolean isSortedSet(Class<?> thisType) {
-        return isType(thisType, SortedSet.class);
+        return implementsInterface(thisType, SortedSet.class);
     }
 
     public static boolean isType(Class<?> thisType, Class<?> isThisType) {
-        if (thisType == isThisType) {
-            return true;
-        }
-        Class<?>[] interfaces = thisType.getInterfaces();
-        for (Class<?> i : interfaces) {
-            if (i == isThisType) {
-                return true;
-            }
-        }
-
-        if (!thisType.isInterface() && thisType.getSuperclass() != object) {
-            return isType(thisType.getSuperclass(), isThisType);
-        }
-
-        return false;
+        return isSuperType(thisType, isThisType);
     }
 
     public static boolean isModifiableCollection(Collection<Object> value) {
@@ -970,6 +956,10 @@ public class Types {
             return possibleSuperType.isAssignableFrom(type);
         }
 
+    }
+
+    public static boolean isSuperType(Class<?> type, Class<?> possibleSuperType) {
+        return possibleSuperType.isAssignableFrom(type);
     }
 
     public static boolean implementsInterface(Class<?> type, Class<?> interfaceType) {

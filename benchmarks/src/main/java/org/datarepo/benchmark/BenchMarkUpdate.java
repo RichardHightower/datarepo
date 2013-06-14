@@ -63,14 +63,15 @@ public class BenchMarkUpdate {
 
 
     private static MeasuredRun test(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
-        return new MeasuredRun("test indexed", 1, 10, results) {
+        return new MeasuredRun("test indexed", 1, 100, results) {
             Repo repo;
 
             @Override
             protected void init() {
                                                     /* Create a repo, and decide what to index. */
                 repo = Repos.builder().primaryKey("id").searchIndex("firstName")
-                        .lookupIndex("firstName").nestedIndex("department", "name").useUnsafe(true)
+                        .lookupIndex("firstName").nestedIndex("department", "name")
+
                         .build(String.class, Employee.class);
 
                 repo.addAll(copy(employees));
@@ -88,7 +89,7 @@ public class BenchMarkUpdate {
     }
 
     private static MeasuredRun test1(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
-        return new MeasuredRun("test linear", 1, 10, results) {
+        return new MeasuredRun("test linear", 1, 100, results) {
             List<Employee> employeeList;
 
             @Override

@@ -14,7 +14,7 @@ public class Employee {
     private int salary;
     private Department department = new Department();
     private long empNum;
-    private int _hashCode = -1;
+    //private int _hashCode = -1;
 
     public String getId() {
         return id;
@@ -130,9 +130,9 @@ public class Employee {
 
     @Override
     public int hashCode() {
-        if (_hashCode != -1) {
-            return _hashCode;
-        }
+//        if (_hashCode != -1) {
+//            return _hashCode;
+//        }
         int result = firstName != null ? firstName.hashCode() : 0;
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (id != null ? id.hashCode() : 0);

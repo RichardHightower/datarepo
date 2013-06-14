@@ -30,6 +30,7 @@ public class Reflection {
         }
 
         _useUnsafe = _useUnsafe && !Utils.sbprop("com.org.org.datarepo.noUnsafe");
+        _useUnsafe = false; //ummm unsafe seems slower than reflection, just a tad
     }
 
 
@@ -308,6 +309,11 @@ public class Reflection {
         } else {
             return toLong(field.getValue(object));
         }
+    }
+
+    public static boolean hasField(Class<?> aClass, String name) {
+        Map<String, FieldAccess> fields = getAllAccessorFields(aClass);
+        return fields.containsKey(name);
     }
 
     @SuppressWarnings("serial")

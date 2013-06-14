@@ -103,21 +103,59 @@ public interface ObjectEditor<KEY, ITEM> extends Bag<ITEM> {
     void addAll(List<ITEM> items);
 
 
-    Object getValue(KEY key, String... properties);
+    Object readNestedValue(KEY key, String... properties);
 
-    int getInt(KEY key, String... properties);
+    int readNestedInt(KEY key, String... properties);
 
-    short getShort(KEY key, String... properties);
+    short readNestedShort(KEY key, String... properties);
 
-    char getChar(KEY key, String... properties);
+    char readNestedChar(KEY key, String... properties);
 
-    byte getByte(KEY key, String... properties);
+    byte readNestedByte(KEY key, String... properties);
 
-    double getDouble(KEY key, String... properties);
+    double readNestedDouble(KEY key, String... properties);
 
-    float getFloat(KEY key, String... properties);
+    float readNestedFloat(KEY key, String... properties);
 
-    long getLong(KEY key, String... properties);
+    long readNestedLong(KEY key, String... properties);
+
+
+    Object readObject(KEY key, String property);
+
+    <T> T readValue(KEY key, String property, Class<T> type);
+
+    int readInt(KEY key, String property);
+
+    long readLong(KEY key, String property);
+
+    char readChar(KEY key, String property);
+
+    short readShort(KEY key, String property);
+
+    byte readByte(KEY key, String property);
+
+    float readFloat(KEY key, String property);
+
+    double readDouble(KEY key, String property);
+
+
+    Object getObject(ITEM item, String property);
+
+    <T> T getValue(ITEM item, String property, Class<T> type);
+
+    int getInt(ITEM item, String property);
+
+    long getLong(ITEM item, String property);
+
+    char getChar(ITEM item, String property);
+
+    short getShort(ITEM item, String property);
+
+    byte getByte(ITEM item, String property);
+
+    float getFloat(ITEM item, String property);
+
+    double getDouble(ITEM item, String property);
 
 
 }

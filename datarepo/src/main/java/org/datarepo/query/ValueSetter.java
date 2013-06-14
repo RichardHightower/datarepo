@@ -31,7 +31,7 @@ public abstract class ValueSetter implements Serializable {
         return new ValueSetter() {
             @Override
             public void doSet(ObjectEditor repo, Object item) {
-                int v = repo.getInt(item, name);
+                int v = repo.readNestedInt(item, name);
                 v++;
                 repo.modify(item, name, v);
             }
@@ -40,9 +40,11 @@ public abstract class ValueSetter implements Serializable {
 
     public static ValueSetter incPercent(final String name, final int percent) {
         return new ValueSetter() {
+
+            //Avoid the lookup, pass the fields.
             @Override
             public void doSet(ObjectEditor repo, Object item) {
-                int value = repo.getInt(repo.getKey(item), name);
+                int value = repo.getInt(item, name);
                 double dvalue = value;
                 double dprecent = percent / 100.0;
                 dvalue = dvalue + (dvalue * dprecent);

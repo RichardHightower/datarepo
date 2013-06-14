@@ -184,7 +184,12 @@ public class Collections {
         return new Function() {
             @Override
             public Object apply(Object o) {
-                return field.getValue(o);
+
+                if (Reflection.hasField(o.getClass(), field.getName())) {
+                    return field.getValue(o);
+                } else {
+                    return null;
+                }
             }
         };
     }
