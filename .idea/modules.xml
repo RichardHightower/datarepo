@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/../cqengine-read-only/cqengine.iml" filepath="$PROJECT_DIR$/../cqengine-read-only/cqengine.iml" />
       <module fileurl="file://$PROJECT_DIR$/datarepo/datarepo.iml" filepath="$PROJECT_DIR$/datarepo/datarepo.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.datarepo.parent.iml" filepath="$PROJECT_DIR$/org.datarepo.parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/utils/utils.iml" filepath="$PROJECT_DIR$/utils/utils.iml" />
     </modules>
   </component>
 </project>

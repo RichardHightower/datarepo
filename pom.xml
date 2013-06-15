@@ -3,19 +3,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.org.datarepo</groupId>
+    <groupId>org.datarepo</groupId>
     <artifactId>org.datarepo.parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
     <modules>
         <module>benchmarks</module>
         <module>datarepo</module>
+        <module>utils</module>
     </modules>
 
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.javac.version>1.8</project.javac.version>
+        <project.javac.version>1.7</project.javac.version>
     </properties>
 
     <build>

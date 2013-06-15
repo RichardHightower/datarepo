@@ -7,10 +7,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-import static org.datarepo.utils.Types.*;
 import static org.datarepo.utils.Utils.*;
-import static org.datarepo.utils.Utils.iterator;
-import static org.datarepo.utils.Utils.log;
 
 public class Reflection {
 
@@ -218,7 +215,7 @@ public class Reflection {
         if (field.getType() == pint) {
             return field.getInt(object);
         } else {
-            return toInt(field.getValue(object));
+            return Types.toInt(field.getValue(object));
         }
     }
 
@@ -233,7 +230,7 @@ public class Reflection {
         if (field.getType() == pbyte) {
             return field.getByte(object);
         } else {
-            return toByte(field.getValue(object));
+            return Types.toByte(field.getValue(object));
         }
     }
 
@@ -247,7 +244,7 @@ public class Reflection {
         if (field.getType() == pfloat) {
             return field.getFloat(object);
         } else {
-            return toFloat(field.getValue(object));
+            return Types.toFloat(field.getValue(object));
         }
     }
 
@@ -262,7 +259,7 @@ public class Reflection {
         if (field.getType() == pshort) {
             return field.getShort(object);
         } else {
-            return toShort(field.getValue(object));
+            return Types.toShort(field.getValue(object));
         }
     }
 
@@ -277,7 +274,7 @@ public class Reflection {
         if (field.getType() == pchar) {
             return field.getChar(object);
         } else {
-            return toChar(field.getValue(object));
+            return Types.toChar(field.getValue(object));
         }
     }
 
@@ -292,7 +289,7 @@ public class Reflection {
         if (field.getType() == pdouble) {
             return field.getDouble(object);
         } else {
-            return toDouble(field.getValue(object));
+            return Types.toDouble(field.getValue(object));
         }
     }
 
@@ -307,7 +304,7 @@ public class Reflection {
         if (field.getType() == plong) {
             return field.getLong(object);
         } else {
-            return toLong(field.getValue(object));
+            return Types.toLong(field.getValue(object));
         }
     }
 
@@ -463,7 +460,7 @@ public class Reflection {
 
     public static void getFields(Object object, final String key, Collection col) {
         if (isArray(object) || object instanceof Collection) {
-            Iterator iter = iterator(object);
+            Iterator iter = Types.iterator(object);
             while (iter.hasNext()) {
                 col.add(iter.next());
             }
@@ -478,7 +475,7 @@ public class Reflection {
             return null;
         }
         if (isArray(object) || object instanceof Collection) {
-            Iterator iter = iterator(object);
+            Iterator iter = Types.iterator(object);
             List list = new ArrayList(len(object));
             while (iter.hasNext()) {
                 list.add(getFieldValues(iter.next(), key));

@@ -26,11 +26,14 @@
         <module name="cqengine" />
         <module name="datarepo" />
         <module name="org.datarepo" />
+        <module name="utils" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
       <module name="benchmarks" target="1.7" />
       <module name="cqengine" target="1.6" />
+      <module name="org.datarepo.parent" target="1.7" />
+      <module name="utils" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

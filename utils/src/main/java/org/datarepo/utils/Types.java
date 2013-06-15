@@ -530,6 +530,10 @@ public class Types {
     }
 
     @SuppressWarnings("unchecked")
+    public static Iterator iterator(final Object value) {
+        return iterator(null, value);
+    }
+
     public static <T> Iterator<T> iterator(Class<T> class1, final Object value) {
 
 
