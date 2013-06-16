@@ -2,6 +2,7 @@ package org.datarepo.impl;
 
 import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
+import org.datarepo.ResultSet;
 import org.datarepo.SearchableCollection;
 import org.datarepo.fields.FieldAccess;
 import org.datarepo.impl.indexes.UniqueLookupIndex;
@@ -311,6 +312,11 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
             }
         }
         return Double.MAX_VALUE;
+    }
+
+    @Override
+    public ResultSet<ITEM> results(Query... expressions) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

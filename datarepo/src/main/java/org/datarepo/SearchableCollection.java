@@ -77,6 +77,8 @@ public interface SearchableCollection<KEY, ITEM> extends Collection<ITEM> {
     double minDouble(KEY key, String property);
 
 
+    ResultSet<ITEM> results(Query... expressions);
+
     List<ITEM> query(Query... expressions);
 
     List<ITEM> sortedQuery(String sortBy, Query... expressions);

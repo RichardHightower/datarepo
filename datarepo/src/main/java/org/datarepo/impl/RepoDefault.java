@@ -1,9 +1,6 @@
 package org.datarepo.impl;
 
-import org.datarepo.LookupIndex;
-import org.datarepo.ObjectEditor;
-import org.datarepo.Repo;
-import org.datarepo.SearchableCollection;
+import org.datarepo.*;
 import org.datarepo.query.*;
 import org.datarepo.spi.RepoComposer;
 import org.datarepo.spi.SearchIndex;
@@ -319,6 +316,11 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
     @Override
     public double minDouble(KEY key, String property) {
         return query.minDouble(key, property);
+    }
+
+    @Override
+    public ResultSet<ITEM> results(Query... expressions) {
+        throw new RuntimeException("Not impelmeneted yet");
     }
 
     @Override
