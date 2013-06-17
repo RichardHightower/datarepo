@@ -446,29 +446,10 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     public List<Map<String, Object>> query(List<Selector> selectors, Query... expressions) {
 
         List<ITEM> results = this.query(expressions);
-        List<Map<String, Object>> rows = new ArrayList<>(results.size());
 
-        for (Selector s : selectors) {
-            s.handleStart(results);
-        }
-
-
-        int index = 0;
-        for (ITEM item : results) {
-            Map<String, Object> row = new LinkedHashMap<>();
-            for (Selector s : selectors) {
-                s.handleRow(index, row, item, fields);
-            }
-            index++;
-            rows.add(row);
-        }
-
-        for (Selector s : selectors) {
-            s.handleComplete(rows);
-        }
-
-        return rows;
+        return Selector.performSelection(selectors, results, fields);
     }
+
 
     public void invalidateIndex(String property, ITEM item) {
 

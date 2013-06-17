@@ -2,6 +2,8 @@ package org.datarepo.query;
 
 import org.datarepo.fields.FieldAccess;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -167,6 +169,34 @@ public abstract class Selector {
             }
         };
     }
+
+
+    public static <ITEM> List<Map<String, Object>> performSelection(List<Selector> selectors, List<ITEM> results, Map<String, FieldAccess> fields) {
+        List<Map<String, Object>> rows = new ArrayList<>(results.size());
+
+
+        for (Selector s : selectors) {
+            s.handleStart(results);
+        }
+
+
+        int index = 0;
+        for (ITEM item : results) {
+            Map<String, Object> row = new LinkedHashMap<>();
+            for (Selector s : selectors) {
+                s.handleRow(index, row, item, fields);
+            }
+            index++;
+            rows.add(row);
+        }
+
+        for (Selector s : selectors) {
+            s.handleComplete(rows);
+        }
+
+        return rows;
+    }
+
 
     public abstract void handleRow(int index, Map<String, Object> row,
                                    Object item,
