@@ -323,7 +323,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
     @Override
     public ResultSet<ITEM> results(Query... expressions) {
-        return this.filter.filter(expressions);  //To change body of implemented methods use File | Settings | File Templates.
+        return this.filter.filter(expressions);
     }
 
     @Override
@@ -335,7 +335,6 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
                 return (List<ITEM>) this.filter.filter(expressions).removeDuplication().asList();
             } else {
                 return (List<ITEM>) this.filter.filter(expressions).asList();
-
             }
         }
     }
