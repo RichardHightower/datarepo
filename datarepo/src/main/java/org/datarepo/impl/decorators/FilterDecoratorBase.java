@@ -1,9 +1,8 @@
 package org.datarepo.impl.decorators;
 
 import org.datarepo.Filter;
+import org.datarepo.ResultSet;
 import org.datarepo.query.Query;
-
-import java.util.List;
 
 public class FilterDecoratorBase implements Filter {
 
@@ -14,7 +13,7 @@ public class FilterDecoratorBase implements Filter {
     }
 
     @Override
-    public List filter(Query... expressions) {
+    public ResultSet filter(Query... expressions) {
         return delegate.filter(expressions);
     }
 

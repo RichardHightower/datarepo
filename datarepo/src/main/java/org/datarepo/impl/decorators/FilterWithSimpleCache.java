@@ -1,28 +1,27 @@
 package org.datarepo.impl.decorators;
 
 import org.datarepo.Filter;
+import org.datarepo.ResultSet;
 import org.datarepo.query.Group;
 import org.datarepo.query.Query;
 import org.datarepo.query.QueryFactory;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FilterWithSimpleCache extends FilterDecoratorBase {
 
-    Map<Query, List> queryCache = new ConcurrentHashMap<>();
+    Map<Query, ResultSet> queryCache = new ConcurrentHashMap<>();
     AtomicInteger flushCount = new AtomicInteger();
 
 
     @Override
-    public List filter(Query... expressions) {
+    public ResultSet filter(Query... expressions) {
         Group and = QueryFactory.and(expressions);
         checkCache();
 
-        List results = queryCache.get(and);
+        ResultSet results = queryCache.get(and);
 
         if (results != null) {
             return results;
@@ -31,7 +30,7 @@ public class FilterWithSimpleCache extends FilterDecoratorBase {
 
         results = super.filter(expressions);
 
-        queryCache.put(and, results == null ? Collections.EMPTY_LIST : results);
+        queryCache.put(and, results);
         flushCount.incrementAndGet();
 
         return results;

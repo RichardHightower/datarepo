@@ -105,4 +105,5 @@ public interface RepoBuilder {
     RepoBuilder hashCodeOptimizationOn();
 
 
+    RepoBuilder removeDuplication(boolean removeDuplication);
 }

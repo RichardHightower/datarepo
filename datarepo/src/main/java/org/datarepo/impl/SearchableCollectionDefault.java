@@ -38,6 +38,9 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
     protected String primaryKeyName;
 
 
+    protected boolean removeDuplication = true;
+
+
     @Override
     public boolean delete(ITEM item) {
         for (LookupIndex index : indexes) {
@@ -63,6 +66,10 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         return (KEY) this.primaryKeyGetter.apply(item);
     }
 
+
+    public void setRemoveDuplication(boolean removeDuplication) {
+        this.removeDuplication = removeDuplication;
+    }
 
     @Override
     public int count(KEY key, String property, int value) {
@@ -316,7 +323,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
     @Override
     public ResultSet<ITEM> results(Query... expressions) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.filter.filter(expressions);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -324,7 +331,12 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         if (expressions == null || expressions.length == 0) {
             return this.all();
         } else {
-            return (List<ITEM>) this.filter.filter(expressions);
+            if (this.removeDuplication) {
+                return (List<ITEM>) this.filter.filter(expressions).removeDuplication().asList();
+            } else {
+                return (List<ITEM>) this.filter.filter(expressions).asList();
+
+            }
         }
     }
 

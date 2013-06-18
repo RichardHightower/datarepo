@@ -62,6 +62,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     private boolean indexHierarchy;
     private Map<String, Integer> indexBucketSize = new HashMap<>();
     private boolean hashCodeOptimizationOn;
+    private boolean removeDuplication;
 
 
     public RepoBuilder usePropertyForAccess(boolean useProperty) {
@@ -287,6 +288,7 @@ public class RepoBuilderDefault implements RepoBuilder {
         this.repo = (RepoComposer) this.repoComposerFactory.get();
         this.editor = constructObjectEditor(fields);
         SearchableCollectionComposer query = constructSearchableCollection(primitiveKey, clazz, repo, fields);
+        query.setRemoveDuplication(this.removeDuplication);
 
         /* Inject */
         repo.setSearchableCollection((SearchableCollection<KEY, ITEM>) query);
@@ -420,6 +422,12 @@ public class RepoBuilderDefault implements RepoBuilder {
     @Override
     public RepoBuilder hashCodeOptimizationOn() {
         this.hashCodeOptimizationOn = true;
+        return this;
+    }
+
+    @Override
+    public RepoBuilder removeDuplication(boolean removeDuplication) {
+        this.removeDuplication = removeDuplication;
         return this;
     }
 

@@ -8,6 +8,7 @@ import org.datarepo.query.Query;
 import org.datarepo.query.QueryFactory;
 import org.datarepo.query.Selector;
 import org.datarepo.query.Sort;
+import org.datarepo.spi.ResultSetInternal;
 import org.datarepo.utils.Reflection;
 import org.datarepo.utils.Types;
 
@@ -17,21 +18,27 @@ import java.util.*;
 import static org.datarepo.utils.Reflection.toMap;
 import static org.datarepo.utils.Utils.idx;
 
-public class ResultSetImpl<T> implements ResultSet<T> {
+public class ResultSetImpl<T> implements ResultSetInternal<T> {
 
     private List<T> results;
+    private List<List<T>> allResults;
+    private int totalSize;
+
+    private List<T> lastList;
+
     private Map<String, FieldAccess> fields;
 
 
     public ResultSetImpl(Map<String, FieldAccess> fields) {
         this.fields = fields;
-        this.results = new ArrayList<>();
+        this.allResults = new ArrayList<>();
     }
 
 
     public ResultSetImpl(List<T> results, Map<String, FieldAccess> fields) {
         this.fields = fields;
-        this.results = results;
+        this.allResults = new ArrayList<>();
+        this.addResults(results);
     }
 
     public ResultSetImpl(List<T> results) {
@@ -40,16 +47,37 @@ public class ResultSetImpl<T> implements ResultSet<T> {
         } else {
             this.fields = Collections.EMPTY_MAP;
         }
-        this.results = results;
+        this.allResults = new ArrayList<>();
+        this.addResults(results);
+    }
+
+    private void prepareResults() {
+        if (results == null && allResults.size() == 1) {
+            results = allResults.get(0);
+        } else if (results == null) {
+
+            results = new ArrayList<>(totalSize);
+
+            for (List<T> list : allResults) {
+                for (T item : list) {
+                    results.add(item);
+                }
+            }
+        }
+        allResults.clear();
+        totalSize = 0;
     }
 
 
     public void addResults(List<T> results) {
-        results.addAll(results);
+        lastList = results;
+        totalSize += results.size();
+        allResults.add(results);
     }
 
     @Override
     public ResultSet expectOne() {
+        prepareResults();
         if (results.size() == 0) {
             throw new DataRepoException("Expected one result, no results");
         } else if (results.size() > 1) {
@@ -60,6 +88,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public ResultSet expectMany() {
+        prepareResults();
+
         if (results.size() <= 1) {
             throw new DataRepoException("Expected many");
         }
@@ -68,6 +98,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public ResultSet expectNone() {
+        prepareResults();
+
         if (results.size() != 0) {
             throw new DataRepoException("Expected none");
         }
@@ -76,6 +108,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public ResultSet expectOneOrMany() {
+        prepareResults();
+
         if (results.size() >= 1) {
             throw new DataRepoException("Expected one or many");
         }
@@ -84,30 +118,42 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public ResultSet removeDuplication() {
-
-        results = new ArrayList(new HashSet<T>(results));
+        prepareResults();
+        results = new ArrayList(asSet());
         return this;
     }
 
     @Override
     public ResultSet sort(Sort sort) {
+        prepareResults();
         sort.sort(results);
         return this;
     }
 
     @Override
     public Collection<T> filter(Query query) {
+        prepareResults();
         return QueryFactory.filter(results, query);
     }
 
     @Override
+    public void filterAndPrune(Query query) {
+        prepareResults();
+        this.results = QueryFactory.filter(results, query);
+    }
+
+
+    @Override
     public ResultSet<List<Map<String, Object>>> select(Selector... selectors) {
+        prepareResults();
         return new ResultSetImpl(Selector.performSelection(Arrays.asList(selectors), results, fields), fields);
 
     }
 
     @Override
     public int[] selectInts(Selector selector) {
+        prepareResults();
+
         int[] values = new int[results.size()];
 
         List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
@@ -122,6 +168,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public float[] selectFloats(Selector selector) {
+        prepareResults();
+
         float[] values = new float[results.size()];
 
         List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
@@ -136,6 +184,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public short[] selectShorts(Selector selector) {
+        prepareResults();
+
         short[] values = new short[results.size()];
 
         List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
@@ -150,6 +200,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public double[] selectDoubles(Selector selector) {
+        prepareResults();
+
         double[] values = new double[results.size()];
 
         List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
@@ -164,6 +216,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public byte[] selectBytes(Selector selector) {
+        prepareResults();
+
         byte[] values = new byte[results.size()];
 
         List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
@@ -178,6 +232,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public char[] selectChars(Selector selector) {
+        prepareResults();
+
         char[] values = new char[results.size()];
 
         List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
@@ -192,6 +248,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public Object[] selectObjects(Selector selector) {
+        prepareResults();
+
         Object[] values = new Object[results.size()];
 
         List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
@@ -206,6 +264,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public <OBJ> OBJ[] selectObjects(Class<OBJ> cls, Selector selector) {
+        prepareResults();
+
         Object values = Array.newInstance(cls, results.size());
 
         List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
@@ -221,6 +281,8 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public <OBJ> ResultSet<OBJ> selectObjectsAsResultSet(Class<OBJ> cls, Selector selector) {
+        prepareResults();
+
         Object values = Array.newInstance(cls, results.size());
 
         List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
@@ -237,16 +299,22 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public Collection<T> asCollection() {
+        prepareResults();
+
         return results;
     }
 
     @Override
     public String asJSONString() {
+        prepareResults();
+
         throw new RuntimeException("NOT IMPLEMENTED");
     }
 
     @Override
     public List<Map<String, Object>> asListOfMaps() {
+        prepareResults();
+
 
         List<Map<String, Object>> items = new ArrayList<>(results.size());
         for (T item : results) {
@@ -258,11 +326,15 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public List<T> asList() {
+        prepareResults();
+
         return results;
     }
 
     @Override
     public Set<T> asSet() {
+        prepareResults();
+
         return new HashSet(results);
     }
 
@@ -273,11 +345,14 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public T firstItem() {
+        prepareResults();
+
         return results.get(0);
     }
 
     @Override
     public Map<String, Object> firstMap() {
+        prepareResults();
         return toMap(this.firstItem());
     }
 
@@ -288,66 +363,263 @@ public class ResultSetImpl<T> implements ResultSet<T> {
 
     @Override
     public int firstInt(Selector selector) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        prepareResults();
+
+        int[] values = new int[1];
+
+        List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
+
+        String keyName = selector.getName();
+        for (int index = 0; index < values.length; index++) {
+            Map<String, Object> map = maps.get(index);
+            values[index] = Types.toInt(map.get(keyName));
+            if (index == 1) {
+                break;
+            }
+        }
+        return values[1];
+
+
     }
 
     @Override
     public float firstFloat(Selector selector) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        prepareResults();
+
+        float[] values = new float[1];
+
+        List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
+
+        String keyName = selector.getName();
+        for (int index = 0; index < values.length; index++) {
+            Map<String, Object> map = maps.get(index);
+            values[index] = Types.toFloat(map.get(keyName));
+            if (index == 1) {
+                break;
+            }
+        }
+        return values[1];
     }
 
     @Override
     public short firstShort(Selector selector) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        prepareResults();
+
+        short[] values = new short[1];
+
+        List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
+
+        String keyName = selector.getName();
+        for (int index = 0; index < values.length; index++) {
+            Map<String, Object> map = maps.get(index);
+            values[index] = Types.toShort(map.get(keyName));
+            if (index == 1) {
+                break;
+            }
+        }
+        return values[1];
     }
 
     @Override
     public double firstDouble(Selector selector) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        prepareResults();
+
+        double[] values = new double[1];
+
+        List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
+
+        String keyName = selector.getName();
+        for (int index = 0; index < values.length; index++) {
+            Map<String, Object> map = maps.get(index);
+            values[index] = Types.toDouble(map.get(keyName));
+            if (index == 1) {
+                break;
+            }
+        }
+        return values[1];
     }
 
     @Override
     public byte firstByte(Selector selector) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        prepareResults();
+
+        byte[] values = new byte[1];
+
+        List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
+
+        String keyName = selector.getName();
+        for (int index = 0; index < values.length; index++) {
+            Map<String, Object> map = maps.get(index);
+            values[index] = Types.toByte(map.get(keyName));
+            if (index == 1) {
+                break;
+            }
+        }
+        return values[1];
     }
 
     @Override
     public char firstChar(Selector selector) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        prepareResults();
+
+        char[] values = new char[1];
+
+        List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
+
+        String keyName = selector.getName();
+        for (int index = 0; index < values.length; index++) {
+            Map<String, Object> map = maps.get(index);
+            values[index] = Types.toChar(map.get(keyName));
+            if (index == 1) {
+                break;
+            }
+        }
+        return values[1];
     }
 
     @Override
     public Object firstObject(Selector selector) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        prepareResults();
+
+        Object[] values = new Object[1];
+
+        List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
+
+        String keyName = selector.getName();
+        for (int index = 0; index < values.length; index++) {
+            Map<String, Object> map = maps.get(index);
+            values[index] = map.get(keyName);
+            if (index == 1) {
+                break;
+            }
+        }
+        return values[1];
     }
 
     @Override
     public <OBJ> OBJ firstObject(Class<OBJ> cls, Selector selector) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        prepareResults();
+
+        Object[] values = new Object[1];
+
+        List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
+
+        String keyName = selector.getName();
+        for (int index = 0; index < values.length; index++) {
+            Map<String, Object> map = maps.get(index);
+            values[index] = map.get(keyName);
+            if (index == 1) {
+                break;
+            }
+        }
+        return (OBJ) values[1];
     }
 
     @Override
     public List<T> paginate(int start, int size) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        prepareResults();
+
+        return results.subList(start, start + size);
     }
 
     @Override
     public List<Map<String, Object>> paginateMaps(int start, int size) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        prepareResults();
+
+        List<Map<String, Object>> mapResults = new ArrayList<>();
+        List<T> list = this.paginate(start, size);
+
+        for (T item : list) {
+            mapResults.add(toMap(item));
+        }
+
+        return mapResults;
     }
 
     @Override
     public String paginateJSON(int start, int size) {
+        prepareResults();
+
         throw new RuntimeException("NOT IMPLEMENTED");
     }
 
     @Override
     public int size() {
-        return this.results.size();
+        if (results != null) {
+            return this.results.size();
+        } else {
+            return totalSize;
+        }
     }
 
     @Override
     public Iterator<T> iterator() {
+        prepareResults();
         return this.results.iterator();
     }
+
+    @Override
+    public void andResults() {
+        if (allResults.size() == 0) {
+            return;
+        }
+
+        if (allResults.size() == 1) {
+            prepareResults();
+            return;
+        }
+
+        boolean foundEmpty = false;
+
+        for (List<T> list : allResults) {
+            if (list.size() == 0) {
+                foundEmpty = true;
+                break;
+            }
+        }
+
+        if (foundEmpty) {
+            results = Collections.EMPTY_LIST;
+            allResults.clear();
+            totalSize = 0;
+            return;
+        }
+
+
+        List<T> shortestList = null;
+        int min = Integer.MAX_VALUE;
+        for (List<T> list : allResults) {
+            int size = list.size();
+            if (size < min) {
+                min = size;
+                shortestList = list;
+            }
+        }
+        if (shortestList == null) {
+            return;
+        }
+
+        allResults.remove(shortestList);
+        Set set = new HashSet(shortestList);
+        for (List<T> list : allResults) {
+            set.retainAll(list);
+        }
+
+        results = new ArrayList(set);
+        allResults.clear();
+        totalSize = 0;
+
+    }
+
+    @Override
+    public int lastSize() {
+        if (lastList == null) {
+            return 0;
+        } else {
+            return lastList.size();
+        }
+
+    }
+
+
 }

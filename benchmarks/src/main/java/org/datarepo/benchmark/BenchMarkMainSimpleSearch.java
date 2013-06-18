@@ -20,7 +20,7 @@ public class BenchMarkMainSimpleSearch {
     public static void main(String[] args) {
 
 
-        final List<Employee> employees = BenchmarkHelper.createMetricTonOfEmployees(10_000);
+        final List<Employee> employees = BenchmarkHelper.createMetricTonOfEmployees(100_000);
         print("employees created " + employees.size());
 
         Map<String, List<MeasuredRun>> testResults = new ConcurrentHashMap<>();

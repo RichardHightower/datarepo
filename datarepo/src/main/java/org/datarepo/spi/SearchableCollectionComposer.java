@@ -18,4 +18,5 @@ public interface SearchableCollectionComposer {
 
     void setFilter(Filter filter);
 
+    void setRemoveDuplication(boolean b);
 }

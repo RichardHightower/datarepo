@@ -260,7 +260,7 @@ public class MoreTests {
 
         List<Employee> queryableList = $q(bigList);
         List<Employee> results = sortedQuery(queryableList, "firstName",
-                and(between("salary", 1000, 2000), eq("firstName", "RANDOMISHSTRING" + System.currentTimeMillis())));
+                between("salary", 1000, 2000), eq("firstName", "RANDOMISHSTRING" + System.currentTimeMillis()));
 
         assertEquals(0, results.size());
 
