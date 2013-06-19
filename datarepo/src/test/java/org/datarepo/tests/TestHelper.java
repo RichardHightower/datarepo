@@ -211,4 +211,30 @@ public class TestHelper {
         return repo;
     }
 
+    static Repo<String, Employee> createFromBuilderEvents() {
+
+        /* Create a repo, and decide what to index. */
+        RepoBuilder repoBuilder = Repos.builder();
+
+        /* Decide what to index, ssn is primaryKey, firstName, lastName, and salary are indexes. */
+        repoBuilder.primaryKey("id")
+                .searchIndex("firstName").searchIndex("lastName")
+                .searchIndex("salary").uniqueSearchIndex("empNum").events(new ModificationListener() {
+            @Override
+            public void modification(ModificationEvent event) {
+                System.out.printf("event %s %s", event.getKey(), event.getItem());
+            }
+        })
+                .usePropertyForAccess(true);
+
+        /* Create the repo with the builder. */
+        Repo<String, Employee> repo
+                = repoBuilder.build(String.class, Employee.class, SalesEmployee.class);
+
+        for (Employee employee : employees) {
+            repo.add(employee);
+        }
+        return repo;
+    }
+
 }

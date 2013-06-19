@@ -293,9 +293,9 @@ public class RepoBuilderDefault implements RepoBuilder {
         /* Inject */
         repo.setSearchableCollection((SearchableCollection<KEY, ITEM>) query);
         ((ObjectEditorComposer) editor).setSearchableCollection((SearchableCollection<KEY, ITEM>) query);
-        repo.setObjectEditor((ObjectEditor) editor);
 
         editor = decorateEditor(editor);
+        repo.setObjectEditor((ObjectEditor) editor);
 
         return (Repo<KEY, ITEM>) repo;
     }
@@ -336,6 +336,9 @@ public class RepoBuilderDefault implements RepoBuilder {
         ObjectEditor editor = (ObjectEditor) editorComposer;
         editorComposer.init();
 
+        if (this.cloneEdits) {
+            editorComposer.setLookupAndExcept(true);
+        }
 
         editorComposer.setFields(fields);
         return editor;
@@ -357,7 +360,6 @@ public class RepoBuilderDefault implements RepoBuilder {
 
         if (events) {
             ObjectEditorEventDecorator eventManager = new ObjectEditorEventDecorator(editor);
-
             for (ModificationListener l : listeners) {
                 eventManager.add(l);
             }

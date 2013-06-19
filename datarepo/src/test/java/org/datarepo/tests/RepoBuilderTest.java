@@ -84,4 +84,13 @@ public class RepoBuilderTest {
 
     }
 
+
+    @Test
+    public void testWithEvents() throws Exception {
+
+        test.repo = TestHelper.createFromBuilderEvents();
+        runAll();
+
+    }
+
 }

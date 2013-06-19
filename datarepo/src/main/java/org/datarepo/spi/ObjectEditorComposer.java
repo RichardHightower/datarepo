@@ -13,4 +13,7 @@ public interface ObjectEditorComposer<KEY, ITEM> {
     void init();
 
     void hashCodeOptimizationOn();
+
+    public void setLookupAndExcept(boolean lookupAndExcept);
+
 }

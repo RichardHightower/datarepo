@@ -3,6 +3,10 @@ package org.datarepo.tests.model;
 public class SalesEmployee extends Employee implements Comparable<SalesEmployee> {
     private int commissionRate = 1;
 
+    public SalesEmployee() {
+
+    }
+
     public SalesEmployee(int commissionRate) {
         this.commissionRate = commissionRate;
     }

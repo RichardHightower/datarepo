@@ -2,6 +2,8 @@ package org.datarepo.tests;
 
 import org.datarepo.Repo;
 import org.datarepo.Repos;
+import org.datarepo.modification.ModificationEvent;
+import org.datarepo.modification.ModificationListener;
 import org.datarepo.tests.model.ClassForTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +15,12 @@ public class TypeTest {
 
     @Before
     public void setUp() throws Exception {
-        repo = Repos.builder().primaryKey("strings")
+        repo = Repos.builder().primaryKey("strings").events(new ModificationListener() {
+            @Override
+            public void modification(ModificationEvent event) {
+                System.out.println(event);
+            }
+        })
                 .build(String.class, ClassForTest.class);
 
 

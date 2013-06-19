@@ -21,7 +21,8 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
     protected SearchableCollection<KEY, ITEM> query;
     protected Map<String, FieldAccess> fields = new LinkedHashMap<>();
     private boolean hashCodeOptimization;
-    //TODO make this configurable
+
+
     private boolean lookupAndExcept;
 
 
@@ -694,5 +695,9 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         return this.fields.get(property).getDouble(item);
     }
 
+
+    public void setLookupAndExcept(boolean lookupAndExcept) {
+        this.lookupAndExcept = lookupAndExcept;
+    }
 
 }
