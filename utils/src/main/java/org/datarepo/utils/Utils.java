@@ -860,19 +860,19 @@ public class Utils {
     }
 
     public static <K, V> Map<K, V> copy(final Map<K, V> map) {
-        return new LinkedHashMap<K, V>(map);
+        return Reflection.copy(map);
     }
 
     public static <V> List<V> copy(final List<V> col) {
-        return new ArrayList<V>(col);
+        return Reflection.copy(col);
     }
 
     public static <V> Set<V> copy(final Set<V> col) {
-        return new HashSet<V>(col);
+        return Reflection.copy(col);
     }
 
     public static <V> SortedSet<V> copy(final SortedSet<V> col) {
-        return new TreeSet<V>(col);
+        return Reflection.copy(col);
     }
 
     public static String copy(final String str) {

@@ -947,6 +947,40 @@ public class Reflection {
         return list;
     }
 
+    public static <T> List<T> copy(List<T> collection) {
+        List<T> list = new ArrayList<>();
+        for (T item : collection) {
+            list.add(copy(item));
+        }
+        return list;
+    }
+
+
+    public static <T> Set<T> copy(Set<T> collection) {
+        Set<T> set = new HashSet<>();
+        for (T item : collection) {
+            set.add(copy(item));
+        }
+        return set;
+    }
+
+    public static <T> SortedSet<T> copy(SortedSet<T> collection) {
+        SortedSet<T> set = new TreeSet<>();
+        for (T item : collection) {
+            set.add(copy(item));
+        }
+        return set;
+    }
+
+    public static <K, V> Map<K, V> copy(Map<K, V> collection) {
+        Map<K, V> map = new LinkedHashMap();
+        for (Map.Entry<K, V> entry : collection.entrySet()) {
+            map.put(entry.getKey(), entry.getValue());
+
+        }
+        return map;
+    }
+
     private static <T> T fieldByFieldCopy(T item) {
         Map<String, FieldAccess> fields = getAllAccessorFields(item.getClass());
         T clone = null;
