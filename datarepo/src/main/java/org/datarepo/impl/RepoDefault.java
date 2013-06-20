@@ -320,7 +320,7 @@ public class RepoDefault<KEY, ITEM> implements Repo<KEY, ITEM>, RepoComposer<KEY
 
     @Override
     public ResultSet<ITEM> results(Query... expressions) {
-        throw new RuntimeException("Not impelmeneted yet");
+        return query.results(expressions);
     }
 
     @Override

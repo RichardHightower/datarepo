@@ -370,14 +370,14 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         List<Map<String, Object>> maps = Selector.performSelection(Collections.singletonList(selector), results, fields);
 
         String keyName = selector.getName();
-        for (int index = 0; index < values.length; index++) {
+        for (int index = 0; index < values.length && index < maps.size(); index++) {
             Map<String, Object> map = maps.get(index);
             values[index] = Types.toInt(map.get(keyName));
             if (index == 1) {
                 break;
             }
         }
-        return values[1];
+        return values[0];
 
 
     }

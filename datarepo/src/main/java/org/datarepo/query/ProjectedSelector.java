@@ -17,13 +17,13 @@ public abstract class ProjectedSelector extends Selector {
     }
 
 
-    public static Selector max(final String name) {
-        return new Selector(name) {
+    public static Selector max(final String fieldName) {
+        return new Selector(joinBy('.', "max", fieldName)) {
             Comparable max;
 
             @Override
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
-                Comparable value = (Comparable) fields.get(this.name).getValue(item);
+                Comparable value = (Comparable) fields.get(fieldName).getValue(item);
 
                 if (max == null) {
                     max = value;
@@ -42,7 +42,7 @@ public abstract class ProjectedSelector extends Selector {
             @Override
             public void handleComplete(List<Map<String, Object>> rows) {
                 if (rows.size() > 0) {
-                    rows.get(0).put(joinBy('.', "max", name), max);
+                    rows.get(0).put(this.name, max);
                 }
             }
         };

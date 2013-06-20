@@ -1,8 +1,12 @@
 package org.datarepo.tests;
 
+import org.datarepo.Repo;
+import org.datarepo.Repos;
+import org.datarepo.query.ProjectedSelector;
 import org.datarepo.tests.model.Employee;
 import org.datarepo.tests.model.HourlyEmployee;
 import org.datarepo.tests.model.SalesEmployee;
+import org.datarepo.utils.Utils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,6 +59,22 @@ public class MoreTests {
             bigList.add(Employee.employee("firstC" + index, "last" + index, "ssn" + index, dateString, 1000 + index));
         }
 
+    }
+
+    @Test
+    public void testProjections() throws Exception {
+        Repo<String, Employee> repo =
+                Repos.builder().primaryKey("id")
+                        .searchIndex("salary")
+                        .build(Utils.string, Employee.class);
+
+        repo.addAll(bigList);
+
+        int max = repo.results(gt("salary", 100))
+                .firstInt(ProjectedSelector.max("salary"));
+
+        assertEquals(2999, max);
+        System.out.println(max);
     }
 
     @Test
