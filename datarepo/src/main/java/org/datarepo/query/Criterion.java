@@ -124,6 +124,10 @@ public abstract class Criterion<VALUE> extends Query {
         initIfNeeded(this, fields);
     }
 
+    public void init(Map<String, FieldAccess> fields) {
+        initIfNeeded(this, fields);
+    }
+
 
     private static void initIfNeeded(Criterion criterion, Map<String, FieldAccess> fields) {
         if (!criterion.initialized) {

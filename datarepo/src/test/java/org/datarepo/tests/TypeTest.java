@@ -8,6 +8,7 @@ import org.datarepo.tests.model.ClassForTest;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.datarepo.query.QueryFactory.*;
 import static org.junit.Assert.assertEquals;
 
 public class TypeTest {
@@ -15,19 +16,169 @@ public class TypeTest {
 
     @Before
     public void setUp() throws Exception {
-        repo = Repos.builder().primaryKey("strings").events(new ModificationListener() {
-            @Override
-            public void modification(ModificationEvent event) {
-                System.out.println(event);
-            }
-        })
+        repo = Repos.builder().primaryKey("strings")
+                .searchIndex("ints").searchIndex("floats")
+                .searchIndex("doubles").searchIndex("shorts")
+                .searchIndex("chars").searchIndex("longs")
+                .searchIndex("chars").searchIndex("bytes")
+                .events(new ModificationListener() {
+                    @Override
+                    public void modification(ModificationEvent event) {
+                        System.out.println(event);
+                    }
+                })
                 .build(String.class, ClassForTest.class);
+
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
 
 
     }
 
+    public void setUp2() throws Exception {
+        repo = Repos.builder().primaryKey("strings").usePropertyForAccess(true)
+                .searchIndex("ints").searchIndex("floats")
+                .searchIndex("doubles").searchIndex("shorts")
+                .searchIndex("chars").searchIndex("longs")
+                .searchIndex("chars").searchIndex("bytes")
+                .events(new ModificationListener() {
+                    @Override
+                    public void modification(ModificationEvent event) {
+                        System.out.println(event);
+                    }
+                })
+                .build(String.class, ClassForTest.class);
+
+
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+    }
+
+    public void setUp3() throws Exception {
+        repo = Repos.builder().primaryKey("strings").useUnsafe(false)
+                .searchIndex("ints").searchIndex("floats")
+                .searchIndex("doubles").searchIndex("shorts")
+                .searchIndex("chars").searchIndex("longs")
+                .searchIndex("chars").searchIndex("bytes")
+                .events(new ModificationListener() {
+                    @Override
+                    public void modification(ModificationEvent event) {
+                        System.out.println(event);
+                    }
+                })
+                .build(String.class, ClassForTest.class);
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+
+    }
+
+    public void setUp4() throws Exception {
+        repo = Repos.builder().primaryKey("strings").useUnsafe(false)
+                .events(new ModificationListener() {
+                    @Override
+                    public void modification(ModificationEvent event) {
+                        System.out.println(event);
+                    }
+                })
+                .build(String.class, ClassForTest.class);
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+
+        repo.add(new ClassForTest());
+
+    }
+
+
     @Test
-    public void testName() throws Exception {
+    public void testQuery3() throws Exception {
+        setUp4();
+        testQuery();
+    }
+
+    @Test
+    public void testQuery2() throws Exception {
+        setUp3();
+        testQuery();
+    }
+
+    @Test
+    public void testQuery1() throws Exception {
+        setUp2();
+        testQuery();
+    }
+
+    @Test
+    public void testQuery() throws Exception {
+        repo.query(eq("ints", 1), eq("floats", 1.1f),
+                eq("doubles", 1.1), eq("shorts", (short)1),
+                eq("chars", 'c'), eq("longs", 1L),
+                eq("bytes", (byte)1));
+
+        repo.query(gt("ints", 1), gt("floats", 1.1f),
+                gt("doubles", 1.1), gt("shorts", (short)1),
+                gt("chars", 'c'), gt("longs", 1L),
+                gt("bytes", (byte)1));
+
+        repo.query(lt("ints", 1), lt("floats", 1.1f),
+                lt("doubles", 1.1), lt("shorts", (short)1),
+                lt("chars", 'c'), lt("longs", 1L),
+                lt("bytes", (byte)1));
+
+
+        repo.query(gte("ints", 1), gte("floats", 1.1f),
+                gte("doubles", 1.1), gte("shorts", (short)1),
+                gte("chars", 'c'), gte("longs", 1L),
+                gte("bytes", (byte)1));
+
+        repo.query(lte("ints", 1), lte("floats", 1.1f),
+                lte("doubles", 1.1), lte("shorts", (short)1),
+                lte("chars", 'c'), lte("longs", 1L),
+                lte("bytes", (byte)1));
+
+        repo.query(in("ints", 1, 2, 3), in("floats", 1.1f, 1.2f),
+                in("doubles", 1.1, 2.2), in("shorts", (short)1, (short)2, (short)3),
+                in("chars", 'a', 'b', 'c'), in("longs", 1L, 2L, 3L),
+                in("bytes", (byte)1, (byte)2, (byte)3));
+
+        repo.query(between("ints", 1, 2), between("floats", 1.1f, 1.2f),
+                between("doubles", 1.1, 2.2), between("shorts", (short)1, (short)2),
+                between("chars", 'a', 'b'), between("longs", 1L, 2L),
+                between("bytes", (byte)1, (byte)2));
+
+        repo.query(notIn("ints", 1, 2, 3), notIn("floats", 1.1f, 1.2f),
+                notIn("doubles", 1.1, 2.2), notIn("shorts", 1, 2, 3),
+                notIn("chars", 'a', 'b', 'c'), notIn("longs", 1L, 2L, 3L),
+                notIn("bytes", 1, 2, 3));
+
+        repo.query(startsWith("strings", "foo"));
+
+        repo.query(endsWith("strings", "foo"));
+
+    }
+    @Test
+    public void testMods() throws Exception {
         ClassForTest forTest = new ClassForTest();
         String key = "AAAA";
         forTest.setStrings(key);
