@@ -31,7 +31,6 @@ public abstract class Group extends Query {
     private String doToString() {
 
         if (toString == null) {
-            toString = doToString();
 
 
             StringBuilder builder = new StringBuilder(255);
@@ -41,7 +40,7 @@ public abstract class Group extends Query {
             builder.append(", \"grouping\":");
             builder.append(grouping);
             builder.append('}');
-            return builder.toString();
+            toString = builder.toString();
         }
         return toString;
 

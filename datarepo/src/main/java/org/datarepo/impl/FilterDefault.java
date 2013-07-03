@@ -272,14 +272,8 @@ public class FilterDefault implements Filter, FilterComposer {
 
         foundIndex = true;
 
-        /* TODO I hate this. This needs to be refactored, and SearchableCollection
-        can send us our type. If it has it.
-        So this will still be needed, but for many cases will not be needed.
-         */
         if (!criterion.isInitialized()) {
-            Object o = searchIndex.findFirst();
-            //TODO Criterion uses this to look up fields
-            criterion.init(o);
+            criterion.init(this.fields);
         }
 
         switch (operator) {

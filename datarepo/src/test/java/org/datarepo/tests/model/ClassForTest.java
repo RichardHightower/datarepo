@@ -9,6 +9,7 @@ public class ClassForTest {
     float floats;
     double doubles;
     char chars;
+    String strings="foo";
 
     public String getStrings() {
         return strings;
@@ -66,7 +67,6 @@ public class ClassForTest {
         this.ints = ints;
     }
 
-    String strings;
 
 
 }
