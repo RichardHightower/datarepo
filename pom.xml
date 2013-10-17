@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <version>1.0</version>
     <modules>
-        <module>benchmarks</module>
+
         <module>datarepo</module>
         <module>utils</module>
     </modules>
