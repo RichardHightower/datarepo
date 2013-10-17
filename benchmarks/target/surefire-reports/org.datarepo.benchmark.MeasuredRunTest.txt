@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: org.datarepo.utils.UtilsTest
+Test set: org.datarepo.benchmark.MeasuredRunTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 sec
