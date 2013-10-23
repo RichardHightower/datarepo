@@ -31,7 +31,7 @@
     </dependencies>
 
     <properties>
-        <project.javac.version>1.8</project.javac.version>
+        <project.javac.version>1.7</project.javac.version>
     </properties>
 
 </project>
