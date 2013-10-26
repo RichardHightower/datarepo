@@ -6,7 +6,6 @@ import org.datarepo.query.ProjectedSelector;
 import org.datarepo.tests.model.Employee;
 import org.datarepo.tests.model.HourlyEmployee;
 import org.datarepo.tests.model.SalesEmployee;
-import org.datarepo.utils.Utils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,10 +14,13 @@ import java.util.List;
 import static org.datarepo.Collections.$q;
 import static org.datarepo.Collections.sortedQuery;
 import static org.datarepo.query.QueryFactory.*;
-import static org.datarepo.utils.Reflection.copy;
-import static org.datarepo.utils.Types.toDate;
-import static org.datarepo.utils.Utils.ls;
-import static org.datarepo.utils.Utils.print;
+
+import org.boon.utils.Utils;
+import static org.boon.utils.Reflection.copy;
+import static org.boon.utils.Types.toDate;
+import static org.boon.utils.Utils.ls;
+import static org.boon.utils.Utils.print;
+
 import static org.junit.Assert.assertEquals;
 
 public class MoreTests {

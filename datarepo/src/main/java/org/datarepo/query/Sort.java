@@ -1,10 +1,12 @@
 package org.datarepo.query;
 
-import org.datarepo.fields.FieldAccess;
-import org.datarepo.utils.Reflection;
-import org.datarepo.utils.Utils;
 
 import java.util.*;
+
+import org.boon.fields.FieldAccess;
+import org.boon.utils.Reflection;
+import org.boon.utils.Utils;
+
 
 public class Sort {
 

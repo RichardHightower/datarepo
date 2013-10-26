@@ -17,9 +17,11 @@ import static org.datarepo.query.Selector.*;
 import static org.datarepo.query.Update.set;
 import static org.datarepo.query.Update.update;
 import static org.datarepo.tests.model.Employee.employee;
-import static org.datarepo.utils.Reflection.idx;
-import static org.datarepo.utils.Utils.print;
-import static org.datarepo.utils.Utils.printf;
+
+
+import static org.boon.utils.Reflection.idx;
+import static org.boon.utils.Utils.print;
+import static org.boon.utils.Utils.printf;
 
 public class RepoDefaultTest {
 
@@ -407,7 +409,6 @@ public class RepoDefaultTest {
         //rint("list", list);
 
         Assert.assertEquals("3tag1", idx(list.get(0).get("tags.metas.metas2.metas3.name3"), 0));
-
 
     }
 

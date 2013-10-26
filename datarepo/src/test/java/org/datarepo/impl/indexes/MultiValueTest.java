@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.datarepo.utils.Utils.ls;
+import static org.boon.utils.Utils.ls;
 
 public class MultiValueTest {
 

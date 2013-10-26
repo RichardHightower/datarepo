@@ -2,22 +2,25 @@ package org.datarepo.impl;
 
 import org.datarepo.ObjectEditor;
 import org.datarepo.SearchableCollection;
-import org.datarepo.fields.FieldAccess;
 import org.datarepo.query.Update;
 import org.datarepo.spi.ObjectEditorComposer;
-import org.datarepo.utils.Reflection;
+
+import org.boon.fields.FieldAccess;
+import org.boon.utils.Reflection;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.datarepo.utils.Utils.*;
+
 
 public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY, ITEM>, ObjectEditor<KEY, ITEM> {
 
-    private Logger log = log(ObjectEditorDefault.class);
+    private Logger log = Logger.getLogger(ObjectEditorDefault.class.getName());
+
     protected SearchableCollection<KEY, ITEM> query;
     protected Map<String, FieldAccess> fields = new LinkedHashMap<>();
     private boolean hashCodeOptimization;
@@ -78,14 +81,15 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         if (oldItem != null) {
             delete(oldItem);
         } else {
-            warning(log, "An original item was not in the repo %s", item);
+            log.warning(String.format("An original item was not in the repo %s", item));
         }
 
         this.add(item);
 
-        if (isDebug(log)) {
-            debug(log, "This item %s was modified like this %s", oldItem, item);
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(String.format("This item %s was modified like this %s", oldItem, item));
         }
+
 
     }
 
@@ -493,7 +497,8 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
 
 
         if (oldItem == null) {
-            complain(sprintf("An original item was not in the repo %s", item));
+            throw new IllegalStateException(
+                    String.format("An original item was not in the repo %s", item));
 
         }
         return oldItem;
@@ -503,7 +508,11 @@ public class ObjectEditorDefault<KEY, ITEM> implements ObjectEditorComposer<KEY,
         ITEM oldItem = this.doGet(key);
 
         if (oldItem == null) {
-            complain(sprintf("An original item was not in the repo at this key %s", key));
+
+            throw new IllegalStateException(
+                    String.format( "An original item was not" +
+                            " in the repo at this key %s", key));
+
 
         }
         return oldItem;

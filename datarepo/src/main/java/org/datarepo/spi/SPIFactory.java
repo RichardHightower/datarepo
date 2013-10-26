@@ -11,7 +11,8 @@ import org.datarepo.impl.indexes.UniqueSearchIndex;
 import org.datarepo.impl.maps.MapCreatorImpl;
 import org.datarepo.predicates.Function;
 import org.datarepo.predicates.Supplier;
-import org.datarepo.utils.Utils;
+
+import org.boon.utils.Utils;
 
 
 /**

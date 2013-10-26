@@ -3,7 +3,7 @@ package org.datarepo.query;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.datarepo.utils.Utils.assertTrue;
+import static org.boon.utils.Utils.die;
 
 public class CriterionTest {
 
@@ -20,13 +20,14 @@ public class CriterionTest {
 
         Query query1 = QueryFactory.and(QueryFactory.eq("foo", "bar"));
 
-        assertTrue(query.equals(query1));
+        boolean ok = true;
+        ok &= (query.equals(query1)) || die("Die") ;
 
 
         Criterion c1 = QueryFactory.eq("foo", "bar");
         Criterion c2 = QueryFactory.eq("foo", "bar");
 
-        assertTrue(c1.equals(c2));
+        ok &= (c1.equals(c2)) || die("Die") ;
 
     }
 }

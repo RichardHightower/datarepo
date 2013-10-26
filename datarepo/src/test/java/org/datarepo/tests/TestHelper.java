@@ -12,8 +12,6 @@ import org.datarepo.predicates.Function;
 import java.util.List;
 import java.util.logging.Level;
 
-import static org.datarepo.utils.Utils.print;
-
 public class TestHelper {
 
     final static String getTestSSN = "777-222-2222";
@@ -154,7 +152,7 @@ public class TestHelper {
 
             @Override
             public void modification(ModificationEvent event) {
-                print(event);
+                System.out.print(event);
             }
         });
 

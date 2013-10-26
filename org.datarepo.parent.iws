@@ -2,28 +2,47 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9cb9a538-7db4-4610-8513-29f74794453d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/PropertyNameUtils.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Function.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Function.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Predicate.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Predicate.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Supplier.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Supplier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/BaseIndexWrapper.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/BaseIndexWrapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Collections.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Collections.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/CriteriaTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/CriteriaTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Criterion.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Criterion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/LookupIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/LookupIndex.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/query/CriterionTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/query/CriterionTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/Employee.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/Employee.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/FilterComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/FilterComposer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/FilterDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/FilterDefault.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Group.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Group.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/JavaUtilMap.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/JavaUtilMap.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/JavaUtilNavigableMap.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/JavaUtilNavigableMap.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/LookupIndexDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/LookupIndexDefault.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/MapCreatorImpl.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/MapCreatorImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/modification/ModificationEvent.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/modification/ModificationEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/MoreTests.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/MoreTests.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/impl/indexes/MultiValueTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/impl/indexes/MultiValueTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/NestedKeySearchIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/NestedKeySearchIndex.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Not.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Not.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorCloneDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorCloneDecorator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/ObjectEditorComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/ObjectEditorComposer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/ObjectEditorDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/ObjectEditorDefault.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorEventDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorEventDecorator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorLogNullCheckDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorLogNullCheckDecorator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/ProjectedSelector.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/ProjectedSelector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/PropertyNameUtils.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/PropertyNameUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Query.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Query.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/RepoBuilder.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/RepoBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/QueryFactory.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/QueryFactory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Repos.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Repos.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/RepoDefaultTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/RepoDefaultTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/ResultSetImpl.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/ResultSetImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/SPIFactory.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/SPIFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/SearchIndexDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/SearchIndexDefault.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/SearchableCollectionComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/SearchableCollectionComposer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/SearchableCollectionDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/SearchableCollectionDefault.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Selector.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Selector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Sort.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Sort.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/SortTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/SortTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/TestHelper.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/TestHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/TypeHierarchyIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/TypeHierarchyIndex.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueLookupIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueLookupIndex.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueSearchIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueSearchIndex.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Utils.java" afterPath="$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Utils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Update.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Update.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/utils/UtilsTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/utils/UtilsTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.datarepo.parent.iws" afterPath="$PROJECT_DIR$/org.datarepo.parent.iws" />
     </list>
     <ignored path="org.datarepo.parent.iws" />
@@ -74,10 +93,7 @@
     <file path="$PROJECT_DIR$/../boon/src/test/java/org/boon/utils/MapsTest.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382083843557" ignored="false" />
     <file path="$PROJECT_DIR$/../boon/src/main/java/org/boon/utils/IO.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382090902878" ignored="false" />
     <file path="/IO.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382090870610" ignored="false" />
-    <file path="/RepoBuilderDefault.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382813207086" ignored="false" />
-    <file path="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/ResultSetInternal.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382139335628" ignored="false" />
-    <file path="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/RepoComposer.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382139335628" ignored="false" />
-    <file path="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/ObjectEditorComposer.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382139335628" ignored="false" />
+    <file path="/RepoBuilderDefault.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382816701903" ignored="false" />
     <file path="$MAVEN_REPOSITORY$/org/datarepo/datarepo/1.0/datarepo-1.0.jar!/org/datarepo/query/QueryFactory.class" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382139405119" ignored="false" />
     <file path="$MAVEN_REPOSITORY$/org/datarepo/datarepo/1.0/datarepo-1.0.jar!/org/datarepo/RepoBuilder.class" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382139405119" ignored="false" />
     <file path="$MAVEN_REPOSITORY$/org/datarepo/datarepo/1.0/datarepo-1.0.jar!/org/datarepo/query/Query.class" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382139405119" ignored="false" />
@@ -175,17 +191,58 @@
     <file path="/OrganizationIdUtils.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382660542475" ignored="false" />
     <file path="/FilterDecoratorBase.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382760208027" ignored="false" />
     <file path="/BaseIndexWrapper.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382760750878" ignored="false" />
-    <file path="/LookupIndexDefault.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382813012118" ignored="false" />
+    <file path="/LookupIndexDefault.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382815586073" ignored="false" />
     <file path="/Bag.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382761008531" ignored="false" />
     <file path="/CollectionDecorator.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382760948364" ignored="false" />
     <file path="/Filter.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382760986120" ignored="false" />
-    <file path="/Collections.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382813290161" ignored="false" />
+    <file path="/Collections.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382814776062" ignored="false" />
     <file path="/MultiValue.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382807693402" ignored="false" />
-    <file path="/NestedKeySearchIndex.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382807718752" ignored="false" />
-    <file path="/TypeHierarchyIndex.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382807750167" ignored="false" />
-    <file path="/FilterDefault.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382808364622" ignored="false" />
-    <file path="/Criterion.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382812385985" ignored="false" />
-    <file path="/ObjectEditorLogNullCheckDecorator.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382812923383" ignored="false" />
+    <file path="/NestedKeySearchIndex.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382815731846" ignored="false" />
+    <file path="/TypeHierarchyIndex.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382815815965" ignored="false" />
+    <file path="/FilterDefault.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818557293" ignored="false" />
+    <file path="/Criterion.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382817880918" ignored="false" />
+    <file path="/ObjectEditorLogNullCheckDecorator.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382815345324" ignored="false" />
+    <file path="/FieldAccess.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382814214571" ignored="false" />
+    <file path="/MapField.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382814624818" ignored="false" />
+    <file path="/PropertyField.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382814659579" ignored="false" />
+    <file path="/ReflectField.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382814688876" ignored="false" />
+    <file path="/UnsafeField.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382814707047" ignored="false" />
+    <file path="/Reflection.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382814528263" ignored="false" />
+    <file path="/Types.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382814407660" ignored="false" />
+    <file path="/Utils.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819075740" ignored="false" />
+    <file path="/ObjectEditorEventDecorator.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382814831511" ignored="false" />
+    <file path="/UniqueSearchIndex.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819780764" ignored="false" />
+    <file path="/ObjectEditorDefault.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382816478263" ignored="false" />
+    <file path="/ResultSetImpl.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819638442" ignored="false" />
+    <file path="/SearchableCollectionDefault.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819739022" ignored="false" />
+    <file path="/ModificationEvent.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382817738358" ignored="false" />
+    <file path="/PropertyNameUtils.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382817835865" ignored="false" />
+    <file path="/ProjectedSelector.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382817927405" ignored="false" />
+    <file path="/Query.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382817970104" ignored="false" />
+    <file path="/Selector.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818032906" ignored="false" />
+    <file path="/Sort.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818084113" ignored="false" />
+    <file path="/Update.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818114020" ignored="false" />
+    <file path="/FilterComposer.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818144522" ignored="false" />
+    <file path="/ObjectEditorComposer.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818175991" ignored="false" />
+    <file path="/SearchableCollectionComposer.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818213138" ignored="false" />
+    <file path="/SPIFactory.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818232772" ignored="false" />
+    <file path="/Not.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818416320" ignored="false" />
+    <file path="/MapCreatorImpl.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818459681" ignored="false" />
+    <file path="/ObjectEditorCloneDecorator.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818489168" ignored="false" />
+    <file path="/JavaUtilNavigableMap.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818608943" ignored="false" />
+    <file path="/Group.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818667372" ignored="false" />
+    <file path="/QueryFactory.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818714150" ignored="false" />
+    <file path="/JavaUtilMap.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818781841" ignored="false" />
+    <file path="/CriteriaTest.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818843395" ignored="false" />
+    <file path="/Employee.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818887184" ignored="false" />
+    <file path="/TestHelper.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382818951098" ignored="false" />
+    <file path="/CriterionTest.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819053431" ignored="false" />
+    <file path="/MoreTests.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819132703" ignored="false" />
+    <file path="/SortTest.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819196620" ignored="false" />
+    <file path="/RepoDefaultTest.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819515286" ignored="false" />
+    <file path="/MultiValueTest.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819284160" ignored="false" />
+    <file path="/*.regexp" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819712016" ignored="false" />
+    <file path="/UniqueLookupIndex.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382819762229" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -384,101 +441,50 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LookupIndexDefault.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/LookupIndexDefault.java">
+      <file leaf-file-name="CriteriaTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/CriteriaTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="229" column="0" selection-start="4974" selection-end="4974" vertical-scroll-proportion="0.0">
+            <state line="2" column="22" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Predicate.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Predicate.java">
+      <file leaf-file-name="MoreTests.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/MoreTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="17" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0">
+            <state line="22" column="3" selection-start="481" selection-end="681" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Function.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Function.java">
+      <file leaf-file-name="SortTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/SortTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="17" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0">
+            <state line="10" column="27" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MultiValue.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/MultiValue.java">
+      <file leaf-file-name="RepoDefaultTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/RepoDefaultTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="2" selection-start="194" selection-end="194" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Utils.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Utils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2158" column="0" selection-start="58247" selection-end="58247" vertical-scroll-proportion="0.84236455">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PropertyNameUtils.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/PropertyNameUtils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="27" selection-start="914" selection-end="914" vertical-scroll-proportion="0.0">
+            <state line="417" column="0" selection-start="14291" selection-end="14291" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#161#311#0" expanded="true" />
-                <element signature="e#173#189#0" expanded="true" />
-                <element signature="e#304#305#0" expanded="true" />
-                <element signature="e#368#515#0" expanded="true" />
-                <element signature="e#380#396#0" expanded="true" />
-                <element signature="e#508#509#0" expanded="true" />
-                <element signature="e#579#731#0" expanded="true" />
-                <element signature="e#591#607#0" expanded="true" />
-                <element signature="e#724#725#0" expanded="true" />
-                <element signature="e#795#947#0" expanded="true" />
-                <element signature="e#807#823#0" expanded="true" />
-                <element signature="e#940#941#0" expanded="true" />
-                <element signature="e#1005#1149#0" expanded="true" />
-                <element signature="e#1017#1033#0" expanded="true" />
-                <element signature="e#1142#1143#0" expanded="true" />
-                <element signature="e#1207#1351#0" expanded="true" />
-                <element signature="e#1219#1235#0" expanded="true" />
-                <element signature="e#1344#1345#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#14310#14650#0" expanded="true" />
+                <element signature="e#14639#14640#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Reflection.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Reflection.java">
+      <file leaf-file-name="SearchableCollectionDefault.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/SearchableCollectionDefault.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="13" selection-start="245" selection-end="245" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Supplier.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Supplier.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="17" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RepoBuilderDefault.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="399" column="43" selection-start="11866" selection-end="11866" vertical-scroll-proportion="0.0">
+            <state line="465" column="33" selection-start="14324" selection-end="14324" vertical-scroll-proportion="-10.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -486,11 +492,55 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Collections.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Collections.java">
+      <file leaf-file-name="UniqueLookupIndex.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueLookupIndex.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="332" column="62" selection-start="10567" selection-end="10567" vertical-scroll-proportion="0.0">
+            <state line="94" column="17" selection-start="2074" selection-end="2074" vertical-scroll-proportion="-8.6">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UniqueSearchIndex.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueSearchIndex.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="80" column="17" selection-start="1966" selection-end="1966" vertical-scroll-proportion="0.33280757">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ResultSetImpl.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/ResultSetImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="413" column="59" selection-start="11216" selection-end="11216" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractList.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///System/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/src.zip!/java/util/AbstractList.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="147" column="0" selection-start="4992" selection-end="4992" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MultiValueTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/impl/indexes/MultiValueTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="27" selection-start="211" selection-end="225" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -518,22 +568,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Bag.java" />
-        <option value="$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Types.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/MultiValue.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/NestedKeySearchIndex.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/TypeHierarchyIndex.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/FilterDefault.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Criterion.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorLogNullCheckDecorator.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/LookupIndexDefault.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Collections.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Function.java" />
-        <option value="$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Utils.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Utils.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Utils2.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/PropertyNameUtils.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Group.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/QueryFactory.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/JavaUtilMap.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/CriteriaTest.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/Employee.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/TestHelper.java" />
+        <option value="$PROJECT_DIR$/utils/src/main/java/org/boon/utils/Utils.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/query/CriterionTest.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/MoreTests.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/SortTest.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/impl/indexes/MultiValueTest.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/RepoDefaultTest.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/ResultSetImpl.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/SearchableCollectionDefault.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueLookupIndex.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueSearchIndex.java" />
       </list>
     </option>
   </component>
@@ -743,7 +793,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="datarepo" />
+              <option name="myItemId" value="boon" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -777,7 +827,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="datarepo" />
+              <option name="myItemId" value="boon" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -828,6 +878,112 @@
               <option name="myItemId" value="datarepo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org.datarepo.parent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datarepo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datarepo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datarepo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org.datarepo.parent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datarepo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datarepo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datarepo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="query" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org.datarepo.parent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datarepo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datarepo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datarepo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indexes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -870,48 +1026,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datarepo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.datarepo.parent" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datarepo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datarepo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datarepo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="predicates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -962,6 +1076,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/utils/src/main/java/org/boon" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
@@ -1188,6 +1303,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298077" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1198,19 +1314,19 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917467" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32884616" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25620282" sideWeight="0.67115384" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25620282" sideWeight="0.67115384" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13052858" sideWeight="0.3846154" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13052858" sideWeight="0.67115384" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298077" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24811219" sideWeight="0.67115384" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32884616" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32884616" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Aspects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298077" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1334,18 +1450,127 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/NestedKeySearchIndex.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/ResultSetInternal.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="31" selection-start="190" selection-end="190" vertical-scroll-proportion="0.0">
+        <state line="7" column="17" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/JavaUtilMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="29" selection-start="954" selection-end="954" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/TypeHierarchyIndex.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/Employee.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="46" selection-start="172" selection-end="172" vertical-scroll-proportion="0.0">
+        <state line="61" column="22" selection-start="1353" selection-end="1353" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/TestHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="154" column="16" selection-start="5805" selection-end="5805" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/utils/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="592" column="25" selection-start="17508" selection-end="17508" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/query/CriterionTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="8" selection-start="444" selection-end="444" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/MoreTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="3" selection-start="481" selection-end="681" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/SortTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="27" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/impl/indexes/MultiValueTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="27" selection-start="211" selection-end="225" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/CriteriaTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="22" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/src.zip!/java/util/AbstractList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="147" column="0" selection-start="4992" selection-end="4992" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/ResultSetImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="413" column="59" selection-start="11216" selection-end="11216" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/RepoDefaultTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="417" column="0" selection-start="14291" selection-end="14291" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#14310#14650#0" expanded="true" />
+            <element signature="e#14639#14640#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/SearchableCollectionDefault.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="465" column="33" selection-start="14324" selection-end="14324" vertical-scroll-proportion="-10.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueLookupIndex.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="94" column="17" selection-start="2074" selection-end="2074" vertical-scroll-proportion="-8.6">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1354,126 +1579,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueSearchIndex.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="13" selection-start="371" selection-end="371" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/FilterDefault.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="55" selection-start="4138" selection-end="4138" vertical-scroll-proportion="0.0">
+        <state line="80" column="17" selection-start="1966" selection-end="1966" vertical-scroll-proportion="0.33280757">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Criterion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="8" selection-start="944" selection-end="944" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorLogNullCheckDecorator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="424" column="0" selection-start="15818" selection-end="15818" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/LookupIndexDefault.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="229" column="0" selection-start="4974" selection-end="4974" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/MultiValue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="2" selection-start="194" selection-end="194" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Collections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="332" column="62" selection-start="10567" selection-end="10567" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Supplier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="17" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Reflection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="13" selection-start="245" selection-end="245" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Predicate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="17" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Function.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="17" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="399" column="43" selection-start="11866" selection-end="11866" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/PropertyNameUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="27" selection-start="914" selection-end="914" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#161#311#0" expanded="true" />
-            <element signature="e#173#189#0" expanded="true" />
-            <element signature="e#304#305#0" expanded="true" />
-            <element signature="e#368#515#0" expanded="true" />
-            <element signature="e#380#396#0" expanded="true" />
-            <element signature="e#508#509#0" expanded="true" />
-            <element signature="e#579#731#0" expanded="true" />
-            <element signature="e#591#607#0" expanded="true" />
-            <element signature="e#724#725#0" expanded="true" />
-            <element signature="e#795#947#0" expanded="true" />
-            <element signature="e#807#823#0" expanded="true" />
-            <element signature="e#940#941#0" expanded="true" />
-            <element signature="e#1005#1149#0" expanded="true" />
-            <element signature="e#1017#1033#0" expanded="true" />
-            <element signature="e#1142#1143#0" expanded="true" />
-            <element signature="e#1207#1351#0" expanded="true" />
-            <element signature="e#1219#1235#0" expanded="true" />
-            <element signature="e#1344#1345#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/datarepo/utils/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2158" column="0" selection-start="58247" selection-end="58247" vertical-scroll-proportion="0.84236455">
-          <folding />
         </state>
       </provider>
     </entry>

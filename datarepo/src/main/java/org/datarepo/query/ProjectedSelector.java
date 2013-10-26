@@ -1,14 +1,15 @@
 package org.datarepo.query;
 
-import org.datarepo.fields.FieldAccess;
-import org.datarepo.utils.Utils;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.datarepo.utils.Types.*;
-import static org.datarepo.utils.Utils.joinBy;
-import static org.datarepo.utils.Utils.list;
+
+import org.boon.fields.FieldAccess;
+import org.boon.utils.Utils;
+import static org.boon.utils.Types.*;
+import static org.boon.utils.Utils.joinBy;
+import static org.boon.utils.Utils.list;
 
 public abstract class ProjectedSelector extends Selector {
 

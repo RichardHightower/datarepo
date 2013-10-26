@@ -4,7 +4,6 @@ import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.ResultSet;
 import org.datarepo.SearchableCollection;
-import org.datarepo.fields.FieldAccess;
 import org.datarepo.impl.indexes.UniqueLookupIndex;
 import org.datarepo.query.Query;
 import org.datarepo.query.Selector;
@@ -14,18 +13,24 @@ import org.datarepo.spi.FilterComposer;
 import org.datarepo.spi.SearchIndex;
 import org.datarepo.spi.SearchableCollectionComposer;
 import org.datarepo.predicates.Function;
-import org.datarepo.utils.Reflection;
-import org.datarepo.utils.Utils;
+
 
 import java.util.*;
 import java.util.logging.Logger;
 
-import static org.datarepo.utils.Reflection.toMap;
-import static org.datarepo.utils.Utils.*;
+
+import org.boon.fields.FieldAccess;
+import org.boon.utils.Reflection;
+import org.boon.utils.Utils;
+import static org.boon.utils.Reflection.toMap;
+import static org.boon.utils.Utils.isArray;
+import static org.boon.utils.Utils.list;
 
 public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollection<KEY, ITEM>, SearchableCollectionComposer {
 
-    protected Logger log = Utils.log(RepoDefault.class);
+
+    private Logger log = Logger.getLogger(RepoDefault.class.getName());
+
     protected Map<String, LookupIndex> lookupIndexMap = new LinkedHashMap<>();
     protected Map<String, SearchIndex> searchIndexMap = new LinkedHashMap<>();
     protected List<LookupIndex> indexes = new ArrayList<LookupIndex>();
@@ -77,8 +82,10 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         SearchIndex index = this.searchIndexMap.get(property);
 
         if (index == null) {
-            die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t set %s", key, property, value);
+            throw new IllegalStateException(String.format(
+
+            "No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t set %s", key, property, value));
         }
 
         return index.count(key);
@@ -90,8 +97,8 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         SearchIndex index = this.searchIndexMap.get(property);
 
         if (index == null) {
-            die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t set %s", key, property, value);
+            throw new IllegalStateException(String.format("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t set %s", key, property, value));
         }
 
         return index.count(key);
@@ -102,8 +109,8 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         SearchIndex index = this.searchIndexMap.get(property);
 
         if (index == null) {
-            die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t set %s", key, property, value);
+            throw new IllegalStateException(String.format("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t set %s", key, property, value));
         }
 
         return index.count(key);
@@ -114,8 +121,9 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         SearchIndex index = this.searchIndexMap.get(property);
 
         if (index == null) {
-            die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t set %s", key, property, value);
+            throw new IllegalStateException(
+                    String.format("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t set %s", key, property, value));
         }
 
         return index.count(key);
@@ -126,8 +134,9 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         SearchIndex index = this.searchIndexMap.get(property);
 
         if (index == null) {
-            die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t set %s", key, property, value);
+            throw new IllegalStateException(
+                    String.format("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t set %s", key, property, value));
         }
 
         return index.count(key);
@@ -138,8 +147,9 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         SearchIndex index = this.searchIndexMap.get(property);
 
         if (index == null) {
-            die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t set %s", key, property, value);
+            throw new IllegalStateException(
+                    String.format("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t set %s", key, property, value));
         }
 
         return index.count(key);
@@ -150,8 +160,9 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         SearchIndex index = this.searchIndexMap.get(property);
 
         if (index == null) {
-            die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t set %s", key, property, value);
+            throw new IllegalStateException(
+                    String.format("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t set %s", key, property, value));
         }
 
         return index.count(key);
@@ -162,8 +173,9 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         SearchIndex index = this.searchIndexMap.get(property);
 
         if (index == null) {
-            die("No searchIndex was found so you can't do a count for \n " +
-                    "key %s \t property %s \t set %s", key, property, value);
+            throw new IllegalStateException(
+                    String.format("No searchIndex was found so you can't do a count for \n " +
+                    "key %s \t property %s \t set %s", key, property, value));
         }
 
         return index.count(key);
@@ -225,7 +237,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
             if (item != null) {
                 FieldAccess field = this.fields.get(property);
 
-                if (field.getType() == plong) {
+                if (field.getType() == long.class) {
                     return field.getLong(item);
                 }
             }
@@ -301,7 +313,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
             if (item != null) {
                 FieldAccess field = this.fields.get(property);
 
-                if (field.getType() == plong) {
+                if (field.getType() == long.class) {
                     return field.getLong(item);
                 }
             }
@@ -402,7 +414,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
             int index = 0;
             Iterator iterator = Utils.iterator(o);
             while (iterator.hasNext()) {
-                path.add(sprintf("[%s]", index));
+                path.add(String.format("[%s]", index));
                 Object objectItem = iterator.next();
                 visit(key, item, visitor, objectItem, path, levels);
                 path.remove(path.size() - 1);
@@ -506,13 +518,13 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
 
     public void addSearchIndex(String name, SearchIndex si) {
-        config(log, "search index added name %s", name);
+        log.config(String.format("search index added name %s", name));
         searchIndexMap.put(name, si);
         indexes.add(si);
     }
 
     public void addLookupIndex(String name, LookupIndex si) {
-        config(log, "lookup index added name %s", name);
+        log.config(String.format("lookup index added name %s", name));
 
         lookupIndexMap.put(name, si);
         indexes.add(si);
@@ -551,7 +563,7 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
 
 
     public void setPrimaryKeyGetter(Function getter) {
-        config(log, "primary key getter set %s", getter);
+        log.config(String.format("primary key getter set %s", getter));
 
         this.primaryKeyGetter = getter;
     }
@@ -590,10 +602,10 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         KEY key = null;
         ITEM item = null;
         try {
-            key = (KEY) object;
+            key = (KEY) o;
             removeByKey(key);
         } catch (ClassCastException ex) {
-            item = (ITEM) object;
+            item = (ITEM) o;
             delete(item);
         }
         return true;
@@ -656,10 +668,10 @@ public class SearchableCollectionDefault<KEY, ITEM> implements SearchableCollect
         KEY key = null;
         ITEM item = null;
         try {
-            key = (KEY) object;
+            key = (KEY) o;
             item = get(key);
         } catch (ClassCastException ex) {
-            ITEM itemArg = (ITEM) object;
+            ITEM itemArg = (ITEM) o;
             key = getKey(itemArg);
             item = get(key);
         }

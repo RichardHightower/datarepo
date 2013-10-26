@@ -1,13 +1,14 @@
 package org.datarepo.impl.indexes;
 
+import org.boon.utils.Utils;
 import org.datarepo.LookupIndex;
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.predicates.Function;
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.datarepo.utils.Utils.*;
 
 /**
  * A really simple lookup index that uses a standard java.util.HashMap.
@@ -22,7 +23,7 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     protected Function<ITEM, KEY> primaryKeyGetter;
 
     protected Map<KEY, MultiValue> map;
-    private Logger log = log(LookupIndexDefault.class);
+    private Logger log = Logger.getLogger(LookupIndexDefault.class.getName());
     protected boolean storeKeyInIndexOnly;
     private Function<Object, KEY> keyTransformer;
 
@@ -30,6 +31,12 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
 
     public LookupIndexDefault(Class<?> keyType) {
+
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(String.format("key type %s ", keyType.getName()));
+        }
+
         if (keyType == null) {
             return;
         }
@@ -48,8 +55,9 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public boolean add(ITEM item) {
-        if (isDebug(log)) {
-            debug(log, "add item = %s", item);
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(String.format("add item = %s", item));
         }
 
         KEY key = keyGetter.apply(item);
@@ -63,6 +71,12 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     }
 
     private void put(ITEM item, KEY key) {
+
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(String.format("put item = %s with key = %s ", item, key));
+        }
+
         key = getKey(key);
 
 
@@ -134,6 +148,11 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public List<ITEM> all() {
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("all called");
+        }
+
         List results = new ArrayList<>(map.size());
         for (MultiValue values : map.values()) {
             values.addTo(results);
@@ -157,9 +176,6 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
         key = getKey(key);
 
-        if (isDebug(log)) {
-            debug(log, "key = %s", key);
-        }
         MultiValue mv = map.get(key);
         if (mv == null) {
             return null;
@@ -179,9 +195,6 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     public List<ITEM> getAll(KEY key) {
         key = getKey(key);
 
-        if (isDebug(log)) {
-            debug(log, "key = %s", key);
-        }
         MultiValue mv = map.get(key);
         if (mv == null) {
             return null;
@@ -223,6 +236,10 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public void clear() {
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("clear called");
+        }
         this.map.clear();
     }
 

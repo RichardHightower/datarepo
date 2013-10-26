@@ -1,6 +1,6 @@
 package org.datarepo.tests.model;
 
-import org.datarepo.utils.Types;
+import org.boon.utils.Types;
 
 import java.util.ArrayList;
 import java.util.Date;

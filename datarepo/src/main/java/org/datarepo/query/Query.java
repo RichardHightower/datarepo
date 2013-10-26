@@ -1,8 +1,10 @@
 package org.datarepo.query;
 
-import org.datarepo.fields.FieldAccess;
+
 import org.datarepo.predicates.Predicate;
-import org.datarepo.utils.Reflection;
+
+import org.boon.fields.FieldAccess;
+import org.boon.utils.Reflection;
 
 import java.util.Map;
 

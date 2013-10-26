@@ -5,7 +5,7 @@ import org.datarepo.ObjectEditor;
 import java.io.Serializable;
 import java.util.List;
 
-import static org.datarepo.utils.Utils.list;
+import static org.boon.utils.Utils.list;
 
 public abstract class Update implements Serializable {
 

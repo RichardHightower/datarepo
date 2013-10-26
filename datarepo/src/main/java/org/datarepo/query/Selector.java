@@ -1,15 +1,16 @@
 package org.datarepo.query;
 
-import org.datarepo.fields.FieldAccess;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.datarepo.utils.Reflection.getPropByPath;
-import static org.datarepo.utils.Utils.joinBy;
-import static org.datarepo.utils.Utils.list;
+
+import org.boon.fields.FieldAccess;
+import static org.boon.utils.Reflection.getPropByPath;
+import static org.boon.utils.Utils.joinBy;
+import static org.boon.utils.Utils.list;
 
 public abstract class Selector {
     protected String name;

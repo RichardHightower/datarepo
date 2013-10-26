@@ -1,10 +1,11 @@
 package org.datarepo.impl.indexes;
 
-import org.datarepo.utils.Reflection;
+import org.boon.utils.Reflection;
 
 import java.util.List;
 
-import static org.datarepo.utils.Types.toList;
+import static org.boon.utils.Types.toList;
+
 
 /**
  * This allows nested key look-ups.

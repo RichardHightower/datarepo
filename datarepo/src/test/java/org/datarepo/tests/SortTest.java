@@ -3,15 +3,19 @@ package org.datarepo.tests;
 import org.datarepo.query.Sort;
 import org.datarepo.query.SortType;
 import org.datarepo.tests.model.Employee;
-import org.datarepo.utils.Reflection;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.datarepo.utils.Utils.ls;
-import static org.datarepo.utils.Utils.string;
+
+
 import static org.junit.Assert.assertEquals;
+
+
+import static org.boon.utils.Utils.ls;
+import static org.boon.utils.Utils.string;
+import org.boon.utils.Reflection;
 
 public class SortTest {
 

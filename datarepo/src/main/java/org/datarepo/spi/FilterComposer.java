@@ -3,7 +3,8 @@ package org.datarepo.spi;
 
 import org.datarepo.LookupIndex;
 import org.datarepo.SearchableCollection;
-import org.datarepo.fields.FieldAccess;
+
+import org.boon.fields.FieldAccess;
 
 import java.util.Map;
 

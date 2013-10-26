@@ -1,5 +1,6 @@
 package org.datarepo.utils;
 
+import org.boon.utils.Utils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

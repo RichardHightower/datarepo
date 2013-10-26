@@ -1,10 +1,11 @@
 package org.datarepo.spi;
 
 import org.datarepo.Filter;
-import org.datarepo.fields.FieldAccess;
 import org.datarepo.predicates.Function;
 
 import java.util.Map;
+
+import org.boon.fields.FieldAccess;
 
 public interface SearchableCollectionComposer {
     void setPrimaryKeyName(String primaryKey);

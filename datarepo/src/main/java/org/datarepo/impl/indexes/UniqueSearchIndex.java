@@ -6,7 +6,7 @@ import org.datarepo.predicates.Function;
 
 import java.util.*;
 
-import static org.datarepo.utils.Utils.complain;
+import static org.boon.utils.Utils.list;
 
 /**
  * Default Search Index which uses a TreeMap
@@ -78,7 +78,7 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
     @Override
     public List<ITEM> findEquals(KEY key) {
         key = getKey(key);
-        return Collections.singletonList(navigableMap.get(key));
+        return list(navigableMap.get(key));
     }
 
     @Override
@@ -121,14 +121,12 @@ public class UniqueSearchIndex<KEY, ITEM> extends UniqueLookupIndex<KEY, ITEM> i
 
     @Override
     public List<ITEM> findEndsWith(KEY keyFrag) {
-        complain("findEndsWith Not supported");
-        return null;
+        throw new UnsupportedOperationException("findEndsWith Not supported");
     }
 
     @Override
     public List<ITEM> findContains(KEY keyFrag) {
-        complain("findContains Not supported");
-        return null;
+        throw new UnsupportedOperationException("findContains Not supported");
     }
 
     @Override

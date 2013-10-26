@@ -1,6 +1,5 @@
 package org.datarepo.modification;
 
-import static org.datarepo.utils.Utils.die;
 
 public abstract class ModificationEvent<KEY, ITEM> {
 
@@ -77,63 +76,53 @@ public abstract class ModificationEvent<KEY, ITEM> {
 
         @Override
         public boolean booleanValue() {
-            die("not supported");
-            return false;
+            throw new UnsupportedOperationException("not supported");
         }
 
         @Override
         public int intValue() {
-            die("not supported");
-            return 0;
+            throw new UnsupportedOperationException("not supported");
         }
 
         @Override
         public short shortValue() {
-            die("not supported");
-            return 0;
+            throw new UnsupportedOperationException("not supported");
         }
 
         @Override
         public char charValue() {
-            die("not supported");
-            return 'f';
+            throw new UnsupportedOperationException("not supported");
         }
 
         @Override
         public byte byteValue() {
-            die("not supported");
-            return 0;
+            throw new UnsupportedOperationException("not supported");
         }
 
         @Override
         public long longValue() {
-            die("not supported");
-            return 0;
+            throw new UnsupportedOperationException("not supported");
         }
 
 
         @Override
         public float floatValue() {
-            die("not supported");
-            return 0;
+            throw new UnsupportedOperationException("not supported");
         }
 
         @Override
         public double doubleValue() {
-            die("not supported");
-            return 0;
+            throw new UnsupportedOperationException("not supported");
         }
 
         @Override
         public String value() {
-            die("not supported");
-            return null;
+            throw new UnsupportedOperationException("not supported");
         }
 
         @Override
         public Object objectValue() {
-            die("not supported");
-            return null;
+            throw new UnsupportedOperationException("not supported");
         }
 
     }

@@ -3,27 +3,29 @@ package org.datarepo.impl.decorators;
 
 import org.datarepo.ObjectEditor;
 import org.datarepo.query.Update;
-import org.datarepo.utils.Utils;
+import org.boon.utils.Utils;
 
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.datarepo.utils.Utils.*;
 
 public class ObjectEditorLogNullCheckDecorator<KEY, ITEM> extends ObjectEditorDecoratorBase<KEY, ITEM> {
 
-    Logger logger = Utils.log(ObjectEditor.class);
+    Logger logger = Logger.getLogger(ObjectEditorLogNullCheckDecorator.class.getName());
     Level level = Level.FINER;
 
 
     private boolean debug = false;
 
-    void log(String msg, Object... items) {
+    void log(final String msg, final Object... items) {
+
         if (debug) {
-            printf(msg, items);
+            System.out.printf(msg, items);
         }
-        fprintf(logger, level, msg, items);
+        String message = String.format(msg, items);
+        logger.log(level, message);
+
     }
 
 

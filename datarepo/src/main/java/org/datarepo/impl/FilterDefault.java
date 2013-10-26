@@ -4,12 +4,10 @@ import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.ResultSet;
 import org.datarepo.SearchableCollection;
-import org.datarepo.fields.FieldAccess;
 import org.datarepo.query.*;
 import org.datarepo.spi.FilterComposer;
 import org.datarepo.spi.ResultSetInternal;
 import org.datarepo.spi.SearchIndex;
-import org.datarepo.utils.Utils;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +16,10 @@ import java.util.Set;
 
 import static org.datarepo.query.QueryFactory.instanceOf;
 import static org.datarepo.query.QueryFactory.not;
-import static org.datarepo.utils.Utils.array;
+
+import org.boon.utils.Utils;
+import org.boon.fields.FieldAccess;
+import static org.boon.utils.Utils.array;
 
 /**
  * This class should be renamed mother of all beasts.

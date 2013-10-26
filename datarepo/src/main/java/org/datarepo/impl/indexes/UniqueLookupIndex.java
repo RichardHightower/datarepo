@@ -5,9 +5,10 @@ import org.datarepo.spi.SPIFactory;
 import org.datarepo.predicates.Function;
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.datarepo.utils.Utils.*;
+import static org.boon.utils.Utils.list;
 
 public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
@@ -15,7 +16,9 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     protected Map<KEY, ITEM> map = null;
     protected List<ITEM> items = new LinkedList();
 
-    private Logger log = log(UniqueLookupIndex.class);
+
+    private Logger log = Logger.getLogger(UniqueLookupIndex.class.getName());
+
     private Function<Object, KEY> keyTransformer;
 
     public UniqueLookupIndex(Class<?> keyType) {
@@ -40,8 +43,9 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
     @Override
     public boolean add(ITEM item) {
 
-        if (isDebug(log)) {
-            debug(log, "add item = %s", item);
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(String.format("add item = %s", item));
         }
 
         KEY key = keyGetter.apply(item);
@@ -53,12 +57,6 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
             return false;
         }
 
-
-//        if (map.containsKey(key)) {
-//            die("this index already contains this key %s", key);
-//        }
-
-
         map.put(key, item);
         items.add(item);
         return true;
@@ -66,6 +64,11 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public boolean delete(ITEM item) {
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(String.format("delete item = %s", item));
+        }
+
         KEY key = keyGetter.apply(item);
         key = getKey(key);
         map.remove(key);
@@ -74,12 +77,22 @@ public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
     @Override
     public List<ITEM> all() {
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("all called ");
+        }
+
         return new ArrayList<>(items);
     }
 
     @Override
     public List<ITEM> getAll(KEY key) {
-        return Collections.singletonList(this.get(key));
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("getAll called ");
+        }
+
+        return list(this.get(key));
     }
 
     @Override

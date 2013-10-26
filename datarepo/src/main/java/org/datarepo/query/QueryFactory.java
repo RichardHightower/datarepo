@@ -1,14 +1,15 @@
 package org.datarepo.query;
 
-import org.datarepo.fields.FieldAccess;
-import org.datarepo.utils.Reflection;
-import org.datarepo.utils.Types;
-import org.datarepo.utils.Utils;
 
 import java.util.*;
 
-import static org.datarepo.utils.Utils.iterator;
-import static org.datarepo.utils.Utils.joinBy;
+import static org.boon.utils.Utils.iterator;
+import static org.boon.utils.Utils.joinBy;
+import org.boon.fields.FieldAccess;
+import org.boon.utils.Reflection;
+import org.boon.utils.Types;
+import org.boon.utils.Utils;
+
 
 public class QueryFactory {
 

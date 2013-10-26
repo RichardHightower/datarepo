@@ -1,8 +1,8 @@
 package org.datarepo.tests;
 
 import junit.framework.Assert;
-import org.datarepo.fields.FieldAccess;
-import org.datarepo.utils.Reflection;
+
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,9 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 import static org.datarepo.query.QueryFactory.*;
-import static org.datarepo.utils.Utils.ls;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+
+import static org.boon.utils.Utils.ls;
+import org.boon.fields.FieldAccess;
+import org.boon.utils.Reflection;
 
 public class CriteriaTest {
 

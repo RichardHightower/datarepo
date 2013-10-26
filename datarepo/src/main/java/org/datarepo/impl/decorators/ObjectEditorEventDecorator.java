@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.datarepo.modification.ModificationEvent.createModification;
 import static org.datarepo.modification.ModificationType.*;
-import static org.datarepo.utils.Utils.ls;
+import static org.boon.utils.Utils.ls;
 
 public class ObjectEditorEventDecorator<KEY, ITEM> extends ObjectEditorDecoratorBase<KEY, ITEM> {
 

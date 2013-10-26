@@ -15,15 +15,18 @@
  */
 package org.datarepo;
 
-import org.datarepo.fields.FieldAccess;
 import org.datarepo.impl.decorators.FilterWithSimpleCache;
 import org.datarepo.query.Query;
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.SearchIndex;
 import org.datarepo.spi.SearchableCollectionComposer;
 import org.datarepo.predicates.Function;
-import org.datarepo.utils.Reflection;
-import org.datarepo.utils.Types;
+
+
+
+import org.boon.fields.FieldAccess;
+import org.boon.utils.Reflection;
+import org.boon.utils.Types;
 
 import java.util.*;
 

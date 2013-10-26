@@ -1,6 +1,5 @@
 package org.datarepo.impl.indexes;
 
-import org.datarepo.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class TypeHierarchyIndex extends BaseIndexWrapper {
         List<Object> list = new ArrayList();
         Class cls = o.getClass();
 
-        while (cls != null && cls != Utils.object) {
+        while (cls != null && cls != Object.class) {
             list.add(cls.getSimpleName());
             list.add(cls.getName());
 

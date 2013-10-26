@@ -1,6 +1,6 @@
 package org.datarepo.predicates;
 
-import org.datarepo.utils.Utils;
+import org.boon.utils.Utils;
 
 public class PropertyNameUtils {
 

@@ -1,7 +1,6 @@
 package org.datarepo.impl;
 
 import org.datarepo.*;
-import org.datarepo.fields.FieldAccess;
 import org.datarepo.impl.decorators.FilterWithSimpleCache;
 import org.datarepo.impl.decorators.ObjectEditorCloneDecorator;
 import org.datarepo.impl.decorators.ObjectEditorEventDecorator;
@@ -12,15 +11,18 @@ import org.datarepo.modification.ModificationListener;
 import org.datarepo.predicates.PropertyNameUtils;
 import org.datarepo.spi.*;
 import org.datarepo.predicates.Function;
-import org.datarepo.utils.Reflection;
 import org.datarepo.predicates.Supplier;
-import org.datarepo.utils.Utils;
+
 
 import java.text.Collator;
 import java.util.*;
 import java.util.logging.Level;
 
-import static org.datarepo.utils.Utils.joinBy;
+import org.boon.utils.Reflection;
+import static org.boon.utils.Utils.joinBy;
+import org.boon.fields.FieldAccess;
+
+
 
 
 public class RepoBuilderDefault implements RepoBuilder {
@@ -544,7 +546,9 @@ public class RepoBuilderDefault implements RepoBuilder {
 
 
         if (!fields.containsKey(primaryKey)) {
-            Utils.complain("Fields does not have primary key %s", primaryKey);
+            throw new IllegalStateException(
+                    String.format( "Fields does not have primary key %s",
+                            primaryKey));
         }
 
 
