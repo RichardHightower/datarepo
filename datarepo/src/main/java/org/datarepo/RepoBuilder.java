@@ -18,8 +18,8 @@ package org.datarepo;
 import org.datarepo.modification.ModificationListener;
 import org.datarepo.spi.RepoComposer;
 import org.datarepo.spi.SearchIndex;
-import org.datarepo.utils.Function;
-import org.datarepo.utils.Supplier;
+import org.datarepo.predicates.Function;
+import org.datarepo.predicates.Supplier;
 
 import java.util.Comparator;
 import java.util.Locale;

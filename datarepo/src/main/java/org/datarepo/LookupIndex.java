@@ -15,7 +15,7 @@
  */
 package org.datarepo;
 
-import org.datarepo.utils.Function;
+import org.datarepo.predicates.Function;
 
 import java.util.List;
 

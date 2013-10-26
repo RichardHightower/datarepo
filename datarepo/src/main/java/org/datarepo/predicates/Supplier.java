@@ -1,4 +1,4 @@
-package org.datarepo.utils;
+package org.datarepo.predicates;
 
 public interface Supplier<T> {
 

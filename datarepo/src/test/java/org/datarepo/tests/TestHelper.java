@@ -7,7 +7,7 @@ import org.datarepo.modification.ModificationEvent;
 import org.datarepo.modification.ModificationListener;
 import org.datarepo.tests.model.Employee;
 import org.datarepo.tests.model.SalesEmployee;
-import org.datarepo.utils.Function;
+import org.datarepo.predicates.Function;
 
 import java.util.List;
 import java.util.logging.Level;

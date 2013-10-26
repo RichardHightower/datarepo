@@ -1,4 +1,4 @@
-package org.datarepo.utils;
+package org.datarepo.predicates;
 
 /**
  * Place holder or JDK 1.8 Function

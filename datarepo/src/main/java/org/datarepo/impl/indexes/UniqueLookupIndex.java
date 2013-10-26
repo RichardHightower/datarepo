@@ -2,7 +2,7 @@ package org.datarepo.impl.indexes;
 
 import org.datarepo.LookupIndex;
 import org.datarepo.spi.SPIFactory;
-import org.datarepo.utils.Function;
+import org.datarepo.predicates.Function;
 
 import java.util.*;
 import java.util.logging.Logger;

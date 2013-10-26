@@ -21,10 +21,9 @@ import org.datarepo.query.Query;
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.SearchIndex;
 import org.datarepo.spi.SearchableCollectionComposer;
-import org.datarepo.utils.Function;
+import org.datarepo.predicates.Function;
 import org.datarepo.utils.Reflection;
 import org.datarepo.utils.Types;
-import org.datarepo.utils.Utils;
 
 import java.util.*;
 
@@ -330,7 +329,8 @@ public class Collections {
      * @return
      */
     private static Function createKeyGetter(final FieldAccess field) {
-        Utils.notNull(field);
+
+        Objects.requireNonNull( field, "field cannot be null" );
         return new Function() {
             @Override
             public Object apply(Object o) {

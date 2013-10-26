@@ -2,12 +2,9 @@ package org.datarepo.impl.indexes;
 
 import org.datarepo.LookupIndex;
 import org.datarepo.spi.SPIFactory;
-import org.datarepo.utils.Function;
+import org.datarepo.predicates.Function;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 import static org.datarepo.utils.Utils.*;
@@ -125,12 +122,12 @@ public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
 
     public void setKeyGetter(Function<ITEM, KEY> keyGetter) {
-        notNull(keyGetter);
+        Objects.requireNonNull(keyGetter, "keyGetter cannot be null");
         this.keyGetter = keyGetter;
     }
 
     public void setPrimaryKeyGetter(Function<ITEM, KEY> keyGetter) {
-        notNull(keyGetter);
+        Objects.requireNonNull(keyGetter, "keyGetter cannot be null");
         storeKeyInIndexOnly = true;
         this.primaryKeyGetter = keyGetter;
     }

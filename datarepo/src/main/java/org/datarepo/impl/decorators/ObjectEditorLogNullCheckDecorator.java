@@ -3,7 +3,9 @@ package org.datarepo.impl.decorators;
 
 import org.datarepo.ObjectEditor;
 import org.datarepo.query.Update;
+import org.datarepo.utils.Utils;
 
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,13 +13,13 @@ import static org.datarepo.utils.Utils.*;
 
 public class ObjectEditorLogNullCheckDecorator<KEY, ITEM> extends ObjectEditorDecoratorBase<KEY, ITEM> {
 
-    Logger logger = log(ObjectEditor.class);
+    Logger logger = Utils.log(ObjectEditor.class);
     Level level = Level.FINER;
 
 
     private boolean debug = false;
 
-    void l(String msg, Object... items) {
+    void log(String msg, Object... items) {
         if (debug) {
             printf(msg, items);
         }
@@ -51,23 +53,23 @@ public class ObjectEditorLogNullCheckDecorator<KEY, ITEM> extends ObjectEditorDe
 
     @Override
     public void put(ITEM item) {
-        notNull(item);
-        l("put (item=%s)", item);
+        Objects.requireNonNull(item, "item cannot be null");
+        log("put (item=%s)", item);
         super.put(item);
     }
 
 
     @Override
     public boolean add(ITEM item) {
-        notNull(item);
-        l("add (item=%s)", item);
+        Objects.requireNonNull(item, "item cannot be null");
+        log("add (item=%s)", item);
         return super.add(item);
     }
 
     @Override
     public ITEM get(KEY key) {
-        notNull(key);
-        l("get (key=%s)", key);
+        Objects.requireNonNull(key, "key cannot be null");
+        log("get (key=%s)", key);
 
         return super.get(key);
     }
@@ -75,263 +77,347 @@ public class ObjectEditorLogNullCheckDecorator<KEY, ITEM> extends ObjectEditorDe
 
     @Override
     public void modify(ITEM item) {
-        notNull(item);
-        l("modify (item=%s)", item);
+        Objects.requireNonNull(item, "item cannot be null");
+        log("modify (item=%s)", item);
 
         super.modify(item);
     }
 
     @Override
     public void modify(ITEM item, String property, Object value) {
-        notNull(item, property);
-        l("modify (item=%s, property=%s, set=%s)", item, property, value);
+        Objects.requireNonNull(item, "item cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+
+        log("modify (item=%s, property=%s, set=%s)", item, property, value);
 
         super.modify(item, property, value);
     }
 
     @Override
     public void modifyByValue(ITEM item, String property, String value) {
-        notNull(item, property);
-        l("modify (item=%s, property=%s, set=%s)", item, property, value);
+        Objects.requireNonNull(item,     "item cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+
+        log("modify (item=%s, property=%s, set=%s)", item, property, value);
 
         super.modifyByValue(item, property, value);
     }
 
     @Override
     public void modify(ITEM item, String property, int value) {
-        notNull(item, property);
-        l("modify (item=%s, property=%s, set=%s)", item, property, value);
+        Objects.requireNonNull(item,     "item cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value,    "value cannot be null");
+
+        log("modify (item=%s, property=%s, set=%s)", item, property, value);
 
         super.modify(item, property, value);
     }
 
     @Override
     public void modify(ITEM item, String property, long value) {
-        notNull(item, property);
-        l("modify (item=%s, property=%s, set=%s)", item, property, value);
+
+        Objects.requireNonNull(item, "item cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+
+        log("modify (item=%s, property=%s, set=%s)", item, property, value);
 
         super.modify(item, property, value);
     }
 
     @Override
     public void modify(ITEM item, String property, char value) {
-        notNull(item, property);
-        l("modify (item=%s, property=%s, set=%s)", item, property, value);
+
+        Objects.requireNonNull(item, "item cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+
+        log("modify (item=%s, property=%s, set=%s)", item, property, value);
 
         super.modify(item, property, value);
     }
 
     @Override
     public void modify(ITEM item, String property, short value) {
-        notNull(item, property);
-        l("modify (item=%s, property=%s, set=%s)", item, property, value);
+
+        Objects.requireNonNull(item, "item cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+
+        log("modify (item=%s, property=%s, set=%s)", item, property, value);
 
         super.modify(item, property, value);
     }
 
     @Override
     public void modify(ITEM item, String property, byte value) {
-        notNull(item, property);
-        l("modify (item=%s, property=%s, set=%s)", item, property, value);
+        Objects.requireNonNull(item, "item cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+
+        log("modify (item=%s, property=%s, set=%s)", item, property, value);
 
         super.modify(item, property, value);
     }
 
     @Override
     public void modify(ITEM item, String property, float value) {
-        notNull(item, property);
-        l("modify (item=%s, property=%s, set=%s)", item, property, value);
+        Objects.requireNonNull(item, "item cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+
+        log("modify (item=%s, property=%s, set=%s)", item, property, value);
 
         super.modify(item, property, value);
     }
 
     @Override
     public void modify(ITEM item, String property, double value) {
-        notNull(item, property);
-        l("modify (item=%s, property=%s, set=%s)", item, property, value);
+        Objects.requireNonNull(item, "item cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+
+        log("modify (item=%s, property=%s, set=%s)", item, property, value);
 
         super.modify(item, property, value);
     }
 
     @Override
     public void modify(ITEM item, Update... values) {
-        notNull(item, values);
-        l("modify (item=%s, property=%s, update=%s)", item, values);
+        Objects.requireNonNull(item, "item cannot be null");
+        Objects.requireNonNull(values, "value cannot be null");
+
+        log("modify (item=%s, property=%s, update=%s)", item, values);
 
         super.modify(item, values);
     }
 
     @Override
     public void update(KEY key, String property, Object value) {
-        notNull(key, property);
-        l("update (key=%s, property=%s, set=%s)", key, property, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("update (key=%s, property=%s, set=%s)", key, property, value);
 
         super.update(key, property, value);
     }
 
     @Override
     public void updateByValue(KEY key, String property, String value) {
-        notNull(key, property);
-        l("updateByValue (key=%s, property=%s, set=%s)", key, property, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("updateByValue (key=%s, property=%s, set=%s)", key, property, value);
 
         super.updateByValue(key, property, value);
     }
 
     @Override
     public void update(KEY key, String property, int value) {
-        notNull(key, property);
-        l("update (key=%s, property=%s, set=%s)", key, property, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("update (key=%s, property=%s, set=%s)", key, property, value);
         super.update(key, property, value);
     }
 
     @Override
     public void update(KEY key, String property, long value) {
-        notNull(key, property);
-        l("update (key=%s, property=%s, set=%s)", key, property, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("update (key=%s, property=%s, set=%s)", key, property, value);
 
         super.update(key, property, value);
     }
 
     @Override
     public void update(KEY key, String property, char value) {
-        notNull(key, property);
-        l("update (key=%s, property=%s, set=%s)", key, property, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("update (key=%s, property=%s, set=%s)", key, property, value);
 
         super.update(key, property, value);
     }
 
     @Override
     public void update(KEY key, String property, short value) {
-        notNull(key, property);
-        l("update (key=%s, property=%s, set=%s)", key, property, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("update (key=%s, property=%s, set=%s)", key, property, value);
 
         super.update(key, property, value);
     }
 
     @Override
     public void update(KEY key, String property, byte value) {
-        notNull(key, property);
-        l("update (key=%s, property=%s, set=%s)", key, property, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("update (key=%s, property=%s, set=%s)", key, property, value);
 
         super.update(key, property, value);
     }
 
     @Override
     public void update(KEY key, String property, float value) {
-        notNull(key, property);
-        l("update (key=%s, property=%s, set=%s)", key, property, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("update (key=%s, property=%s, set=%s)", key, property, value);
 
         super.update(key, property, value);
     }
 
     @Override
     public void update(KEY key, String property, double value) {
-        notNull(key, property);
-        l("update (key=%s, property=%s, set=%s)", key, property, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("update (key=%s, property=%s, set=%s)", key, property, value);
 
         super.update(key, property, value);
     }
 
     @Override
     public void update(KEY key, Update... values) {
-        notNull(key, values);
-        l("update (key=%s, update=%s)", key, values);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(values, "values cannot be null");
+
+        log("update (key=%s, update=%s)", key, values);
 
         super.update(key, values);
     }
 
     @Override
     public boolean compareAndUpdate(KEY key, String property, Object compare, Object value) {
-        notNull(key, property);
-        l("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
 
         return super.compareAndUpdate(key, property, compare, value);
     }
 
     @Override
     public boolean compareAndUpdate(KEY key, String property, int compare, int value) {
-        notNull(key, property);
-        l("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
 
         return super.compareAndUpdate(key, property, compare, value);
     }
 
     @Override
     public boolean compareAndUpdate(KEY key, String property, long compare, long value) {
-        notNull(key, property);
-        l("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
 
         return super.compareAndUpdate(key, property, compare, value);
     }
 
     @Override
     public boolean compareAndUpdate(KEY key, String property, char compare, char value) {
-        notNull(key, property);
-        l("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
 
         return super.compareAndUpdate(key, property, compare, value);
     }
 
     @Override
     public boolean compareAndUpdate(KEY key, String property, short compare, short value) {
-        notNull(key, property);
-        l("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
 
         return super.compareAndUpdate(key, property, compare, value);
     }
 
     @Override
     public boolean compareAndUpdate(KEY key, String property, byte compare, byte value) {
-        notNull(key, property);
-        l("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
 
         return super.compareAndUpdate(key, property, compare, value);
     }
 
     @Override
     public boolean compareAndUpdate(KEY key, String property, float compare, float value) {
-        notNull(key, property);
-        l("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
 
         return super.compareAndUpdate(key, property, compare, value);
     }
 
     @Override
     public boolean compareAndUpdate(KEY key, String property, double compare, double value) {
-        notNull(key, property);
-        l("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        log("compareAndUpdate (key=%s, property=%s, compare=%s, set=%s)", key, property, compare, value);
 
         return super.compareAndUpdate(key, property, compare, value);
     }
 
     @Override
     public boolean compareAndIncrement(KEY key, String property, int compare) {
-        notNull(key, property);
-        l("compareAndIncrement (key=%s, property=%s, compare=%s)", key, property, compare);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        log("compareAndIncrement (key=%s, property=%s, compare=%s)", key, property, compare);
 
         return super.compareAndIncrement(key, property, compare);
     }
 
     @Override
     public boolean compareAndIncrement(KEY key, String property, long compare) {
-        notNull(key, property);
-        l("compareAndIncrement (key=%s, property=%s, compare=%s)", key, property, compare);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        log("compareAndIncrement (key=%s, property=%s, compare=%s)", key, property, compare);
 
         return super.compareAndIncrement(key, property, compare);
     }
 
     @Override
     public boolean compareAndIncrement(KEY key, String property, short compare) {
-        notNull(key, property);
-        l("compareAndIncrement (key=%s, property=%s, set=%s)", key, property, compare);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        log("compareAndIncrement (key=%s, property=%s, set=%s)", key, property, compare);
 
         return super.compareAndIncrement(key, property, compare);
     }
 
     @Override
     public boolean compareAndIncrement(KEY key, String property, byte compare) {
-        notNull(key, property);
-        l("compareAndIncrement (key=%s, property=%s, set=%s)", key, property, compare);
+        Objects.requireNonNull(key, "key cannot be null");
+        Objects.requireNonNull(property, "property cannot be null");
+        Objects.requireNonNull(compare, "compare cannot be null");
+        log("compareAndIncrement (key=%s, property=%s, set=%s)", key, property, compare);
 
         return super.compareAndIncrement(key, property, compare);
     }

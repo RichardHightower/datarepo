@@ -13,7 +13,7 @@ import org.datarepo.query.Visitor;
 import org.datarepo.spi.FilterComposer;
 import org.datarepo.spi.SearchIndex;
 import org.datarepo.spi.SearchableCollectionComposer;
-import org.datarepo.utils.Function;
+import org.datarepo.predicates.Function;
 import org.datarepo.utils.Reflection;
 import org.datarepo.utils.Utils;
 

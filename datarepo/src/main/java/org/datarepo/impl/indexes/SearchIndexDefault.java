@@ -2,7 +2,7 @@ package org.datarepo.impl.indexes;
 
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.spi.SearchIndex;
-import org.datarepo.utils.Function;
+import org.datarepo.predicates.Function;
 
 import java.text.Collator;
 import java.util.*;

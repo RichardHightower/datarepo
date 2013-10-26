@@ -7,9 +7,9 @@ import org.datarepo.utils.Utils;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
 
-import static org.datarepo.utils.Utils.notNull;
 
 public abstract class Criterion<VALUE> extends Query {
 
@@ -26,7 +26,10 @@ public abstract class Criterion<VALUE> extends Query {
     private boolean useDelegate;
 
     public Criterion(String name, Operator operator, VALUE... values) {
-        notNull(name, operator, values);
+        Objects.requireNonNull( name,       "name cannot be null");
+        Objects.requireNonNull( operator,   "operator cannot be null");
+        Objects.requireNonNull( values,     "values cannot be null");
+
         this.name = name;
         this.operator = operator;
         this.setValues(values);

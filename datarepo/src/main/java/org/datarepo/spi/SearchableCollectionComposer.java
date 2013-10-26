@@ -2,7 +2,7 @@ package org.datarepo.spi;
 
 import org.datarepo.Filter;
 import org.datarepo.fields.FieldAccess;
-import org.datarepo.utils.Function;
+import org.datarepo.predicates.Function;
 
 import java.util.Map;
 

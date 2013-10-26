@@ -9,8 +9,8 @@ import org.datarepo.impl.indexes.SearchIndexDefault;
 import org.datarepo.impl.indexes.UniqueLookupIndex;
 import org.datarepo.impl.indexes.UniqueSearchIndex;
 import org.datarepo.impl.maps.MapCreatorImpl;
-import org.datarepo.utils.Function;
-import org.datarepo.utils.Supplier;
+import org.datarepo.predicates.Function;
+import org.datarepo.predicates.Supplier;
 import org.datarepo.utils.Utils;
 
 

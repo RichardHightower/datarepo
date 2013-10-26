@@ -1808,20 +1808,20 @@ public class Utils {
 
     }
 
-    @SafeVarargs
-    public static <T> void notNull(T... objects) {
-        if (objects == null) {
-            throw new IllegalArgumentException(
-                    " nulls arguments are not allowed ");
-
-        }
-        for (Object obj : objects) {
-            if (obj == null) {
-                throw new IllegalArgumentException(
-                        " nulls arguments are not allowed ");
-            }
-        }
-    }
+//    @SafeVarargs
+//    public static <T> void notNull(T... objects) {
+//        if (objects == null) {
+//            throw new IllegalArgumentException(
+//                    " nulls arguments are not allowed ");
+//
+//        }
+//        for (Object obj : objects) {
+//            if (obj == null) {
+//                throw new IllegalArgumentException(
+//                        " nulls arguments are not allowed ");
+//            }
+//        }
+//    }
 
     public static void notSupported() {
         throw new UnsupportedOperationException();
@@ -2156,49 +2156,6 @@ public class Utils {
     public static String camelCase(String in) {
         return camelCase(in, false);
     }
-
-    public static Function<String, String> underBarCase = new Function<String, String>() {
-        @Override
-        public String apply(String in) {
-            return Utils.underBarCase(in);
-        }
-    };
-    public static Function<String, String> camelCase = new Function<String, String>() {
-        @Override
-        public String apply(String in) {
-            return Utils.camelCase(in);
-        }
-    };
-
-
-    public static Function<String, String> camelCaseUpper = new Function<String, String>() {
-        @Override
-        public String apply(String in) {
-            return Utils.camelCaseUpper(in);
-        }
-    };
-
-
-    public static Function<String, String> camelCaseLower = new Function<String, String>() {
-        @Override
-        public String apply(String in) {
-            return Utils.camelCaseLower(in);
-        }
-    };
-
-    public static Function<String, String> upperCase = new Function<String, String>() {
-        @Override
-        public String apply(String in) {
-            return in.toUpperCase();
-        }
-    };
-
-    public static Function<String, String> lowerCase = new Function<String, String>() {
-        @Override
-        public String apply(String in) {
-            return in.toLowerCase();
-        }
-    };
 
     public static String camelCase(String inStr, boolean upper) {
         char[] in = chars(inStr);

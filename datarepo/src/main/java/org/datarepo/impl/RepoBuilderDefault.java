@@ -9,10 +9,11 @@ import org.datarepo.impl.decorators.ObjectEditorLogNullCheckDecorator;
 import org.datarepo.impl.indexes.NestedKeySearchIndex;
 import org.datarepo.impl.indexes.TypeHierarchyIndex;
 import org.datarepo.modification.ModificationListener;
+import org.datarepo.predicates.PropertyNameUtils;
 import org.datarepo.spi.*;
-import org.datarepo.utils.Function;
+import org.datarepo.predicates.Function;
 import org.datarepo.utils.Reflection;
-import org.datarepo.utils.Supplier;
+import org.datarepo.predicates.Supplier;
 import org.datarepo.utils.Utils;
 
 import java.text.Collator;
@@ -376,27 +377,27 @@ public class RepoBuilderDefault implements RepoBuilder {
 
     @Override
     public RepoBuilder upperCaseIndex(String property) {
-        this.keyTransformers.put(property, Utils.upperCase);
+        this.keyTransformers.put(property, PropertyNameUtils.upperCase);
         return this;
     }
 
     @Override
     public RepoBuilder lowerCaseIndex(String property) {
-        this.keyTransformers.put(property, Utils.lowerCase);
+        this.keyTransformers.put(property, PropertyNameUtils.lowerCase);
         return this;
 
     }
 
     @Override
     public RepoBuilder camelCaseIndex(String property) {
-        this.keyTransformers.put(property, Utils.camelCase);
+        this.keyTransformers.put(property, PropertyNameUtils.camelCase);
         return this;
 
     }
 
     @Override
     public RepoBuilder underBarCaseIndex(String property) {
-        this.keyTransformers.put(property, Utils.underBarCase);
+        this.keyTransformers.put(property, PropertyNameUtils.underBarCase);
         return this;
     }
 
@@ -434,7 +435,8 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     private Function createKeyGetter(final FieldAccess field) {
-        Utils.notNull(field);
+        Objects.requireNonNull(field, "field cannot be null");
+
         return new Function() {
             @Override
             public Object apply(Object o) {
@@ -516,7 +518,9 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     private Function getKeyGetterOrCreate(Map<String, FieldAccess> fields, String prop) {
-        Utils.notNull(fields, prop);
+        Objects.requireNonNull(fields, "field cannot be null");
+        Objects.requireNonNull(prop, "prop cannot be null");
+
         Function kg = null;
 
         kg = this.keyGetterMap.get(prop);
@@ -532,10 +536,12 @@ public class RepoBuilderDefault implements RepoBuilder {
     }
 
     private void configPrimaryKey(Class<?> type, Map<String, FieldAccess> fields) {
+
+        Objects.requireNonNull(primaryKey, "primary key cannot be null");
+
         LookupIndex primaryKeyIndex = this.uniqueLookupIndexFactory.apply(type);
 
 
-        Utils.notNull(primaryKey);
 
         if (!fields.containsKey(primaryKey)) {
             Utils.complain("Fields does not have primary key %s", primaryKey);
