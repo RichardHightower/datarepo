@@ -459,8 +459,17 @@ public class RepoBuilderDefault implements RepoBuilder {
             configIndex(prop, index);
         }
         for (String prop : searchIndexes) {
-            SearchIndex searchIndex = this.searchIndexFactory.apply(fields.get(prop).getType());
+            try {
+
+            FieldAccess fieldAccess = fields.get(prop);
+            Class<?> type = fieldAccess.getType();
+
+            SearchIndex searchIndex = this.searchIndexFactory.apply(type);
             configSearchIndex(fields, prop, searchIndex);
+
+            } catch (Exception ex) {
+                throw new RuntimeException("Unable to load property " + prop);
+            }
         }
         for (String prop : uniqueSearchIndexes) {
             SearchIndex searchIndex = this.uniqueSearchIndexFactory.apply(fields.get(prop).getType());
