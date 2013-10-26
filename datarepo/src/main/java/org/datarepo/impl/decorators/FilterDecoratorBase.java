@@ -4,6 +4,9 @@ import org.datarepo.Filter;
 import org.datarepo.ResultSet;
 import org.datarepo.query.Query;
 
+/**
+ * Checking
+ */
 public class FilterDecoratorBase implements Filter {
 
     Filter delegate;
