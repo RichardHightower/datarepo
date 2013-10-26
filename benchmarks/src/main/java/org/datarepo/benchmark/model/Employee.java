@@ -1,6 +1,6 @@
 package org.datarepo.benchmark.model;
 
-import org.boon.utils.Types;
+import org.boon.utils.Conversions;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +53,7 @@ public class Employee {
         } else {
             e = new Employee();
         }
-        e.birthDate = Types.toDate(d);
+        e.birthDate = Conversions.toDate(d);
         e.lastName = l;
         e.firstName = f;
         e.id = s;
@@ -64,7 +64,7 @@ public class Employee {
 
     public static Employee employee(String f, String l, String s, String d, int salary) {
         Employee e = new Employee();
-        e.birthDate = Types.toDate(d);
+        e.birthDate = Conversions.toDate(d);
         e.lastName = l;
         e.firstName = f;
         e.id = s;

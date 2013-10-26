@@ -4,7 +4,7 @@ import org.boon.utils.Reflection;
 
 import java.util.List;
 
-import static org.boon.utils.Types.toList;
+import static org.boon.utils.Conversions.toList;
 
 
 /**

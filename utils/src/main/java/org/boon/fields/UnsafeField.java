@@ -1,13 +1,14 @@
 package org.boon.fields;
 
-import org.boon.utils.Types;
+import org.boon.utils.Conversions;
+import org.boon.utils.Typ;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import static org.boon.utils.Types.*;
-import static org.boon.utils.Utils.*;
+import static org.boon.utils.ComplainAndDie.die;
+import static org.boon.utils.Conversions.*;
 
 
 public abstract class UnsafeField implements FieldAccess {
@@ -40,37 +41,37 @@ public abstract class UnsafeField implements FieldAccess {
         Class<?> type = field.getType();
         boolean isVolatile = Modifier.isVolatile(field.getModifiers());
         if (!isVolatile) {
-            if (type == pint) {
+            if (type == Typ.pint) {
                 return new IntUnsafeField(field);
-            } else if (type == plong) {
+            } else if (type == Typ.plong) {
                 return new LongUnsafeField(field);
-            } else if (type == pbyte) {
+            } else if (type == Typ.pbyte) {
                 return new ByteUnsafeField(field);
-            } else if (type == pshort) {
+            } else if (type == Typ.pshort) {
                 return new ShortUnsafeField(field);
-            } else if (type == pchar) {
+            } else if (type == Typ.pchar) {
                 return new CharUnsafeField(field);
-            } else if (type == pdouble) {
+            } else if (type == Typ.pdouble) {
                 return new DoubleUnsafeField(field);
-            } else if (type == pfloat) {
+            } else if (type == Typ.pfloat) {
                 return new FloatUnsafeField(field);
             } else {
                 return new ObjectUnsafeField(field);
             }
         } else {
-            if (type == pint) {
+            if (type == Typ.pint) {
                 return new VolatileIntUnsafeField(field);
-            } else if (type == plong) {
+            } else if (type == Typ.plong) {
                 return new VolatileLongUnsafeField(field);
-            } else if (type == pbyte) {
+            } else if (type == Typ.pbyte) {
                 return new VolatileByteUnsafeField(field);
-            } else if (type == pshort) {
+            } else if (type == Typ.pshort) {
                 return new VolatileShortUnsafeField(field);
-            } else if (type == pchar) {
+            } else if (type == Typ.pchar) {
                 return new VolatileCharUnsafeField(field);
-            } else if (type == pdouble) {
+            } else if (type == Typ.pdouble) {
                 return new VolatileDoubleUnsafeField(field);
-            } else if (type == pfloat) {
+            } else if (type == Typ.pfloat) {
                 return new VolatileFloatUnsafeField(field);
             } else {
                 return new ObjectUnsafeField(field);
@@ -103,25 +104,25 @@ public abstract class UnsafeField implements FieldAccess {
 
     @Override
     public Object getValue(Object obj) {
-        if (type == pint) {
+        if (type == Typ.pint) {
             int i = this.getInt(obj);
             return Integer.valueOf(i);
-        } else if (type == plong) {
+        } else if (type == Typ.plong) {
             long l = this.getLong(obj);
             return Long.valueOf(l);
-        } else if (type == pbyte) {
+        } else if (type == Typ.pbyte) {
             byte b = this.getByte(obj);
             return Byte.valueOf(b);
-        } else if (type == pshort) {
+        } else if (type == Typ.pshort) {
             short s = this.getShort(obj);
             return Short.valueOf(s);
-        } else if (type == pchar) {
+        } else if (type == Typ.pchar) {
             char c = this.getChar(obj);
             return Character.valueOf(c);
-        } else if (type == pdouble) {
+        } else if (type == Typ.pdouble) {
             double d = this.getDouble(obj);
             return Double.valueOf(d);
-        } else if (type == pfloat) {
+        } else if (type == Typ.pfloat) {
             float f = this.getFloat(obj);
             return Float.valueOf(f);
         } else {
@@ -138,27 +139,27 @@ public abstract class UnsafeField implements FieldAccess {
         }
 
 
-        if (type == pint) {
+        if (type == Typ.pint) {
             setInt(obj, toInt(value));
-        } else if (type == plong) {
+        } else if (type == Typ.plong) {
             setLong(obj, toLong(value));
-        } else if (type == pbyte) {
+        } else if (type == Typ.pbyte) {
             setByte(obj, toByte(value));
 
-        } else if (type == pshort) {
+        } else if (type == Typ.pshort) {
             setShort(obj, toShort(value));
 
-        } else if (type == pchar) {
+        } else if (type == Typ.pchar) {
             setChar(obj, toChar(value));
 
-        } else if (type == pdouble) {
+        } else if (type == Typ.pdouble) {
             setDouble(obj, toDouble(value));
 
-        } else if (type == pfloat) {
+        } else if (type == Typ.pfloat) {
             setFloat(obj, toFloat(value));
 
         } else {
-            setObject(obj, Types.coerce(type, value));
+            setObject(obj, Conversions.coerce(type, value));
         }
 
     }

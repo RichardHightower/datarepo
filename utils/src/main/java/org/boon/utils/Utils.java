@@ -2,7 +2,6 @@ package org.boon.utils;
 
 import org.boon.fields.FieldAccess;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.Collator;
@@ -10,12 +9,13 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.boon.utils.ComplainAndDie.die;
+import static org.boon.utils.ComplainAndDie.handleUnexpectedException;
+
 public class Utils {
     static Class<Utils> utils = Utils.class;
 
     private static final Logger log = log(utils);
-    public static Class<Comparable> comparable = Comparable.class;
-    public static Class<Collection> collection = Collection.class;
 
     public static Logger log(Class<?> clzz) {
         return Logger.getLogger(clzz.getName());
@@ -24,44 +24,7 @@ public class Utils {
     private static final Logger appLog = Logger.getLogger(sprop(
             pkey(Utils.class, "appLog"), "genericLog"));
 
-    public static final Class<Object> object = Object.class;
-    public static final Class<String> string = String.class;
-    @SuppressWarnings("rawtypes")
-    public static final Class<List> slist = List.class;
-    public static final Class<String[]> sarray = String[].class;
-    public static final Class<Boolean> bool = Boolean.class;
-    public static final Class<Integer> integer = Integer.class;
-    public static final Class<Number> number = Number.class;
-    public static final Class<CharSequence> chars = CharSequence.class;
 
-
-    public static final Class<Float> flt = Float.class;
-    public static final Class<Long> lng = Long.class;
-    public static final Class<Double> dbl = Double.class;
-    public static final Class<?> pint = int.class;
-    public static final Class<?> pboolean = boolean.class;
-    public static final Class<?> pfloat = float.class;
-    public static final Class<?> pdouble = double.class;
-    public static final Class<?> plong = long.class;
-    public static final Class<?> pshort = short.class;
-    public static final Class<?> pchar = char.class;
-    public static final Class<?> pbyte = byte.class;
-
-
-    public static final Class<Date> date = Date.class;
-    public static final Class<Calendar> calendar = Calendar.class;
-
-    public static final Class<String[]> stringA = String[].class;
-    public static final Class<int[]> intA = int[].class;
-    public static final Class<byte[]> byteA = byte[].class;
-    public static final Class<short[]> shortA = short[].class;
-    public static final Class<char[]> charA = char[].class;
-    public static final Class<long[]> longA = long[].class;
-    public static final Class<float[]> floatA = float[].class;
-    public static final Class<double[]> doubleA = double[].class;
-    public static final Class<Object[]> objectA = Object[].class;
-
-    public static final Class<File> fileT = File.class;
     public static final boolean debug;
     public static final PrintStream OUT = System.out;
     public static final PrintStream ERR = System.err;
@@ -233,7 +196,7 @@ public class Utils {
                 } else {
                     FieldAccess field = fields.get(sortBy);
                     if (field == null) {
-                        complain(lines(
+                        ComplainAndDie.complain(lines(
                                 "The fields was null for sortBy " + sortBy,
                                 sprintf("fields = %s", fields),
                                 sprintf("Outer object type = %s", o1.getClass().getName()),
@@ -281,7 +244,7 @@ public class Utils {
             String str2 = str(value2);
             Collator collator = Collator.getInstance();
             return collator.compare(str1, str2);
-        } else if (Types.isComparable(value1)) {
+        } else if (Conversions.isComparable(value1)) {
             Comparable c1 = comparable(value1);
             Comparable c2 = comparable(value2);
             return c1.compareTo(c2);
@@ -563,44 +526,6 @@ public class Utils {
         appLog.finest(String.format(fmt, args));
     }
 
-    @SuppressWarnings("serial")
-    public static class AssertionException extends RuntimeException {
-
-        public AssertionException() {
-            super();
-        }
-
-        public AssertionException(String message, Throwable cause) {
-            super(message, cause);
-        }
-
-        public AssertionException(String message) {
-            super(message);
-        }
-
-        public AssertionException(Throwable cause) {
-            super(cause);
-        }
-    }
-
-
-    public static void die(boolean condition, String message) {
-        if (condition) {
-            throw new AssertionException(message);
-        }
-    }
-
-    public static boolean die(String message) {
-        throw new AssertionException(message);
-    }
-
-    public static void die(String message, Object... args) {
-        throw new AssertionException(String.format(message, args));
-    }
-
-    public static void die(Throwable t, String message, Object... args) {
-        throw new AssertionException(String.format(message, args), t);
-    }
 
     // CREATIONAL
     // CREATIONAL
@@ -783,7 +708,7 @@ public class Utils {
     }
 
     public static <V> V[] array(Class<V> type, final Collection<V> array) {
-        return (V[]) Types.toArray(type, array);
+        return (V[]) Conversions.toArray(type, array);
     }
 
     public static Object[] oarray(final Object... array) {
@@ -1087,7 +1012,7 @@ public class Utils {
         LinkedHashMap<String, V> map = new LinkedHashMap<String, V>(values.size());
         Iterator<V> iterator = values.iterator();
         for (V v : values) {
-            String key = Reflection.getProperty(string, v, propertyKey);
+            String key = Reflection.getProperty(Typ.string, v, propertyKey);
             map.put(key, v);
         }
         return map;
@@ -1474,8 +1399,8 @@ public class Utils {
         if (value > d1 && value < d2) {
 
         } else {
-            throw new AssertionException(sprintf(
-                    "expected was to be between %d and %d but was %d", d1, d2, value));
+            die(
+                    "expected was to be between %d and %d but was %d", d1, d2, value);
 
         }
     }
@@ -1486,21 +1411,21 @@ public class Utils {
         }
 
         if (ex == null && v != null) {
-            throw new AssertionException(sprintf(
-                    "expected was null, but set was %s", v));
+            die(
+                    "expected was null, but set was %s", v);
         }
 
         if (!ex.equals(v)) {
-            throw new AssertionException(sprintf(
-                    "expected was %s, but set was %s", ex, v));
+            die(
+                    "expected was %s, but set was %s", ex, v);
         }
 
     }
 
     public static void expect(boolean test) {
         if (!test) {
-            throw new AssertionException(sprintf(
-                    "expected condition false"));
+            die(
+                    "expected condition false");
         }
     }
 
@@ -1526,13 +1451,13 @@ public class Utils {
         }
 
         if (ex == null && v != null) {
-            throw new AssertionException(sprintf(
-                    "%s | expected \n null, but set was \n #%s#", msg, v));
+            die(
+                    "%s | expected \n null, but set was \n #%s#", msg, v);
         }
 
         if (!ex.equals(v)) {
-            throw new AssertionException(sprintf(
-                    "%s | expected \n#%s#, but set was \n#%s#", msg, ex, v));
+            die(
+                    "%s | expected \n#%s#, but set was \n#%s#", msg, ex, v);
         }
 
     }
@@ -1748,7 +1673,7 @@ public class Utils {
     }
 
     public static String string(Object obj) {
-        return Types.toString(obj);
+        return Conversions.toString(obj);
     }
 
     public static <T> boolean isIn(T t1, Collection<T> collection) {
@@ -1827,10 +1752,6 @@ public class Utils {
         throw new UnsupportedOperationException();
     }
 
-    public static void complain(String msg, Object... args) {
-        throw new UnsupportedOperationException(sprintf(msg, args));
-    }
-
 
     public static double sum(double... items) {
         double total = 0d;
@@ -1896,7 +1817,8 @@ public class Utils {
         } else if (obj instanceof Map) {
             return ((Map<?, ?>) obj).size();
         } else {
-            throw new AssertionException("Not an array like object");
+            die("Not an array like object");
+            return 0; //will never get here.
         }
     }
 
@@ -1920,13 +1842,6 @@ public class Utils {
         }
     }
 
-    public static void handleUnexpectedException(Exception ex) {
-        throw new AssertionException(ex);
-    }
-
-    public static void handleUnexpectedException(String msg, Exception ex) {
-        throw new AssertionException(msg, ex);
-    }
 
 
     @SuppressWarnings({"rawtypes"})
@@ -1945,7 +1860,7 @@ public class Utils {
             return (T) value;
         }
         if (value.getClass() != clz) {
-            T t = Types.coerce(clz, value);
+            T t = Conversions.coerce(clz, value);
             return t;
         } else {
             return (T) value;
@@ -2023,58 +1938,6 @@ public class Utils {
         return false;
     }
 
-    public static class Pair<T> {
-
-        private T first;
-        private T second;
-        private T[] both = (T[]) new Object[2];
-
-        public Pair() {
-        }
-
-        public Pair(T f, T s) {
-            this.first = f;
-            this.second = s;
-            both[0] = f;
-            both[1] = s;
-        }
-
-
-        public T getFirst() {
-            return first;
-        }
-
-        public T getSecond() {
-            return second;
-        }
-
-
-        public T[] getBoth() {
-            return both;
-        }
-
-        public void setFirst(T first) {
-            this.first = first;
-            both[0] = first;
-
-        }
-
-        public void setSecond(T second) {
-            this.second = second;
-            both[1] = second;
-
-        }
-
-        public void setBoth(T[] both) {
-            this.both = both;
-            this.first = both[0];
-            this.second = both[1];
-
-        }
-
-
-    }
-
 
     public static Iterator iterator(final Object o) {
         if (o instanceof Collection) {
@@ -2104,44 +1967,12 @@ public class Utils {
         return null;
     }
 
-    public static Object unifyList(Object o) {
-        return unifyList(o, null);
-    }
-
-    public static Object unifyList(Object o, List list) {
-
-        if (list == null && !isArray(o) && !(o instanceof Iterable)) {
-            return o;
-        }
-
-        if (list == null) {
-            list = new ArrayList(400);
-        }
-        if (isArray(o)) {
-            int length = len(o);
-            for (int index = 0; index < length; index++) {
-                unifyList(Reflection.idx(o, index), list);
-            }
-        } else if (o instanceof Iterable) {
-            Iterable i = ((Iterable) o);
-            for (Object item : i) {
-                list = (List) unifyList(item, list);
-            }
-        } else {
-            list.add(o);
-        }
-
-        return list;
-
-
-    }
-
     public static Date date(String string) {
-        return Types.toDateUS(string);
+        return Conversions.toDateUS(string);
     }
 
     public static Date euroDate(String string) {
-        return Types.toEuroDate(string);
+        return Conversions.toEuroDate(string);
     }
 
     public static String camelCaseUpper(String in) {

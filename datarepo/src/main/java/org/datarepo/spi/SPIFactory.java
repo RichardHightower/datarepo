@@ -1,5 +1,6 @@
 package org.datarepo.spi;
 
+import org.boon.utils.Typ;
 import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.RepoBuilder;
@@ -11,8 +12,6 @@ import org.datarepo.impl.indexes.UniqueSearchIndex;
 import org.datarepo.impl.maps.MapCreatorImpl;
 import org.datarepo.predicates.Function;
 import org.datarepo.predicates.Supplier;
-
-import org.boon.utils.Utils;
 
 
 /**
@@ -88,7 +87,7 @@ public class SPIFactory {
         if (searchIndexFactory == null) {
             searchIndexFactory = new Function<Class, SearchIndex>() {
                 public SearchIndex apply(Class keyType) {
-                    if (keyType == Utils.string) {
+                    if (keyType == Typ.string) {
                         return new SearchIndexDefault(keyType);
                     } else {
                         return new SearchIndexDefault(keyType);

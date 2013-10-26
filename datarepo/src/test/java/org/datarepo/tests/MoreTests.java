@@ -1,5 +1,6 @@
 package org.datarepo.tests;
 
+import org.boon.utils.Typ;
 import org.datarepo.Repo;
 import org.datarepo.Repos;
 import org.datarepo.query.ProjectedSelector;
@@ -15,9 +16,8 @@ import static org.datarepo.Collections.$q;
 import static org.datarepo.Collections.sortedQuery;
 import static org.datarepo.query.QueryFactory.*;
 
-import org.boon.utils.Utils;
 import static org.boon.utils.Reflection.copy;
-import static org.boon.utils.Types.toDate;
+import static org.boon.utils.Conversions.toDate;
 import static org.boon.utils.Utils.ls;
 import static org.boon.utils.Utils.print;
 
@@ -68,7 +68,7 @@ public class MoreTests {
         Repo<String, Employee> repo =
                 Repos.builder().primaryKey("id")
                         .searchIndex("salary")
-                        .build(Utils.string, Employee.class);
+                        .build(Typ.string, Employee.class);
 
         repo.addAll(bigList);
 

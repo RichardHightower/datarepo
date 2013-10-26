@@ -1,6 +1,6 @@
 package org.datarepo.impl;
 
-import org.boon.utils.Types;
+import org.boon.utils.Conversions;
 import org.datarepo.DataRepoException;
 import org.datarepo.PlanStep;
 import org.datarepo.ResultSet;
@@ -167,7 +167,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toInt(map.get(keyName));
+            values[index] = Conversions.toInt(map.get(keyName));
         }
         return values;
     }
@@ -183,7 +183,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toFloat(map.get(keyName));
+            values[index] = Conversions.toFloat(map.get(keyName));
         }
         return values;
     }
@@ -199,7 +199,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toShort(map.get(keyName));
+            values[index] = Conversions.toShort(map.get(keyName));
         }
         return values;
     }
@@ -215,7 +215,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toDouble(map.get(keyName));
+            values[index] = Conversions.toDouble(map.get(keyName));
         }
         return values;
     }
@@ -231,7 +231,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toByte(map.get(keyName));
+            values[index] = Conversions.toByte(map.get(keyName));
         }
         return values;
     }
@@ -247,7 +247,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toChar(map.get(keyName));
+            values[index] = Conversions.toChar(map.get(keyName));
         }
         return values;
     }
@@ -378,7 +378,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length && index < maps.size(); index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toInt(map.get(keyName));
+            values[index] = Conversions.toInt(map.get(keyName));
             if (index == 1) {
                 break;
             }
@@ -399,7 +399,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toFloat(map.get(keyName));
+            values[index] = Conversions.toFloat(map.get(keyName));
             if (index == 1) {
                 break;
             }
@@ -418,7 +418,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toShort(map.get(keyName));
+            values[index] = Conversions.toShort(map.get(keyName));
             if (index == 1) {
                 break;
             }
@@ -437,7 +437,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toDouble(map.get(keyName));
+            values[index] = Conversions.toDouble(map.get(keyName));
             if (index == 1) {
                 break;
             }
@@ -456,7 +456,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toByte(map.get(keyName));
+            values[index] = Conversions.toByte(map.get(keyName));
             if (index == 1) {
                 break;
             }
@@ -475,7 +475,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < values.length; index++) {
             Map<String, Object> map = maps.get(index);
-            values[index] = Types.toChar(map.get(keyName));
+            values[index] = Conversions.toChar(map.get(keyName));
             if (index == 1) {
                 break;
             }

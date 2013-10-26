@@ -1,20 +1,19 @@
 package org.boon.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
 import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static org.boon.utils.ComplainAndDie.complain;
+import static org.boon.utils.ComplainAndDie.die;
 import static org.boon.utils.Utils.*;
 
-public class Types {
-    static Class<Types> types = Types.class;
+public class Conversions {
+    static Class<Conversions> types = Conversions.class;
 
-    private static final Logger log = Logger.getLogger(Types.class.getName());
+    private static final Logger log = Logger.getLogger(Conversions.class.getName());
 
 
 
@@ -334,24 +333,24 @@ public class Types {
 
     @SuppressWarnings("unchecked")
     public static <T> T coerce(Class<T> clz, Object value) {
-        if (clz == integer || clz == pint) {
+        if (clz == Typ.integer || clz == Typ.pint) {
             Integer i = toInt(value);
             return (T) i;
-        } else if (clz == lng || clz == plong) {
+        } else if (clz == Typ.lng || clz == Typ.plong) {
             Long l = toLong(value);
             return (T) l;
-        } else if (clz == dbl || clz == pdouble) {
+        } else if (clz == Typ.dbl || clz == Typ.pdouble) {
             Double i = toDouble(value);
             return (T) i;
-        } else if (clz == flt || clz == pfloat) {
+        } else if (clz == Typ.flt || clz == Typ.pfloat) {
             Float i = toFloat(value);
             return (T) i;
-        } else if (clz == sarray) {
+        } else if (clz == Typ.sarray) {
             return (T) toStringArray(value);
-        } else if (clz == bool || clz == pboolean) {
+        } else if (clz == Typ.bool || clz == Typ.pboolean) {
             Boolean b = toBoolean(value);
             return (T) b;
-        } else if (clz == fileT) {
+        } else if (clz == Typ.fileT) {
             //return (T) toFile(set);
             complain("Need to fix this");
             return null;
@@ -374,26 +373,26 @@ public class Types {
 
     @SuppressWarnings("unchecked")
     public static <T> T toPrimitiveArrayIfPossible(Class<T> clz, Object value) {
-        if (clz == intA) {
+        if (clz == Typ.intA) {
             return (T) iarray(value);
-        } else if (clz == byteA) {
+        } else if (clz == Typ.byteA) {
             return (T) barray(value);
-        } else if (clz == charA) {
+        } else if (clz == Typ.charA) {
             return (T) carray(value);
-        } else if (clz == shortA) {
+        } else if (clz == Typ.shortA) {
             return (T) sarray(value);
-        } else if (clz == longA) {
+        } else if (clz == Typ.longA) {
             return (T) larray(value);
-        } else if (clz == floatA) {
+        } else if (clz == Typ.floatA) {
             return (T) farray(value);
-        } else if (clz == doubleA) {
+        } else if (clz == Typ.doubleA) {
             return (T) darray(value);
         } else if (value.getClass() == clz) {
             return (T) value;
         } else {
             int index = 0;
             Object newInstance = Array.newInstance(clz.getComponentType(), len(value));
-            Iterator<Object> iterator = iterator(object, value);
+            Iterator<Object> iterator = iterator(Typ.object, value);
             while (iterator.hasNext()) {
                 idx(newInstance, index, iterator.next());
                 index++;
@@ -405,7 +404,7 @@ public class Types {
 
     public static double[] darray(Object value) {
         //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
-        if (value.getClass() == shortA) {
+        if (value.getClass() == Typ.shortA) {
             return (double[]) value;
         }
         double[] values = new double[len(value)];
@@ -420,7 +419,7 @@ public class Types {
 
     public static float[] farray(Object value) {
         //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
-        if (value.getClass() == floatA) {
+        if (value.getClass() == Typ.floatA) {
             return (float[]) value;
         }
         float[] values = new float[len(value)];
@@ -435,7 +434,7 @@ public class Types {
 
     public static long[] larray(Object value) {
         //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
-        if (value.getClass() == shortA) {
+        if (value.getClass() == Typ.shortA) {
             return (long[]) value;
         }
         long[] values = new long[len(value)];
@@ -450,7 +449,7 @@ public class Types {
 
     public static short[] sarray(Object value) {
         //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
-        if (value.getClass() == shortA) {
+        if (value.getClass() == Typ.shortA) {
             return (short[]) value;
         }
         short[] values = new short[len(value)];
@@ -465,7 +464,7 @@ public class Types {
 
     public static int[] iarray(Object value) {
         //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
-        if (value.getClass() == intA) {
+        if (value.getClass() == Typ.intA) {
             return (int[]) value;
         }
         int[] values = new int[len(value)];
@@ -480,7 +479,7 @@ public class Types {
 
     public static byte[] barray(Object value) {
         //You could handleUnexpectedException shorts, ints, longs and chars more efficiently
-        if (value.getClass() == byteA) {
+        if (value.getClass() == Typ.byteA) {
             return (byte[]) value;
         }
         byte[] values = new byte[len(value)];
@@ -495,12 +494,12 @@ public class Types {
 
     public static char[] carray(Object value) {
         //You could handleUnexpectedException shorts, ints, longs and chars more efficiently
-        if (value.getClass() == charA) {
+        if (value.getClass() == Typ.charA) {
             return (char[]) value;
         }
         char[] values = new char[len(value)];
         int index = 0;
-        Iterator<Object> iterator = iterator(object, value);
+        Iterator<Object> iterator = iterator(Typ.object, value);
         while (iterator.hasNext()) {
             values[index] = toChar(iterator.next());
             index++;
@@ -569,7 +568,7 @@ public class Types {
             return new ArrayList((Collection) value);
         } else {
             ArrayList list = new ArrayList(len(value));
-            Iterator<Object> iterator = iterator(object, value);
+            Iterator<Object> iterator = iterator(Typ.object, value);
             while (iterator.hasNext()) {
                 list.add(iterator.next());
             }
@@ -585,7 +584,7 @@ public class Types {
             return new HashSet((Collection) value);
         } else {
             HashSet set = new HashSet(len(value));
-            Iterator<Object> iterator = iterator(object, value);
+            Iterator<Object> iterator = iterator(Typ.object, value);
             while (iterator.hasNext()) {
                 set.add(iterator.next());
             }
@@ -601,7 +600,7 @@ public class Types {
             return new TreeSet((Collection) value);
         } else {
             TreeSet set = new TreeSet();
-            Iterator<Object> iterator = iterator(object, value);
+            Iterator<Object> iterator = iterator(Typ.object, value);
             while (iterator.hasNext()) {
                 set.add(iterator.next());
             }
@@ -611,7 +610,7 @@ public class Types {
 
 
     public static boolean isKeyTypeString(Object value) {
-        return getKeyType((Map<?, ?>) value) == string;
+        return getKeyType((Map<?, ?>) value) == Typ.string;
     }
 
     public static Map<String, Object> toMap(Object value) {
@@ -711,10 +710,10 @@ public class Types {
     }
 
     public static boolean isBasicType(Class<?> theClass) {
-        return (number.isAssignableFrom(theClass)
-                || chars.isAssignableFrom(theClass)
-                || date.isAssignableFrom(theClass)
-                || calendar.isAssignableFrom(theClass) || theClass
+        return (Typ.number.isAssignableFrom(theClass)
+                || Typ.chars.isAssignableFrom(theClass)
+                || Typ.date.isAssignableFrom(theClass)
+                || Typ.calendar.isAssignableFrom(theClass) || theClass
                 .isPrimitive());
     }
 
@@ -928,7 +927,7 @@ public class Types {
     }
 
     public static boolean isComparable(Class<?> type) {
-        return implementsInterface(type, Utils.comparable);
+        return implementsInterface(type, Typ.comparable);
     }
 
     public static boolean isSuperClass(Class<?> type, Class<?> possibleSuperType) {
@@ -954,5 +953,82 @@ public class Types {
         }
 
     }
+
+
+
+    public interface Converter<TO, FROM> {
+        TO convert(FROM from);
+    }
+
+
+
+
+
+
+    public static <TO, FROM> List<TO> map(Converter<TO, FROM> converter,
+                                          List<FROM> fromList) {
+
+        ArrayList<TO> toList = new ArrayList<TO>(fromList.size());
+
+        for (FROM from : fromList) {
+            toList.add(converter.convert(from));
+        }
+
+        return toList;
+    }
+
+
+
+
+    public static <TO, FROM> List<TO> mapFilterNulls(Converter<TO, FROM> converter,
+                                                     List<FROM> fromList) {
+
+        ArrayList<TO> toList = new ArrayList<TO>(fromList.size());
+
+        for (FROM from : fromList) {
+            TO converted = converter.convert(from);
+            if (converted != null) {
+                toList.add(converted);
+            }
+        }
+
+        return toList;
+    }
+
+
+
+
+    public static Object unifyList(Object o) {
+        return unifyList(o, null);
+    }
+
+    public static Object unifyList(Object o, List list) {
+
+        if (list == null && !isArray(o) && !(o instanceof Iterable)) {
+            return o;
+        }
+
+        if (list == null) {
+            list = new ArrayList(400);
+        }
+        if (isArray(o)) {
+            int length = len(o);
+            for (int index = 0; index < length; index++) {
+                unifyList(Reflection.idx(o, index), list);
+            }
+        } else if (o instanceof Iterable) {
+            Iterable i = ((Iterable) o);
+            for (Object item : i) {
+                list = (List) unifyList(item, list);
+            }
+        } else {
+            list.add(o);
+        }
+
+        return list;
+
+
+    }
+
 
 }

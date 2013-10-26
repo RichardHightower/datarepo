@@ -6,8 +6,9 @@ import java.util.*;
 import static org.boon.utils.Utils.iterator;
 import static org.boon.utils.Utils.joinBy;
 import org.boon.fields.FieldAccess;
+import org.boon.utils.Conversions;
 import org.boon.utils.Reflection;
-import org.boon.utils.Types;
+import org.boon.utils.Typ;
 import org.boon.utils.Utils;
 
 
@@ -92,7 +93,7 @@ public class QueryFactory {
             public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
 
                 Class cls = owner.getClass();
-                while (cls != Utils.object) {
+                while (cls != Typ.object) {
                     String simpleName = cls.getSimpleName();
                     String name = cls.getName();
                     if (simpleName.equals(className) || name.equals(className)) {
@@ -120,7 +121,7 @@ public class QueryFactory {
         return new Criterion<Object>("_type", Operator.EQUAL, cls.getName()) {
             @Override
             public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
-                return Types.isSuperClass(owner.getClass(), cls);
+                return Conversions.isSuperClass(owner.getClass(), cls);
             }
         };
     }
@@ -129,7 +130,7 @@ public class QueryFactory {
         return new Criterion<Object>("_type", Operator.EQUAL, cls.getName()) {
             @Override
             public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
-                return Types.implementsInterface(owner.getClass(), cls);
+                return Conversions.implementsInterface(owner.getClass(), cls);
             }
         };
     }
@@ -337,7 +338,7 @@ public class QueryFactory {
 
                 boolean returnVal;
                 FieldAccess field = fields.get(name);
-                if (Types.implementsInterface(field.getType(), Utils.collection)) {
+                if (Conversions.implementsInterface(field.getType(), Typ.collection)) {
                     Collection collection = (Collection) field.getValue(owner);
                     returnVal = collection.contains(value);
                 } else if (field.getType().isArray()) {
@@ -378,7 +379,7 @@ public class QueryFactory {
 
                 boolean returnVal;
                 FieldAccess field = fields.get(name);
-                if (Types.implementsInterface(field.getType(), Utils.collection)) {
+                if (Conversions.implementsInterface(field.getType(), Typ.collection)) {
                     Collection collection = (Collection) field.getValue(owner);
                     returnVal = collection == null || collection.isEmpty();
                 } else if (field.getType().isArray()) {

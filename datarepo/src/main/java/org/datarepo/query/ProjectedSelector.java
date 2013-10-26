@@ -6,8 +6,9 @@ import java.util.Map;
 
 
 import org.boon.fields.FieldAccess;
-import org.boon.utils.Utils;
-import static org.boon.utils.Types.*;
+import org.boon.utils.Typ;
+
+import static org.boon.utils.Conversions.*;
 import static org.boon.utils.Utils.joinBy;
 import static org.boon.utils.Utils.list;
 
@@ -90,7 +91,7 @@ public abstract class ProjectedSelector extends Selector {
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
 
                 FieldAccess field = fields.get(this.name);
-                if (field.getType() == Utils.pint) {
+                if (field.getType() == Typ.pint) {
                     int value = field.getInt(item);
                     sum += value;
                 } else {
@@ -123,7 +124,7 @@ public abstract class ProjectedSelector extends Selector {
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
 
                 FieldAccess field = fields.get(this.name);
-                if (field.getType() == Utils.pfloat) {
+                if (field.getType() == Typ.pfloat) {
                     float value = field.getFloat(item);
                     sum += value;
                 } else {
@@ -156,7 +157,7 @@ public abstract class ProjectedSelector extends Selector {
             @Override
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
                 FieldAccess field = fields.get(this.name);
-                if (field.getType() == Utils.pint) {
+                if (field.getType() == Typ.pint) {
                     int value = field.getInt(item);
                     if (value > max) {
                         max = value;
@@ -193,7 +194,7 @@ public abstract class ProjectedSelector extends Selector {
             @Override
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
                 FieldAccess field = fields.get(this.name);
-                if (field.getType() == Utils.plong) {
+                if (field.getType() == Typ.plong) {
                     long value = field.getLong(item);
                     if (value > max) {
                         max = value;
@@ -230,7 +231,7 @@ public abstract class ProjectedSelector extends Selector {
             @Override
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
                 FieldAccess field = fields.get(this.name);
-                if (field.getType() == Utils.pint) {
+                if (field.getType() == Typ.pint) {
                     int value = field.getInt(item);
                     if (value < min) {
                         min = value;
@@ -265,7 +266,7 @@ public abstract class ProjectedSelector extends Selector {
             @Override
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
                 FieldAccess field = fields.get(this.name);
-                if (field.getType() == Utils.plong) {
+                if (field.getType() == Typ.plong) {
                     long value = field.getLong(item);
                     if (value < min) {
                         min = value;
@@ -300,7 +301,7 @@ public abstract class ProjectedSelector extends Selector {
             @Override
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
                 FieldAccess field = fields.get(this.name);
-                if (field.getType() == Utils.pfloat) {
+                if (field.getType() == Typ.pfloat) {
                     float value = field.getFloat(item);
                     if (value > max) {
                         max = value;
@@ -337,7 +338,7 @@ public abstract class ProjectedSelector extends Selector {
             public void handleRow(int index, Map<String, Object> row, Object item, Map<String, FieldAccess> fields) {
                 FieldAccess field = fields.get(this.name);
 
-                if (field.getType() == Utils.pfloat) {
+                if (field.getType() == Typ.pfloat) {
                     float value = field.getFloat(item);
                     if (value > min) {
                         min = value;

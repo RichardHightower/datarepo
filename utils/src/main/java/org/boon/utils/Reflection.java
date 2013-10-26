@@ -1,5 +1,8 @@
 package org.boon.utils;
 
+import org.boon.Lists;
+import org.boon.Maps;
+import org.boon.Sets;
 import org.boon.fields.*;
 
 import java.lang.reflect.*;
@@ -7,15 +10,28 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-import static org.boon.utils.Utils.*;
+
+import static java.util.logging.Level.WARNING;
+import static org.boon.Exceptions.die;
+import static org.boon.Str.lines;
+
+
+import static org.boon.Str.lower;
+import static org.boon.Str.slc;
+//import static org.boon.utils.ComplainAndDie.die;
+
 
 public class Reflection {
 
-    static Class<Reflection> reflection = Reflection.class;
-
-    private static final Logger log = log(reflection);
+    private static final Logger log = Logger.getLogger(Reflection.class.getName());
 
     private static boolean _useUnsafe;
+
+    static Set<String> fieldSortNames = Sets.set("name", "orderBy", "title", "key");
+    static Set<String> fieldSortNamesPrefixes = Sets.set("Name", "Title", "Key");
+
+    static ConcurrentHashMap<Class, String> sortableFields = new ConcurrentHashMap<>();
+
 
     static {
         try {
@@ -80,13 +96,13 @@ public class Reflection {
     public static String getFirstStringFieldName(Object value1, String name) {
         List<Field> fields = getAllFields(value1.getClass());
         for (Field field : fields) {
-            if (field.getName().equals(name) || field.getType().equals(string) && !Modifier.isStatic(field.getModifiers())
+            if (field.getName().equals(name) || field.getType().equals(Typ.string) && !Modifier.isStatic(field.getModifiers())
                     && field.getDeclaringClass() == value1.getClass()) {
                 return field.getName();
             }
         }
         for (Field field : fields) {
-            if (field.getName().equals(name) || field.getType().equals(string) && !Modifier.isStatic(field.getModifiers())
+            if (field.getName().equals(name) || field.getType().equals(Typ.string) && !Modifier.isStatic(field.getModifiers())
                     ) {
                 return field.getName();
             }
@@ -99,7 +115,7 @@ public class Reflection {
         List<Field> fields = getAllFields(value1.getClass());
         for (Field field : fields) {
 
-            if ((field.getType().isPrimitive() || Types.isComparable(field.getType())
+            if ((field.getType().isPrimitive() || Conversions.isComparable(field.getType())
                     && !Modifier.isStatic(field.getModifiers())
                     && field.getDeclaringClass() == value1.getClass())
                     ) {
@@ -108,7 +124,7 @@ public class Reflection {
         }
         for (Field field : fields) {
 
-            if ((field.getType().isPrimitive() || Types.isComparable(field.getType())
+            if ((field.getType().isPrimitive() || Conversions.isComparable(field.getType())
                     && !Modifier.isStatic(field.getModifiers())
             )
                     ) {
@@ -122,13 +138,13 @@ public class Reflection {
     public static String getFirstStringFieldNameEndsWith(Object value1, String name) {
         List<Field> fields = getAllFields(value1.getClass());
         for (Field field : fields) {
-            if (field.getName().endsWith(name) || field.getType().equals(string) && !Modifier.isStatic(field.getModifiers())
+            if (field.getName().endsWith(name) || field.getType().equals(Typ.string) && !Modifier.isStatic(field.getModifiers())
                     && field.getDeclaringClass() == value1.getClass()) {
                 return field.getName();
             }
         }
         for (Field field : fields) {
-            if (field.getName().endsWith(name) || field.getType().equals(string) && !Modifier.isStatic(field.getModifiers())
+            if (field.getName().endsWith(name) || field.getType().equals(Typ.string) && !Modifier.isStatic(field.getModifiers())
                     ) {
                 return field.getName();
             }
@@ -138,10 +154,7 @@ public class Reflection {
     }
 
 
-    static ConcurrentHashMap<Class, String> sortableFields = new ConcurrentHashMap<>();
 
-    static Set<String> fieldSortNames = set("name", "orderBy", "title", "key");
-    static Set<String> fieldSortNamesPrefixes = set("Name", "Title", "Key");
 
     public static String getSortableField(Object value1) {
 
@@ -167,9 +180,9 @@ public class Reflection {
             }
 
             if (fieldName == null) {
-                complain("Could not find a sortable field for type " + value1.getClass());
+                ComplainAndDie.complain("Could not find a sortable field for type " + value1.getClass());
             }
-            sortableFields.put(object.getClass(), fieldName);
+            sortableFields.put(Typ.object.getClass(), fieldName);
         }
         return fieldName;
 
@@ -212,10 +225,10 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == pint) {
+        if (field.getType() == Typ.pint) {
             return field.getInt(object);
         } else {
-            return Types.toInt(field.getValue(object));
+            return Conversions.toInt(field.getValue(object));
         }
     }
 
@@ -227,10 +240,10 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == pbyte) {
+        if (field.getType() == Typ.pbyte) {
             return field.getByte(object);
         } else {
-            return Types.toByte(field.getValue(object));
+            return Conversions.toByte(field.getValue(object));
         }
     }
 
@@ -241,10 +254,10 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == pfloat) {
+        if (field.getType() == Typ.pfloat) {
             return field.getFloat(object);
         } else {
-            return Types.toFloat(field.getValue(object));
+            return Conversions.toFloat(field.getValue(object));
         }
     }
 
@@ -256,10 +269,10 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == pshort) {
+        if (field.getType() == Typ.pshort) {
             return field.getShort(object);
         } else {
-            return Types.toShort(field.getValue(object));
+            return Conversions.toShort(field.getValue(object));
         }
     }
 
@@ -271,10 +284,10 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == pchar) {
+        if (field.getType() == Typ.pchar) {
             return field.getChar(object);
         } else {
-            return Types.toChar(field.getValue(object));
+            return Conversions.toChar(field.getValue(object));
         }
     }
 
@@ -286,10 +299,10 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == pdouble) {
+        if (field.getType() == Typ.pdouble) {
             return field.getDouble(object);
         } else {
-            return Types.toDouble(field.getValue(object));
+            return Conversions.toDouble(field.getValue(object));
         }
     }
 
@@ -301,10 +314,10 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == plong) {
+        if (field.getType() == Typ.plong) {
             return field.getLong(object);
         } else {
-            return Types.toLong(field.getValue(object));
+            return Conversions.toLong(field.getValue(object));
         }
     }
 
@@ -349,8 +362,24 @@ public class Reflection {
                     list.size());
             return (V[]) list.toArray((V[]) newInstance);
         } else {
-            complain("array(list): The list has to have at least one item in it");
+            ComplainAndDie.complain("array(list): The list has to have at least one item in it");
             return null;
+        }
+    }
+
+
+    public static int len(Object obj) {
+        if (isArray(obj)) {
+            return arrayLength(obj);
+        } else if (obj instanceof CharSequence) {
+            return ((CharSequence) obj).length();
+        } else if (obj instanceof Collection) {
+            return ((Collection<?>) obj).size();
+        } else if (obj instanceof Map) {
+            return ((Map<?, ?>) obj).size();
+        } else {
+            die("Not an array like object");
+            return 0; //will never get here.
         }
     }
 
@@ -387,15 +416,15 @@ public class Reflection {
         } catch (Exception notExpected) {
             String msg = lines("An unexpected error has occurred",
                     "This is likely a programming error!",
-                    sprintf("Object is %s, index is %s, and set is %s", object, index, value),
-                    sprintf("The object is an array? %s", object == null ? "null" : object.getClass().isArray()),
-                    sprintf("The object is of type %s", object == null ? "null" : object.getClass().getName()),
-                    sprintf("The set is of type %s", value == null ? "null" : value.getClass().getName()),
+                    String.format("Object is %s, index is %s, and set is %s", object, index, value),
+                    String.format("The object is an array? %s", object == null ? "null" : object.getClass().isArray()),
+                    String.format("The object is of type %s", object == null ? "null" : object.getClass().getName()),
+                    String.format("The set is of type %s", value == null ? "null" : value.getClass().getName()),
 
                     ""
 
             );
-            complain(msg, notExpected);
+            ComplainAndDie.complain(msg, notExpected);
         }
     }
 
@@ -430,7 +459,7 @@ public class Reflection {
                 o = getProp(o, propName);
             }
         }
-        return unifyList(o);
+        return Conversions.unifyList(o);
     }
 
     public static <T> List<T> getListOfProps(Class<T> cls, Collection items, String... path) {
@@ -460,7 +489,7 @@ public class Reflection {
 
     public static void getFields(Object object, final String key, Collection col) {
         if (isArray(object) || object instanceof Collection) {
-            Iterator iter = Types.iterator(object);
+            Iterator iter = Conversions.iterator(object);
             while (iter.hasNext()) {
                 col.add(iter.next());
             }
@@ -475,7 +504,7 @@ public class Reflection {
             return null;
         }
         if (isArray(object) || object instanceof Collection) {
-            Iterator iter = Types.iterator(object);
+            Iterator iter = Conversions.iterator(object);
             List list = new ArrayList(len(object));
             while (iter.hasNext()) {
                 list.add(getFieldValues(iter.next(), key));
@@ -523,7 +552,7 @@ public class Reflection {
             clazz = Class.forName(className);
             return newInstance(clazz);
         } catch (Exception ex) {
-            info("Unable to create this class %s", className);
+            log.info(String.format("Unable to create this class %s", className));
             return null;
         }
     }
@@ -548,7 +577,7 @@ public class Reflection {
         String className = (String) map.get("class");
         Object newInstance = newInstance(className);
         if (newInstance == null) {
-            info("we were not able to load the class so we are leaving this as a map");
+            log.info("we were not able to load the class so we are leaving this as a map");
             return map;
         }
 
@@ -557,7 +586,7 @@ public class Reflection {
         for (FieldAccess field : fields) {
             String name = field.getName();
             Object value = map.get(name);
-            if (value instanceof Map && Types.getKeyType((Map<?, ?>) value) == string) {
+            if (value instanceof Map && Conversions.getKeyType((Map<?, ?>) value) == Typ.string) {
                 value = fromMap((Map<String, Object>) value);
             } else if (value instanceof Collection || value instanceof Map[]) {
                 listOfMaps(newInstance, field, value);
@@ -575,7 +604,7 @@ public class Reflection {
     private static void listOfMaps(Object newInstance, FieldAccess field, Object value) {
         if (value instanceof Collection) {
             Class<?> componentType = getComponentType((Collection<?>) value);
-            if (Types.isMap(componentType)) {
+            if (Conversions.isMap(componentType)) {
                 handleCollectionOfMaps(newInstance, field,
                         (Collection<Map<?, ?>>) value);
             }
@@ -595,7 +624,7 @@ public class Reflection {
         Collection<Object> target = null;
         try {
             if (!type.isInterface()) {
-                Constructor<?> constructor = type.getConstructor(pint);
+                Constructor<?> constructor = type.getConstructor(Typ.pint);
                 constructor.setAccessible(true);
                 target = (Collection<Object>) constructor.newInstance(value
                         .size());
@@ -607,7 +636,7 @@ public class Reflection {
 
                 if (value2 != null) {
 
-                    if (Types.isModifiableCollection(value2)) {
+                    if (Conversions.isModifiableCollection(value2)) {
                         target = value2;
                     }
                 }
@@ -618,14 +647,14 @@ public class Reflection {
 
             if (value.size() > 0) {
                 Map<?, ?> item = value.iterator().next();
-                if (Types.getKeyType(item) == string) {
+                if (Conversions.getKeyType(item) == Typ.string) {
                     for (Map<?, ?> i : value) {
                         target.add(fromMap((Map<String, Object>) i));
                         field.setValue(newInstance, target);
                         return;
                     }
                 } else {
-                    warning(log,
+                    log.warning(
                             "This should not happen, but for some reason there is a type and we don't know how to convert it");
 
                 }
@@ -635,9 +664,8 @@ public class Reflection {
             }
 
         } catch (Exception e) {
-            warning(log,
-                    e,
-                    "This should not happen, but for some reason we were not able to get the constructor");
+            log.log(WARNING, "This should not happen, but for some reason we were not able to get the constructor",
+                    e);
         }
     }
 
@@ -665,13 +693,13 @@ public class Reflection {
 
 
         class FieldToEntryConverter implements
-                Converter<Entry<String, Object>, FieldAccess> {
+                Conversions.Converter<Maps.Entry<String, Object>, FieldAccess> {
             @Override
-            public Entry<String, Object> convert(FieldAccess from) {
+            public Maps.Entry<String, Object> convert(FieldAccess from) {
                 if (from.isReadOnly()) {
                     return null;
                 }
-                Entry<String, Object> entry = new EntryImpl<>(from.getName(),
+                Maps.Entry<String, Object> entry = new Maps.EntryImpl<>(from.getName(),
                         from.getValue(object));
                 return entry;
             }
@@ -683,23 +711,23 @@ public class Reflection {
         // their update get overriden by
         // subclass fields with the same name
 
-        List<Entry<String, Object>> entries = mapFilterNulls(
+        List<Maps.Entry<String, Object>> entries = Conversions.mapFilterNulls(
                 new FieldToEntryConverter(), new ArrayList(fields));
 
         map.put("class", object.getClass().getName());
 
-        for (Entry<String, Object> entry : entries) {
+        for (Maps.Entry<String, Object> entry : entries) {
             Object value = entry.value();
             if (value == null) {
                 continue;
             }
-            if (Types.isBasicType(value)) {
+            if (Conversions.isBasicType(value)) {
                 map.put(entry.key(), entry.value());
             } else if (isArray(value)
-                    && Types.isBasicType(value.getClass().getComponentType())) {
+                    && Conversions.isBasicType(value.getClass().getComponentType())) {
                 map.put(entry.key(), entry.value());
             } else if (isArray(value)) {
-                int length = len(value);
+                int length = arrayLength(value);
                 List<Map<String, Object>> list = new ArrayList<>(length);
                 for (int index = 0; index < length; index++) {
                     Object item = idx(value, index);
@@ -709,7 +737,7 @@ public class Reflection {
             } else if (value instanceof Collection) {
                 Collection<?> collection = (Collection<?>) value;
                 Class<?> componentType = getComponentType(collection);
-                if (Types.isBasicType(componentType)) {
+                if (Conversions.isBasicType(componentType)) {
                     map.put(entry.key(), value);
                 } else {
                     List<Map<String, Object>> list = new ArrayList<>(
@@ -737,11 +765,11 @@ public class Reflection {
             Object next = value.iterator().next();
             return next.getClass();
         } else {
-            return object;
+            return Typ.object;
         }
     }
 
-    private static class FieldConverter implements Converter<FieldAccess, Field> {
+    private static class FieldConverter implements Conversions.Converter<FieldAccess, Field> {
 
         boolean thisUseUnsafe;
 
@@ -770,17 +798,28 @@ public class Reflection {
             Class<? extends Object> theClass, boolean useUnsafe) {
         Map<String, FieldAccess> map = allAccessorFieldsCache.get(theClass.getName() + useUnsafe);
         if (map == null) {
-            List<FieldAccess> list = map(new FieldConverter(useUnsafe), getAllFields(theClass));
-            map = mp("name", list);
+            List<FieldAccess> list = Conversions.map(new FieldConverter(useUnsafe), getAllFields(theClass));
+            map = collectionToMap("name", list);
             allAccessorFieldsCache.put(theClass.getName() + useUnsafe, map);
 
         }
         return map;
     }
 
+
+    public static <V> Map<String, V> collectionToMap(String propertyKey, Collection<V> values) {
+        LinkedHashMap<String, V> map = new LinkedHashMap<String, V>(values.size());
+        Iterator<V> iterator = values.iterator();
+        for (V v : values) {
+            String key = Reflection.getProperty(Typ.string, v, propertyKey);
+            map.put(key, v);
+        }
+        return map;
+    }
+
     public static List<Field> getAllFields(Class<? extends Object> theClass) {
         List<Field> list = getFields(theClass);
-        while (theClass != object) {
+        while (theClass != Typ.object) {
 
             theClass = theClass.getSuperclass();
             getFields(theClass, list);
@@ -919,7 +958,7 @@ public class Reflection {
     }
 
     public static List<Field> getFields(Class<? extends Object> theClass) {
-        List<Field> list = list(theClass.getDeclaredFields());
+        List<Field> list = Lists.list(theClass.getDeclaredFields());
         for (Field field : list) {
             field.setAccessible(true);
         }
@@ -937,39 +976,6 @@ public class Reflection {
         } else {
             return fieldByFieldCopy(item);
         }
-    }
-
-    public static <T> List<T> copy(Collection<T> collection) {
-        List<T> list = new ArrayList<>();
-        for (T item : collection) {
-            list.add(copy(item));
-        }
-        return list;
-    }
-
-    public static <T> List<T> copy(List<T> collection) {
-        List<T> list = new ArrayList<>();
-        for (T item : collection) {
-            list.add(copy(item));
-        }
-        return list;
-    }
-
-
-    public static <T> Set<T> copy(Set<T> collection) {
-        Set<T> set = new HashSet<>();
-        for (T item : collection) {
-            set.add(copy(item));
-        }
-        return set;
-    }
-
-    public static <T> SortedSet<T> copy(SortedSet<T> collection) {
-        SortedSet<T> set = new TreeSet<>();
-        for (T item : collection) {
-            set.add(copy(item));
-        }
-        return set;
     }
 
     public static <K, V> Map<K, V> copy(Map<K, V> collection) {
@@ -996,6 +1002,61 @@ public class Reflection {
             field.setValue(clone, field.getValue(item));
         }
         return clone;
+    }
+
+
+
+
+    public static class Pair<T> {
+
+        private T first;
+        private T second;
+        private T[] both = (T[]) new Object[2];
+
+        public Pair() {
+        }
+
+        public Pair(T f, T s) {
+            this.first = f;
+            this.second = s;
+            both[0] = f;
+            both[1] = s;
+        }
+
+
+        public T getFirst() {
+            return first;
+        }
+
+        public T getSecond() {
+            return second;
+        }
+
+
+        public T[] getBoth() {
+            return both;
+        }
+
+        public void setFirst(T first) {
+            this.first = first;
+            both[0] = first;
+
+        }
+
+        public void setSecond(T second) {
+            this.second = second;
+            both[1] = second;
+
+        }
+
+        public void setBoth(T[] both) {
+            this.both = both;
+            this.first = both[0];
+            this.second = both[1];
+
+        }
+
+
     }
 
 

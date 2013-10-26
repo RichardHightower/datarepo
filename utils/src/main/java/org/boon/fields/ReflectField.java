@@ -1,12 +1,14 @@
 package org.boon.fields;
 
 
-import org.boon.utils.Types;
+import org.boon.utils.Conversions;
+import org.boon.utils.Typ;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import static org.boon.utils.Types.*;
+import static org.boon.utils.ComplainAndDie.die;
+import static org.boon.utils.Conversions.*;
 import static org.boon.utils.Utils.*;
 
 public class ReflectField implements FieldAccess {
@@ -222,27 +224,27 @@ public class ReflectField implements FieldAccess {
             return;
         }
 
-        if (type == pint) {
+        if (type == Typ.pint) {
             setInt(obj, toInt(value));
-        } else if (type == plong) {
+        } else if (type == Typ.plong) {
             setLong(obj, toLong(value));
-        } else if (type == pbyte) {
+        } else if (type == Typ.pbyte) {
             setByte(obj, toByte(value));
 
-        } else if (type == pshort) {
+        } else if (type == Typ.pshort) {
             setShort(obj, toShort(value));
 
-        } else if (type == pchar) {
+        } else if (type == Typ.pchar) {
             setChar(obj, toChar(value));
 
-        } else if (type == pdouble) {
+        } else if (type == Typ.pdouble) {
             setDouble(obj, toDouble(value));
 
-        } else if (type == pfloat) {
+        } else if (type == Typ.pfloat) {
             setFloat(obj, toFloat(value));
 
         } else {
-            setObject(obj, Types.coerce(type, value));
+            setObject(obj, Conversions.coerce(type, value));
         }
     }
 
