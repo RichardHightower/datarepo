@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9cb9a538-7db4-4610-8513-29f74794453d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/datarepo.iml" afterPath="$PROJECT_DIR$/datarepo/datarepo.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.datarepo.parent.iml" afterPath="$PROJECT_DIR$/org.datarepo.parent.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.datarepo.parent.ipr" afterPath="$PROJECT_DIR$/org.datarepo.parent.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.datarepo.parent.iws" afterPath="$PROJECT_DIR$/org.datarepo.parent.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/pom.xml" afterPath="$PROJECT_DIR$/datarepo/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/utils.iml" afterPath="$PROJECT_DIR$/utils/utils.iml" />
-    </list>
+    <list default="true" id="9cb9a538-7db4-4610-8513-29f74794453d" name="Default" comment="" />
     <ignored path="org.datarepo.parent.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382651520461" ignored="false" />
+    <file path="/Dummy.txt" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382759800075" ignored="false" />
     <file path="/pom.xml" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382030783517" ignored="false" />
     <file path="$USER_HOME$/clients/ascentis/objectId/pom.xml" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382030923876" ignored="false" />
     <file path="$USER_HOME$/clients/ascentis/objectId/src/main/java/com/rickhightower/hcm/Auditor.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382030972559" ignored="false" />
@@ -248,10 +240,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <field_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <method_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -289,6 +278,9 @@
       </breakpoint>
     </breakpoint_any>
     <exception_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <method_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -377,7 +369,7 @@
       <file leaf-file-name="RepoBuilderDefault.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="470" column="76" selection-start="13936" selection-end="13936" vertical-scroll-proportion="8.262295">
+            <state line="470" column="76" selection-start="13936" selection-end="13936" vertical-scroll-proportion="0.024539877">
               <folding />
             </state>
           </provider>
@@ -470,8 +462,8 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/modification/foo" />
-        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java" />
         <option value="$PROJECT_DIR$/datarepo/pom.xml" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java" />
       </list>
     </option>
   </component>
@@ -1161,17 +1153,17 @@
     <view id="ClasspathPane" />
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="MemberChooser.sorted" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="GoToClass.includeLibraries" value="false" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="dynamic.classpath" value="false" />
+    <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="JUnit.&lt;default&gt;">
     <configuration default="false" name="CriterionTest" type="JUnit" factoryName="JUnit" temporary="true">
@@ -1372,7 +1364,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="29" width="1900" height="1160" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1388,10 +1380,10 @@
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14940669" sideWeight="0.67115384" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15102482" sideWeight="0.67115384" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973032" sideWeight="0.67115384" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973032" sideWeight="0.67115384" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32884616" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Aspects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1629,7 +1621,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="470" column="76" selection-start="13936" selection-end="13936" vertical-scroll-proportion="8.262295">
+        <state line="470" column="76" selection-start="13936" selection-end="13936" vertical-scroll-proportion="0.024539877">
           <folding />
         </state>
       </provider>
