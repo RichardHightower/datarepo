@@ -5,6 +5,9 @@ import org.datarepo.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This allows search based on type hierarchy.
+ */
 public class TypeHierarchyIndex extends BaseIndexWrapper {
 
     @Override

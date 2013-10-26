@@ -6,6 +6,9 @@ import java.util.List;
 
 import static org.datarepo.utils.Types.toList;
 
+/**
+ * This allows nested key look-ups.
+ */
 public class NestedKeySearchIndex extends BaseIndexWrapper {
 
     public NestedKeySearchIndex(String... path) {

@@ -20,10 +20,16 @@ import static org.datarepo.query.QueryFactory.instanceOf;
 import static org.datarepo.query.QueryFactory.not;
 import static org.datarepo.utils.Utils.array;
 
-
+/**
+ * This class should be renamed mother of all beasts.
+ * This class is the reason I have no hair.
+ * It implements the first cut of a decent query plan.
+ * @author Rick Hightower
+ */
 public class FilterDefault implements Filter, FilterComposer {
 
-    Set<Operator> indexedOperators = Utils.set(Operator.BETWEEN, Operator.EQUAL, Operator.STARTS_WITH,
+    private Set<Operator> indexedOperators =
+            Utils.set(Operator.BETWEEN, Operator.EQUAL, Operator.STARTS_WITH,
             Operator.GREATER_THAN, Operator.GREATER_THAN_EQUAL,
             Operator.LESS_THAN, Operator.LESS_THAN_EQUAL);
 
@@ -33,6 +39,14 @@ public class FilterDefault implements Filter, FilterComposer {
     private Map<String, LookupIndex> lookupIndexMap;
 
 
+    /**
+     * Seems innocent enough. Give me some query expressions,
+     * and i will give you a nice results set.
+     * @see ResultSet
+     * @see Query
+     * @param expressions list of expressions
+     * @return result set
+     */
     @Override
     public ResultSet filter(Query... expressions) {
         try {
@@ -44,14 +58,29 @@ public class FilterDefault implements Filter, FilterComposer {
     }
 
 
+    /**
+     * This is the main query plan in case the name was not
+     * obvious.
+     *
+     * @author Rick Hightower
+     * @param expressions
+     * @return
+     */
     private ResultSet mainQueryPlan(Query[] expressions) {
 
         ResultSetInternal results = new ResultSetImpl(this.fields);
 
-        Group group = expressions.length == 1 && expressions[0] instanceof Group
+        /* I am sure this looked easy to read when I wrote it.
+         * If there is only one expression and first expression is a group then
+         * the group is that first expression otherwise wrap
+         * all of the expressions in an and clause. */
+        Group group = expressions.length ==
+                1 && expressions[0] instanceof Group
                 ? (Group) expressions[0] : QueryFactory.and(expressions);
 
-
+        /**
+         * Run the filter on the group.
+         */
         doFilterGroup(group, results);
 
         return results;
@@ -78,13 +107,23 @@ public class FilterDefault implements Filter, FilterComposer {
 
     }
 
+    /**
+     * Run the filter on the group.
+     * @param group here is the group
+     * @param results here are the results
+     */
     private void doFilterGroup(Group group, ResultSetInternal results) {
-        if (group.getGrouping() == Grouping.OR) {
-            or(group.getExpressions(), fields, results);
+        /* The group was n or group so handle it that way. */
+        if ( group.getGrouping() == Grouping.OR ) {
+            /* nice short method name, or. */
+            or( group.getExpressions(), fields, results );
         } else {
+            /* create a result internal (why?), wrap the fields in the result set
+            internal, and pass that to the and method.
+             */
             ResultSetInternal resultsForAnd = new ResultSetImpl(fields);
-            and(group.getExpressions(), fields, resultsForAnd);
-            results.addResults(resultsForAnd.asList());
+            and( group.getExpressions(), fields, resultsForAnd );
+            results.addResults( resultsForAnd.asList() );
         }
     }
 

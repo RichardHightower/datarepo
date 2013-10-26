@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Internal class
+ * Internal class support class.
+ * It tries to hide single values and nulls from the parent class.
  *
- * @param <T>
+ *
+ * @param <T> Value we are holding
  */
 class MultiValue<T> {
     List<T> values = null;
