@@ -19,11 +19,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="benchmarks" />
         <module name="datarepo" />
         <module name="utils" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="benchmarks" target="1.7" />
       <module name="datarepo" target="1.7" />
       <module name="org.datarepo.parent" target="1.7" />
       <module name="utils" target="1.7" />
@@ -37,6 +39,7 @@
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/benchmarks" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/datarepo" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/utils" charset="UTF-8" />
   </component>
@@ -219,6 +222,7 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/benchmarks/benchmarks.iml" filepath="$PROJECT_DIR$/benchmarks/benchmarks.iml" />
       <module fileurl="file://$PROJECT_DIR$/datarepo/datarepo.iml" filepath="$PROJECT_DIR$/datarepo/datarepo.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.datarepo.parent.iml" filepath="$PROJECT_DIR$/org.datarepo.parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/utils/utils.iml" filepath="$PROJECT_DIR$/utils/utils.iml" />

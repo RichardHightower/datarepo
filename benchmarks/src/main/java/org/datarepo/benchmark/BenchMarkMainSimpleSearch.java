@@ -5,14 +5,19 @@ import org.datarepo.Repos;
 import org.datarepo.benchmark.model.Employee;
 import org.datarepo.benchmark.utils.BenchmarkHelper;
 import org.datarepo.query.Query;
-import org.datarepo.utils.Utils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.datarepo.query.QueryFactory.eq;
-import static org.datarepo.utils.Utils.*;
+
+
+import static org.boon.utils.Utils.ls;
+import static org.boon.utils.Utils.print;
+import static org.boon.utils.Utils.printf;
+import static org.boon.utils.Utils.assertTrue;
+import static org.boon.utils.Utils.sleep;
 
 public class BenchMarkMainSimpleSearch {
 
@@ -38,7 +43,7 @@ public class BenchMarkMainSimpleSearch {
 
             for (MeasuredRun run : runs) {
                 System.gc();
-                Utils.sleep(10);
+                sleep(10);
                 run.run();
             }
         }
@@ -48,7 +53,7 @@ public class BenchMarkMainSimpleSearch {
 
             for (MeasuredRun run : runs) {
                 System.gc();
-                Utils.sleep(10);
+                sleep(10);
                 run.run();
                 printf("%s\t%s", run.name(), run.time());
             }
@@ -82,7 +87,7 @@ public class BenchMarkMainSimpleSearch {
                         break;
                     }
                 }
-                Utils.assertTrue(found);
+                assertTrue(found);
             }
         };
     }
@@ -116,7 +121,7 @@ public class BenchMarkMainSimpleSearch {
                         break;
                     }
                 }
-                Utils.assertTrue(found);
+                assertTrue(found);
 
             }
         };
@@ -150,7 +155,7 @@ public class BenchMarkMainSimpleSearch {
                         break;
                     }
                 }
-                Utils.assertTrue(found);
+                assertTrue(found);
 
             }
         };
@@ -184,7 +189,7 @@ public class BenchMarkMainSimpleSearch {
                         break;
                     }
                 }
-                Utils.assertTrue(found);
+                assertTrue(found);
 
             }
         };
@@ -218,7 +223,7 @@ public class BenchMarkMainSimpleSearch {
                         break;
                     }
                 }
-                Utils.assertTrue(found);
+                assertTrue(found);
 
             }
         };

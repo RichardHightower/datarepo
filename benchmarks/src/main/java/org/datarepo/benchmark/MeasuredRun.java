@@ -1,6 +1,6 @@
 package org.datarepo.benchmark;
 
-import org.datarepo.utils.Utils;
+import org.boon.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;

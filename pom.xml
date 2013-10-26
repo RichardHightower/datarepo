@@ -11,6 +11,7 @@
 
         <module>datarepo</module>
         <module>utils</module>
+        <module>benchmarks</module>
     </modules>
 
 

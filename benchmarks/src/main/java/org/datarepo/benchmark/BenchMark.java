@@ -1,18 +1,22 @@
 package org.datarepo.benchmark;
 
+import org.boon.utils.Utils;
 import org.datarepo.Repo;
 import org.datarepo.Repos;
 import org.datarepo.benchmark.model.Employee;
 import org.datarepo.benchmark.utils.BenchmarkHelper;
 import org.datarepo.query.Query;
-import org.datarepo.utils.Utils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.boon.utils.Utils.ls;
+import static org.boon.utils.Utils.print;
+import static org.boon.utils.Utils.sleep;
+import static org.boon.utils.Utils.printf;
+
 import static org.datarepo.query.QueryFactory.eq;
-import static org.datarepo.utils.Utils.*;
 
 public class BenchMark {
 
@@ -21,7 +25,7 @@ public class BenchMark {
 
 
         final List<Employee> employees = BenchmarkHelper.createMetricTonOfEmployees(100_000);
-        print("employees created " + employees.size());
+        System.out.println("employees created " + employees.size());
 
         Map<String, List<MeasuredRun>> testResults = new ConcurrentHashMap<>();
 
@@ -34,7 +38,7 @@ public class BenchMark {
 
             for (MeasuredRun run : runs) {
                 System.gc();
-                Utils.sleep(10);
+                sleep(10);
                 run.run();
             }
         }
@@ -49,7 +53,7 @@ public class BenchMark {
 
             for (MeasuredRun run : runs) {
                 System.gc();
-                Utils.sleep(10);
+                sleep(10);
                 run.run();
                 printf("%s\t%s", run.name(), run.time());
             }

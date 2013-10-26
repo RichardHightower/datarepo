@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.datarepo.utils.Utils.list;
-import static org.datarepo.utils.Utils.print;
+import static org.boon.utils.Utils.list;
+import static org.boon.utils.Utils.print;
 
 public class BenchmarkHelper {
 
