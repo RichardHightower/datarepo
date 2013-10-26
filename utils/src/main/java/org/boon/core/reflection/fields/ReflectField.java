@@ -1,8 +1,8 @@
-package org.boon.reflection.fields;
+package org.boon.core.reflection.fields;
 
 
+import org.boon.core.Typ;
 import org.boon.utils.Conversions;
-import org.boon.utils.Typ;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -225,23 +225,23 @@ public class ReflectField implements FieldAccess {
             return;
         }
 
-        if (type == Typ.pint) {
+        if (type == Typ.intgr) {
             setInt(obj, toInt(value));
-        } else if (type == Typ.plong) {
+        } else if (type == Typ.lng) {
             setLong(obj, toLong(value));
-        } else if (type == Typ.pbyte) {
+        } else if (type == Typ.bt) {
             setByte(obj, toByte(value));
 
-        } else if (type == Typ.pshort) {
+        } else if (type == Typ.shrt) {
             setShort(obj, toShort(value));
 
-        } else if (type == Typ.pchar) {
+        } else if (type == Typ.chr) {
             setChar(obj, toChar(value));
 
-        } else if (type == Typ.pdouble) {
+        } else if (type == Typ.dbl) {
             setDouble(obj, toDouble(value));
 
-        } else if (type == Typ.pfloat) {
+        } else if (type == Typ.flt) {
             setFloat(obj, toFloat(value));
 
         } else {

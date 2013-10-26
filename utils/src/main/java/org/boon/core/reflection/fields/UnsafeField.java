@@ -1,7 +1,7 @@
-package org.boon.reflection.fields;
+package org.boon.core.reflection.fields;
 
+import org.boon.core.Typ;
 import org.boon.utils.Conversions;
-import org.boon.utils.Typ;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -41,37 +41,37 @@ public abstract class UnsafeField implements FieldAccess {
         Class<?> type = field.getType();
         boolean isVolatile = Modifier.isVolatile(field.getModifiers());
         if (!isVolatile) {
-            if (type == Typ.pint) {
+            if (type == Typ.intgr) {
                 return new IntUnsafeField(field);
-            } else if (type == Typ.plong) {
+            } else if (type == Typ.lng) {
                 return new LongUnsafeField(field);
-            } else if (type == Typ.pbyte) {
+            } else if (type == Typ.bt) {
                 return new ByteUnsafeField(field);
-            } else if (type == Typ.pshort) {
+            } else if (type == Typ.shrt) {
                 return new ShortUnsafeField(field);
-            } else if (type == Typ.pchar) {
+            } else if (type == Typ.chr) {
                 return new CharUnsafeField(field);
-            } else if (type == Typ.pdouble) {
+            } else if (type == Typ.dbl) {
                 return new DoubleUnsafeField(field);
-            } else if (type == Typ.pfloat) {
+            } else if (type == Typ.flt) {
                 return new FloatUnsafeField(field);
             } else {
                 return new ObjectUnsafeField(field);
             }
         } else {
-            if (type == Typ.pint) {
+            if (type == Typ.intgr) {
                 return new VolatileIntUnsafeField(field);
-            } else if (type == Typ.plong) {
+            } else if (type == Typ.lng) {
                 return new VolatileLongUnsafeField(field);
-            } else if (type == Typ.pbyte) {
+            } else if (type == Typ.bt) {
                 return new VolatileByteUnsafeField(field);
-            } else if (type == Typ.pshort) {
+            } else if (type == Typ.shrt) {
                 return new VolatileShortUnsafeField(field);
-            } else if (type == Typ.pchar) {
+            } else if (type == Typ.chr) {
                 return new VolatileCharUnsafeField(field);
-            } else if (type == Typ.pdouble) {
+            } else if (type == Typ.dbl) {
                 return new VolatileDoubleUnsafeField(field);
-            } else if (type == Typ.pfloat) {
+            } else if (type == Typ.flt) {
                 return new VolatileFloatUnsafeField(field);
             } else {
                 return new ObjectUnsafeField(field);
@@ -104,25 +104,25 @@ public abstract class UnsafeField implements FieldAccess {
 
     @Override
     public Object getValue(Object obj) {
-        if (type == Typ.pint) {
+        if (type == Typ.intgr) {
             int i = this.getInt(obj);
             return Integer.valueOf(i);
-        } else if (type == Typ.plong) {
+        } else if (type == Typ.lng) {
             long l = this.getLong(obj);
             return Long.valueOf(l);
-        } else if (type == Typ.pbyte) {
+        } else if (type == Typ.bt) {
             byte b = this.getByte(obj);
             return Byte.valueOf(b);
-        } else if (type == Typ.pshort) {
+        } else if (type == Typ.shrt) {
             short s = this.getShort(obj);
             return Short.valueOf(s);
-        } else if (type == Typ.pchar) {
+        } else if (type == Typ.chr) {
             char c = this.getChar(obj);
             return Character.valueOf(c);
-        } else if (type == Typ.pdouble) {
+        } else if (type == Typ.dbl) {
             double d = this.getDouble(obj);
             return Double.valueOf(d);
-        } else if (type == Typ.pfloat) {
+        } else if (type == Typ.flt) {
             float f = this.getFloat(obj);
             return Float.valueOf(f);
         } else {
@@ -139,23 +139,23 @@ public abstract class UnsafeField implements FieldAccess {
         }
 
 
-        if (type == Typ.pint) {
+        if (type == Typ.intgr) {
             setInt(obj, toInt(value));
-        } else if (type == Typ.plong) {
+        } else if (type == Typ.lng) {
             setLong(obj, toLong(value));
-        } else if (type == Typ.pbyte) {
+        } else if (type == Typ.bt) {
             setByte(obj, toByte(value));
 
-        } else if (type == Typ.pshort) {
+        } else if (type == Typ.shrt) {
             setShort(obj, toShort(value));
 
-        } else if (type == Typ.pchar) {
+        } else if (type == Typ.chr) {
             setChar(obj, toChar(value));
 
-        } else if (type == Typ.pdouble) {
+        } else if (type == Typ.dbl) {
             setDouble(obj, toDouble(value));
 
-        } else if (type == Typ.pfloat) {
+        } else if (type == Typ.flt) {
             setFloat(obj, toFloat(value));
 
         } else {

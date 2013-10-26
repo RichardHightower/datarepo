@@ -1,5 +1,6 @@
 package org.datarepo.tests;
 
+import org.boon.core.Typ;
 import org.datarepo.query.Sort;
 import org.datarepo.query.SortType;
 import org.datarepo.tests.model.Employee;
@@ -14,8 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 
 import static org.boon.utils.Utils.ls;
-import static org.boon.utils.Typ.string;
-import org.boon.reflection.Reflection;
+import org.boon.core.reflection.Reflection;
 
 public class SortTest {
 
@@ -39,7 +39,7 @@ public class SortTest {
     public void simpleSort() throws Exception {
         Sort sort = new Sort("firstName", SortType.ASCENDING);
         sort.sort(list);
-        List<String> firstNames = Reflection.getListOfProps(string, list, "firstName");
+        List<String> firstNames = Reflection.getListOfProps(Typ.string, list, "firstName");
         assertEquals("bababa", firstNames.get(0));
         assertEquals("BAbaba", firstNames.get(1));
         assertEquals("zaaa", firstNames.get(2));
@@ -53,8 +53,8 @@ public class SortTest {
         Sort sort = new Sort("firstName", SortType.ASCENDING);
         sort.then("lastName");
         sort.sort(list);
-        List<String> firstNames = Reflection.getListOfProps(string, list, "firstName");
-        List<String> lastNames = Reflection.getListOfProps(string, list, "lastName");
+        List<String> firstNames = Reflection.getListOfProps(Typ.string, list, "firstName");
+        List<String> lastNames = Reflection.getListOfProps(Typ.string, list, "lastName");
 
         assertEquals("bababa", firstNames.get(0));
         assertEquals("BAbaba", firstNames.get(1));

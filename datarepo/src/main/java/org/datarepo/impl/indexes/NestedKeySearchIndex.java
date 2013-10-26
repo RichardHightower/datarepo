@@ -1,6 +1,6 @@
 package org.datarepo.impl.indexes;
 
-import org.boon.reflection.Reflection;
+import org.boon.core.reflection.Reflection;
 
 import java.util.List;
 

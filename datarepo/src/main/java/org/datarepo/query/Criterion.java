@@ -1,8 +1,8 @@
 package org.datarepo.query;
 
-import org.boon.reflection.fields.FieldAccess;
+import org.boon.core.Typ;
+import org.boon.core.reflection.fields.FieldAccess;
 import org.boon.utils.Conversions;
-import org.boon.utils.Typ;
 import org.boon.utils.Utils;
 
 import java.util.Arrays;
@@ -163,7 +163,7 @@ public abstract class Criterion<VALUE> extends Query {
 
             criterion.useDelegate = true;
 
-            if (type == Typ.pint) {
+            if (type == Typ.intgr) {
                 switch (criterion.operator) {
                     case EQUAL:
                         criterion.nativeDelegate = QueryFactory.eqInt(criterion.name, Conversions.toInt(criterion.value));
@@ -208,7 +208,7 @@ public abstract class Criterion<VALUE> extends Query {
                         Utils.warning(Utils.log(Criterion.class), "Can't create int delegate");
                         criterion.useDelegate = false;
                 }
-            } else if (type == Typ.pbyte) {
+            } else if (type == Typ.bt) {
                 switch (criterion.operator) {
                     case EQUAL:
                         criterion.nativeDelegate = QueryFactory.eqByte(criterion.name, Conversions.toByte(criterion.value));
@@ -249,7 +249,7 @@ public abstract class Criterion<VALUE> extends Query {
                         criterion.useDelegate = false;
                 }
 
-            } else if (type == Typ.pshort) {
+            } else if (type == Typ.shrt) {
                 switch (criterion.operator) {
                     case EQUAL:
                         criterion.nativeDelegate = QueryFactory.eqShort(criterion.name, Conversions.toShort(criterion.value));
@@ -290,7 +290,7 @@ public abstract class Criterion<VALUE> extends Query {
                         criterion.useDelegate = false;
                 }
 
-            } else if (type == Typ.pfloat) {
+            } else if (type == Typ.flt) {
                 switch (criterion.operator) {
                     case EQUAL:
                         criterion.nativeDelegate = QueryFactory.eqLong(criterion.name, Conversions.toLong(criterion.value));
@@ -332,7 +332,7 @@ public abstract class Criterion<VALUE> extends Query {
                 }
 
 
-            } else if (type == Typ.pfloat) {
+            } else if (type == Typ.flt) {
 
 
                 switch (criterion.operator) {
@@ -375,7 +375,7 @@ public abstract class Criterion<VALUE> extends Query {
                         criterion.useDelegate = false;
                 }
 
-            } else if (type == Typ.pdouble) {
+            } else if (type == Typ.dbl) {
 
                 switch (criterion.operator) {
                     case EQUAL:
@@ -424,7 +424,7 @@ public abstract class Criterion<VALUE> extends Query {
                 }
 
 
-            } else if (type == Typ.pboolean) {
+            } else if (type == Typ.bln) {
 
 
                 switch (criterion.operator) {
@@ -442,7 +442,7 @@ public abstract class Criterion<VALUE> extends Query {
                         criterion.useDelegate = false;
                 }
 
-            } else if (type == Typ.pchar) {
+            } else if (type == Typ.chr) {
                 switch (criterion.operator) {
 
 

@@ -1,8 +1,8 @@
-package org.boon.reflection.fields;
+package org.boon.core.reflection.fields;
 
+import org.boon.core.Typ;
 import org.boon.utils.Conversions;
-import org.boon.reflection.Reflection;
-import org.boon.utils.Typ;
+
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -25,9 +25,9 @@ public class PropertyField implements FieldAccess {
     private final Logger log =  Logger.getLogger(PropertyField.class.getName());
 
 
-    public PropertyField(String name, Reflection.Pair<Method> methodPair) {
-        setter = methodPair.getFirst();
-        getter = methodPair.getSecond();
+    public PropertyField(String name, Method setter, Method getter) {
+        this.setter = setter;
+        this.getter = getter;
 
         isStatic = Modifier.isStatic(getter.getModifiers());
         isFinal = Modifier.isFinal(getter.getModifiers());
@@ -176,23 +176,23 @@ public class PropertyField implements FieldAccess {
             return;
         }
 
-        if (type == Typ.pint) {
+        if (type == Typ.intgr) {
             setInt(obj, toInt(value));
-        } else if (type == Typ.plong) {
+        } else if (type == Typ.lng) {
             setLong(obj, toLong(value));
-        } else if (type == Typ.pbyte) {
+        } else if (type == Typ.bt) {
             setByte(obj, toByte(value));
 
-        } else if (type == Typ.pshort) {
+        } else if (type == Typ.shrt) {
             setShort(obj, toShort(value));
 
-        } else if (type == Typ.pchar) {
+        } else if (type == Typ.chr) {
             setChar(obj, toChar(value));
 
-        } else if (type == Typ.pdouble) {
+        } else if (type == Typ.dbl) {
             setDouble(obj, toDouble(value));
 
-        } else if (type == Typ.pfloat) {
+        } else if (type == Typ.flt) {
             setFloat(obj, toFloat(value));
 
         } else {

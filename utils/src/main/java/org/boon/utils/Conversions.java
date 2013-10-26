@@ -1,6 +1,7 @@
 package org.boon.utils;
 
-import org.boon.reflection.Reflection;
+import org.boon.core.Typ;
+import org.boon.core.reflection.Reflection;
 
 import java.lang.reflect.Array;
 import java.text.DateFormat;
@@ -335,26 +336,26 @@ public class Conversions {
 
     @SuppressWarnings("unchecked")
     public static <T> T coerce(Class<T> clz, Object value) {
-        if (clz == Typ.integer || clz == Typ.pint) {
+        if ( clz == Typ.integer || clz == Typ.intgr ) {
             Integer i = toInt(value);
             return (T) i;
-        } else if (clz == Typ.lng || clz == Typ.plong) {
+        } else if ( clz == Typ.longWrapper || clz == Typ.lng ) {
             Long l = toLong(value);
             return (T) l;
-        } else if (clz == Typ.dbl || clz == Typ.pdouble) {
+        } else if ( clz == Typ.doubleArray || clz == Typ.dbl ) {
             Double i = toDouble(value);
             return (T) i;
-        } else if (clz == Typ.flt || clz == Typ.pfloat) {
+        } else if (clz == Typ.floatArray || clz == Typ.flt) {
             Float i = toFloat(value);
             return (T) i;
-        } else if (clz == Typ.sarray) {
+        } else if (clz == Typ.stringArray) {
             return (T) toStringArray(value);
-        } else if (clz == Typ.bool || clz == Typ.pboolean) {
+        } else if (clz == Typ.bool || clz == Typ.bln) {
             Boolean b = toBoolean(value);
             return (T) b;
-        } else if (clz == Typ.fileT) {
+        } else if (clz == Typ.file) {
             //return (T) toFile(set);
-            complain("Need to fix this");
+            die("Need to fix this");
             return null;
         } else if (isMap(clz)) {
             if (value instanceof Map) {
@@ -375,19 +376,19 @@ public class Conversions {
 
     @SuppressWarnings("unchecked")
     public static <T> T toPrimitiveArrayIfPossible(Class<T> clz, Object value) {
-        if (clz == Typ.intA) {
+        if (clz == Typ.intArray) {
             return (T) iarray(value);
-        } else if (clz == Typ.byteA) {
+        } else if (clz == Typ.byteArray) {
             return (T) barray(value);
-        } else if (clz == Typ.charA) {
+        } else if (clz == Typ.charArray) {
             return (T) carray(value);
-        } else if (clz == Typ.shortA) {
+        } else if (clz == Typ.shortArray) {
             return (T) sarray(value);
-        } else if (clz == Typ.longA) {
+        } else if (clz == Typ.longArray) {
             return (T) larray(value);
-        } else if (clz == Typ.floatA) {
+        } else if (clz == Typ.floatArray) {
             return (T) farray(value);
-        } else if (clz == Typ.doubleA) {
+        } else if (clz == Typ.doubleArray) {
             return (T) darray(value);
         } else if (value.getClass() == clz) {
             return (T) value;
@@ -406,7 +407,7 @@ public class Conversions {
 
     public static double[] darray(Object value) {
         //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
-        if (value.getClass() == Typ.shortA) {
+        if (value.getClass() == Typ.shortArray) {
             return (double[]) value;
         }
         double[] values = new double[len(value)];
@@ -421,7 +422,7 @@ public class Conversions {
 
     public static float[] farray(Object value) {
         //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
-        if (value.getClass() == Typ.floatA) {
+        if (value.getClass() == Typ.floatArray) {
             return (float[]) value;
         }
         float[] values = new float[len(value)];
@@ -436,7 +437,7 @@ public class Conversions {
 
     public static long[] larray(Object value) {
         //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
-        if (value.getClass() == Typ.shortA) {
+        if (value.getClass() == Typ.shortArray) {
             return (long[]) value;
         }
         long[] values = new long[len(value)];
@@ -451,7 +452,7 @@ public class Conversions {
 
     public static short[] sarray(Object value) {
         //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
-        if (value.getClass() == Typ.shortA) {
+        if (value.getClass() == Typ.shortArray) {
             return (short[]) value;
         }
         short[] values = new short[len(value)];
@@ -466,7 +467,7 @@ public class Conversions {
 
     public static int[] iarray(Object value) {
         //You could handleUnexpectedException shorts, bytes, longs and chars more efficiently
-        if (value.getClass() == Typ.intA) {
+        if (value.getClass() == Typ.intArray) {
             return (int[]) value;
         }
         int[] values = new int[len(value)];
@@ -481,7 +482,7 @@ public class Conversions {
 
     public static byte[] barray(Object value) {
         //You could handleUnexpectedException shorts, ints, longs and chars more efficiently
-        if (value.getClass() == Typ.byteA) {
+        if (value.getClass() == Typ.byteArray) {
             return (byte[]) value;
         }
         byte[] values = new byte[len(value)];
@@ -496,7 +497,7 @@ public class Conversions {
 
     public static char[] carray(Object value) {
         //You could handleUnexpectedException shorts, ints, longs and chars more efficiently
-        if (value.getClass() == Typ.charA) {
+        if (value.getClass() == Typ.charArray) {
             return (char[]) value;
         }
         char[] values = new char[len(value)];

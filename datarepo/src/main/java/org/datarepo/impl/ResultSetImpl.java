@@ -15,9 +15,9 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 
-import org.boon.reflection.fields.FieldAccess;
-import org.boon.reflection.Reflection;
-import static org.boon.reflection.Reflection.toMap;
+import org.boon.core.reflection.fields.FieldAccess;
+import org.boon.core.reflection.Reflection;
+import static org.boon.core.reflection.Reflection.toMap;
 import static org.boon.utils.Utils.idx;
 import static org.boon.utils.Utils.list;
 

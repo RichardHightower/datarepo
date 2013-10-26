@@ -5,10 +5,11 @@ import java.util.*;
 
 import static org.boon.utils.Utils.iterator;
 import static org.boon.utils.Utils.joinBy;
-import org.boon.reflection.fields.FieldAccess;
+
+import org.boon.core.Typ;
+import org.boon.core.reflection.fields.FieldAccess;
 import org.boon.utils.Conversions;
-import org.boon.reflection.Reflection;
-import org.boon.utils.Typ;
+import org.boon.core.reflection.Reflection;
 import org.boon.utils.Utils;
 
 

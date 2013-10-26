@@ -1,6 +1,6 @@
 package org.datarepo.query;
 
-import org.boon.reflection.fields.FieldAccess;
+import org.boon.core.reflection.fields.FieldAccess;
 
 import java.util.Arrays;
 import java.util.Map;

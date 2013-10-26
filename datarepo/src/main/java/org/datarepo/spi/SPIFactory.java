@@ -1,6 +1,6 @@
 package org.datarepo.spi;
 
-import org.boon.utils.Typ;
+import org.boon.core.Typ;
 import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.RepoBuilder;

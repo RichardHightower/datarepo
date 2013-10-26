@@ -1,12 +1,12 @@
-package org.boon.reflection;
+package org.boon.core.reflection;
 
 import org.boon.Lists;
 import org.boon.Maps;
 import org.boon.Sets;
-import org.boon.reflection.fields.*;
+import org.boon.core.Typ;
+import org.boon.core.reflection.fields.*;
 import org.boon.utils.ComplainAndDie;
 import org.boon.utils.Conversions;
-import org.boon.utils.Typ;
 import org.boon.utils.Utils;
 
 import java.lang.reflect.*;
@@ -22,7 +22,6 @@ import static org.boon.Str.lines;
 
 import static org.boon.Str.lower;
 import static org.boon.Str.slc;
-//import static org.boon.utils.ComplainAndDie.die;
 
 
 public class Reflection {
@@ -229,7 +228,7 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == Typ.pint) {
+        if (field.getType() == Typ.intgr) {
             return field.getInt(object);
         } else {
             return Conversions.toInt(field.getValue(object));
@@ -244,7 +243,7 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == Typ.pbyte) {
+        if (field.getType() == Typ.bt) {
             return field.getByte(object);
         } else {
             return Conversions.toByte(field.getValue(object));
@@ -258,7 +257,7 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == Typ.pfloat) {
+        if (field.getType() == Typ.flt) {
             return field.getFloat(object);
         } else {
             return Conversions.toFloat(field.getValue(object));
@@ -273,7 +272,7 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == Typ.pshort) {
+        if (field.getType() == Typ.shrt) {
             return field.getShort(object);
         } else {
             return Conversions.toShort(field.getValue(object));
@@ -288,7 +287,7 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == Typ.pchar) {
+        if (field.getType() == Typ.chr) {
             return field.getChar(object);
         } else {
             return Conversions.toChar(field.getValue(object));
@@ -303,7 +302,7 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == Typ.pdouble) {
+        if (field.getType() == Typ.dbl) {
             return field.getDouble(object);
         } else {
             return Conversions.toDouble(field.getValue(object));
@@ -318,7 +317,7 @@ public class Reflection {
             object = fields.get(properties[index]);
         }
         FieldAccess field = fields.get(properties[properties.length - 1]);
-        if (field.getType() == Typ.plong) {
+        if (field.getType() == Typ.lng) {
             return field.getLong(object);
         } else {
             return Conversions.toLong(field.getValue(object));
@@ -628,7 +627,7 @@ public class Reflection {
         Collection<Object> target = null;
         try {
             if (!type.isInterface()) {
-                Constructor<?> constructor = type.getConstructor(Typ.pint);
+                Constructor<?> constructor = type.getConstructor(Typ.intgr);
                 constructor.setAccessible(true);
                 target = (Collection<Object>) constructor.newInstance(value
                         .size());
@@ -838,11 +837,21 @@ public class Reflection {
         Map<String, FieldAccess> fields = allAccessorFieldsCache.get(theClass.getName() + "PROPS");
         if (fields == null) {
             Map<String, Pair<Method>> methods = getPropertySetterGetterMethods(theClass);
+
             fields = new LinkedHashMap<>();
-            for (Map.Entry<String, Pair<Method>> entry : methods.entrySet()) {
-                fields.put(entry.getKey(), new PropertyField(entry.getKey(), entry.getValue()));
+
+            for (Map.Entry<String, Pair<Method>> entry :
+                    methods.entrySet()) {
+
+                final Pair<Method> methodPair = entry.getValue();
+                final String key = entry.getKey();
+
+                PropertyField pf = new PropertyField( key , methodPair.getFirst(), methodPair.getSecond() );
+
+                fields.put( key, pf );
 
             }
+
             allAccessorFieldsCache.put(theClass.getName() + "PROPS", fields);
         }
 
@@ -946,7 +955,7 @@ public class Reflection {
 
             Pair<Method> pair = methodMap.get(propertyName);
             if (pair == null) {
-                pair = new Pair<>();
+                pair = new Pair<Method>();
                 methodMap.put(propertyName, pair);
             }
             pair.setSecond(method);
@@ -1006,61 +1015,6 @@ public class Reflection {
             field.setValue(clone, field.getValue(item));
         }
         return clone;
-    }
-
-
-
-
-    public static class Pair<T> {
-
-        private T first;
-        private T second;
-        private T[] both = (T[]) new Object[2];
-
-        public Pair() {
-        }
-
-        public Pair(T f, T s) {
-            this.first = f;
-            this.second = s;
-            both[0] = f;
-            both[1] = s;
-        }
-
-
-        public T getFirst() {
-            return first;
-        }
-
-        public T getSecond() {
-            return second;
-        }
-
-
-        public T[] getBoth() {
-            return both;
-        }
-
-        public void setFirst(T first) {
-            this.first = first;
-            both[0] = first;
-
-        }
-
-        public void setSecond(T second) {
-            this.second = second;
-            both[1] = second;
-
-        }
-
-        public void setBoth(T[] both) {
-            this.both = both;
-            this.first = both[0];
-            this.second = both[1];
-
-        }
-
-
     }
 
 

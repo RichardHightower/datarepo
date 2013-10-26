@@ -4,7 +4,7 @@ import org.datarepo.SearchableCollection;
 
 import java.util.Map;
 
-import org.boon.reflection.fields.FieldAccess;
+import org.boon.core.reflection.fields.FieldAccess;
 
 public interface ObjectEditorComposer<KEY, ITEM> {
     void setFields(Map<String, FieldAccess> fields);

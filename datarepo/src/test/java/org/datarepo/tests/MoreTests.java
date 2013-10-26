@@ -1,6 +1,6 @@
 package org.datarepo.tests;
 
-import org.boon.utils.Typ;
+import org.boon.core.Typ;
 import org.datarepo.Repo;
 import org.datarepo.Repos;
 import org.datarepo.query.ProjectedSelector;
@@ -16,7 +16,7 @@ import static org.datarepo.Collections.$q;
 import static org.datarepo.Collections.sortedQuery;
 import static org.datarepo.query.QueryFactory.*;
 
-import static org.boon.reflection.Reflection.copy;
+import static org.boon.core.reflection.Reflection.copy;
 import static org.boon.utils.Conversions.toDate;
 import static org.boon.utils.Utils.ls;
 import static org.boon.utils.Utils.print;
