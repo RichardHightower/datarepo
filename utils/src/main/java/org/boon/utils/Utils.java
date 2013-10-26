@@ -1,6 +1,7 @@
 package org.boon.utils;
 
-import org.boon.fields.FieldAccess;
+import org.boon.reflection.fields.FieldAccess;
+import org.boon.reflection.Reflection;
 
 import java.io.IOException;
 import java.io.PrintStream;

@@ -1,11 +1,13 @@
-package org.boon.fields;
+package org.boon.reflection.fields;
 
 import org.boon.utils.Conversions;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import static org.boon.utils.ComplainAndDie.complain;
+import static org.boon.Exceptions.die;
+
+//import static org.boon.utils.ComplainAndDie.complain;
 
 
 public class MapField implements FieldAccess {
@@ -31,8 +33,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return map.get(name);
         }
-        complain("Object must be a map");
-        return null;
+        return die(Object.class, "Object must be a map");
     }
 
     @Override
@@ -41,7 +42,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             map.put(name, value);
         }
-        complain("Object must be a map");
+        die("Object must be a map");
     }
 
     @Override
@@ -50,8 +51,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return Conversions.toBoolean(map.get(name));
         }
-        complain("Object must be a map");
-        return false;
+        return die(Boolean.class, "Object must be a map");
     }
 
     @Override
@@ -60,7 +60,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             map.put(name, value);
         }
-        complain("Object must be a map");
+        die("Object must be a map");
     }
 
     @Override
@@ -69,7 +69,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return Conversions.toInt(map.get(name));
         }
-        complain("Object must be a map");
+        die("Object must be a map");
         return -1;
     }
 
@@ -84,7 +84,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return Conversions.toShort(map.get(name));
         }
-        complain("Object must be a map");
+        die("Object must be a map");
         return -1;
     }
 
@@ -99,7 +99,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return Conversions.toChar(map.get(name));
         }
-        complain("Object must be a map");
+        die("Object must be a map");
         return 0;
     }
 
@@ -114,7 +114,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return Conversions.toLong(map.get(name));
         }
-        complain("Object must be a map");
+        die("Object must be a map");
         return -1;
     }
 
@@ -129,7 +129,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return Conversions.toDouble(map.get(name));
         }
-        complain("Object must be a map");
+        die("Object must be a map");
         return Double.NaN;
     }
 
@@ -144,7 +144,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return Conversions.toFloat(map.get(name));
         }
-        complain("Object must be a map");
+        die("Object must be a map");
         return Float.NaN;
     }
 
@@ -159,7 +159,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return Conversions.toByte(map.get(name));
         }
-        complain("Object must be a map");
+        die("Object must be a map");
         return Byte.MAX_VALUE;
     }
 
@@ -174,7 +174,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return map.get(name);
         }
-        complain("Object must be a map");
+        die("Object must be a map");
         return -1;
     }
 

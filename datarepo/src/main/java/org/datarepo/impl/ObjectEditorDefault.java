@@ -5,8 +5,8 @@ import org.datarepo.SearchableCollection;
 import org.datarepo.query.Update;
 import org.datarepo.spi.ObjectEditorComposer;
 
-import org.boon.fields.FieldAccess;
-import org.boon.utils.Reflection;
+import org.boon.reflection.fields.FieldAccess;
+import org.boon.reflection.Reflection;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;

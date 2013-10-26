@@ -18,7 +18,7 @@ import static org.datarepo.query.QueryFactory.instanceOf;
 import static org.datarepo.query.QueryFactory.not;
 
 import org.boon.utils.Utils;
-import org.boon.fields.FieldAccess;
+import org.boon.reflection.fields.FieldAccess;
 import static org.boon.utils.Utils.array;
 
 /**

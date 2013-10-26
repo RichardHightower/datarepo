@@ -18,9 +18,9 @@ import java.text.Collator;
 import java.util.*;
 import java.util.logging.Level;
 
-import org.boon.utils.Reflection;
+import org.boon.reflection.Reflection;
 import static org.boon.utils.Utils.joinBy;
-import org.boon.fields.FieldAccess;
+import org.boon.reflection.fields.FieldAccess;
 
 
 

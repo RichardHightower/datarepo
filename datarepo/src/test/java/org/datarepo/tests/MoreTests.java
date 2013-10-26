@@ -16,7 +16,7 @@ import static org.datarepo.Collections.$q;
 import static org.datarepo.Collections.sortedQuery;
 import static org.datarepo.query.QueryFactory.*;
 
-import static org.boon.utils.Reflection.copy;
+import static org.boon.reflection.Reflection.copy;
 import static org.boon.utils.Conversions.toDate;
 import static org.boon.utils.Utils.ls;
 import static org.boon.utils.Utils.print;

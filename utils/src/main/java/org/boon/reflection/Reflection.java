@@ -1,9 +1,13 @@
-package org.boon.utils;
+package org.boon.reflection;
 
 import org.boon.Lists;
 import org.boon.Maps;
 import org.boon.Sets;
-import org.boon.fields.*;
+import org.boon.reflection.fields.*;
+import org.boon.utils.ComplainAndDie;
+import org.boon.utils.Conversions;
+import org.boon.utils.Typ;
+import org.boon.utils.Utils;
 
 import java.lang.reflect.*;
 import java.util.*;

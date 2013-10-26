@@ -1,7 +1,7 @@
-package org.boon.fields;
+package org.boon.reflection.fields;
 
 import org.boon.utils.Conversions;
-import org.boon.utils.Reflection;
+import org.boon.reflection.Reflection;
 import org.boon.utils.Typ;
 
 import java.lang.reflect.Field;
@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 import static org.boon.utils.ComplainAndDie.die;
 import static org.boon.utils.Conversions.*;
-import static org.boon.utils.Utils.*;
 
 public class PropertyField implements FieldAccess {
     protected final boolean isFinal;
@@ -23,7 +22,7 @@ public class PropertyField implements FieldAccess {
     private final String name;
     private final Method getter;
     private final Method setter;
-    private final Logger log = log(PropertyField.class);
+    private final Logger log =  Logger.getLogger(PropertyField.class.getName());
 
 
     public PropertyField(String name, Reflection.Pair<Method> methodPair) {
@@ -285,8 +284,8 @@ public class PropertyField implements FieldAccess {
     @Override
     public void setObject(Object obj, Object value) {
         if (readOnly) {
-            warning(log, "You tried to modify property %s of %s for instance %s with set %s",
-                    name, obj.getClass().getSimpleName(), obj, value);
+            log.warning(String.format("You tried to modify property %s of %s for instance %s with set %s",
+                    name, obj.getClass().getSimpleName(), obj, value));
             return;
         }
         try {

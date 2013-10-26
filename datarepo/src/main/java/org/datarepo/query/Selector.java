@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 
-import org.boon.fields.FieldAccess;
-import static org.boon.utils.Reflection.getPropByPath;
+import org.boon.reflection.fields.FieldAccess;
+import static org.boon.reflection.Reflection.getPropByPath;
 import static org.boon.utils.Utils.joinBy;
 import static org.boon.utils.Utils.list;
 

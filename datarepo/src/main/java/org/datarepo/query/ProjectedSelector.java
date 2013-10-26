@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 
-import org.boon.fields.FieldAccess;
+import org.boon.reflection.fields.FieldAccess;
 import org.boon.utils.Typ;
 
 import static org.boon.utils.Conversions.*;

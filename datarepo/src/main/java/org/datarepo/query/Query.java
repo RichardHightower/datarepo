@@ -3,8 +3,8 @@ package org.datarepo.query;
 
 import org.datarepo.predicates.Predicate;
 
-import org.boon.fields.FieldAccess;
-import org.boon.utils.Reflection;
+import org.boon.reflection.fields.FieldAccess;
+import org.boon.reflection.Reflection;
 
 import java.util.Map;
 

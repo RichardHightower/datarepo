@@ -16,8 +16,8 @@ import static org.junit.Assert.assertTrue;
 
 
 import static org.boon.utils.Utils.ls;
-import org.boon.fields.FieldAccess;
-import org.boon.utils.Reflection;
+import org.boon.reflection.fields.FieldAccess;
+import org.boon.reflection.Reflection;
 
 public class CriteriaTest {
 

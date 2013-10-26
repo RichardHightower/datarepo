@@ -1,4 +1,4 @@
-package org.boon.fields;
+package org.boon.reflection.fields;
 
 import java.lang.reflect.Field;
 

@@ -1,4 +1,4 @@
-package org.boon.fields;
+package org.boon.reflection.fields;
 
 import org.boon.utils.Conversions;
 import org.boon.utils.Typ;

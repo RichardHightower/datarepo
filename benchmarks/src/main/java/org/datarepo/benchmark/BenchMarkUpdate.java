@@ -15,7 +15,7 @@ import static org.datarepo.query.QueryFactory.eqNested;
 
 
 
-import static org.boon.utils.Reflection.copy;
+import static org.boon.reflection.Reflection.copy;
 import static org.boon.utils.Utils.ls;
 import static org.boon.utils.Utils.print;
 import static org.boon.utils.Utils.printf;

@@ -1,5 +1,7 @@
 package org.boon.utils;
 
+import org.boon.reflection.Reflection;
+
 import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;

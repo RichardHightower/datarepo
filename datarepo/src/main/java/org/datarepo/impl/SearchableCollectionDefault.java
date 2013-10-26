@@ -19,10 +19,10 @@ import java.util.*;
 import java.util.logging.Logger;
 
 
-import org.boon.fields.FieldAccess;
-import org.boon.utils.Reflection;
+import org.boon.reflection.fields.FieldAccess;
+import org.boon.reflection.Reflection;
 import org.boon.utils.Utils;
-import static org.boon.utils.Reflection.toMap;
+import static org.boon.reflection.Reflection.toMap;
 import static org.boon.utils.Utils.isArray;
 import static org.boon.utils.Utils.list;
 

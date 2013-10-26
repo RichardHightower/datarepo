@@ -5,7 +5,7 @@ import org.datarepo.predicates.Function;
 
 import java.util.Map;
 
-import org.boon.fields.FieldAccess;
+import org.boon.reflection.fields.FieldAccess;
 
 public interface SearchableCollectionComposer {
     void setPrimaryKeyName(String primaryKey);

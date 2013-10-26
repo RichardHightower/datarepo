@@ -25,8 +25,8 @@ import org.datarepo.predicates.Function;
 
 
 
-import org.boon.fields.FieldAccess;
-import org.boon.utils.Reflection;
+import org.boon.reflection.fields.FieldAccess;
+import org.boon.reflection.Reflection;
 
 import java.util.*;
 

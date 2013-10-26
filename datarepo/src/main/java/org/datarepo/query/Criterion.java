@@ -1,6 +1,6 @@
 package org.datarepo.query;
 
-import org.boon.fields.FieldAccess;
+import org.boon.reflection.fields.FieldAccess;
 import org.boon.utils.Conversions;
 import org.boon.utils.Typ;
 import org.boon.utils.Utils;

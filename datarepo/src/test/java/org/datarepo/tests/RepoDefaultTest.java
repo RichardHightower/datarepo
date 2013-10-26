@@ -19,7 +19,7 @@ import static org.datarepo.query.Update.update;
 import static org.datarepo.tests.model.Employee.employee;
 
 
-import static org.boon.utils.Reflection.idx;
+import static org.boon.reflection.Reflection.idx;
 import static org.boon.utils.Utils.print;
 import static org.boon.utils.Utils.printf;
 

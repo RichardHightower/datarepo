@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 import static org.boon.utils.Utils.ls;
 import static org.boon.utils.Typ.string;
-import org.boon.utils.Reflection;
+import org.boon.reflection.Reflection;
 
 public class SortTest {
 

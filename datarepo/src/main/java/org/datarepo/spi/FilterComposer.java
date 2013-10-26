@@ -4,7 +4,7 @@ package org.datarepo.spi;
 import org.datarepo.LookupIndex;
 import org.datarepo.SearchableCollection;
 
-import org.boon.fields.FieldAccess;
+import org.boon.reflection.fields.FieldAccess;
 
 import java.util.Map;
 
