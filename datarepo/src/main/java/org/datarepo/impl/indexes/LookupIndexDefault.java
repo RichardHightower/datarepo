@@ -15,8 +15,8 @@ import static org.datarepo.utils.Utils.*;
 /**
  * A really simple lookup index that uses a standard java.util.HashMap.
  *
- * @param <KEY>
- * @param <ITEM>
+ * @param <KEY>  key to lookup
+ * @param <ITEM> value
  */
 public class LookupIndexDefault<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 

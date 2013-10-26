@@ -17,6 +17,19 @@ package org.datarepo;
 
 import java.util.Collection;
 
+
+/**
+ * Decorates a collection.
+ *
+ * Adds SearchableCollection to a collection.
+ *
+ * <p>
+ *
+ * </p>
+ * @see org.datarepo.Collections.QList
+ * @see org.datarepo.Collections.QSet
+ * @see org.datarepo.Collections
+ */
 public interface CollectionDecorator {
     SearchableCollection searchCollection();
 

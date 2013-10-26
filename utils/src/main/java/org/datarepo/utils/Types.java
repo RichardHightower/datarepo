@@ -16,28 +16,7 @@ public class Types {
 
     private static final Logger log = Logger.getLogger(Types.class.getName());
 
-    public static int toInt(byte[] bytes, int offset) {
 
-        ByteArrayInputStream bis = new ByteArrayInputStream(bytes, offset,
-                bytes.length);
-        DataInputStream instream = new DataInputStream(bis);
-        try {
-            return instream.readInt();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    public static int toInt(byte[] bytes) {
-        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-        DataInputStream instream = new DataInputStream(bis);
-        try {
-            return instream.readInt();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static int toInt(Object obj) {
         if (obj.getClass() == int.class) {

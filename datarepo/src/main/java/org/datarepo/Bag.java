@@ -20,8 +20,11 @@ import java.util.List;
 
 /**
  * Holds stuff
+ * It is like a list but not guaranteed to be ordered.
  *
  * @param <ITEM> Type of Stuff you want to hold.
+ *
+ * @author Rick Hightower
  */
 public interface Bag<ITEM> {
     boolean add(ITEM item);

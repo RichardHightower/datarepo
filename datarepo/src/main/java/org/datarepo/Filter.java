@@ -17,6 +17,11 @@ package org.datarepo;
 
 import org.datarepo.query.Query;
 
+
+/** Allows you to search an data repo.
+ *
+ *  @author Rick Hightower
+ */
 public interface Filter {
 
     ResultSet filter(Query... expressions);

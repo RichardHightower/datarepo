@@ -8,6 +8,11 @@ import java.util.Comparator;
 import java.util.List;
 
 
+/**
+ * Allows more complex indexes.
+ * @see NestedKeySearchIndex
+ * @see TypeHierarchyIndex
+ */
 public abstract class BaseIndexWrapper implements SearchIndex {
     protected final String[] path;
     protected SearchIndexDefault index = new SearchIndexDefault(Object.class);

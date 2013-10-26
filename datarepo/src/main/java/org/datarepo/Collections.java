@@ -29,16 +29,46 @@ import org.datarepo.utils.Utils;
 import java.util.*;
 
 
+/**
+ * Wraps regular collections in data repo searchable collections.
+ *
+ */
 public class Collections {
 
+
+    /**
+     * $q turns a list into a querying list.
+     * @param list  the list you want to convert
+     * @param classes classes you want to be able to query.
+     * @param <T> The type this query list will return
+     * @return generic list decorated with query features.
+     */
     public static <T> List<T> $q(final List<T> list, Class<?>... classes) {
         return listQuery(list, true, true, classes);
     }
 
+    /**
+     * $c turns a list back into a regular list.
+     * This is the reverse of $q.
+     *
+     * @see Collections#plainList(java.util.List)
+     * @param list the list
+     * @param <T> the type of the list.
+     * @return the new decorated list.
+     */
     public static <T> List<T> $c(final List<T> list) {
         return plainList(list);
     }
 
+    /**
+     * $c turns a list back into a regular list.
+     * This is the reverse of $q.
+     *
+     * @see Collections#$c(java.util.List)
+     * @param list the list
+     * @param <T> the type of the list.
+     * @return the new decorated list.
+     */
     private static <T> List<T> plainList(List<T> list) {
         if (list instanceof QList) {
             return ((QList) list).list;
@@ -47,10 +77,28 @@ public class Collections {
         }
     }
 
+
+    /**
+     * listQuery turns a list into a querying list.
+     * @see Collections#$q(java.util.List, Class[])
+     * @param list  the list you want to convert
+     * @param <T> The type this query list will return
+     * @return generic list decorated with query features.
+     */
     public static <T> List<T> listQuery(final List<T> list) {
         return listQuery(list, true, true);
     }
 
+    /**
+     * listQuery turns a list into a querying list.
+     * @param list  the list you want to convert
+     * @param classes classes you want to be able to query.
+     * @param <T> The type this query list will return
+     * @param useField use the field instead of the property
+     * @param useUnSafe use unsafe
+     * @param classes  list of classes that we can query against, these can be component classes
+     * @return generic list decorated with query features.
+     */
     public static <T> List<T> listQuery(final List<T> list, boolean useField, boolean useUnSafe, Class<?>... classes) {
         if (list == null || list.size() == 0) {
             return list;
@@ -71,14 +119,36 @@ public class Collections {
         return new QList<T>(list, (SearchableCollection) query);
     }
 
+    /**
+     * Decorates a set with additional query capabilities.
+     *
+     * @param set   set to decorate
+     * @param <T>   generic type
+     * @return      new decorated list
+     */
     public static <T> Set<T> $q(final Set<T> set) {
         return setQuery(set, true, true);
     }
 
+    /**
+     * Un-decorates a set with additional query capabilities.
+     *
+     * @param set   set to un-decorate
+     * @param <T>   generic type
+     * @return      new decorated list
+     */
     public static <T> Set<T> $c(final Set<T> set) {
         return plainSet(set);
     }
 
+
+    /**
+     * Un-decorates a set with additional query capabilities.
+     *
+     * @param set   set to un-decorate
+     * @param <T>   generic type
+     * @return      new decorated list
+     */
     private static <T> Set<T> plainSet(Set<T> set) {
         if (set instanceof QSet) {
             return ((QSet) set).set;
@@ -87,10 +157,25 @@ public class Collections {
         }
     }
 
-    public static <T> Set<T> listQuery(final Set<T> set) {
+    /**
+     * Decorates a set with additional query capabilities.
+     *
+     * @param set   set to un-decorate
+     * @param <T>   generic type
+     * @return      new decorated list
+     */
+    public static <T> Set<T> setQuery(final Set<T> set) {
         return setQuery(set, true, true);
     }
 
+    /**
+     * Decorates a set with all sorts of chocolaty richness
+     * @param set
+     * @param useField
+     * @param useUnSafe
+     * @param <T>
+     * @return
+     */
     public static <T> Set<T> setQuery(final Set<T> set, boolean useField, boolean useUnSafe) {
         if (set == null || set.size() == 0) {
             return set;
@@ -103,6 +188,15 @@ public class Collections {
         return new QSet<T>(set, (SearchableCollection) query);
     }
 
+    /**
+     * This is the internal method that does it all. :)
+     * @param set
+     * @param useField
+     * @param useUnSafe
+     * @param classes
+     * @param <T>
+     * @return
+     */
     private static <T> SearchableCollectionComposer getSearchableCollectionComposer(Collection set, boolean useField, boolean useUnSafe, Class<?>... classes) {
         SearchableCollectionComposer query = SPIFactory.getSearchableCollectionFactory().get();
 
@@ -155,23 +249,46 @@ public class Collections {
     }
 
 
+    /**
+     * Allow you to query a query-able list.
+     * @param list  the list you want to query
+     * @param expressions array of expressions
+     * @param <T> the type of the list
+     * @return the query results or an empty list if the list was not a query-able list.
+     */
     public static <T> List<T> query(final List<T> list, Query... expressions) {
         if (list instanceof QList) {
             QList qlist = (QList) list;
             return qlist.searchCollection().query(expressions);
+        }  else {
+            throw new DataRepoException("Not a query-able list.");
         }
-        return null;
     }
 
+    /**
+     * Allow you to query a query-able list.
+     * @param list  the list you want to query
+     * @param expressions array of expressions
+     * @param <T> the type of the list
+     * @return the query results or an empty list if the list was not a query-able list.
+     */
     public static <T> List<T> sortedQuery(final List<T> list, String sortBy, Query... expressions) {
         if (list instanceof QList) {
             QList qlist = (QList) list;
             return qlist.searchCollection().sortedQuery(sortBy, expressions);
+        }  else {
+            throw new DataRepoException("Not a query-able list.");
         }
-        return null;
     }
 
 
+    /**
+     * Allow you to query a query-able list.
+     * @param set  the set you want to query
+     * @param expressions array of expressions
+     * @param <T> the type of the list
+     * @return the query results or an empty list if the list was not a query-able list.
+     */
     public static <T> List<T> query(final Set<T> set, Query... expressions) {
         if (set instanceof QSet) {
             QSet qset = (QSet) set;
@@ -180,6 +297,13 @@ public class Collections {
         return null;
     }
 
+    /**
+     * Allow you to query a query-able list.
+     * @param set  the set you want to query
+     * @param expressions array of expressions
+     * @param <T> the type of the list
+     * @return the query results or an empty list if the list was not a query-able list.
+     */
     public static <T> List<T> sortedQuery(final Set<T> set, String sortBy, Query... expressions) {
         if (set instanceof QSet) {
             QSet qset = (QSet) set;
@@ -188,12 +312,23 @@ public class Collections {
         return null;
     }
 
-
+    /**
+     * placeholder for a generic way to discover a primary key.
+     * Right now the primarykey must be called id.
+     *
+     * @param fields fields we are going to search for the primary key
+     * @return
+     */
     private static String findPrimaryKey(Map<String, FieldAccess> fields) {
         return "id";
     }
 
 
+    /**
+     * Create key getter.
+     * @param field
+     * @return
+     */
     private static Function createKeyGetter(final FieldAccess field) {
         Utils.notNull(field);
         return new Function() {
@@ -210,6 +345,11 @@ public class Collections {
     }
 
 
+    /**
+     * Helper class that holds an inner set and a searchable collection.
+     * TODO we need a navigable version of this.
+     * @param <T>
+     */
     static class QSet<T> extends AbstractSet<T> implements CollectionDecorator {
         final Set<T> set;
         final SearchableCollection searchCollection;
@@ -253,6 +393,9 @@ public class Collections {
         }
     }
 
+    /**
+     * @param <T>
+     */
     static class QList<T> extends AbstractList<T> implements CollectionDecorator {
         List<T> list;
         SearchableCollection query;
@@ -299,6 +442,12 @@ public class Collections {
     }
 
 
+    /**
+     * Configures the indexes.
+     * @param query the search query
+     * @param prop  the prop
+     * @param fields  the reflected fields
+     */
     private static void configIndexes(SearchableCollection query, String prop,
                                       Map<String, FieldAccess> fields) {
 
