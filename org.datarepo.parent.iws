@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9cb9a538-7db4-4610-8513-29f74794453d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMark.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMark.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMarkMainSimpleSearch.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMarkMainSimpleSearch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMarkUpdate.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMarkUpdate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/utils/BenchmarkHelper.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/utils/BenchmarkHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/model/Employee.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/model/Employee.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/MeasuredRun.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/MeasuredRun.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.datarepo.parent.ipr" afterPath="$PROJECT_DIR$/org.datarepo.parent.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.datarepo.parent.iws" afterPath="$PROJECT_DIR$/org.datarepo.parent.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-    </list>
+    <list default="true" id="9cb9a538-7db4-4610-8513-29f74794453d" name="Default" comment="" />
     <ignored path="org.datarepo.parent.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382821300363" ignored="false" />
@@ -1197,7 +1186,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="29" width="1900" height="1160" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1217,7 +1206,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13214672" sideWeight="0.6721154" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24811219" sideWeight="0.6721154" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24811219" sideWeight="0.6721154" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3278846" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Aspects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25620282" sideWeight="0.67115384" order="4" side_tool="true" content_ui="tabs" />
