@@ -63,7 +63,12 @@ public abstract class MeasuredRun implements Runnable {
         for (int index = 0; index < warmupCount; index++) {
             this.test();
         }
-        Utils.sleep(1);
+
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+
+        }
         startTime = System.nanoTime();
 
         startMemory = Runtime.getRuntime().freeMemory();

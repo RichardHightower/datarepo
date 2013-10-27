@@ -1,11 +1,11 @@
 package org.datarepo.query;
 
+import org.boon.Lists;
 import org.datarepo.ObjectEditor;
 
 import java.io.Serializable;
 import java.util.List;
 
-import static org.boon.utils.Utils.list;
 
 public abstract class Update implements Serializable {
 
@@ -109,7 +109,7 @@ public abstract class Update implements Serializable {
     }
 
     public static List<Update> update(Update... values) {
-        return list(values);
+        return Lists.list(values);
     }
 
 

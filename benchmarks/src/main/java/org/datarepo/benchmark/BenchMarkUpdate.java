@@ -1,5 +1,6 @@
 package org.datarepo.benchmark;
 
+import org.boon.Lists;
 import org.datarepo.Repo;
 import org.datarepo.Repos;
 import org.datarepo.benchmark.model.Employee;
@@ -16,13 +17,11 @@ import static org.datarepo.query.QueryFactory.eqNested;
 
 
 import static org.boon.core.reflection.Reflection.copy;
-import static org.boon.utils.Utils.ls;
-import static org.boon.utils.Utils.sleep;
 
 public class BenchMarkUpdate {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
 
         final List<Employee> employees = BenchmarkHelper.createMetricTonOfEmployees(100_000);
@@ -33,29 +32,29 @@ public class BenchMarkUpdate {
         MeasuredRun run1 = test(employees, testResults);
         MeasuredRun run2 = test1(employees, testResults);
 
-        List<MeasuredRun> runs = ls(run1, run2);
+        List<MeasuredRun> runs = Lists.list(run1, run2);
 
 
         for (int index = 0; index < 1; index++) {
 
             for (MeasuredRun run : runs) {
                 System.gc();
-                sleep(10);
+                Thread.sleep(10);
                 run.run();
             }
         }
 
-        sleep(3_000);
+        Thread.sleep(3_000);
         System.out.println("Waiting...");
-        sleep(1_000);
+        Thread.sleep(1_000);
         System.out.println("Start Now...");
-        sleep(1_000);
+        Thread.sleep(1_000);
 
         for (int index = 0; index < 10; index++) {
 
             for (MeasuredRun run : runs) {
                 System.gc();
-                sleep(10);
+                Thread.sleep(10);
                 run.run();
                 System.out.printf("%s\t%s", run.name(), run.time());
             }

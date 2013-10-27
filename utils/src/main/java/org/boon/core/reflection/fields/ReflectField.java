@@ -1,6 +1,7 @@
 package org.boon.core.reflection.fields;
 
 
+import org.boon.Str;
 import org.boon.core.Typ;
 import org.boon.utils.Conversions;
 import org.boon.utils.Utils;
@@ -49,7 +50,7 @@ public class ReflectField implements FieldAccess {
     }
 
     private void analyzeError(Exception e, Object obj) {
-        die(Utils.lines(
+        die(Str.lines(
                 e.getClass().getName(),
                 String.format("cause %s", e.getCause()),
                 String.format("Field info name %s, type %s, class that declared field %s", this.getName(), this.getType(), this.getField().getDeclaringClass()),

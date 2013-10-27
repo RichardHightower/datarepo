@@ -1,5 +1,6 @@
 package org.datarepo.benchmark;
 
+import org.boon.Lists;
 import org.datarepo.Repo;
 import org.datarepo.Repos;
 import org.datarepo.benchmark.model.Employee;
@@ -10,17 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.boon.Exceptions.die;
 import static org.datarepo.query.QueryFactory.eq;
 
-
-import static org.boon.utils.Utils.ls;
-import static org.boon.utils.Utils.assertTrue;
-import static org.boon.utils.Utils.sleep;
 
 public class BenchMarkMainSimpleSearch {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
 
         final List<Employee> employees = BenchmarkHelper.createMetricTonOfEmployees(100_000);
@@ -34,14 +32,14 @@ public class BenchMarkMainSimpleSearch {
         MeasuredRun run4 = firstNameSearchNoIndexTestUnsafe_DR(employees, testResults);
         MeasuredRun run5 = linearSearchWithCache_DR(employees, testResults);
 
-        List<MeasuredRun> runs = ls(run1, run2, run3, run4, run5);
+        List<MeasuredRun> runs = Lists.list(run1, run2, run3, run4, run5);
 
 
         for (int index = 0; index < 2; index++) {
 
             for (MeasuredRun run : runs) {
                 System.gc();
-                sleep(10);
+                Thread.sleep(10);
                 run.run();
             }
         }
@@ -51,7 +49,7 @@ public class BenchMarkMainSimpleSearch {
 
             for (MeasuredRun run : runs) {
                 System.gc();
-                sleep(10);
+                Thread.sleep(10);
                 run.run();
                 System.out.printf("%s\t%s", run.name(), run.time());
             }
@@ -85,7 +83,9 @@ public class BenchMarkMainSimpleSearch {
                         break;
                     }
                 }
-                assertTrue(found);
+                if (!found) {
+                    die("not found");
+                }
             }
         };
     }
@@ -119,7 +119,10 @@ public class BenchMarkMainSimpleSearch {
                         break;
                     }
                 }
-                assertTrue(found);
+
+                if (!found) {
+                     die("not found");
+                }
 
             }
         };
@@ -153,7 +156,10 @@ public class BenchMarkMainSimpleSearch {
                         break;
                     }
                 }
-                assertTrue(found);
+
+                if (!found) {
+                    die("not found");
+                }
 
             }
         };
@@ -187,7 +193,10 @@ public class BenchMarkMainSimpleSearch {
                         break;
                     }
                 }
-                assertTrue(found);
+
+                if (!found) {
+                    die("not found");
+                }
 
             }
         };
@@ -221,7 +230,10 @@ public class BenchMarkMainSimpleSearch {
                         break;
                     }
                 }
-                assertTrue(found);
+
+                if (!found) {
+                    die("not found");
+                }
 
             }
         };

@@ -47,7 +47,7 @@ public class Reflection {
         }
 
         _useUnsafe = _useUnsafe && ! Boolean.getBoolean("com.org.org.datarepo.noUnsafe");
-        _useUnsafe = true;
+        _useUnsafe = false;
     }
 
 

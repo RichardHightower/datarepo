@@ -4,7 +4,6 @@ import org.boon.Sets;
 import org.boon.StringScanner;
 import org.boon.core.Typ;
 import org.boon.core.reflection.Reflection;
-import org.boon.primitive.CharScanner;
 
 import java.lang.reflect.Array;
 import java.text.DateFormat;
@@ -14,7 +13,6 @@ import java.util.logging.Logger;
 
 import static org.boon.utils.ComplainAndDie.complain;
 import static org.boon.utils.ComplainAndDie.die;
-import static org.boon.utils.Utils.*;
 
 public class Conversions {
     static Class<Conversions> types = Conversions.class;
@@ -236,6 +234,9 @@ public class Conversions {
 
     }
 
+    final static Set<String> TRUE_SET = Sets.set("t", "true", "True", "y", "yes", "1", "aye",
+            "ofcourse", "T", "TRUE", "ok");
+
     public static boolean toBoolean(Object obj) {
 
         if (obj.getClass() == boolean.class) {
@@ -243,15 +244,13 @@ public class Conversions {
         }
 
 
-        Set<String> trueSet = set("t", "true", "True", "y", "yes", "1", "aye",
-                "ofcourse", "T", "TRUE", "ok");
         if (obj instanceof String || obj instanceof CharSequence
                 || obj.getClass() == char[].class) {
             String str = Conversions.toString(obj);
             if (str.length() == 0) {
                 return false;
             } else {
-                return Sets.in(str, trueSet);
+                return Sets.in(str, TRUE_SET);
             }
         } else if (obj instanceof Boolean) {
             return ((Boolean) obj).booleanValue();
@@ -401,7 +400,7 @@ public class Conversions {
             Object newInstance = Array.newInstance(clz.getComponentType(), Reflection.len(value));
             Iterator<Object> iterator = iterator(Typ.object, value);
             while (iterator.hasNext()) {
-                idx(newInstance, index, iterator.next());
+                Reflection.idx(newInstance, index, iterator.next());
                 index++;
             }
             return (T) newInstance;
@@ -624,16 +623,6 @@ public class Conversions {
         return Reflection.toMap(value);
     }
 
-//    public static File toFile(Object set) {
-//        if (set instanceof File) {
-//            return (File) set;
-//        } else if (set instanceof CharSequence) {
-//            return file(str(set));
-//        } else {
-//            return toFile(set.toString());
-//        }
-//    }
-
 
     public static String toString(Object obj) {
         if (obj == null) {
@@ -767,7 +756,7 @@ public class Conversions {
         Iterator<Object> iterator = (Iterator<Object>) value.iterator();
         int index = 0;
         while (iterator.hasNext()) {
-            idx(array, index, iterator.next());
+            Reflection.idx(array, index, iterator.next());
             index++;
         }
         return array;
@@ -780,7 +769,7 @@ public class Conversions {
         Iterator<Object> iterator = (Iterator<Object>) value.iterator();
         int index = 0;
         while (iterator.hasNext()) {
-            idx(array, index, iterator.next());
+            Reflection.idx(array, index, iterator.next());
             index++;
         }
         return array;

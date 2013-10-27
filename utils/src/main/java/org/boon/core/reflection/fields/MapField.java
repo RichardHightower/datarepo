@@ -33,7 +33,7 @@ public class MapField implements FieldAccess {
             Map map = (Map) obj;
             return map.get(name);
         }
-        return die(Object.class, "Object must be a map");
+        return die(Object.class, "Object must be a map but was a " + obj.getClass().getName());
     }
 
     @Override

@@ -12,18 +12,17 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-
+import static org.boon.Exceptions.die;
 import static org.boon.Lists.list;
 
 
-import static org.boon.utils.Utils.sleep;
 
 import static org.datarepo.query.QueryFactory.eq;
 
 public class BenchMark {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
 
         final List<Employee> employees = BenchmarkHelper.createMetricTonOfEmployees(100_000);
@@ -40,22 +39,22 @@ public class BenchMark {
 
             for (MeasuredRun run : runs) {
                 System.gc();
-                sleep(10);
+                Thread.sleep(10);
                 run.run();
             }
         }
 
-        sleep(3_000);
+        Thread.sleep(3_000);
         System.out.println("Waiting...");
-        sleep(1_000);
+        Thread.sleep(1_000);
         System.out.println("Start Now...");
-        sleep(1_000);
+        Thread.sleep(1_000);
 
         for (int index = 0; index < 5; index++) {
 
             for (MeasuredRun run : runs) {
                 System.gc();
-                sleep(10);
+                Thread.sleep(10);
                 run.run();
                 System.out.printf("%s\t%s", run.name(), run.time());
             }
@@ -95,7 +94,9 @@ public class BenchMark {
                         break;
                     }
                 }
-                Utils.assertTrue(found);
+                if (!found) {
+                    die("not found");
+                }
 
             }
         };

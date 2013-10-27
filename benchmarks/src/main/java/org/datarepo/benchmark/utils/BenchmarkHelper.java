@@ -1,5 +1,6 @@
 package org.datarepo.benchmark.utils;
 
+import org.boon.Lists;
 import org.datarepo.benchmark.model.Department;
 import org.datarepo.benchmark.model.Employee;
 import org.datarepo.benchmark.model.SalesEmployee;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.boon.utils.Utils.list;
 
 public class BenchmarkHelper {
 
@@ -18,8 +18,8 @@ public class BenchmarkHelper {
 
     public static List<Employee> createMetricTonOfEmployees(int numEmps) {
         List<Employee> employees = new ArrayList<>();
-        List<String> firstNames = list(RandomWordUtil.generateWords(numEmps));
-        List<String> lastNames = list(RandomWordUtil.generateWords(numEmps));
+        List<String> firstNames = Lists.list(RandomWordUtil.generateWords(numEmps));
+        List<String> lastNames = Lists.list(RandomWordUtil.generateWords(numEmps));
 
 
         System.out.println("Creating this many employees " + numEmps);
