@@ -167,7 +167,7 @@ the data set is large, this would be much faster because it would use
 the indexes (TreeMap more or less).
 
 ```
-package org.datarepo;
+package org.boon;
 ...
 ...
 public class Employee {
@@ -664,7 +664,7 @@ evolving and growing over the years.
 
 One jar to rule them all. I plan on DataRepo being one jar file.
 So if I decide to use RadixTree or Guava, I will likely fork them and put them
-under org.datarepo. Example: org.datarepo.borrowed.com.google.common.cache.Cache.java. I will
+under org.boon. Example: org.boon.borrowed.com.google.common.cache.Cache.java. I will
 also strip them of any features that I don't plan on using. My goal is for DataRepo
 to be one single, well tested library not a library that depends on five libraries
 that depend on five libraries, ad infintum.  I view caching and RadixTree as
