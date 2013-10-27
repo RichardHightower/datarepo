@@ -1,18 +1,18 @@
 package org.boon.benchmark;
 
 import org.boon.Lists;
-import org.boon.Repo;
-import org.boon.Repos;
+import org.boon.datarepo.Repo;
+import org.boon.datarepo.Repos;
 import org.boon.benchmark.model.Employee;
 import org.boon.benchmark.utils.BenchmarkHelper;
-import org.boon.query.Query;
+import org.boon.criteria.Criteria;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.boon.Exceptions.die;
-import static org.boon.query.QueryFactory.eq;
+import static org.boon.criteria.CriteriaFactory.eq;
 
 
 public class BenchMarkMainSimpleSearch {
@@ -94,7 +94,7 @@ public class BenchMarkMainSimpleSearch {
     private static MeasuredRun firstNameSearchNoIndexTest_DR(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
         return new MeasuredRun("A_no_index_DR", 1000, 10_000, results) {
             Repo repo;
-            Query exp = eq("firstName", "Mike");
+            Criteria exp = eq("firstName", "Mike");
 
             @Override
             protected void init() {
@@ -131,7 +131,7 @@ public class BenchMarkMainSimpleSearch {
     private static MeasuredRun firstNameSearchNoIndexTestUnsafe_DR(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
         return new MeasuredRun("A_no_index_unsafe_DR", 1000, 10_000, results) {
             Repo repo;
-            Query exp = eq("firstName", "Mike");
+            Criteria exp = eq("firstName", "Mike");
 
             @Override
             protected void init() {
@@ -168,7 +168,7 @@ public class BenchMarkMainSimpleSearch {
     private static MeasuredRun linearSearchWithCache_DR(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
         return new MeasuredRun("A_no_index_with_cache_DR", 1000, 10_000, results) {
             Repo repo;
-            Query exp = eq("firstName", "Mike");
+            Criteria exp = eq("firstName", "Mike");
 
             @Override
             protected void init() {
@@ -205,7 +205,7 @@ public class BenchMarkMainSimpleSearch {
     private static MeasuredRun firstNameSearchIndexTest_DR(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
         return new MeasuredRun("A_with_search_index_DR", 1000, 10_000, results) {
             Repo repo;
-            Query exp = eq("firstName", "Mike");
+            Criteria exp = eq("firstName", "Mike");
 
             @Override
             protected void init() {

@@ -1,10 +1,10 @@
 package org.boon.benchmark;
 
-import org.boon.Repo;
-import org.boon.Repos;
+import org.boon.datarepo.Repo;
+import org.boon.datarepo.Repos;
 import org.boon.benchmark.model.Employee;
 import org.boon.benchmark.utils.BenchmarkHelper;
-import org.boon.query.Query;
+import org.boon.criteria.Criteria;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import static org.boon.Lists.list;
 
 
 
-import static org.boon.query.QueryFactory.eq;
+import static org.boon.criteria.CriteriaFactory.eq;
 
 public class BenchMark {
 
@@ -68,7 +68,7 @@ public class BenchMark {
     private static MeasuredRun test(final List<Employee> employees, final Map<String, List<MeasuredRun>> results) {
         return new MeasuredRun("test", 1000, 1_000_000, results) {
             Repo repo;
-            Query exp = eq("firstName", "Mike");
+            Criteria exp = eq("firstName", "Mike");
 
             @Override
             protected void init() {

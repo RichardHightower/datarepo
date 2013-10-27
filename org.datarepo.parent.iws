@@ -2,114 +2,96 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9cb9a538-7db4-4610-8513-29f74794453d" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMark.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMark.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMarkMainSimpleSearch.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMarkMainSimpleSearch.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMarkUpdate.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMarkUpdate.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/MeasuredRun.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/MeasuredRun.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/model/Department.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/model/Department.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/model/Employee.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/model/Employee.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/model/HourlyEmployee.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/model/HourlyEmployee.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/model/Meta.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/model/Meta.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/model/Meta2.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/model/Meta2.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/model/Meta3.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/model/Meta3.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/model/SalesEmployee.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/model/SalesEmployee.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/model/Tag.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/model/Tag.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/utils/BenchmarkHelper.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/utils/BenchmarkHelper.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/utils/RandomWordUtil.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/utils/RandomWordUtil.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/benchmarks/src/test/java/org/datarepo/benchmark/MeasuredRunTest.java" afterPath="$PROJECT_DIR$/benchmarks/src/test/java/org/boon/benchmark/MeasuredRunTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Bag.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/Bag.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/CollectionDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/CollectionDecorator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Collections.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/Collections.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/DataRepoException.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/DataRepoException.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Filter.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/Filter.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/LookupIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/LookupIndex.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/ObjectEditor.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/ObjectEditor.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/PlanStep.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/PlanStep.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/PlanSteps.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/PlanSteps.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Repo.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/Repo.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/RepoBuilder.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/RepoBuilder.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/Repos.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/Repos.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/ResultSet.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/ResultSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/SearchableCollection.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/SearchableCollection.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/all.uml" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/all.uml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/early-diagram.png" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/early-diagram.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/FilterDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/FilterDefault.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/ObjectEditorDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/ObjectEditorDefault.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoBuilderDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/RepoBuilderDefault.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/RepoDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/RepoDefault.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/ResultSetImpl.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/ResultSetImpl.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/SearchableCollectionDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/SearchableCollectionDefault.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/FilterDecoratorBase.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/FilterDecoratorBase.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/FilterWithSimpleCache.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/FilterWithSimpleCache.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorCloneDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/ObjectEditorCloneDecorator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorDecoratorBase.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/ObjectEditorDecoratorBase.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorEventDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/ObjectEditorEventDecorator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/decorators/ObjectEditorLogNullCheckDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/ObjectEditorLogNullCheckDecorator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/BaseIndexWrapper.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/BaseIndexWrapper.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/LookupIndexDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/LookupIndexDefault.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/MultiValue.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/MultiValue.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/NestedKeySearchIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/NestedKeySearchIndex.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/SearchIndexDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/SearchIndexDefault.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/TypeHierarchyIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/TypeHierarchyIndex.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueLookupIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/UniqueLookupIndex.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/indexes/UniqueSearchIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/UniqueSearchIndex.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/JavaUtilMap.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/maps/JavaUtilMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/JavaUtilNavigableMap.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/maps/JavaUtilNavigableMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/impl/maps/MapCreatorImpl.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/maps/MapCreatorImpl.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/modification/ModificationEvent.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/modification/ModificationEvent.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/modification/ModificationListener.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/modification/ModificationListener.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/modification/ModificationType.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/modification/ModificationType.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Function.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/predicates/Function.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Predicate.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/predicates/Predicate.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/PropertyNameUtils.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/predicates/PropertyNameUtils.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/predicates/Supplier.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/predicates/Supplier.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Criterion.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Criterion.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Group.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Group.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Grouping.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Grouping.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Not.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Not.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Operator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Operator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/ProjectedSelector.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/ProjectedSelector.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Query.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Query.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/QueryFactory.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/QueryFactory.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Selector.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Selector.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Sort.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Sort.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/SortType.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/SortType.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Update.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Update.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/query/Visitor.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Visitor.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/FilterComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/FilterComposer.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/MapCreator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/MapCreator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/ObjectEditorComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/ObjectEditorComposer.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/RepoComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/RepoComposer.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/ResultSetInternal.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/ResultSetInternal.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/SPIFactory.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/SPIFactory.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/SearchIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/SearchIndex.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/SearchableCollectionComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/SearchableCollectionComposer.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/datarepo/spi/TypedMap.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/TypedMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/impl/indexes/MultiValueTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/impl/indexes/MultiValueTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/query/CriterionTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/query/CriterionTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/CriteriaTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/CriteriaTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/MoreTests.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/MoreTests.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/RandomWordUtil.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/RandomWordUtil.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/RepoBuilderTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/RepoBuilderTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/RepoDefaultTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/RepoDefaultTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/SortTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/SortTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/TestHelper.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/TestHelper.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/TypeTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/TypeTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/ClassForTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/model/ClassForTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/Department.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/model/Department.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/Employee.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/model/Employee.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/HourlyEmployee.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/model/HourlyEmployee.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/Meta.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/model/Meta.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/Meta2.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/model/Meta2.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/Meta3.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/model/Meta3.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/SalesEmployee.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/model/SalesEmployee.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/tests/model/Tag.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/model/Tag.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/datarepo/utils/UtilsTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/utils/UtilsTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/Reflection.java" afterPath="$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/Reflection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/benchmarks/benchmarks.iml" afterPath="$PROJECT_DIR$/benchmarks/benchmarks.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/pom.xml" afterPath="$PROJECT_DIR$/datarepo/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/pom.xml" afterPath="$PROJECT_DIR$/utils/pom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/criteria/CriterionTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/QueryFactory.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/all.uml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/early-diagram.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/GeoIPCountryWhois.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/GeoLiteCity-Blocks.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/GeoLiteCity-Location.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/dbip-country-2013-06.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/others/IpToCountry.6C.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/others/IpToCountry.6R.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/others/IpToCountry.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/others/california-zip-xtract.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/others/california.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/others/country-codes.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/others/free-zipcode-database.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/data/raw-data/others/xtract_zipcode.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/query/CriterionTest.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/Bag.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/Bag.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/CollectionDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/CollectionDecorator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/Collections.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/Collections.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/DataRepoException.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/DataRepoException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/Filter.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/Filter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/LookupIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/LookupIndex.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/ObjectEditor.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/ObjectEditor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/PlanStep.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/PlanStep.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/PlanSteps.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/PlanSteps.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/Repo.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/Repo.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/RepoBuilder.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/RepoBuilder.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/Repos.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/Repos.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/ResultSet.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/ResultSet.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/SearchableCollection.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/SearchableCollection.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/FilterDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/FilterDefault.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/ObjectEditorDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/ObjectEditorDefault.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/RepoBuilderDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/RepoBuilderDefault.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/RepoDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/RepoDefault.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/ResultSetImpl.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/ResultSetImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/SearchableCollectionDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/SearchableCollectionDefault.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/FilterDecoratorBase.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/decorators/FilterDecoratorBase.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/FilterWithSimpleCache.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/decorators/FilterWithSimpleCache.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/ObjectEditorCloneDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/decorators/ObjectEditorCloneDecorator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/ObjectEditorDecoratorBase.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/decorators/ObjectEditorDecoratorBase.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/ObjectEditorEventDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/decorators/ObjectEditorEventDecorator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/decorators/ObjectEditorLogNullCheckDecorator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/decorators/ObjectEditorLogNullCheckDecorator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/BaseIndexWrapper.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/indexes/BaseIndexWrapper.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/LookupIndexDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/indexes/LookupIndexDefault.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/MultiValue.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/indexes/MultiValue.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/NestedKeySearchIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/indexes/NestedKeySearchIndex.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/SearchIndexDefault.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/indexes/SearchIndexDefault.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/TypeHierarchyIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/indexes/TypeHierarchyIndex.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/UniqueLookupIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/indexes/UniqueLookupIndex.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/indexes/UniqueSearchIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/indexes/UniqueSearchIndex.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/maps/JavaUtilMap.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/maps/JavaUtilMap.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/maps/JavaUtilNavigableMap.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/maps/JavaUtilNavigableMap.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/impl/maps/MapCreatorImpl.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/impl/maps/MapCreatorImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/modification/ModificationEvent.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/modification/ModificationEvent.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/modification/ModificationListener.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/modification/ModificationListener.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/modification/ModificationType.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/modification/ModificationType.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Criterion.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Criterion.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Group.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Group.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Grouping.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Grouping.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Not.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Not.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Operator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Operator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/ProjectedSelector.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/ProjectedSelector.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Query.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Criteria.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/QueryFactory.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/CriteriaFactory.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Selector.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Selector.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Sort.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Sort.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/SortType.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/SortType.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Update.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Update.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Visitor.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Visitor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/FilterComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/spi/FilterComposer.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/MapCreator.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/spi/MapCreator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/ObjectEditorComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/spi/ObjectEditorComposer.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/RepoComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/spi/RepoComposer.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/ResultSetInternal.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/spi/ResultSetInternal.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/SPIFactory.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/spi/SPIFactory.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/SearchIndex.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/spi/SearchIndex.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/SearchableCollectionComposer.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/spi/SearchableCollectionComposer.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/spi/TypedMap.java" afterPath="$PROJECT_DIR$/datarepo/src/main/java/org/boon/datarepo/spi/TypedMap.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/impl/indexes/MultiValueTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/datarepo/impl/indexes/MultiValueTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMark.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMark.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMarkMainSimpleSearch.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMarkMainSimpleSearch.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMarkUpdate.java" afterPath="$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMarkUpdate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/CriteriaTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/CriteriaTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/MoreTests.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/MoreTests.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/RepoDefaultTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/RepoDefaultTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/SortTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/SortTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/TestHelper.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/TestHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/TypeTest.java" afterPath="$PROJECT_DIR$/datarepo/src/test/java/org/boon/tests/TypeTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.datarepo.parent.iws" afterPath="$PROJECT_DIR$/org.datarepo.parent.iws" />
     </list>
     <ignored path="org.datarepo.parent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -315,7 +297,7 @@
     <file path="/MeasuredRun.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382862078972" ignored="false" />
     <file path="/BenchmarkHelper.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382861734814" ignored="false" />
     <file path="/ComplainAndDie.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382822799326" ignored="false" />
-    <file path="/fragment.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382859777234" ignored="false" />
+    <file path="/fragment.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382865283573" ignored="false" />
     <file path="/Conversions.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382862770101" ignored="false" />
     <file path="$PROJECT_DIR$/../boon/src/main/java/org/boon/Str.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382830463194" ignored="false" />
     <file path="/Typ.java" changelist="9cb9a538-7db4-4610-8513-29f74794453d" time="1382828435352" ignored="false" />
@@ -521,115 +503,88 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ReflectField.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/fields/ReflectField.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="26" selection-start="1449" selection-end="1449" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PropertyField.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/fields/PropertyField.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="276" selection-end="276" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UnsafeField.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/fields/UnsafeField.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="668" column="0" selection-start="16444" selection-end="16444" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CriterionTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/boon/query/CriterionTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="33" selection-start="656" selection-end="656" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Exceptions.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/Exceptions.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="0" selection-start="477" selection-end="477" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Conversions.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/Conversions.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="876" column="16" selection-start="30176" selection-end="30176" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#12423#12453#0" expanded="true" />
-                <element signature="e#14055#14085#0" expanded="true" />
-                <element signature="e#18976#19006#0" expanded="true" />
-                <element signature="e#20162#20192#0" expanded="true" />
-                <element signature="e#20553#20597#0" expanded="true" />
-                <element signature="e#21115#21159#0" expanded="true" />
-                <element signature="e#21664#21708#0" expanded="true" />
-                <element signature="e#25478#25507#1" expanded="true" />
-                <element signature="e#26218#26248#1" expanded="true" />
-                <element signature="e#26661#26691#1" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Ordering.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/Ordering.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="158" column="54" selection-start="5141" selection-end="5141" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2252#2777#0" expanded="true" />
-                <element signature="e#2766#2767#0" expanded="true" />
-                <element signature="e#3023#4944#0" expanded="true" />
-                <element signature="e#4933#4934#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Collections.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/Collections.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="13" selection-start="1110" selection-end="1110" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Criterion.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Criterion.java">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Criterion.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="148" selection-end="148" vertical-scroll-proportion="0.0">
+            <state line="13" column="22" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Grouping.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Grouping.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="12" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Group.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Group.java">
+      <file leaf-file-name="Not.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Not.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="22" selection-start="148" selection-end="148" vertical-scroll-proportion="0.1486068">
+            <state line="6" column="13" selection-start="117" selection-end="117" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Operator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Operator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="12" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProjectedSelector.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/ProjectedSelector.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="22" selection-start="300" selection-end="300" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Criteria.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Criteria.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="28" selection-start="545" selection-end="545" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CriteriaFactory.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/CriteriaFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="410" column="0" selection-start="15039" selection-end="15039" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QueryFactory.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/QueryFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="0" selection-start="781" selection-end="781" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PropertyNameUtils.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/predicates/PropertyNameUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="13" selection-start="65" selection-end="65" vertical-scroll-proportion="0.1511811">
               <folding />
             </state>
           </provider>
@@ -658,10 +613,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/utils/BenchmarkHelper.java" />
-        <option value="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMarkUpdate.java" />
-        <option value="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMark.java" />
-        <option value="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/BenchMarkMainSimpleSearch.java" />
         <option value="$PROJECT_DIR$/benchmarks/src/main/java/org/datarepo/benchmark/MeasuredRun.java" />
         <option value="$PROJECT_DIR$/utils/src/main/java/org/boon/utils/Conversions.java" />
         <option value="$PROJECT_DIR$/utils/src/main/java/org/boon/utils/Utils.java" />
@@ -674,6 +625,10 @@
         <option value="$PROJECT_DIR$/utils/src/main/java/org/boon/utils/Ordering.java" />
         <option value="$PROJECT_DIR$/utils/src/main/java/org/boon/Ordering.java" />
         <option value="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Criterion.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Criteria.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/QueryFactory.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/CriteriaFactory.java" />
+        <option value="$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/QueryFactory.java" />
       </list>
     </option>
   </component>
@@ -961,36 +916,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="raw-data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.datarepo.parent" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datarepo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datarepo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -1000,40 +925,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="boon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.datarepo.parent" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datarepo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datarepo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="boon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="query" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1082,23 +973,27 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="org.boon.query.CriteriaFactory" />
       <recent name="org.boon.Comparators" />
       <recent name="org.boon.utils.Typ" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.boon.datarepo" />
     </key>
   </component>
   <component name="RunManager" selected="JUnit.&lt;default&gt;">
     <configuration default="false" name="CriterionTest" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="org.boon.query.*" />
+          <option name="PATTERN" value="org.boon.criteria.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <module name="datarepo" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="org.boon.query" />
-      <option name="MAIN_CLASS_NAME" value="org.boon.query.CriterionTest" />
+      <option name="PACKAGE_NAME" value="org.boon.criteria" />
+      <option name="MAIN_CLASS_NAME" value="org.boon.criteria.CriterionTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
@@ -1328,12 +1223,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="20" y="22" width="1900" height="1160" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3298077" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298077" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1346,11 +1241,11 @@
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13376483" sideWeight="0.6701923" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13376483" sideWeight="0.6721154" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24811219" sideWeight="0.6701923" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3278846" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24811219" sideWeight="0.6721154" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3278846" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Aspects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25620282" sideWeight="0.67115384" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1480,156 +1375,119 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMarkUpdate.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Selector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="23" selection-start="2295" selection-end="2295" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMark.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="34" selection-start="2781" selection-end="2781" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/BenchMarkMainSimpleSearch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="236" column="0" selection-start="7577" selection-end="7577" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/benchmarks/src/main/java/org/boon/benchmark/MeasuredRun.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="12" selection-start="1470" selection-end="1470" vertical-scroll-proportion="0.0">
+        <state line="16" column="22" selection-start="368" selection-end="368" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Sort.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Sort.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="149" column="39" selection-start="3593" selection-end="3593" vertical-scroll-proportion="0.0">
+        <state line="10" column="13" selection-start="184" selection-end="184" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/Reflection.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/SortType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="25" selection-start="1311" selection-end="1311" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#11415#11442#0" expanded="true" />
-            <element signature="e#12149#12179#0" expanded="true" />
-            <element signature="e#14591#14621#0" expanded="true" />
-            <element signature="e#17665#17695#0" expanded="true" />
-            <element signature="e#18511#18541#0" expanded="true" />
-            <element signature="e#20226#20256#0" expanded="true" />
-            <element signature="e#35784#35815#0" expanded="true" />
-            <element signature="e#36026#36070#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/fields/ReflectField.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="26" selection-start="1449" selection-end="1449" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/fields/PropertyField.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="276" selection-end="276" vertical-scroll-proportion="0.0">
+        <state line="2" column="12" selection-start="37" selection-end="37" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/fields/UnsafeField.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Update.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="668" column="0" selection-start="16444" selection-end="16444" vertical-scroll-proportion="0.0">
+        <state line="9" column="22" selection-start="155" selection-end="155" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/test/java/org/boon/query/CriterionTest.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Visitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="33" selection-start="656" selection-end="656" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/Exceptions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="477" selection-end="477" vertical-scroll-proportion="0.0">
+        <state line="4" column="17" selection-start="69" selection-end="69" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/core/reflection/Conversions.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Group.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="876" column="16" selection-start="30176" selection-end="30176" vertical-scroll-proportion="0.0">
+        <state line="7" column="22" selection-start="151" selection-end="151" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12423#12453#0" expanded="true" />
-            <element signature="e#14055#14085#0" expanded="true" />
-            <element signature="e#18976#19006#0" expanded="true" />
-            <element signature="e#20162#20192#0" expanded="true" />
-            <element signature="e#20553#20597#0" expanded="true" />
-            <element signature="e#21115#21159#0" expanded="true" />
-            <element signature="e#21664#21708#0" expanded="true" />
-            <element signature="e#25478#25507#1" expanded="true" />
-            <element signature="e#26218#26248#1" expanded="true" />
-            <element signature="e#26661#26691#1" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/src/main/java/org/boon/Ordering.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Grouping.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="54" selection-start="5141" selection-end="5141" vertical-scroll-proportion="0.0">
+        <state line="2" column="12" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Not.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="13" selection-start="117" selection-end="117" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Operator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="12" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/ProjectedSelector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="22" selection-start="300" selection-end="300" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Criterion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="22" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2252#2777#0" expanded="true" />
-            <element signature="e#2766#2767#0" expanded="true" />
-            <element signature="e#3023#4944#0" expanded="true" />
-            <element signature="e#4933#4934#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/Collections.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/Criteria.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="13" selection-start="1110" selection-end="1110" vertical-scroll-proportion="0.0">
+        <state line="21" column="28" selection-start="545" selection-end="545" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/CriteriaFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="410" column="0" selection-start="15039" selection-end="15039" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/criteria/QueryFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="781" selection-end="781" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Criterion.java">
+    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/predicates/PropertyNameUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="148" selection-end="148" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datarepo/src/main/java/org/boon/query/Group.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="22" selection-start="148" selection-end="148" vertical-scroll-proportion="0.1486068">
+        <state line="4" column="13" selection-start="65" selection-end="65" vertical-scroll-proportion="0.1511811">
           <folding />
         </state>
       </provider>

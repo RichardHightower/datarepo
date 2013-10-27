@@ -1,8 +1,9 @@
 package org.boon.tests;
 
 import junit.framework.Assert;
-import org.boon.Repo;
-import org.boon.query.Visitor;
+import org.boon.datarepo.Repo;
+import org.boon.criteria.CriteriaFactory;
+import org.boon.criteria.Visitor;
 import org.boon.tests.model.Employee;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,11 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 import static junit.framework.Assert.*;
-import static org.boon.query.ProjectedSelector.max;
-import static org.boon.query.QueryFactory.*;
-import static org.boon.query.Selector.*;
-import static org.boon.query.Update.set;
-import static org.boon.query.Update.update;
+import static org.boon.criteria.ProjectedSelector.max;
+import static org.boon.criteria.Selector.*;
+import static org.boon.criteria.Update.set;
+import static org.boon.criteria.Update.update;
 import static org.boon.tests.model.Employee.employee;
 
 
@@ -74,7 +74,7 @@ public class RepoDefaultTest {
         assertEquals("firstName equals", "Di", firstName);
 
         assertEquals("Test that the search index is rebuilt", "Di",
-                repo.query(eq("firstName", "Di")).get(0).getFirstName());
+                repo.query(CriteriaFactory.eq("firstName", "Di")).get(0).getFirstName());
 
     }
 
@@ -89,7 +89,7 @@ public class RepoDefaultTest {
         assertEquals("firstName equals", "Di", firstName);
 
         assertEquals("Test that the search index is rebuilt", "Di",
-                repo.query(eq("firstName", "Di")).get(0).getFirstName());
+                repo.query(CriteriaFactory.eq("firstName", "Di")).get(0).getFirstName());
 
     }
 
@@ -104,7 +104,7 @@ public class RepoDefaultTest {
         assertEquals("firstName equals", "Di", firstName);
 
         assertEquals("Test that the search index is rebuilt", "Di",
-                repo.query(eq("firstName", "Di")).get(0).getFirstName());
+                repo.query(CriteriaFactory.eq("firstName", "Di")).get(0).getFirstName());
 
     }
 
@@ -116,16 +116,16 @@ public class RepoDefaultTest {
 
 
         repo.updateByFilter("firstName", "Di",
-                eq("firstName", "Diana"),
-                eq("lastName", "Hightower"),
-                eq("id", "217859992"));
+                CriteriaFactory.eq("firstName", "Diana"),
+                CriteriaFactory.eq("lastName", "Hightower"),
+                CriteriaFactory.eq("id", "217859992"));
 
 
         String firstName = repo.get("217859992").getFirstName();
         assertEquals("firstName equals", "Di", firstName);
 
         assertEquals("Test that the search index is rebuilt", "Di",
-                repo.query(eq("firstName", "Di")).get(0).getFirstName());
+                repo.query(CriteriaFactory.eq("firstName", "Di")).get(0).getFirstName());
 
     }
 
@@ -137,16 +137,16 @@ public class RepoDefaultTest {
 
 
         repo.updateByFilter(update(set("firstName", "Di")),
-                eq("firstName", "Diana"),
-                eq("lastName", "Hightower"),
-                eq("id", "2178599917788"));
+                CriteriaFactory.eq("firstName", "Diana"),
+                CriteriaFactory.eq("lastName", "Hightower"),
+                CriteriaFactory.eq("id", "2178599917788"));
 
 
         String firstName = repo.get("2178599917788").getFirstName();
         assertEquals("firstName equals", "Di", firstName);
 
         assertEquals("Test that the search index is rebuilt", "Di",
-                repo.query(eq("firstName", "Di")).get(0).getFirstName());
+                repo.query(CriteriaFactory.eq("firstName", "Di")).get(0).getFirstName());
 
     }
 
@@ -157,7 +157,7 @@ public class RepoDefaultTest {
         emp = employee("Diana", "Hightower", "8178599912", "08.15.82", 100_000);
         repo.add(emp);
 
-        List<Employee> employees = repo.query(eq("firstName", "Diana"));
+        List<Employee> employees = repo.query(CriteriaFactory.eq("firstName", "Diana"));
         assertNotNull(employees);
         assertEquals(2, employees.size());
         assertEquals("Diana", employees.get(0).getFirstName());
@@ -167,7 +167,7 @@ public class RepoDefaultTest {
     public void testEasyFilter() throws Exception {
         Employee emp = employee("Diana", "Hightower", "2178599912", "08.15.82", 100_000);
         repo.add(emp);
-        List<Employee> employees = repo.query(eq("firstName", "Diana"));
+        List<Employee> employees = repo.query(CriteriaFactory.eq("firstName", "Diana"));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Diana", employees.get(0).getFirstName());
@@ -177,7 +177,7 @@ public class RepoDefaultTest {
     public void testEasyFilterByMap() throws Exception {
         Employee emp = employee("Diana", "Hightower", "3178599912", "08.15.82", 100_000);
         repo.add(emp);
-        List<Map<String, Object>> employees = repo.queryAsMaps(eq("firstName", "Diana"));
+        List<Map<String, Object>> employees = repo.queryAsMaps(CriteriaFactory.eq("firstName", "Diana"));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Diana", employees.get(0).get("firstName"));
@@ -192,7 +192,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List<Map<String, Object>> list = repo.sortedQuery("firstName", selects(select("firstName")), eq("lastName", "Hightower"));
+        List<Map<String, Object>> list = repo.sortedQuery("firstName", selects(select("firstName")), CriteriaFactory.eq("lastName", "Hightower"));
 
         assertEquals(2, list.size());
         assertEquals("Bob", list.get(0).get("firstName"));
@@ -211,7 +211,7 @@ public class RepoDefaultTest {
 
     @Test
     public void testQueryOnUniqueIndex() throws Exception {
-        List<Map<String, Object>> list = repo.query(selects(select("firstName")), gt("empNum", 5l));
+        List<Map<String, Object>> list = repo.query(selects(select("firstName")), CriteriaFactory.gt("empNum", 5l));
         assertNotNull(list);
         assertTrue(list.size() > 1);
 
@@ -227,7 +227,7 @@ public class RepoDefaultTest {
 
         List<Map<String, Object>> list = repo.query(
                 selects(select("department", "name")),
-                eq("lastName", "Hightower"));
+                CriteriaFactory.eq("lastName", "Hightower"));
 
         assertEquals("engineering", list.get(0).get("department.name"));
         assertEquals("engineering", list.get(1).get("department.name"));
@@ -244,7 +244,7 @@ public class RepoDefaultTest {
 
         List<Map<String, Object>> list = repo.query(
                 selects(select("tags", "name")),
-                eq("lastName", "Hightower"));
+                CriteriaFactory.eq("lastName", "Hightower"));
 
         System.out.println(list.get(0));
         Assert.assertEquals("tag1", idx(list.get(0).get("tags.name"), 0));
@@ -261,7 +261,7 @@ public class RepoDefaultTest {
 
         List<Map<String, Object>> list = repo.query(
                 selects(select("tags", "metas", "name0")),
-                eq("lastName", "Hightower"));
+                CriteriaFactory.eq("lastName", "Hightower"));
 
         Assert.assertEquals("mtag1", idx(list.get(0).get("tags.metas.name0"), 0));
 
@@ -278,7 +278,7 @@ public class RepoDefaultTest {
 
         List<Map<String, Object>> list = repo.query(
                 selects(select("tags", "metas", "metas2", "name2")),
-                eq("lastName", "Hightower"));
+                CriteriaFactory.eq("lastName", "Hightower"));
 
 
         Assert.assertEquals("2tag1", idx(list.get(0).get("tags.metas.metas2.name2"), 0));
@@ -296,7 +296,7 @@ public class RepoDefaultTest {
 
         List<Map<String, Object>> list = repo.query(
                 selects(select("tags", "metas", "metas2", "name2")),
-                eqNested("2tag1", "tags", "metas", "metas2", "name2"));
+                CriteriaFactory.eqNested("2tag1", "tags", "metas", "metas2", "name2"));
 
 
         Assert.assertEquals("2tag1", idx(list.get(0).get("tags.metas.metas2.name2"), 0));
@@ -314,7 +314,7 @@ public class RepoDefaultTest {
 
         List<Map<String, Object>> list = repo.query(
                 selects(selectPropPath("department", "name")),
-                eq("lastName", "Hightower"));
+                CriteriaFactory.eq("lastName", "Hightower"));
 
         assertEquals("engineering", list.get(0).get("department.name"));
         assertEquals("engineering", list.get(1).get("department.name"));
@@ -329,7 +329,7 @@ public class RepoDefaultTest {
         repo.add(emp);
         repo.add(emp2);
 
-        List<Map<String, Object>> list = repo.sortedQuery("firstName", selects(select("firstName")), eq("lastName", "Hightower"));
+        List<Map<String, Object>> list = repo.sortedQuery("firstName", selects(select("firstName")), CriteriaFactory.eq("lastName", "Hightower"));
 
         assertEquals("Bob", list.get(0).get("firstName"));
         assertEquals("Diana", list.get(1).get("firstName"));
@@ -342,7 +342,7 @@ public class RepoDefaultTest {
         Employee emp = employee("Diana", "Hightower", "217859997", "08.15.82", 100_000);
         repo.add(emp);
         List<Employee> employees = repo.query(
-                eq("firstName", "Diana"), eq("lastName", "Hightower"), eq("id", "217859997"));
+                CriteriaFactory.eq("firstName", "Diana"), CriteriaFactory.eq("lastName", "Hightower"), CriteriaFactory.eq("id", "217859997"));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Diana", employees.get(0).getFirstName());
@@ -351,8 +351,8 @@ public class RepoDefaultTest {
     @Test
     public void testFilterLogicalOperators() throws Exception {
         List<Employee> employees = repo.query(
-                startsWith("firstName", "Bob"), eq("lastName", "Smith"),
-                lte("salary", 200_000), gte("salary", 190_000));
+                CriteriaFactory.startsWith("firstName", "Bob"), CriteriaFactory.eq("lastName", "Smith"),
+                CriteriaFactory.lte("salary", 200_000), CriteriaFactory.gte("salary", 190_000));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Bob", employees.get(0).getFirstName());
@@ -363,8 +363,8 @@ public class RepoDefaultTest {
     @Test
     public void testFilterLogicalOperators2() throws Exception {
         List<Employee> employees = repo.query(
-                startsWith("firstName", "Bob"), eq("lastName", "Smith"), lt("salary", 200_000),
-                gt("salary", 190_000));
+                CriteriaFactory.startsWith("firstName", "Bob"), CriteriaFactory.eq("lastName", "Smith"), CriteriaFactory.lt("salary", 200_000),
+                CriteriaFactory.gt("salary", 190_000));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Bob", employees.get(0).getFirstName());
@@ -375,7 +375,7 @@ public class RepoDefaultTest {
     @Test
     public void testFilterLT() throws Exception {
         List<Employee> employees = repo.query(
-                gt("salary", 200_000), eq("lastName", "Smith"));
+                CriteriaFactory.gt("salary", 200_000), CriteriaFactory.eq("lastName", "Smith"));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Bobbzie", employees.get(0).getFirstName());
@@ -386,7 +386,7 @@ public class RepoDefaultTest {
     @Test
     public void testFilterLogicalOperators3() throws Exception {
         List<Employee> employees = repo.query(
-                startsWith("firstName", "Bob"), eq("lastName", "Smith"), between("salary", 190_000, 200_000));
+                CriteriaFactory.startsWith("firstName", "Bob"), CriteriaFactory.eq("lastName", "Smith"), CriteriaFactory.between("salary", 190_000, 200_000));
         assertNotNull(employees);
         assertEquals(1, employees.size());
         assertEquals("Bob", employees.get(0).getFirstName());
@@ -404,7 +404,7 @@ public class RepoDefaultTest {
 
         List<Map<String, Object>> list = repo.query(
                 selects(select("tags", "metas", "metas2", "metas3", "name3")),
-                eq("lastName", "Hightower"));
+                CriteriaFactory.eq("lastName", "Hightower"));
 
         //rint("list", list);
 

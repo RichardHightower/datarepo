@@ -1,17 +1,17 @@
 package org.boon.benchmark;
 
 import org.boon.Lists;
-import org.boon.Repo;
-import org.boon.Repos;
+import org.boon.datarepo.Repo;
+import org.boon.datarepo.Repos;
 import org.boon.benchmark.model.Employee;
 import org.boon.benchmark.utils.BenchmarkHelper;
-import org.boon.query.Update;
+import org.boon.criteria.Update;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.boon.query.QueryFactory.eqNested;
+import static org.boon.criteria.CriteriaFactory.eqNested;
 
 
 

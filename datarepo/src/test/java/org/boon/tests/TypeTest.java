@@ -1,14 +1,14 @@
 package org.boon.tests;
 
-import org.boon.Repo;
-import org.boon.Repos;
-import org.boon.modification.ModificationEvent;
-import org.boon.modification.ModificationListener;
+import org.boon.datarepo.Repo;
+import org.boon.datarepo.Repos;
+import org.boon.datarepo.modification.ModificationEvent;
+import org.boon.datarepo.modification.ModificationListener;
+import org.boon.criteria.CriteriaFactory;
 import org.boon.tests.model.ClassForTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.boon.query.QueryFactory.*;
 import static org.junit.Assert.assertEquals;
 
 public class TypeTest {
@@ -131,50 +131,50 @@ public class TypeTest {
 
     @Test
     public void testQuery() throws Exception {
-        repo.query(eq("ints", 1), eq("floats", 1.1f),
-                eq("doubles", 1.1), eq("shorts", (short)1),
-                eq("chars", 'c'), eq("longs", 1L),
-                eq("bytes", (byte)1));
+        repo.query(CriteriaFactory.eq("ints", 1), CriteriaFactory.eq("floats", 1.1f),
+                CriteriaFactory.eq("doubles", 1.1), CriteriaFactory.eq("shorts", (short) 1),
+                CriteriaFactory.eq("chars", 'c'), CriteriaFactory.eq("longs", 1L),
+                CriteriaFactory.eq("bytes", (byte) 1));
 
-        repo.query(gt("ints", 1), gt("floats", 1.1f),
-                gt("doubles", 1.1), gt("shorts", (short)1),
-                gt("chars", 'c'), gt("longs", 1L),
-                gt("bytes", (byte)1));
+        repo.query(CriteriaFactory.gt("ints", 1), CriteriaFactory.gt("floats", 1.1f),
+                CriteriaFactory.gt("doubles", 1.1), CriteriaFactory.gt("shorts", (short) 1),
+                CriteriaFactory.gt("chars", 'c'), CriteriaFactory.gt("longs", 1L),
+                CriteriaFactory.gt("bytes", (byte) 1));
 
-        repo.query(lt("ints", 1), lt("floats", 1.1f),
-                lt("doubles", 1.1), lt("shorts", (short)1),
-                lt("chars", 'c'), lt("longs", 1L),
-                lt("bytes", (byte)1));
+        repo.query(CriteriaFactory.lt("ints", 1), CriteriaFactory.lt("floats", 1.1f),
+                CriteriaFactory.lt("doubles", 1.1), CriteriaFactory.lt("shorts", (short) 1),
+                CriteriaFactory.lt("chars", 'c'), CriteriaFactory.lt("longs", 1L),
+                CriteriaFactory.lt("bytes", (byte) 1));
 
 
-        repo.query(gte("ints", 1), gte("floats", 1.1f),
-                gte("doubles", 1.1), gte("shorts", (short)1),
-                gte("chars", 'c'), gte("longs", 1L),
-                gte("bytes", (byte)1));
+        repo.query(CriteriaFactory.gte("ints", 1), CriteriaFactory.gte("floats", 1.1f),
+                CriteriaFactory.gte("doubles", 1.1), CriteriaFactory.gte("shorts", (short) 1),
+                CriteriaFactory.gte("chars", 'c'), CriteriaFactory.gte("longs", 1L),
+                CriteriaFactory.gte("bytes", (byte) 1));
 
-        repo.query(lte("ints", 1), lte("floats", 1.1f),
-                lte("doubles", 1.1), lte("shorts", (short)1),
-                lte("chars", 'c'), lte("longs", 1L),
-                lte("bytes", (byte)1));
+        repo.query(CriteriaFactory.lte("ints", 1), CriteriaFactory.lte("floats", 1.1f),
+                CriteriaFactory.lte("doubles", 1.1), CriteriaFactory.lte("shorts", (short) 1),
+                CriteriaFactory.lte("chars", 'c'), CriteriaFactory.lte("longs", 1L),
+                CriteriaFactory.lte("bytes", (byte) 1));
 
-        repo.query(in("ints", 1, 2, 3), in("floats", 1.1f, 1.2f),
-                in("doubles", 1.1, 2.2), in("shorts", (short)1, (short)2, (short)3),
-                in("chars", 'a', 'b', 'c'), in("longs", 1L, 2L, 3L),
-                in("bytes", (byte)1, (byte)2, (byte)3));
+        repo.query(CriteriaFactory.in("ints", 1, 2, 3), CriteriaFactory.in("floats", 1.1f, 1.2f),
+                CriteriaFactory.in("doubles", 1.1, 2.2), CriteriaFactory.in("shorts", (short) 1, (short) 2, (short) 3),
+                CriteriaFactory.in("chars", 'a', 'b', 'c'), CriteriaFactory.in("longs", 1L, 2L, 3L),
+                CriteriaFactory.in("bytes", (byte) 1, (byte) 2, (byte) 3));
 
-        repo.query(between("ints", 1, 2), between("floats", 1.1f, 1.2f),
-                between("doubles", 1.1, 2.2), between("shorts", (short)1, (short)2),
-                between("chars", 'a', 'b'), between("longs", 1L, 2L),
-                between("bytes", (byte)1, (byte)2));
+        repo.query(CriteriaFactory.between("ints", 1, 2), CriteriaFactory.between("floats", 1.1f, 1.2f),
+                CriteriaFactory.between("doubles", 1.1, 2.2), CriteriaFactory.between("shorts", (short) 1, (short) 2),
+                CriteriaFactory.between("chars", 'a', 'b'), CriteriaFactory.between("longs", 1L, 2L),
+                CriteriaFactory.between("bytes", (byte) 1, (byte) 2));
 
-        repo.query(notIn("ints", 1, 2, 3), notIn("floats", 1.1f, 1.2f),
-                notIn("doubles", 1.1, 2.2), notIn("shorts", 1, 2, 3),
-                notIn("chars", 'a', 'b', 'c'), notIn("longs", 1L, 2L, 3L),
-                notIn("bytes", 1, 2, 3));
+        repo.query(CriteriaFactory.notIn("ints", 1, 2, 3), CriteriaFactory.notIn("floats", 1.1f, 1.2f),
+                CriteriaFactory.notIn("doubles", 1.1, 2.2), CriteriaFactory.notIn("shorts", 1, 2, 3),
+                CriteriaFactory.notIn("chars", 'a', 'b', 'c'), CriteriaFactory.notIn("longs", 1L, 2L, 3L),
+                CriteriaFactory.notIn("bytes", 1, 2, 3));
 
-        repo.query(startsWith("strings", "foo"));
+        repo.query(CriteriaFactory.startsWith("strings", "foo"));
 
-        repo.query(endsWith("strings", "foo"));
+        repo.query(CriteriaFactory.endsWith("strings", "foo"));
 
     }
     @Test

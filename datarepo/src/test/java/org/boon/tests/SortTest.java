@@ -2,8 +2,8 @@ package org.boon.tests;
 
 import org.boon.Lists;
 import org.boon.core.Typ;
-import org.boon.query.Sort;
-import org.boon.query.SortType;
+import org.boon.criteria.Sort;
+import org.boon.criteria.SortType;
 import org.boon.tests.model.Employee;
 import org.junit.Before;
 import org.junit.Test;
