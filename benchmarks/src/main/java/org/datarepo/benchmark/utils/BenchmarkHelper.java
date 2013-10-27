@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Random;
 
 import static org.boon.utils.Utils.list;
-import static org.boon.utils.Utils.print;
 
 public class BenchmarkHelper {
 
@@ -23,7 +22,7 @@ public class BenchmarkHelper {
         List<String> lastNames = list(RandomWordUtil.generateWords(numEmps));
 
 
-        print("Creating this many employees " + numEmps);
+        System.out.println("Creating this many employees " + numEmps);
         Random random = new Random(System.nanoTime());
 
 
@@ -37,7 +36,7 @@ public class BenchmarkHelper {
             }
 
             if (index % 1000 == 0) {
-                print("employee count " + index);
+                System.out.println("employee count " + index);
             }
             employees.add(employee);
             int firstNameIdx = Math.abs(random.nextInt() % numEmps);
@@ -95,7 +94,7 @@ public class BenchmarkHelper {
         employees.add(Employee.employee("Xan", "Xiddleofnowhere"));
         employees.add(Employee.employee("Jan", "Janmiddlelowertopoflist"));
 
-        print("Created this many employees " + employees.size());
+        System.out.println("Created this many employees " + employees.size());
 
 
         return employees;

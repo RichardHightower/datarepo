@@ -14,8 +14,6 @@ import static org.datarepo.query.QueryFactory.eq;
 
 
 import static org.boon.utils.Utils.ls;
-import static org.boon.utils.Utils.print;
-import static org.boon.utils.Utils.printf;
 import static org.boon.utils.Utils.assertTrue;
 import static org.boon.utils.Utils.sleep;
 
@@ -26,7 +24,7 @@ public class BenchMarkMainSimpleSearch {
 
 
         final List<Employee> employees = BenchmarkHelper.createMetricTonOfEmployees(100_000);
-        print("employees created " + employees.size());
+        System.out.println("employees created " + employees.size());
 
         Map<String, List<MeasuredRun>> testResults = new ConcurrentHashMap<>();
 
@@ -55,11 +53,11 @@ public class BenchMarkMainSimpleSearch {
                 System.gc();
                 sleep(10);
                 run.run();
-                printf("%s\t%s", run.name(), run.time());
+                System.out.printf("%s\t%s", run.name(), run.time());
             }
         }
 
-        print("done");
+        System.out.println("done");
 
 
     }

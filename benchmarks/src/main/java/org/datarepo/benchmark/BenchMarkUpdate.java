@@ -17,8 +17,6 @@ import static org.datarepo.query.QueryFactory.eqNested;
 
 import static org.boon.core.reflection.Reflection.copy;
 import static org.boon.utils.Utils.ls;
-import static org.boon.utils.Utils.print;
-import static org.boon.utils.Utils.printf;
 import static org.boon.utils.Utils.sleep;
 
 public class BenchMarkUpdate {
@@ -28,7 +26,7 @@ public class BenchMarkUpdate {
 
 
         final List<Employee> employees = BenchmarkHelper.createMetricTonOfEmployees(100_000);
-        print("employees created " + employees.size());
+        System.out.println("employees created " + employees.size());
 
         Map<String, List<MeasuredRun>> testResults = new ConcurrentHashMap<>();
 
@@ -48,9 +46,9 @@ public class BenchMarkUpdate {
         }
 
         sleep(3_000);
-        print("Waiting...");
+        System.out.println("Waiting...");
         sleep(1_000);
-        print("Start Now...");
+        System.out.println("Start Now...");
         sleep(1_000);
 
         for (int index = 0; index < 10; index++) {
@@ -59,11 +57,11 @@ public class BenchMarkUpdate {
                 System.gc();
                 sleep(10);
                 run.run();
-                printf("%s\t%s", run.name(), run.time());
+                System.out.printf("%s\t%s", run.name(), run.time());
             }
         }
 
-        print("done");
+        System.out.println("done");
 
 
     }

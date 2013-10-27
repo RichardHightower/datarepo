@@ -16,9 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.boon.Lists.list;
 
 
-import static org.boon.utils.Utils.print;
 import static org.boon.utils.Utils.sleep;
-import static org.boon.utils.Utils.printf;
 
 import static org.datarepo.query.QueryFactory.eq;
 
@@ -48,9 +46,9 @@ public class BenchMark {
         }
 
         sleep(3_000);
-        print("Waiting...");
+        System.out.println("Waiting...");
         sleep(1_000);
-        print("Start Now...");
+        System.out.println("Start Now...");
         sleep(1_000);
 
         for (int index = 0; index < 5; index++) {
@@ -59,11 +57,11 @@ public class BenchMark {
                 System.gc();
                 sleep(10);
                 run.run();
-                printf("%s\t%s", run.name(), run.time());
+                System.out.printf("%s\t%s", run.name(), run.time());
             }
         }
 
-        print("done");
+        System.out.println("done");
 
 
     }

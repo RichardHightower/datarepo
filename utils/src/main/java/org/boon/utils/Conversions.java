@@ -1,7 +1,10 @@
 package org.boon.utils;
 
+import org.boon.Sets;
+import org.boon.StringScanner;
 import org.boon.core.Typ;
 import org.boon.core.reflection.Reflection;
+import org.boon.primitive.CharScanner;
 
 import java.lang.reflect.Array;
 import java.text.DateFormat;
@@ -31,35 +34,36 @@ public class Conversions {
                 try {
                     return Integer.parseInt(((CharSequence) obj).toString());
                 } catch (Exception ex) {
-                    char[] chars = chars(obj);
-                    Appendable buf = buf(chars.length);
+                    char[] chars = toString(obj).toCharArray();
                     boolean found = false;
+                    StringBuilder builder = new StringBuilder(chars.length);
                     for (char c : chars) {
                         if (Character.isDigit(c) && !found) {
                             found = true;
-                            add(buf, c);
+                            builder.append(c);
                         } else if (Character.isDigit(c) && found) {
-                            add(buf, c);
+                            builder.append(c);
                         } else if (!Character.isDigit(c) && found) {
                         }
                     }
                     try {
-                        if (len(buf) > 0) {
-                            return Integer.parseInt(str(buf));
+                        if (builder.length() > 0) {
+                            return Integer.parseInt(builder.toString());
                         }
                     } catch (Exception ex2) {
-                        warning(log,
-                                ex,
-                                "unable to convert to int and there was an exception %s",
-                                ex.getMessage());
+                        log.warning(String.format(
+                                "unable to convert to byte and there was an exception %s",
+                                ex2.getMessage()));
                     }
                 }
             } else {
             }
-        } catch (Exception ex) {
-            warning(log, ex,
-                    "unable to convert to int and there was an exception %s",
-                    ex.getMessage());
+        } catch (Exception ex1) {
+
+                log.warning(String.format(
+                        "unable to convert to byte and there was an exception %s",
+                        ex1.getMessage()));
+
         }
         die("Unable to convert %s to a int", obj.getClass());
         return -666; // die throws an exception
@@ -77,35 +81,34 @@ public class Conversions {
                 try {
                     return Byte.parseByte(((CharSequence) obj).toString());
                 } catch (Exception ex) {
-                    char[] chars = chars(obj);
-                    Appendable buf = buf(chars.length);
+                    char[] chars = toString(obj).toCharArray();
                     boolean found = false;
+                    StringBuilder builder = new StringBuilder(chars.length);
                     for (char c : chars) {
                         if (Character.isDigit(c) && !found) {
                             found = true;
-                            add(buf, c);
+                            builder.append(c);
                         } else if (Character.isDigit(c) && found) {
-                            add(buf, c);
+                            builder.append(c);
                         } else if (!Character.isDigit(c) && found) {
                         }
                     }
                     try {
-                        if (len(buf) > 0) {
-                            return Byte.parseByte(str(buf));
+                        if (builder.length() > 0) {
+                            return Byte.parseByte(builder.toString());
                         }
                     } catch (Exception ex2) {
-                        warning(log,
-                                ex,
+                        log.warning(String.format(
                                 "unable to convert to byte and there was an exception %s",
-                                ex.getMessage());
+                                ex2.getMessage()));
                     }
                 }
             } else {
             }
         } catch (Exception ex) {
-            warning(log, ex,
-                    "unable to convert to byte and there was an exception %s",
-                    ex.getMessage());
+                log.warning(String.format(
+                        "unable to convert to byte and there was an exception %s",
+                        ex.getMessage()));
         }
         die("Unable to convert %s to a byte", obj.getClass());
         return -66; // die throws an exception
@@ -125,35 +128,35 @@ public class Conversions {
                 try {
                     return Short.parseShort(((CharSequence) obj).toString());
                 } catch (Exception ex) {
-                    char[] chars = chars(obj);
-                    Appendable buf = buf(chars.length);
+                    char[] chars = toString(obj).toCharArray();
                     boolean found = false;
+                    StringBuilder builder = new StringBuilder(chars.length);
                     for (char c : chars) {
                         if (Character.isDigit(c) && !found) {
                             found = true;
-                            add(buf, c);
+                            builder.append(c);
                         } else if (Character.isDigit(c) && found) {
-                            add(buf, c);
+                            builder.append(c);
                         } else if (!Character.isDigit(c) && found) {
                         }
                     }
                     try {
-                        if (len(buf) > 0) {
-                            return Short.parseShort(str(buf));
+                        if (builder.length() > 0) {
+                            return Short.parseShort(builder.toString());
                         }
                     } catch (Exception ex2) {
-                        warning(log,
-                                ex,
-                                "unable to convert to short and there was an exception %s",
-                                ex.getMessage());
+                        log.warning(String.format(
+                                "unable to convert to byte and there was an exception %s",
+                                ex2.getMessage()));
+
                     }
                 }
             } else {
             }
         } catch (Exception ex) {
-            warning(log, ex,
+            log.warning(String.format(
                     "unable to convert to byte and there was an exception %s",
-                    ex.getMessage());
+                    ex.getMessage()));
         }
         die("Unable to convert %s to a short", obj.getClass());
         return -66; // die throws an exception
@@ -173,9 +176,9 @@ public class Conversions {
             } else {
             }
         } catch (Exception ex) {
-            warning(log, ex,
-                    "unable to convert to byte and there was an exception %s",
-                    ex.getMessage());
+            log.warning(String.format(
+                    "unable to convert to char and there was an exception %s",
+                    ex.getMessage()));
         }
         die("Unable to convert %s to a byte", obj.getClass());
         return 'Z'; // die throws an exception
@@ -195,36 +198,36 @@ public class Conversions {
                 try {
                     return Long.parseLong(((CharSequence) obj).toString());
                 } catch (Exception ex) {
-                    char[] chars = chars(obj);
-                    Appendable buf = buf(chars.length);
+                    char[] chars = toString(obj).toCharArray();
+
+                    StringBuilder builder = new StringBuilder(chars.length);
                     boolean found = false;
                     for (char c : chars) {
                         if (Character.isDigit(c) && !found) {
                             found = true;
-                            add(buf, c);
+                            builder.append(c);
                         } else if (Character.isDigit(c) && found) {
-                            add(buf, c);
+                            builder.append(c);
                         } else if (!Character.isDigit(c) && found) {
                         }
                     }
                     try {
-                        if (len(buf) > 0) {
-                            return Long.parseLong(str(buf));
+                        if (builder.length() > 0) {
+                            return Long.parseLong(builder.toString());
                         }
                     } catch (Exception ex2) {
-                        warning(log,
-                                ex,
+                        log.warning(String.format(
                                 "unable to convert to long and there was an exception %s",
-                                ex.getMessage());
+                                ex2.getMessage()));
 
                     }
                 }
             } else {
             }
         } catch (Exception ex) {
-            warning(log, ex,
+            log.warning(String.format(
                     "unable to convert to long and there was an exception %s",
-                    ex.getMessage());
+                    ex.getMessage()));
 
         }
 
@@ -244,18 +247,18 @@ public class Conversions {
                 "ofcourse", "T", "TRUE", "ok");
         if (obj instanceof String || obj instanceof CharSequence
                 || obj.getClass() == char[].class) {
-            String str = str(obj);
+            String str = Conversions.toString(obj);
             if (str.length() == 0) {
                 return false;
             } else {
-                return isIn(str, trueSet);
+                return Sets.in(str, trueSet);
             }
         } else if (obj instanceof Boolean) {
             return ((Boolean) obj).booleanValue();
-        } else if (isArray(obj) || obj instanceof Collection) {
-            return len(obj) > 0;
+        } else if (Reflection.isArray(obj) || obj instanceof Collection) {
+            return Reflection.len(obj) > 0;
         } else {
-            return toBoolean(str(obj));
+            return toBoolean(Conversions.toString(obj));
         }
     }
 
@@ -286,10 +289,9 @@ public class Conversions {
             } else {
             }
         } catch (Exception ex) {
-            warning(log,
-                    ex,
+            log.warning(String.format(
                     "unable to convert to double and there was an exception %s",
-                    ex.getMessage());
+                    ex.getMessage()));
         }
 
         die("Unable to convert %s to a double", obj.getClass());
@@ -324,9 +326,10 @@ public class Conversions {
             } else {
             }
         } catch (Exception ex) {
-            warning(log,
+
+            log.warning(String.format(
                     "unable to convert to float and there was an exception %s",
-                    ex.getMessage());
+                    ex.getMessage()));
         }
 
         die("Unable to convert %s to a float", obj.getClass());
@@ -342,14 +345,15 @@ public class Conversions {
         } else if ( clz == Typ.longWrapper || clz == Typ.lng ) {
             Long l = toLong(value);
             return (T) l;
-        } else if ( clz == Typ.doubleArray || clz == Typ.dbl ) {
+        } else if ( clz == Typ.doubleWrapper || clz == Typ.dbl ) {
             Double i = toDouble(value);
             return (T) i;
-        } else if (clz == Typ.floatArray || clz == Typ.flt) {
+        } else if (clz == Typ.floatWrapper || clz == Typ.flt) {
             Float i = toFloat(value);
             return (T) i;
         } else if (clz == Typ.stringArray) {
-            return (T) toStringArray(value);
+            die("Need to fix this");
+            return null;
         } else if (clz == Typ.bool || clz == Typ.bln) {
             Boolean b = toBoolean(value);
             return (T) b;
@@ -394,7 +398,7 @@ public class Conversions {
             return (T) value;
         } else {
             int index = 0;
-            Object newInstance = Array.newInstance(clz.getComponentType(), len(value));
+            Object newInstance = Array.newInstance(clz.getComponentType(), Reflection.len(value));
             Iterator<Object> iterator = iterator(Typ.object, value);
             while (iterator.hasNext()) {
                 idx(newInstance, index, iterator.next());
@@ -410,7 +414,7 @@ public class Conversions {
         if (value.getClass() == Typ.shortArray) {
             return (double[]) value;
         }
-        double[] values = new double[len(value)];
+        double[] values = new double[Reflection.len(value)];
         int index = 0;
         Iterator<Object> iterator = iterator(Object.class, value);
         while (iterator.hasNext()) {
@@ -425,7 +429,7 @@ public class Conversions {
         if (value.getClass() == Typ.floatArray) {
             return (float[]) value;
         }
-        float[] values = new float[len(value)];
+        float[] values = new float[Reflection.len(value)];
         int index = 0;
         Iterator<Object> iterator = iterator(Object.class, value);
         while (iterator.hasNext()) {
@@ -440,7 +444,7 @@ public class Conversions {
         if (value.getClass() == Typ.shortArray) {
             return (long[]) value;
         }
-        long[] values = new long[len(value)];
+        long[] values = new long[Reflection.len(value)];
         int index = 0;
         Iterator<Object> iterator = iterator(Object.class, value);
         while (iterator.hasNext()) {
@@ -455,7 +459,7 @@ public class Conversions {
         if (value.getClass() == Typ.shortArray) {
             return (short[]) value;
         }
-        short[] values = new short[len(value)];
+        short[] values = new short[Reflection.len(value)];
         int index = 0;
         Iterator<Object> iterator = iterator(Object.class, value);
         while (iterator.hasNext()) {
@@ -470,7 +474,7 @@ public class Conversions {
         if (value.getClass() == Typ.intArray) {
             return (int[]) value;
         }
-        int[] values = new int[len(value)];
+        int[] values = new int[Reflection.len(value)];
         int index = 0;
         Iterator<Object> iterator = iterator(Object.class, value);
         while (iterator.hasNext()) {
@@ -485,7 +489,7 @@ public class Conversions {
         if (value.getClass() == Typ.byteArray) {
             return (byte[]) value;
         }
-        byte[] values = new byte[len(value)];
+        byte[] values = new byte[Reflection.len(value)];
         int index = 0;
         Iterator<Object> iterator = iterator(Object.class, value);
         while (iterator.hasNext()) {
@@ -500,7 +504,7 @@ public class Conversions {
         if (value.getClass() == Typ.charArray) {
             return (char[]) value;
         }
-        char[] values = new char[len(value)];
+        char[] values = new char[Reflection.len(value)];
         int index = 0;
         Iterator<Object> iterator = iterator(Typ.object, value);
         while (iterator.hasNext()) {
@@ -518,8 +522,8 @@ public class Conversions {
     public static <T> Iterator<T> iterator(Class<T> class1, final Object value) {
 
 
-        if (isArray(value)) {
-            final int length = arrayLength(value);
+        if (Reflection.isArray(value)) {
+            final int length = Reflection.arrayLength(value);
 
             return new Iterator<T>() {
                 int i = 0;
@@ -570,7 +574,7 @@ public class Conversions {
         } else if (value instanceof Collection) {
             return new ArrayList((Collection) value);
         } else {
-            ArrayList list = new ArrayList(len(value));
+            ArrayList list = new ArrayList(Reflection.len(value));
             Iterator<Object> iterator = iterator(Typ.object, value);
             while (iterator.hasNext()) {
                 list.add(iterator.next());
@@ -586,7 +590,7 @@ public class Conversions {
         } else if (value instanceof Collection) {
             return new HashSet((Collection) value);
         } else {
-            HashSet set = new HashSet(len(value));
+            HashSet set = new HashSet(Reflection.len(value));
             Iterator<Object> iterator = iterator(Typ.object, value);
             while (iterator.hasNext()) {
                 set.add(iterator.next());
@@ -630,24 +634,6 @@ public class Conversions {
 //        }
 //    }
 
-    public static String[] toStringArray(Object value) {
-        if (value instanceof CharSequence) {
-            String str = toString(value);
-
-            List<Character> delims = charList(new char[]{',', '\t', ' ', '|', ':', ';'});
-            char[] chars = chars(str);
-            for (char c : delims) {
-                if (isIn(c, chars)) {
-                    return split(chars, c);
-                }
-            }
-
-        } else if (value instanceof List) {
-            // complete this
-        }
-
-        return null;
-    }
 
     public static String toString(Object obj) {
         if (obj == null) {
@@ -813,7 +799,7 @@ public class Conversions {
 
     public static Date toDateUS(String string) {
 
-        String[] split = splitByArray(string.toCharArray(), new char[]{'.', '\\', '/', ':'});
+        String[] split = StringScanner.splitByChars(string, new char[]{'.', '\\', '/', ':'});
 
         if (split.length == 3) {
             return getUSDate(toInt(split[0]), toInt(split[1]), toInt(split[2]));
@@ -830,7 +816,7 @@ public class Conversions {
 
     public static Date toEuroDate(String string) {
 
-        String[] split = splitByArray(string.toCharArray(), new char[]{'.', '\\', '/', ':'});
+        String[] split = StringScanner.splitByChars(string, new char[]{'.', '\\', '/', ':'});
 
         if (split.length == 3) {
             return getEuroDate(toInt(split[0]), toInt(split[1]), toInt(split[2]));
@@ -883,15 +869,6 @@ public class Conversions {
         return c.getTime();
     }
 
-    public static void main(String[] args) {
-        print(getUSDate(5, 29, 1970));
-        print(getUSDate(8, 15, 1985));
-
-        print(toDateUS("5/29/1970"));
-
-        print(year(2013));
-
-    }
 
     public static Date toDate(long value) {
         return new Date(value);
@@ -1012,15 +989,15 @@ public class Conversions {
 
     public static Object unifyList(Object o, List list) {
 
-        if (list == null && !isArray(o) && !(o instanceof Iterable)) {
+        if (list == null && !Reflection.isArray(o) && !(o instanceof Iterable)) {
             return o;
         }
 
         if (list == null) {
             list = new ArrayList(400);
         }
-        if (isArray(o)) {
-            int length = len(o);
+        if (Reflection.isArray(o)) {
+            int length = Reflection.len(o);
             for (int index = 0; index < length; index++) {
                 unifyList(Reflection.idx(o, index), list);
             }

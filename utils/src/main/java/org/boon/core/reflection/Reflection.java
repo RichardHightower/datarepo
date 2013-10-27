@@ -1080,4 +1080,31 @@ public class Reflection {
         return builder.toString();
     }
 
+
+
+
+    @SuppressWarnings({"rawtypes"})
+    public static <T> T get(Class<T> clz, Object map, Object key) {
+        if (map instanceof Map) {
+            return get(clz, (Map) map, key);
+        } else {
+            return null;
+        }
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static <T> T get(Class<T> clz, Map map, Object key) {
+        Object value = map.get(key.toString());
+        if (value == null) {
+            return (T) value;
+        }
+        if (value.getClass() != clz) {
+            T t = Conversions.coerce(clz, value);
+            return t;
+        } else {
+            return (T) value;
+        }
+    }
+
+
 }
