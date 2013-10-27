@@ -1,6 +1,6 @@
-package org.boon.utils;
+package org.boon;
 
-import org.boon.Str;
+import org.boon.core.reflection.Conversions;
 import org.boon.core.reflection.fields.FieldAccess;
 import org.boon.core.reflection.Reflection;
 
@@ -8,9 +8,9 @@ import java.text.Collator;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class Utils {
+public class Ordering {
 
-    private static final Logger log = Logger.getLogger(Utils.class.getName());
+    private static final Logger log = Logger.getLogger(Ordering.class.getName());
 
 
 
@@ -71,7 +71,7 @@ public class Utils {
 
         if (field != null) {
 
-            Collections.sort(list, Utils.universalComparator(field, ascending));
+            Collections.sort(list, Ordering.universalComparator(field, ascending));
 
         }
     }
@@ -91,7 +91,7 @@ public class Utils {
                     value1 = field.getValue(o2);
                     value2 = field.getValue(o1);
                 }
-                return Utils.compare(value1, value2);
+                return Ordering.compare(value1, value2);
             }
         };
     }
@@ -119,7 +119,7 @@ public class Utils {
                     /* Compare by sort field. */
                     FieldAccess field = fields.get(sortBy);
                     if (field == null) {
-                        ComplainAndDie.complain(Str.lines(
+                        Exceptions.die(Str.lines(
                                 "The fields was null for sortBy " + sortBy,
                                 String.format("fields = %s", fields),
                                 String.format("Outer object type = %s", o1.getClass().getName()),
@@ -137,7 +137,7 @@ public class Utils {
                 }
 
 
-                int compare = Utils.compare(value1, value2);
+                int compare = Ordering.compare(value1, value2);
                 if (compare == 0) {
                     for (Comparator comparator : comparators) {
                         compare = comparator.compare(o1, o2);
@@ -176,7 +176,7 @@ public class Utils {
             String name = Reflection.getSortableField(value1);
             String sv1 = (String) Reflection.getPropByPath(value1, name);
             String sv2 = (String) Reflection.getPropByPath(value2, name);
-            return Utils.compare(sv1, sv2);
+            return Ordering.compare(sv1, sv2);
 
         }
 

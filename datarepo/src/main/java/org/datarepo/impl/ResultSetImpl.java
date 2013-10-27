@@ -1,6 +1,6 @@
 package org.datarepo.impl;
 
-import org.boon.utils.Conversions;
+import org.boon.core.reflection.Conversions;
 import org.datarepo.DataRepoException;
 import org.datarepo.PlanStep;
 import org.datarepo.ResultSet;

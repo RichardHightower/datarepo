@@ -5,7 +5,7 @@ import java.util.*;
 
 import org.boon.core.reflection.fields.FieldAccess;
 import org.boon.core.reflection.Reflection;
-import org.boon.utils.Utils;
+import org.boon.Ordering;
 
 
 public class Sort {
@@ -135,7 +135,7 @@ public class Sort {
 
     public Comparator comparator(Map<String, FieldAccess> fields) {
         if (comparator == null) {
-            comparator = Utils.universalComparator(this.getName(), fields,
+            comparator = Ordering.universalComparator(this.getName(), fields,
                     this.getType() == SortType.ASCENDING, this.childComparators(fields));
         }
         return comparator;
@@ -146,7 +146,7 @@ public class Sort {
             this.comparators = new ArrayList<Comparator>(this.sorts.size() + 1);
 
             for (Sort sort : sorts) {
-                Comparator comparator = Utils.universalComparator(
+                Comparator comparator = Ordering.universalComparator(
                         sort.getName(),
                         fields,
                         sort.type == SortType.ASCENDING,

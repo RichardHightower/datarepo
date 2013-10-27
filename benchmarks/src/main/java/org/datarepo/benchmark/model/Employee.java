@@ -1,6 +1,6 @@
 package org.datarepo.benchmark.model;
 
-import org.boon.utils.Conversions;
+import org.boon.core.reflection.Conversions;
 
 import java.util.ArrayList;
 import java.util.Date;

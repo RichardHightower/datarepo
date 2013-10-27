@@ -1,4 +1,4 @@
-package org.boon.utils;
+package org.boon.core.reflection;
 
 import org.boon.Sets;
 import org.boon.StringScanner;
@@ -11,8 +11,8 @@ import java.text.ParseException;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static org.boon.utils.ComplainAndDie.complain;
-import static org.boon.utils.ComplainAndDie.die;
+import static org.boon.Exceptions.die;
+
 
 public class Conversions {
     static Class<Conversions> types = Conversions.class;
@@ -63,7 +63,7 @@ public class Conversions {
                         ex1.getMessage()));
 
         }
-        die("Unable to convert %s to a int", obj.getClass());
+        die(String.format("Unable to convert %s to a int", obj.getClass()));
         return -666; // die throws an exception
 
     }
@@ -108,7 +108,7 @@ public class Conversions {
                         "unable to convert to byte and there was an exception %s",
                         ex.getMessage()));
         }
-        die("Unable to convert %s to a byte", obj.getClass());
+        die(String.format("Unable to convert %s to a byte", obj.getClass()));
         return -66; // die throws an exception
 
     }
@@ -156,7 +156,7 @@ public class Conversions {
                     "unable to convert to byte and there was an exception %s",
                     ex.getMessage()));
         }
-        die("Unable to convert %s to a short", obj.getClass());
+        die(String.format("Unable to convert %s to a short", obj.getClass()));
         return -66; // die throws an exception
 
     }
@@ -178,7 +178,7 @@ public class Conversions {
                     "unable to convert to char and there was an exception %s",
                     ex.getMessage()));
         }
-        die("Unable to convert %s to a byte", obj.getClass());
+        die(String.format("Unable to convert %s to a char", obj.getClass()));
         return 'Z'; // die throws an exception
 
     }
@@ -229,7 +229,7 @@ public class Conversions {
 
         }
 
-        die("Unable to convert %s %s to a long", obj, obj.getClass());
+        die(String.format("Unable to convert %s to a long", obj.getClass()));
         return -666; // die throws an exception
 
     }
@@ -282,7 +282,7 @@ public class Conversions {
 //                        svalue = re.group(0);
 //                        return Double.parseDouble(svalue);
 //                    }
-                    complain("unable to convert to double");
+                    die(String.format("Unable to convert %s to a double", obj.getClass()));
                     return Double.NaN;
                 }
             } else {
@@ -293,7 +293,7 @@ public class Conversions {
                     ex.getMessage()));
         }
 
-        die("Unable to convert %s to a double", obj.getClass());
+        die(String.format("Unable to convert %s to a double", obj.getClass()));
         return -666d; // die throws an exception
 
     }
@@ -319,7 +319,7 @@ public class Conversions {
 //                        svalue = re.group(0);
 //                        return Float.parseFloat(svalue);
 //                    }
-                    complain("unable to convert to float after regex");
+                    die(String.format("Unable to convert %s to a float", obj.getClass()));
                     return Float.NaN;
                 }
             } else {
@@ -331,7 +331,7 @@ public class Conversions {
                     ex.getMessage()));
         }
 
-        die("Unable to convert %s to a float", obj.getClass());
+        die(String.format("Unable to convert %s to a float", obj.getClass()));
         return -666f; // die throws an exception
 
     }
@@ -797,7 +797,7 @@ public class Conversions {
                     toInt(split[3]), toInt(split[4]), toInt(split[5])
             );
         } else {
-            die("Not able to parse %s into a US date", string);
+            die(String.format("Not able to parse %s into a US date", string));
             return null;
         }
 
@@ -814,7 +814,7 @@ public class Conversions {
                     toInt(split[3]), toInt(split[4]), toInt(split[5])
             );
         } else {
-            die("Not able to parse %s into a US date", string);
+            die(String.format("Not able to parse %s into a US date", string));
             return null;
         }
 
@@ -874,7 +874,7 @@ public class Conversions {
             try {
                 return DateFormat.getDateInstance(DateFormat.SHORT).parse(value);
             } catch (ParseException e) {
-                complain("Unable to parse date");
+                die("Unable to parse date");
                 return null;
             }
 
@@ -890,7 +890,7 @@ public class Conversions {
             if (value != null) {
                 return toDate(value.toString());
             } else {
-                complain("Unable to convert set to date");
+                die("Unable to convert set to date");
                 return null;
             }
         }
@@ -906,7 +906,6 @@ public class Conversions {
 
     public static boolean isSuperClass(Class<?> type, Class<?> possibleSuperType) {
         if (possibleSuperType.isInterface()) {
-            complain("That is not an class type, bad second argument");
             return false;
         } else {
             return possibleSuperType.isAssignableFrom(type);
@@ -920,7 +919,6 @@ public class Conversions {
 
     public static boolean implementsInterface(Class<?> type, Class<?> interfaceType) {
         if (!interfaceType.isInterface()) {
-            complain("That is not an interface type, bad second argument");
             return false;
         } else {
             return interfaceType.isAssignableFrom(type);

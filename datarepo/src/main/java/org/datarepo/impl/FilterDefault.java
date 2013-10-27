@@ -1,7 +1,7 @@
 package org.datarepo.impl;
 
 import org.boon.Sets;
-import org.boon.utils.Conversions;
+import org.boon.core.reflection.Conversions;
 import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.ResultSet;

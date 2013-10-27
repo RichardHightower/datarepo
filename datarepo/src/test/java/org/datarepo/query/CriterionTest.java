@@ -3,7 +3,7 @@ package org.datarepo.query;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.boon.utils.ComplainAndDie.die;
+import static org.boon.Exceptions.die;
 
 
 public class CriterionTest {

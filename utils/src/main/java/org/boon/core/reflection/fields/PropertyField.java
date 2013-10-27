@@ -1,7 +1,8 @@
 package org.boon.core.reflection.fields;
 
+import org.boon.Exceptions;
 import org.boon.core.Typ;
-import org.boon.utils.Conversions;
+import org.boon.core.reflection.Conversions;
 
 
 import java.lang.reflect.Field;
@@ -9,8 +10,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.logging.Logger;
 
-import static org.boon.utils.ComplainAndDie.die;
-import static org.boon.utils.Conversions.*;
+import static org.boon.core.reflection.Conversions.*;
 
 public class PropertyField implements FieldAccess {
     protected final boolean isFinal;
@@ -291,8 +291,8 @@ public class PropertyField implements FieldAccess {
         try {
             setter.invoke(obj, value);
         } catch (Exception e) {
-            die(e, "You tried to modify property %s of %s for instance %s with set %s using %s",
-                    name, obj.getClass().getSimpleName(), obj, value, setter.getName());
+            Exceptions.handle(String.format("You tried to modify property %s of %s for instance %s with set %s using %s",
+                    name, obj.getClass().getSimpleName(), obj, value, setter.getName()), e);
 
         }
 

@@ -1,6 +1,6 @@
 package org.boon.core.reflection.fields;
 
-import org.boon.utils.Conversions;
+import org.boon.core.reflection.Conversions;
 
 import java.lang.reflect.Field;
 import java.util.Map;

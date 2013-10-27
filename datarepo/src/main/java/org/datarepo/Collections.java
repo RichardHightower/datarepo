@@ -15,7 +15,7 @@
  */
 package org.datarepo;
 
-import org.boon.utils.Conversions;
+import org.boon.core.reflection.Conversions;
 import org.datarepo.impl.decorators.FilterWithSimpleCache;
 import org.datarepo.query.Query;
 import org.datarepo.spi.SPIFactory;

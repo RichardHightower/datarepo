@@ -2,7 +2,7 @@ package org.datarepo.query;
 
 import org.boon.core.Typ;
 import org.boon.core.reflection.fields.FieldAccess;
-import org.boon.utils.Conversions;
+import org.boon.core.reflection.Conversions;
 //import org.boon.utils.Utils;
 
 import java.util.Arrays;

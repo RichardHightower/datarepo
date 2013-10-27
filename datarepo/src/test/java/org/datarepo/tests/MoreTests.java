@@ -18,7 +18,7 @@ import static org.datarepo.Collections.sortedQuery;
 import static org.datarepo.query.QueryFactory.*;
 
 import static org.boon.core.reflection.Reflection.copy;
-import static org.boon.utils.Conversions.toDate;
+import static org.boon.core.reflection.Conversions.toDate;
 
 
 import static org.junit.Assert.assertEquals;

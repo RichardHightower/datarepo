@@ -1,18 +1,16 @@
 package org.boon.core.reflection.fields;
 
 
+import org.boon.Exceptions;
 import org.boon.Str;
 import org.boon.core.Typ;
-import org.boon.utils.Conversions;
-import org.boon.utils.Utils;
+import org.boon.core.reflection.Conversions;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Objects;
 
-import static org.boon.Str.lines;
-import static org.boon.utils.ComplainAndDie.die;
-import static org.boon.utils.Conversions.*;
+import static org.boon.core.reflection.Conversions.*;
 
 public class ReflectField implements FieldAccess {
     protected final Field field;
@@ -50,7 +48,7 @@ public class ReflectField implements FieldAccess {
     }
 
     private void analyzeError(Exception e, Object obj) {
-        die(Str.lines(
+        Exceptions.handle(Str.lines(
                 e.getClass().getName(),
                 String.format("cause %s", e.getCause()),
                 String.format("Field info name %s, type %s, class that declared field %s", this.getName(), this.getType(), this.getField().getDeclaringClass()),

@@ -4,7 +4,7 @@ import org.datarepo.spi.TypedMap;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.boon.utils.Conversions.wrapAsObject;
+import static org.boon.core.reflection.Conversions.wrapAsObject;
 
 public class JavaUtilMap<K, V> extends ConcurrentHashMap<K, V> implements TypedMap<K, V> {
 

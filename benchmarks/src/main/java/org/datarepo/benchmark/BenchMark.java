@@ -1,6 +1,5 @@
 package org.datarepo.benchmark;
 
-import org.boon.utils.Utils;
 import org.datarepo.Repo;
 import org.datarepo.Repos;
 import org.datarepo.benchmark.model.Employee;

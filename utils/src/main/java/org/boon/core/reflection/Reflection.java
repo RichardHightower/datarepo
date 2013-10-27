@@ -1,14 +1,13 @@
 package org.boon.core.reflection;
 
+import org.boon.Exceptions;
 import org.boon.Lists;
 import org.boon.Maps;
 import org.boon.Sets;
 import org.boon.core.Typ;
 import org.boon.core.reflection.fields.*;
-import org.boon.utils.ComplainAndDie;
-import org.boon.utils.Conversions;
-import org.boon.utils.Utils;
-//import org.boon.utils.Utils;
+
+import org.boon.core.reflection.Conversions;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -47,7 +46,7 @@ public class Reflection {
         }
 
         _useUnsafe = _useUnsafe && ! Boolean.getBoolean("com.org.org.datarepo.noUnsafe");
-        _useUnsafe = false;
+        _useUnsafe = true;
     }
 
 
@@ -184,7 +183,7 @@ public class Reflection {
             }
 
             if (fieldName == null) {
-                ComplainAndDie.complain("Could not find a sortable field for type " + value1.getClass());
+                die("Could not find a sortable field for type " + value1.getClass());
             }
             sortableFields.put(Typ.object.getClass(), fieldName);
         }
@@ -366,7 +365,7 @@ public class Reflection {
                     list.size());
             return (V[]) list.toArray((V[]) newInstance);
         } else {
-            ComplainAndDie.complain("array(list): The list has to have at least one item in it");
+            die("array(list): The list has to have at least one item in it");
             return null;
         }
     }
@@ -428,7 +427,7 @@ public class Reflection {
                     ""
 
             );
-            ComplainAndDie.complain(msg, notExpected);
+            Exceptions.handle(msg, notExpected);
         }
     }
 

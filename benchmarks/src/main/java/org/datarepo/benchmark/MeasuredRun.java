@@ -1,7 +1,5 @@
 package org.datarepo.benchmark;
 
-import org.boon.utils.Utils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

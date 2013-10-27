@@ -8,7 +8,7 @@ import java.util.Map;
 import org.boon.core.Typ;
 import org.boon.core.reflection.fields.FieldAccess;
 
-import static org.boon.utils.Conversions.*;
+import static org.boon.core.reflection.Conversions.*;
 import static org.boon.Str.join;
 import static org.boon.Lists.list;
 

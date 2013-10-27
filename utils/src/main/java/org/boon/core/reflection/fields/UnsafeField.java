@@ -1,14 +1,14 @@
 package org.boon.core.reflection.fields;
 
 import org.boon.core.Typ;
-import org.boon.utils.Conversions;
+import org.boon.core.reflection.Conversions;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import static org.boon.utils.ComplainAndDie.die;
-import static org.boon.utils.Conversions.*;
+import static org.boon.Exceptions.die;
+import static org.boon.core.reflection.Conversions.*;
 
 
 public abstract class UnsafeField implements FieldAccess {
@@ -167,62 +167,62 @@ public abstract class UnsafeField implements FieldAccess {
 
     @Override
     public int getInt(Object obj) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
         return 0;
     }
 
     @Override
     public boolean getBoolean(Object obj) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
         return false;
     }
 
 
     @Override
     public short getShort(Object obj) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
         return 0;
     }
 
 
     @Override
     public char getChar(Object obj) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
         return 0;
     }
 
 
     @Override
     public long getLong(Object obj) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
         return 0;
     }
 
 
     @Override
     public double getDouble(Object obj) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
         return 0;
     }
 
 
     @Override
     public float getFloat(Object obj) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
         return 0;
     }
 
 
     @Override
     public byte getByte(Object obj) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
         return 0;
     }
 
 
     @Override
     public Object getObject(Object obj) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
         return 0;
     }
 
@@ -321,21 +321,21 @@ public abstract class UnsafeField implements FieldAccess {
     @Override
     public void setBoolean(Object obj, boolean value) {
 
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
 
     }
 
 
     @Override
     public void setInt(Object obj, int value) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
 
     }
 
 
     @Override
     public void setShort(Object obj, short value) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
 
 
     }
@@ -343,40 +343,40 @@ public abstract class UnsafeField implements FieldAccess {
 
     @Override
     public void setChar(Object obj, char value) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
 
     }
 
 
     @Override
     public void setLong(Object obj, long value) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
 
     }
 
 
     @Override
     public void setDouble(Object obj, double value) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
 
     }
 
 
     @Override
     public void setFloat(Object obj, float value) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
     }
 
 
     @Override
     public void setByte(Object obj, byte value) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
     }
 
 
     @Override
     public void setObject(Object obj, Object value) {
-        die("Can't call this method on this type %s", this.type);
+        die(String.format("Can't call this method on this type %s", this.type));
 
     }
 
