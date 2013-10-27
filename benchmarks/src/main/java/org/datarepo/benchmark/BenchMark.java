@@ -11,7 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.boon.utils.Utils.ls;
+
+
+import static org.boon.Lists.list;
+
+
 import static org.boon.utils.Utils.print;
 import static org.boon.utils.Utils.sleep;
 import static org.boon.utils.Utils.printf;
@@ -31,7 +35,7 @@ public class BenchMark {
 
         MeasuredRun run1 = test(employees, testResults);
 
-        List<MeasuredRun> runs = ls(run1);
+        List<MeasuredRun> runs = list(run1);
 
 
         for (int index = 0; index < 2; index++) {

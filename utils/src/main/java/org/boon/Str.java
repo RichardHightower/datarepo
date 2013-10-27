@@ -207,4 +207,34 @@ public class Str {
         return str.toLowerCase();
     }
 
+
+
+
+    public static String camelCaseUpper(String in) {
+        return camelCase(in, true);
+    }
+
+
+    public static String camelCaseLower(String in) {
+        return camelCase(in, false);
+    }
+
+    public static String camelCase(String in) {
+        return camelCase(in, false);
+    }
+
+    public static String camelCase(String inStr, boolean upper) {
+        char[] in = inStr.toCharArray();
+        char[] out = Chr.camelCase(in, upper);
+        return new String (out);
+    }
+
+
+
+    public static String underBarCase(String inStr) {
+        char[] in = inStr.toCharArray();
+        char[] out = Chr.underBarCase(in);
+        return new String (out);
+    }
+
 }

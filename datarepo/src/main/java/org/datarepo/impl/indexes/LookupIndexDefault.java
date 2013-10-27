@@ -1,6 +1,5 @@
 package org.datarepo.impl.indexes;
 
-import org.boon.utils.Utils;
 import org.datarepo.LookupIndex;
 import org.datarepo.spi.SPIFactory;
 import org.datarepo.predicates.Function;

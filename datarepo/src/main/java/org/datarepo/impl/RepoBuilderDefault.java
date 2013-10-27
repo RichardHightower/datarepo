@@ -1,5 +1,6 @@
 package org.datarepo.impl;
 
+import org.boon.Str;
 import org.datarepo.*;
 import org.datarepo.impl.decorators.FilterWithSimpleCache;
 import org.datarepo.impl.decorators.ObjectEditorCloneDecorator;
@@ -19,7 +20,6 @@ import java.util.*;
 import java.util.logging.Level;
 
 import org.boon.core.reflection.Reflection;
-import static org.boon.utils.Utils.joinBy;
 import org.boon.core.reflection.fields.FieldAccess;
 
 
@@ -406,7 +406,7 @@ public class RepoBuilderDefault implements RepoBuilder {
     @Override
     public RepoBuilder nestedIndex(String... propertyPath) {
 
-        this.nestedIndexes.put(joinBy('.', propertyPath), propertyPath);
+        this.nestedIndexes.put(Str.join('.', propertyPath), propertyPath);
 
         return this;
 

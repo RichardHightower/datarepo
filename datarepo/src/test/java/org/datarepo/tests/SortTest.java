@@ -1,5 +1,6 @@
 package org.datarepo.tests;
 
+import org.boon.Lists;
 import org.boon.core.Typ;
 import org.datarepo.query.Sort;
 import org.datarepo.query.SortType;
@@ -14,7 +15,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 
-import static org.boon.utils.Utils.ls;
 import org.boon.core.reflection.Reflection;
 
 public class SortTest {
@@ -23,7 +23,7 @@ public class SortTest {
 
     @Before
     public void setUp() throws Exception {
-        list = ls(
+        list = Lists.list(
                 Employee.employee("zzz", "LastA", "120", "5.29.1970:00:00:01", 100),
                 Employee.employee("zaaa", "bbb", "124", "5.29.1960:00:00:00", 200),
                 Employee.employee("zaaa", "aaa", "123", "5.29.1970:00:00:01", 100),

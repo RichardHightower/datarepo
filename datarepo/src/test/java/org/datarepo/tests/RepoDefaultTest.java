@@ -20,8 +20,8 @@ import static org.datarepo.tests.model.Employee.employee;
 
 
 import static org.boon.core.reflection.Reflection.idx;
-import static org.boon.utils.Utils.print;
-import static org.boon.utils.Utils.printf;
+
+
 
 public class RepoDefaultTest {
 
@@ -246,7 +246,7 @@ public class RepoDefaultTest {
                 selects(select("tags", "name")),
                 eq("lastName", "Hightower"));
 
-        print(list.get(0));
+        System.out.println(list.get(0));
         Assert.assertEquals("tag1", idx(list.get(0).get("tags.name"), 0));
 
     }
@@ -418,7 +418,7 @@ public class RepoDefaultTest {
         repo.query(new Visitor<String, Employee>() {
             @Override
             public void visit(String s, Employee employee, Object currentProperty, List<String> propertyPath) {
-                printf("VISITOR TEST key %s, \t employee=%s \t \n currentProperty=%s \t \npath=%s\n\n", s, employee, currentProperty, propertyPath);
+                System.out.printf("VISITOR TEST key %s, \t employee=%s \t \n currentProperty=%s \t \npath=%s\n\n", s, employee, currentProperty, propertyPath);
             }
         });
 

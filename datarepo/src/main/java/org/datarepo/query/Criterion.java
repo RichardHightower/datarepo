@@ -3,18 +3,17 @@ package org.datarepo.query;
 import org.boon.core.Typ;
 import org.boon.core.reflection.fields.FieldAccess;
 import org.boon.utils.Conversions;
-import org.boon.utils.Utils;
+//import org.boon.utils.Utils;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Logger;
+
 
 
 public abstract class Criterion<VALUE> extends Query {
 
-    private Logger log = Utils.log(Criterion.class);
     private String name;
     private Operator operator;
     protected VALUE value;
@@ -205,7 +204,6 @@ public abstract class Criterion<VALUE> extends Query {
                         break;
 
                     default:
-                        Utils.warning(Utils.log(Criterion.class), "Can't create int delegate");
                         criterion.useDelegate = false;
                 }
             } else if (type == Typ.bt) {
@@ -245,7 +243,6 @@ public abstract class Criterion<VALUE> extends Query {
                         break;
 
                     default:
-                        Utils.warning(Utils.log(Criterion.class), "Can't create byte delegate");
                         criterion.useDelegate = false;
                 }
 
@@ -286,7 +283,6 @@ public abstract class Criterion<VALUE> extends Query {
                         break;
 
                     default:
-                        Utils.warning(Utils.log(Criterion.class), "Can't create short delegate");
                         criterion.useDelegate = false;
                 }
 
@@ -327,7 +323,6 @@ public abstract class Criterion<VALUE> extends Query {
                         break;
 
                     default:
-                        Utils.warning(Utils.log(Criterion.class), "Can't create Long delegate");
                         criterion.useDelegate = false;
                 }
 
@@ -371,7 +366,6 @@ public abstract class Criterion<VALUE> extends Query {
                         break;
 
                     default:
-                        Utils.warning(Utils.log(Criterion.class), "Can't create Float delegate");
                         criterion.useDelegate = false;
                 }
 
@@ -419,7 +413,6 @@ public abstract class Criterion<VALUE> extends Query {
                         break;
 
                     default:
-                        Utils.warning(Utils.log(Criterion.class), "Can't create double delegate");
                         criterion.useDelegate = false;
                 }
 
@@ -438,7 +431,6 @@ public abstract class Criterion<VALUE> extends Query {
 
 
                     default:
-                        Utils.warning(Utils.log(Criterion.class), "Can't create double delegate");
                         criterion.useDelegate = false;
                 }
 
@@ -487,7 +479,6 @@ public abstract class Criterion<VALUE> extends Query {
                         break;
 
                     default:
-                        Utils.warning(Utils.log(Criterion.class), "Can't create double delegate");
                         criterion.useDelegate = false;
                 }
 

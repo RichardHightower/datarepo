@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.boon.utils.Utils.ls;
+import static org.boon.Lists.list;
 
 public class MultiValueTest {
 
@@ -34,7 +34,7 @@ public class MultiValueTest {
     @Test
     public void testMany() throws Exception {
 
-        List<String> strings = ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
+        List<String> strings = list("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
 
 
         for (String item : strings) {
@@ -55,7 +55,7 @@ public class MultiValueTest {
     @Test
     public void testManyThenAddTo() throws Exception {
 
-        List<String> strings = ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
+        List<String> strings = list("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
 
 
         for (String item : strings) {
@@ -63,7 +63,7 @@ public class MultiValueTest {
 
         }
 
-        List<String> results = ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
+        List<String> results = list("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
 
         mv.addTo(results);
 
@@ -81,7 +81,7 @@ public class MultiValueTest {
 
         Assert.assertEquals("Rick", mv.getValue());
 
-        List<String> results = ls("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
+        List<String> results = list("Rick", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
 
         mv.addTo(results);
 

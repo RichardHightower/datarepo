@@ -1,5 +1,7 @@
 package org.datarepo.impl;
 
+import org.boon.Sets;
+import org.boon.utils.Conversions;
 import org.datarepo.Filter;
 import org.datarepo.LookupIndex;
 import org.datarepo.ResultSet;
@@ -17,9 +19,7 @@ import java.util.Set;
 import static org.datarepo.query.QueryFactory.instanceOf;
 import static org.datarepo.query.QueryFactory.not;
 
-import org.boon.utils.Utils;
 import org.boon.core.reflection.fields.FieldAccess;
-import static org.boon.utils.Utils.array;
 
 /**
  * This class should be renamed mother of all beasts.
@@ -30,9 +30,9 @@ import static org.boon.utils.Utils.array;
 public class FilterDefault implements Filter, FilterComposer {
 
     private Set<Operator> indexedOperators =
-            Utils.set(Operator.BETWEEN, Operator.EQUAL, Operator.STARTS_WITH,
-            Operator.GREATER_THAN, Operator.GREATER_THAN_EQUAL,
-            Operator.LESS_THAN, Operator.LESS_THAN_EQUAL);
+            Sets.set(Operator.BETWEEN, Operator.EQUAL, Operator.STARTS_WITH,
+                    Operator.GREATER_THAN, Operator.GREATER_THAN_EQUAL,
+                    Operator.LESS_THAN, Operator.LESS_THAN_EQUAL);
 
     private Map<String, FieldAccess> fields;
     private SearchableCollection searchableCollection;
@@ -94,7 +94,7 @@ public class FilterDefault implements Filter, FilterComposer {
         Operator operator = criterion.getOperator();
         if (operator == Operator.EQUAL && lookupIndexMap.get(criterion.getName()) != null) {
             doFilterWithIndex(criterion, fields, results);
-        } else if (this.isIndexed(criterion.getName()) && Utils.isIn(operator, indexedOperators)) {
+        } else if (this.isIndexed(criterion.getName()) && Sets.in(operator, indexedOperators)) {
             doFilterWithIndex(criterion, fields, results);
         } else {
             List list = QueryFactory.filter(this.searchableCollection.all(), criterion);
@@ -144,7 +144,7 @@ public class FilterDefault implements Filter, FilterComposer {
 
     private void and(Query[] expressions, Map<String, FieldAccess> fields, ResultSetInternal resultSet) {
 
-        Set<Query> expressionSet = Utils.set(expressions);
+        Set<Query> expressionSet = Sets.set(expressions);
 
 
         boolean foundIndex = applyIndexedFiltersForAnd(expressions, fields, expressionSet, resultSet);
@@ -264,7 +264,7 @@ public class FilterDefault implements Filter, FilterComposer {
             return;
         }
 
-        Query[] expressions = array(Query.class, QueryFactory.filter(expressionSet, not(instanceOf(Group.class))));
+        Query[] expressions = Conversions.array(Query.class, QueryFactory.filter(expressionSet, not(instanceOf(Group.class))));
 
         if (foundIndex) {
             resultSet.filterAndPrune(QueryFactory.and(expressions));

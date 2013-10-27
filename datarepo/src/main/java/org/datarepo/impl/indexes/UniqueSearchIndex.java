@@ -6,7 +6,7 @@ import org.datarepo.predicates.Function;
 
 import java.util.*;
 
-import static org.boon.utils.Utils.list;
+import static org.boon.Lists.list;
 
 /**
  * Default Search Index which uses a TreeMap

@@ -1,5 +1,6 @@
 package org.datarepo.tests;
 
+import org.boon.Lists;
 import org.boon.core.Typ;
 import org.datarepo.Repo;
 import org.datarepo.Repos;
@@ -18,8 +19,7 @@ import static org.datarepo.query.QueryFactory.*;
 
 import static org.boon.core.reflection.Reflection.copy;
 import static org.boon.utils.Conversions.toDate;
-import static org.boon.utils.Utils.ls;
-import static org.boon.utils.Utils.print;
+
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,12 +33,12 @@ public class MoreTests {
 
     @Before
     public void setUp() throws Exception {
-        list = ls(
+        list = Lists.list(
                 Employee.employee("firstA", "LastA", "123", "5.29.1970:00:00:01", 100),
                 Employee.employee("firstB", "LastB", "124", "5.29.1960:00:00:00", 200)
         );
 
-        h_list = ls(
+        h_list = Lists.list(
                 Employee.employee("firstA", "LastA", "123", "5.29.1970:00:00:01", 100),
                 Employee.employee("firstB", "LastB", "124", "5.29.1960:00:00:00", 200),
                 Employee.employee("firstZ", "LastB", "125", "5.29.1960:00:00:00", 200, true),
@@ -76,6 +76,7 @@ public class MoreTests {
                 .firstInt(ProjectedSelector.max("salary"));
 
         assertEquals(2999, max);
+
         System.out.println(max);
     }
 
@@ -207,7 +208,7 @@ public class MoreTests {
 
                 ));
 
-        print(results);
+        System.out.println(results);
         assertEquals(4, results.size());
         assertEquals("firstC1", results.get(0).getFirstName());
         assertEquals("firstC12", results.get(1).getFirstName());

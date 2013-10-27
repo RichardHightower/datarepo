@@ -1,5 +1,6 @@
 package org.datarepo.utils;
 
+import org.boon.Str;
 import org.boon.utils.Utils;
 import org.junit.Test;
 
@@ -11,10 +12,10 @@ public class UtilsTest {
     public void testCamel() throws Exception {
         String myFoo = "MY FOO_BAR_FUN\t_STUFF";
 
-        String camelCaseUpper = Utils.camelCaseUpper(myFoo);
+        String camelCaseUpper = Str.camelCaseUpper(myFoo);
         assertEquals("MyFooBarFunStuff", camelCaseUpper);
 
-        String camelCaseLower = Utils.camelCaseLower(myFoo);
+        String camelCaseLower = Str.camelCaseLower(myFoo);
         assertEquals("myFooBarFunStuff", camelCaseLower);
 
     }
@@ -23,7 +24,7 @@ public class UtilsTest {
     public void testUnderBarCase() throws Exception {
         String myFoo = "FooFunFaceFact";
 
-        String underBar = Utils.underBarCase(myFoo);
+        String underBar = Str.underBarCase(myFoo);
         assertEquals("FOO_FUN_FACE_FACT", underBar);
 
     }
@@ -32,7 +33,7 @@ public class UtilsTest {
     public void testUnderBarCase2() throws Exception {
         String myFoo = "FooFunFaceFact Fire Free FOO foo\tbar";
 
-        String underBar = Utils.underBarCase(myFoo);
+        String underBar = Str.underBarCase(myFoo);
         assertEquals("FOO_FUN_FACE_FACT_FIRE_FREE_FOO_FOO_BAR", underBar);
 
     }

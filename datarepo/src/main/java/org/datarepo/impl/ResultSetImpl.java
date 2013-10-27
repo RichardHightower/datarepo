@@ -18,8 +18,8 @@ import java.util.*;
 import org.boon.core.reflection.fields.FieldAccess;
 import org.boon.core.reflection.Reflection;
 import static org.boon.core.reflection.Reflection.toMap;
-import static org.boon.utils.Utils.idx;
-import static org.boon.utils.Utils.list;
+
+import static org.boon.Lists.list;
 
 public class ResultSetImpl<T> implements ResultSetInternal<T> {
 
@@ -279,7 +279,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < results.size(); index++) {
             Map<String, Object> map = maps.get(index);
-            idx(values, index, map.get(keyName));
+            Reflection.idx(values, index, map.get(keyName));
         }
         return (OBJ[]) values;
     }
@@ -296,7 +296,7 @@ public class ResultSetImpl<T> implements ResultSetInternal<T> {
         String keyName = selector.getName();
         for (int index = 0; index < results.size(); index++) {
             Map<String, Object> map = maps.get(index);
-            idx(values, index, map.get(keyName));
+            Reflection.idx(values, index, map.get(keyName));
         }
         OBJ[] array = (OBJ[]) values;
         List list = new ArrayList(Arrays.asList(array));

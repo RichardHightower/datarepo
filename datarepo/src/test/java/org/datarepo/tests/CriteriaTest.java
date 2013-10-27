@@ -3,6 +3,7 @@ package org.datarepo.tests;
 import junit.framework.Assert;
 
 
+import org.boon.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
-import static org.boon.utils.Utils.ls;
 import org.boon.core.reflection.fields.FieldAccess;
 import org.boon.core.reflection.Reflection;
 
@@ -36,7 +36,7 @@ public class CriteriaTest {
             this.f = f;
             this.s = s;
             this.st = st;
-            this.items = ls(items);
+            this.items = Lists.list(items);
         }
 
     }
@@ -45,7 +45,7 @@ public class CriteriaTest {
     public void setUp() throws Exception {
         fields = Reflection.getPropertyFieldAccessMap(TestClass.class, true, true);
 
-        items = ls(
+        items = Lists.list(
                 new TestClass(0, 0.1f, "a", (short) 1, "dog", "cat", "girl"),
                 new TestClass(1, 1.1f, "a dog chased a cat today", (short) 2),
                 new TestClass(2, 2.1f, null, (short) 3),

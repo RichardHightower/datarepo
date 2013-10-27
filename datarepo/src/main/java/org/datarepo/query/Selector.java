@@ -9,8 +9,10 @@ import java.util.Map;
 
 import org.boon.core.reflection.fields.FieldAccess;
 import static org.boon.core.reflection.Reflection.getPropByPath;
-import static org.boon.utils.Utils.joinBy;
-import static org.boon.utils.Utils.list;
+
+import static org.boon.Lists.list;
+
+import static org.boon.core.reflection.Reflection.joinBy;
 
 public abstract class Selector {
     protected String name;

@@ -800,6 +800,11 @@ public class Conversions {
         return array;
     }
 
+    public static <V> V[] array(Class<V> type, final Collection<V> array) {
+        return (V[]) Conversions.toArray(type, array);
+    }
+
+
 
     public static Date toDate(Calendar c) {
         return c.getTime();

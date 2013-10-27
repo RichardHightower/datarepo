@@ -8,6 +8,7 @@ import org.boon.core.reflection.fields.*;
 import org.boon.utils.ComplainAndDie;
 import org.boon.utils.Conversions;
 import org.boon.utils.Utils;
+//import org.boon.utils.Utils;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -45,8 +46,8 @@ public class Reflection {
             _useUnsafe = false;
         }
 
-        _useUnsafe = _useUnsafe && !Utils.sbprop("com.org.org.datarepo.noUnsafe");
-        //_useUnsafe = false; //ummm unsafe seems slower than reflection, just a tad
+        _useUnsafe = _useUnsafe && ! Boolean.getBoolean("com.org.org.datarepo.noUnsafe");
+        _useUnsafe = false;
     }
 
 
@@ -350,7 +351,7 @@ public class Reflection {
     }
 
     public static boolean isArray(Object obj) {
-
+        if (obj == null ) return false;
         return obj.getClass().isArray();
     }
 
@@ -408,7 +409,7 @@ public class Reflection {
         if (isArray(object)) {
             object = Array.get(object, index);
         } else if (object instanceof List) {
-            object = Utils.idx((List) object, index);
+            object = Lists.idx((List) object, index);
         }
         return object;
     }
@@ -1017,5 +1018,66 @@ public class Reflection {
         return clone;
     }
 
+
+
+
+
+    public static Iterator iterator(final Object o) {
+        if (o instanceof Collection) {
+            return ((Collection) o).iterator();
+        } else if (isArray(o)) {
+            return new Iterator() {
+                int index = 0;
+                int length = len(o);
+
+                @Override
+                public boolean hasNext() {
+                    return index < length;
+                }
+
+                @Override
+                public Object next() {
+                    Object value = Reflection.idx(o, index);
+                    index++;
+                    return value;
+                }
+
+                @Override
+                public void remove() {
+                }
+            };
+        }
+        return null;
+    }
+
+
+
+
+
+    public static String joinBy(char delim, Object... args) {
+        StringBuilder builder = new StringBuilder(256);
+
+        if (args.length == 1 && isArray(args[0])) {
+            Object array = args[0];
+            for (int index = 0; index < len(array); index++) {
+                Object obj = Reflection.idx(array, index);
+                builder.append(obj.toString());
+                if (!(index == args.length - 1)) {
+                    builder.append(delim);
+                }
+
+            }
+        } else {
+            int index = 0;
+            for (Object arg : args) {
+                builder.append(arg.toString());
+                if (!(index == args.length - 1)) {
+                    builder.append(delim);
+                }
+                index++;
+            }
+        }
+        return builder.toString();
+    }
 
 }

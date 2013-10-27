@@ -3,14 +3,13 @@ package org.datarepo.query;
 
 import java.util.*;
 
-import static org.boon.utils.Utils.iterator;
-import static org.boon.utils.Utils.joinBy;
+
+import static org.boon.core.reflection.Reflection.iterator;
 
 import org.boon.core.Typ;
 import org.boon.core.reflection.fields.FieldAccess;
 import org.boon.utils.Conversions;
 import org.boon.core.reflection.Reflection;
-import org.boon.utils.Utils;
 
 
 public class QueryFactory {
@@ -56,7 +55,7 @@ public class QueryFactory {
     }
 
     public static Criterion eqNested(final Object value, final Object... path) {
-        return new Criterion<Object>(joinBy('.', path), Operator.EQUAL, value) {
+        return new Criterion<Object>(Reflection.joinBy('.', path), Operator.EQUAL, value) {
             @Override
             public boolean resolve(Map<String, FieldAccess> fields, Object owner) {
                 Object v = Reflection.getPropByPath(path);
@@ -385,10 +384,10 @@ public class QueryFactory {
                     returnVal = collection == null || collection.isEmpty();
                 } else if (field.getType().isArray()) {
                     Object array = (Object) field.getValue(owner);
-                    returnVal = array == null || Utils.len(array) == 0;
+                    returnVal = array == null || Reflection.len(array) == 0;
                 } else {
                     Object obj = (Object) field.getValue(owner);
-                    returnVal = obj == null || Utils.len(obj) == 0;
+                    returnVal = obj == null || Reflection.len(obj) == 0;
                 }
                 return not ? !returnVal : returnVal;
             }

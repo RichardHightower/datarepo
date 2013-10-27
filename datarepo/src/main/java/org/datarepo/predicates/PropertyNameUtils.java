@@ -1,6 +1,6 @@
 package org.datarepo.predicates;
 
-import org.boon.utils.Utils;
+import org.boon.Str;
 
 public class PropertyNameUtils {
 
@@ -8,13 +8,13 @@ public class PropertyNameUtils {
     public static Function<String, String> underBarCase = new Function<String, String>() {
         @Override
         public String apply(String in) {
-            return Utils.underBarCase(in);
+            return Str.underBarCase(in);
         }
     };
     public static Function<String, String> camelCase = new Function<String, String>() {
         @Override
         public String apply(String in) {
-            return Utils.camelCase(in);
+            return Str.camelCase(in);
         }
     };
 
@@ -22,7 +22,7 @@ public class PropertyNameUtils {
     public static Function<String, String> camelCaseUpper = new Function<String, String>() {
         @Override
         public String apply(String in) {
-            return Utils.camelCaseUpper(in);
+            return Str.camelCaseUpper(in);
         }
     };
 
@@ -30,7 +30,7 @@ public class PropertyNameUtils {
     public static Function<String, String> camelCaseLower = new Function<String, String>() {
         @Override
         public String apply(String in) {
-            return Utils.camelCaseLower(in);
+            return Str.camelCaseLower(in);
         }
     };
 

@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.boon.utils.Utils.list;
+import static org.boon.Lists.list;
 
 public class UniqueLookupIndex<KEY, ITEM> implements LookupIndex<KEY, ITEM> {
 
